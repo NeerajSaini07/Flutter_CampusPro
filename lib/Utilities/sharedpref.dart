@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Sharedprefdata {
@@ -6,6 +8,7 @@ class Sharedprefdata {
   static const token = "token";
   static const mobile = "mobileNumber";
   static const password = "password";
+  static const userTypeIndex = "UserTypeIndex";
 
   // **************************** boolean value stored in prefrence************************
 
@@ -26,8 +29,18 @@ class Sharedprefdata {
     prefs.setString(key, value);
   }
 
-  static getStrigData(key) async {
+  static Future getStrigData(key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
+  }
+
+  static storeIntegerData(String key, int value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(key, value);
+  }
+
+  static Future getIntegerData(String key) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(key);
   }
 }

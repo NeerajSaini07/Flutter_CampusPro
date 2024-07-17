@@ -19,13 +19,14 @@ class UserTypeRepository {
       "MobileNo": number,
       "Pwd": pass
     };
+    log(data.toString());
+    print(APIENDPOINT.userTypeApi);
 
     BaseApiServices apiServices = NetworkApiServices();
     try {
-      dynamic response =
-          apiServices.postApiRequest(data, APIENDPOINT.userTypeApi);
-      // dynamic response = await safeApiCall(
-      //     () => apiServices.postApiRequest(data, APIENDPOINT.userTypeApi));
+      dynamic response = apiServices
+          .postApiRequest(data, APIENDPOINT.userTypeApi)
+          .onError((error, stackTrace) {});
       return response;
     } catch (e) {
       rethrow;
@@ -44,6 +45,7 @@ class UserTypeRepository {
       };
 
       log(drawerData.toString());
+      log(url);
 
       dynamic response = apiServices
           .postApiRequest(drawerData, url)

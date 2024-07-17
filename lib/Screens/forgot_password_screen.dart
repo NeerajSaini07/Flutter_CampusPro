@@ -1,16 +1,19 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:campuspro/Controllers/forgotpassword_controller.dart';
 import 'package:campuspro/Screens/Wedgets/app_rights.dart';
 import 'package:campuspro/Screens/Wedgets/common_button.dart';
 import 'package:campuspro/Screens/Wedgets/common_form_component.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
+import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/routes.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 class ForgotPassword extends StatelessWidget {
   @override
@@ -54,16 +57,36 @@ class ForgotPassword extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomeHeight(20.h),
-
-                          // CustomeHeight(14.h),
-                          buildTextField(
-                            hintText: "Mobile",
-                            prefixIconData: Icons.call,
-                            onChanged: (value) {
-                              forgotPasswordController
-                                  .mobileForForgotPass.value = value;
-                            },
+                          CustomeHeight(29.h),
+                          Obx(() {
+                            return forgotPasswordController.showerrortext.value
+                                ? errocommponent(
+                                    fontsize: 12.sp,
+                                    errorText:
+                                        forgotPasswordController.errorText)
+                                : SizedBox();
+                          }),
+                          Obx(() {
+                            return forgotPasswordController.showerrortext.value
+                                ? CustomeHeight(10.h)
+                                : SizedBox();
+                          }),
+                          Obx(
+                            () => buildTextField(
+                              hintText: "Mobile",
+                              initialValue:
+                                  forgotPasswordController.showDropDown.value
+                                      ? forgotPasswordController
+                                          .mobileForForgotPass.value
+                                      : null,
+                              prefixIconData: Icons.call,
+                              onChanged: (value) {
+                                forgotPasswordController.showerrortext.value =
+                                    false;
+                                forgotPasswordController
+                                    .mobileForForgotPass.value = value;
+                              },
+                            ),
                           ),
                           CustomeHeight(8.h),
                           Obx(() => forgotPasswordController.showDropDown.value
@@ -97,11 +120,12 @@ class ForgotPassword extends StatelessWidget {
                                       onChanged: (val) {
                                         forgotPasswordController
                                             .selectedvalue.value = val!;
+
                                         for (var element
                                             in forgotPasswordController.items) {
                                           if (element[1] ==
                                               forgotPasswordController
-                                                  .selectedDropDownId.value) {
+                                                  .selectedvalue.value) {
                                             forgotPasswordController
                                                 .selectedDropDownId
                                                 .value = element[0];
@@ -115,7 +139,13 @@ class ForgotPassword extends StatelessWidget {
                           CustomeHeight(13.h),
                           appCommonbutton(
                               onpressed: () {
-                                forgotPasswordController.forgotpass();
+                                if (forgotPasswordController.items.isEmpty) {
+                                  forgotPasswordController
+                                      .forgotpassForFetchSchool();
+                                } else {
+                                  forgotPasswordController
+                                      .forgetPasswordForSendotp();
+                                }
                               },
                               text: "Send OTP"),
                           CustomeHeight(8.h),

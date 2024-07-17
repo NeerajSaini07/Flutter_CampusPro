@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campuspro/Repository/forgotpassword_repository.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
@@ -15,30 +13,59 @@ class ForgotPasswordController extends GetxController {
   var selectedDropDownId = ''.obs;
   RxBool showerrortext = false.obs;
   RxString errorText = ''.obs;
-  final TextEditingController createPassword = TextEditingController();
-  final TextEditingController conformPassword = TextEditingController();
+  RxString otperrorText = ''.obs;
+  RxString otpValue = ''.obs;
 
-  Future<void> forgotpass() async {
+  // ***********************************  textediting controller ************************
+  TextEditingController createPassword = TextEditingController();
+
+  TextEditingController conformPassword = TextEditingController();
+
+  @override
+  void onClose() {
+    createPassword.dispose();
+    conformPassword.dispose();
+    super.onClose();
+  }
+
+  // ******************************************** method start *********************
+
+  Future<void> forgotpassForFetchSchool() async {
     await ForgotPasswordRepository.checkschool().then((value) {
       if (mobileForForgotPass.value.isNotEmpty) {
         if (selectedvalue.value.isEmpty) {
           if (value != null) {
-            showDropDown.value = true;
-            var data = value["Data"];
-            for (var ele1 in data) {
-              items.add([ele1["schoolid"], ele1["SchoolName"]]);
+            if (value['Status'] == 'Y') {
+              showerrortext.value = false;
+              showDropDown.value = true;
+              var data = value["Data"];
+              for (var ele1 in data) {
+                items.add([ele1["schoolid"], ele1["SchoolName"]]);
+              }
+
+              showerrortext.value = false;
+            } else {
+              showerrortext.value = true;
+              errorText.value = value["Message"];
             }
           }
-        } else {
-          Get.toNamed(Routes.opt);
         }
-      } else {}
+      }
+    });
+  }
+
+  Future<dynamic> forgetPasswordForSendotp() async {
+    await ForgotPasswordRepository.sendForOTP().then((value) {
+      if (value != null && value['Status'] == 'Y') {
+        Get.offAllNamed(Routes.opt);
+      }
     });
   }
 
   createpasswordFormValidate() {
     if (createPassword.text.isNotEmpty && createPassword.text.isNotEmpty) {
       savepassword();
+      showerrortext.value = false;
     }
     if (createPassword.text.isEmpty) {
       showerrortext.value = true;
@@ -46,11 +73,49 @@ class ForgotPasswordController extends GetxController {
     }
   }
 
-  savepassword() {
+  Future<dynamic> verifyOTP() async {
+    await ForgotPasswordRepository.otpVerification().then((value) {
+      if (value != null) {
+        if (value['Status'] == 'Y') {
+          Get.toNamed(Routes.CreatePassword);
+
+          showerrortext.value = false;
+        } else {
+          showerrortext.value = true;
+          otperrorText.value = "Invalid OTP";
+        }
+      }
+    });
+  }
+
+  savepassword() async {
     if (createPassword.text != conformPassword.text) {
-      log("password not mach");
       showerrortext.value = true;
       errorText.value = "Password Not Match";
     }
+
+    await ForgotPasswordRepository.changesPassword().then((value) {
+      if (value != null && value['Status'] == 'Y') {
+        Get.snackbar(
+          'Success',
+          'Password changed successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          duration: const Duration(
+              seconds:
+                  2), // Duration for how long the snackbar will be displayed
+        );
+
+        // Delay the navigation to allow the snackbar to be shown
+        Future.delayed(const Duration(seconds: 2), () {
+          Get.offAllNamed(
+              Routes.login); // Replace '/login' with your actual login route
+        });
+      } else {
+        showerrortext.value = true;
+        errorText.value = value['Message'];
+      }
+    });
   }
 }

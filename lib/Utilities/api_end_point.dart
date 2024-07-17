@@ -5,7 +5,8 @@ class APIENDPOINT {
   //-------LOGIN----------------------------------------------------------------
   static const loginApi = baseUrl + "AutheticateLogin";
   static const userTypeApi = baseUrl + "GetOurSchools";
-  static const sendOtpForgotPassword = baseUrl + "SendOtpForgotPassword";
+  static const sendOtpForgotPassword = baseUrl + "SendOtpForgetPassword";
   static const drawerApi = baseUrl + "Managemenu";
   static const gotoWebApp = baseUrl + "GotoWebApp4Flutter";
+  static const saveFcmToken = baseUrl + "UpdateLastActive_fcmtokenwebnew";
 }

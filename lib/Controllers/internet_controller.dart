@@ -7,19 +7,19 @@
 //   RxBool internetChecker = false.obs;
 
 //   networkConnectivity() async {
-    // final List<ConnectivityResult> connectivityResult =
-    //     await (Connectivity().checkConnectivity());
+//     final List<ConnectivityResult> connectivityResult =
+//         await (Connectivity().checkConnectivity());
 
-    // if (connectivityResult.contains(ConnectivityResult.mobile)) {
-    //   internetChecker.value = true;
-    // } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
-    //   internetChecker.value = true;
-    // } else if (connectivityResult.contains(ConnectivityResult.ethernet)) {
-    //   internetChecker.value = true;
-    // } else if (connectivityResult.contains(ConnectivityResult.vpn)) {
-    //   internetChecker.value = true;
-    // } else {
-    //   internetChecker.value = false;
-    // }
+//     if (connectivityResult.contains(ConnectivityResult.mobile)) {
+//       internetChecker.value = true;
+//     } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
+//       internetChecker.value = true;
+//     } else if (connectivityResult.contains(ConnectivityResult.ethernet)) {
+//       internetChecker.value = true;
+//     } else if (connectivityResult.contains(ConnectivityResult.vpn)) {
+//       internetChecker.value = true;
+//     } else {
+//       internetChecker.value = false;
+//     }
 //   }
 // }
