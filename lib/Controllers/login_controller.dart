@@ -76,7 +76,7 @@ class LoginController extends GetxController {
 
 // ******************************************* user login *********************
 
-  void userLogin() async {
+  userLogin() async {
     final UserTypeController userTypeController =
         Get.find<UserTypeController>();
 
@@ -103,7 +103,7 @@ class LoginController extends GetxController {
         } else {
 // ********************************** stored in prefrence ***************************
 
-          Sharedprefdata.setbooleandata(Sharedprefdata.loginKey, true);
+          // Sharedprefdata.setbooleandata(Sharedprefdata.loginKey, true);
           Sharedprefdata.storeStringData(
               Sharedprefdata.token, UserLogin.loginDetails[0].token.toString());
           Sharedprefdata.storeStringData(

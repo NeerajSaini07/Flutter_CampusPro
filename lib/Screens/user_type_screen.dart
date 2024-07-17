@@ -127,7 +127,11 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                 .copyWith(bottom: 10.h),
                             child: InkWell(
                                 onTap: () {
-                                  userTypeController.gotoDashBorad(index);
+                                  userTypeController.gotoDashBorad(
+                                      UserTypeslist
+                                          .userTypesDetails[index].dashboardUrl
+                                          .toString(),
+                                      {index.toString(): index});
                                 },
                                 child: userListCard(index)));
                       },
