@@ -91,6 +91,8 @@ List<Widget> buildMenuItems(BuildContext context, WebController webController) {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
+              webController.appBarName.value =
+                  subMenuItem.subMenuName.toString();
               Navigator.pop(context);
               webController.generateWebUrl(
                   subMenuItem.nevigateUrl, subMenuItem.subMenuName);
@@ -115,6 +117,7 @@ List<Widget> buildMenuItems(BuildContext context, WebController webController) {
           ),
         ),
         onTap: () {
+          webController.appBarName.value = menuItem.menuName.toString();
           Navigator.pop(context);
           webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
         },

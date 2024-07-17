@@ -1,16 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:io';
-
-import 'package:campuspro/Controllers/login_controller.dart';
-import 'package:campuspro/Repository/login_repository.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
 import 'package:campuspro/Screens/forgot_password_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
-
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,7 +46,7 @@ class MyApp extends StatelessWidget {
               Routes.userType: (context) => UserTypeScreen(),
               Routes.CreatePassword: (context) => CreatePassword(),
               Routes.opt: (context) => OTPScreen(),
-              Routes.dashboard: (context) => DashBoradScreen(),
+              Routes.webview: (context) => WebViewScreen(),
             },
             home: SplashScreen());
       },

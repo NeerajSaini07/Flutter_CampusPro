@@ -15,6 +15,8 @@ class WebController extends GetxController {
 
   var viewcontroller = Rxn<WebViewController>();
   var currentUrl = ''.obs;
+  var pageLoader = false.obs;
+  var appBarName = ''.obs;
 
   Future<void> initializeWebViewController(url) async {
     currentUrl.value = url;
@@ -38,6 +40,7 @@ class WebController extends GetxController {
         NavigationDelegate(
           onProgress: (int progress) {},
           onPageStarted: (String url) {
+            pageLoader.value = true;
             if (url != currentUrl.value && currentUrl.isNotEmpty) {
               controller.reload();
               currentUrl.value = url;
@@ -77,7 +80,7 @@ class WebController extends GetxController {
 
   // **************************************** redirecting to web app ******************
 
-  gotoWebDashboard(url) async {
+  gotoWebview(url) async {
     await initializeWebViewController(url);
 
     //viewcontroller.clearCache();
@@ -92,7 +95,7 @@ class WebController extends GetxController {
       if (value != null) {
         WebUrlModel webUrlModel = WebUrlModel.fromJson(value);
         WebUrlList.urlListProperties = [webUrlModel];
-        gotoWebDashboard(WebUrlList.urlListProperties[0].url);
+        gotoWebview(WebUrlList.urlListProperties[0].url);
         currentUrl.value = WebUrlList.urlListProperties[0].url.toString();
       }
     });
