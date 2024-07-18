@@ -13,21 +13,25 @@ class WebViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final WebController webController = Get.find<WebController>();
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Obx(() => Text(webController.appBarName.toString())),
+    return PopScope(
+      canPop: true,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Obx(() => Text(webController.appBarName.toString())),
+        ),
+        drawer: AppDrawer(context),
+        body: Obx(() {
+          if (webController.currentUrl.isNotEmpty) {
+            webController.viewcontroller.value!
+                .loadRequest(Uri.parse(webController.currentUrl.value));
+            return WebViewWidget(
+                controller: webController.viewcontroller.value!);
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        }),
       ),
-      drawer: AppDrawer(context),
-      body: Obx(() {
-        if (webController.currentUrl.isNotEmpty) {
-          webController.viewcontroller.value!
-              .loadRequest(Uri.parse(webController.currentUrl.value));
-          return WebViewWidget(controller: webController.viewcontroller.value!);
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      }),
     );
   }
 }
