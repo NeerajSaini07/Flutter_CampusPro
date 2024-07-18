@@ -1,8 +1,6 @@
-import 'package:campuspro/Controllers/internet_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/login_model.dart';
 import 'package:campuspro/Repository/login_repository.dart';
-import 'package:campuspro/Screens/Wedgets/no_internet.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +25,29 @@ class LoginController extends GetxController {
 
   final TextEditingController mobileNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  final FocusNode phoneNode = FocusNode();
+  final FocusNode passNode = FocusNode();
+  var isPhoneFocused = false.obs;
+  var isPassFocused = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    phoneNode.addListener(() {
+      isPhoneFocused.value = phoneNode.hasFocus;
+    });
+    passNode.addListener(() {
+      isPassFocused.value = passNode.hasFocus;
+    });
+  }
+
+  @override
+  void onClose() {
+    phoneNode.dispose();
+    passNode.dispose();
+    super.onClose();
+  }
   // ************************************show and hide password of input field*******************
 
   void showHidePassword() {
@@ -68,7 +89,6 @@ class LoginController extends GetxController {
 
     await LoginRepository.userLoginRepo().then((value) async {
       if (value != null) {
-// **********************     checking user silent sign in *****************************
         if (loginvalue == true) {
           await Future.delayed(const Duration(seconds: 2));
           loginLoader.value = false;

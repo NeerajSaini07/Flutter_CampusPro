@@ -12,11 +12,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'common_form_component.dart';
 import 'company_logo_component.dart';
-import 'error_commponet.dart';
+import 'error_text.dart';
 
 Widget loginFormCard(BuildContext context) {
   final LoginController loginController = Get.find<LoginController>();
-
   return Card(
     color: Colors.white,
     child: Padding(
@@ -26,11 +25,11 @@ Widget loginFormCard(BuildContext context) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           CustomeHeight(10.h),
           companylog(),
-
-          CustomeHeight(20.h),
+          CustomeHeight(24.h),
           Text("Welcome !",
               style: TextStyle(
                   fontSize: 26.sp,
@@ -39,11 +38,10 @@ Widget loginFormCard(BuildContext context) {
 
           Obx(() {
             return loginController.gloableError.value
-                ? errocommponent(
-                    fontsize: 12.sp, errorText: loginController.formErrorText)
+                ? errocommponent(fontsize: 12.sp)
                 : SizedBox();
           }),
-          CustomeHeight(20.h),
+          CustomeHeight(24.h),
 
           //buildLabels("Mobile Number"),
 
@@ -52,18 +50,28 @@ Widget loginFormCard(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildTextField(
-                    hintText: "Phone Number",
-                    controller: loginController.mobileNumberController,
-                    maxLength: 10,
-                    obscureText: false,
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      loginController.showerror.value = false;
-                      loginController.gloableError.value = false;
-                      loginController.mobileNumber.value = value;
-                    },
-                    prefixIconData: Icons.call),
+                Obx(
+                  () => buildTextField(
+                      hintText: "Phone Number",
+                      controller: loginController.mobileNumberController,
+                      maxLength: 10,
+                      focusNode: loginController.phoneNode,
+                      obscureText: false,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(
+                        color: loginController.isPhoneFocused.value
+                            ? Colors.black
+                            : Colors.grey,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      onChanged: (value) {
+                        loginController.showerror.value = false;
+                        loginController.gloableError.value = false;
+                        loginController.mobileNumber.value = value;
+                      },
+                      prefixIconData: Icons.call),
+                ),
 
                 //  buildLabels("Password"),
                 Obx(() {
@@ -76,14 +84,22 @@ Widget loginFormCard(BuildContext context) {
                   () => buildTextField(
                       hintText: "Password",
                       controller: loginController.passwordController,
+                      focusNode: loginController.passNode,
                       suffixIcon: true,
-                      obscureText: loginController.passwordHide.value,
+                      style: TextStyle(
+                        color: loginController.isPassFocused.value
+                            ? Colors.black
+                            : Colors.grey,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      obscureText: !loginController.passwordHide.value,
                       onChanged: (value) {
                         loginController.passWord.value = value;
                       },
                       prefixIconData: Icons.lock),
                 ),
-                CustomeHeight(16.h),
+                CustomeHeight(20.h),
                 //****************  *********  button section ******************************
                 appCommonbutton(
                     onpressed: () {
@@ -96,13 +112,12 @@ Widget loginFormCard(BuildContext context) {
 
 // *************************************** end login form section **************************
 
-          CustomeHeight(12.h),
+          CustomeHeight(14.h),
           forgotPasswordSec(),
 
           Spacer(),
-          //  CustomeHeight(20.h),
-          Expanded(
-              child: Align(
+          CustomeHeight(20.h),
+          Align(
             alignment: Alignment.bottomCenter,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -118,17 +133,17 @@ Widget loginFormCard(BuildContext context) {
                       child: Text(
                         "Terms & Conditions",
                         style: TextStyle(
-                            color: AppColors.textfieldhintstycolor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w300),
+                            color: AppColors.blacktextcolor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w200),
                       ),
                     ),
                     Text(
                       " |",
                       style: TextStyle(
-                          color: AppColors.textfieldhintstycolor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w300),
+                          color: AppColors.blacktextcolor,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w200),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -137,9 +152,9 @@ Widget loginFormCard(BuildContext context) {
                       child: Text(
                         " Privacy Policy",
                         style: TextStyle(
-                            color: AppColors.textfieldhintstycolor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w300),
+                            color: AppColors.blacktextcolor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w200),
                       ),
                     ),
                   ],
@@ -148,14 +163,15 @@ Widget loginFormCard(BuildContext context) {
                   child: Text(
                     "© CampusPro",
                     style: TextStyle(
-                        color: AppColors.textfieldhintstycolor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w300),
+                        color: AppColors.blacktextcolor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w200),
                   ),
                 )
               ],
             ),
-          ))
+          ),
+          CustomeHeight(14.h),
         ],
       ),
     ),
@@ -173,28 +189,28 @@ Widget forgotPasswordSec() {
         child: Text(
           "Forgot login ID ",
           style: TextStyle(
-              color: AppColors.appbuttonColor,
+              color: AppColors.primarytextcolor,
               fontSize: 12.sp,
-              fontWeight: FontWeight.w600),
+              fontWeight: FontWeight.w400),
         ),
       ),
       Text(
         " or ",
         style: TextStyle(
-            color: AppColors.appbuttonColor,
+            color: AppColors.primarytextcolor,
             fontSize: 12.sp,
-            fontWeight: FontWeight.w600),
+            fontWeight: FontWeight.w400),
       ),
       GestureDetector(
         onTap: () {
           Get.toNamed(Routes.forgotpassword);
         },
         child: Text(
-          " Forgot Password",
+          " Password ?",
           style: TextStyle(
-              color: AppColors.appbuttonColor,
+              color: AppColors.primarytextcolor,
               fontSize: 12.sp,
-              fontWeight: FontWeight.w600),
+              fontWeight: FontWeight.w400),
         ),
       ),
     ],

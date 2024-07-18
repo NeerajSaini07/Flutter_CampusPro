@@ -18,9 +18,11 @@ class NetworkApiServices extends BaseApiServices {
           await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
     } on SocketException {
-      throw InternetException('');
+      throw InternetException();
     } on RequestTimeOut {
-      throw RequestTimeOut('');
+      throw RequestTimeOut();
+    } catch (e) {
+      throw FetchDataException('An error occurred: $e');
     }
     return responseJson;
   }
@@ -33,14 +35,13 @@ class NetworkApiServices extends BaseApiServices {
           .post(Uri.parse(url), body: data)
           .timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
-
-      print(response);
     } on SocketException {
-      throw InternetException('');
+      throw InternetException();
     } on RequestTimeOut {
-      throw RequestTimeOut('');
+      throw RequestTimeOut();
+    } catch (e) {
+      throw FetchDataException('An error occurred: $e');
     }
-
     return responseJson;
   }
 
@@ -54,7 +55,6 @@ class NetworkApiServices extends BaseApiServices {
         return responseJson;
       case 500:
         throw SOMETHING_WENT_WRONG;
-      case 401:
       default:
         throw FetchDataException(
             'Error accoured while communicating with server ${response.statusCode}');

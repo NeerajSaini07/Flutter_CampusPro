@@ -6,8 +6,8 @@ Widget companylog() {
     child: Image.asset(
       "assets/images/companylogO2.png",
       fit: BoxFit.fitHeight,
-      height: 30.h,
-      width: 40.w,
+      height: 62.h,
+      width: 56.w,
     ),
   );
 }

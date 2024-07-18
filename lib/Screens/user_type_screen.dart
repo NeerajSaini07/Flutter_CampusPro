@@ -2,13 +2,16 @@
 
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
+import 'package:campuspro/Screens/Wedgets/shimmer_widget.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/constant.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class UserTypeScreen extends StatefulWidget {
   const UserTypeScreen({super.key});
@@ -34,80 +37,122 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
         Get.find<UserTypeController>();
 
     final LogoutController logoutController = Get.find<LogoutController>();
+    final WebController webController = Get.find<WebController>();
     return Scaffold(
-        body: Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 30.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomeHeight(30.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Choose Accoun",
-                style: TextStyle(
-                    fontSize: 22.sp,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+        body: Container(
+      height: double.infinity,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(Constant.userTypeBg), fit: BoxFit.cover)),
+      child: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xFFD2D0D0),
+                offset: Offset(-1, 0),
+                blurRadius: 20,
+                spreadRadius: 4,
               ),
-              GestureDetector(
-                onTap: () {
-                  logoutController.userlogOut();
-                },
-                child: CircleAvatar(
-                  radius: 22.w,
-                  backgroundColor: AppColors.loginscafoldcoolr,
-                  child: Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                  ),
+            ],
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 18.w, vertical: 30.h),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomeHeight(14.h),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: 30.w).copyWith(top: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Choose Account",
+                      style: TextStyle(
+                          fontSize: 22.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        logoutController.userlogOut();
+                      },
+                      child: CircleAvatar(
+                        radius: 22.w,
+                        backgroundColor: AppColors.logoutBg,
+                        child: Icon(
+                          Icons.logout,
+                          color: AppColors.logoutColor,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
+              ),
+
+              FutureBuilder(
+                future: userTypeController.getUsers(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 30.w)
+                                .copyWith(bottom: 10.h),
+                            child: shimmerWidget(
+                                height: 120.h,
+                                width: double.infinity,
+                                borderRadius: 12));
+                      },
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      UserTypeslist.userTypesDetails =
+                          snapshot.data as List<UserTypeModel>;
+                    }
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: UserTypeslist.userTypesDetails.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 30.w)
+                                .copyWith(bottom: 10.h),
+                            child: InkWell(
+                                onTap: () {
+                                  webController.appBarName.value = "Dashboard";
+                                  userTypeController.gotoDashBorad(
+                                      UserTypeslist
+                                          .userTypesDetails[index].dashboardUrl
+                                          .toString(),
+                                      {index.toString(): index});
+                                },
+                                child: userListCard(index)));
+                      },
+                    );
+                  } else {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 20.h),
+                      child: Center(
+                          child: Lottie.asset('assets/lottie_json/no_data.json',
+                              height: MediaQuery.sizeOf(context).height * 0.3)),
+                    );
+                  }
+                },
+              ),
+              // userListCard(),
             ],
           ),
-
-          FutureBuilder(
-            future: userTypeController.getUsers(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  UserTypeslist.userTypesDetails =
-                      snapshot.data as List<UserTypeModel>;
-                }
-                return Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: UserTypeslist.userTypesDetails.length,
-                    itemBuilder: (context, index) {
-                      var url = UserTypeslist
-                          .userTypesDetails[index].dashboardUrl
-                          .toString();
-                      return Padding(
-                          padding: EdgeInsets.only(bottom: 10.h),
-                          child: InkWell(
-                              onTap: () {
-                                userTypeController.gotoDashBorad(
-                                  UserTypeslist
-                                      .userTypesDetails[index].dashboardUrl
-                                      .toString(),
-                                  {
-                                    index.toString(): index
-                                  }, // Passing the optional parameter as a map
-                                );
-                              },
-                              child: userListCard(index)));
-                    },
-                  ),
-                );
-              } else {
-                return SizedBox();
-              }
-            },
-          ),
-          // userListCard(),
-        ],
+        ),
       ),
     ));
   }

@@ -5,11 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Container buildTextField({
+Card buildTextField({
   bool obscureText = false,
   bool? suffixIcon = false,
   int? maxLength,
   String? hintText,
+  TextStyle? style = const TextStyle(
+    color: Colors.black,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  ),
+  FocusNode? focusNode,
   TextInputAction? textInputAction,
   TextInputType? keyboardType,
   String? Function(String?)? validator,
@@ -19,50 +25,57 @@ Container buildTextField({
   String? initialValue,
 }) {
   final LoginController loginController = Get.find<LoginController>();
-  return Container(
-    child: Card(
-      elevation: 0.5,
-      child: TextFormField(
-        textInputAction: textInputAction,
-        initialValue: initialValue,
-        controller: controller,
-        obscureText: obscureText,
-        onChanged: onChanged,
-        validator: validator,
-        maxLength: maxLength,
-        keyboardType: keyboardType,
-        style: TextStyle(
-          color: Colors.black, // Match hint text color
-          fontSize: 18.sp, // Match hint text font size
-          fontWeight: FontWeight.w700, // Match hint text font weight
+  return Card(
+    elevation: 0.6,
+    color: Colors.white,
+    child: TextFormField(
+      textInputAction: textInputAction,
+      initialValue: initialValue,
+      focusNode: focusNode,
+      controller: controller,
+      obscureText: obscureText,
+      onChanged: onChanged,
+      validator: validator,
+      maxLength: maxLength,
+      keyboardType: keyboardType,
+      style: style,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(width: 0.2, color: Colors.grey)),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(width: 0.2, color: Colors.grey)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(width: 0.2, color: Colors.grey)),
+        prefixIcon: prefixIconData != null
+            ? Icon(
+                prefixIconData,
+                color: Color(0xff1f6089),
+              )
+            : null,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500,
         ),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          prefixIcon: prefixIconData != null ? Icon(prefixIconData) : null,
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w700,
-          ),
-          counterText: "",
-          contentPadding:
-              EdgeInsets.symmetric(vertical: 16.0), // Adjust vertical padding
-          suffixIcon: suffixIcon == true
-              ? Obx(
-                  () => IconButton(
-                    icon: loginController.passwordHide.value
-                        ? Icon(Icons.visibility_off)
-                        : Icon(Icons.visibility),
-                    onPressed: () {
-                      loginController.showHidePassword();
-                    },
-                  ),
-                )
-              : null,
-        ),
+        counterText: "",
+        contentPadding:
+            EdgeInsets.symmetric(vertical: 20.0), // Adjust vertical padding
+        suffixIcon: suffixIcon == true
+            ? Obx(
+                () => IconButton(
+                  icon: !loginController.passwordHide.value
+                      ? Icon(Icons.visibility_off)
+                      : Icon(Icons.visibility),
+                  onPressed: () {
+                    loginController.showHidePassword();
+                  },
+                ),
+              )
+            : null,
       ),
     ),
   );

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element, deprecated_member_use, no_leading_underscores_for_local_identifiers
+// ignore_for_file: unused_element, deprecated_member_use
 
 import 'package:url_launcher/url_launcher.dart';
 

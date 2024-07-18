@@ -26,7 +26,6 @@ class UserTypeController extends GetxController {
   gotoDashBorad(String url, [Map<String, int>? indexMap]) async {
     final WebController webController = Get.find<WebController>();
     await getUsers();
-
     int index = indexMap?.values.first ?? -1;
 //  **************************** Stroing index of the currect user  ********************************
     await Sharedprefdata.storeIntegerData(Sharedprefdata.userTypeIndex, index);

@@ -7,4 +7,5 @@ class Routes {
   static const String userType = '/userType';
   static const String opt = 'otp';
   static const String CreatePassword = '/CreatePassword';
+  static const String noInternet = '/noInternet';
 }

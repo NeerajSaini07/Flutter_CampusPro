@@ -19,7 +19,6 @@ class LoginRepository {
     try {
       bool value =
           (await sharedfdata.getbooleandata(Sharedprefdata.loginKey)) ?? false;
-
       Map<String, String> data = {};
       if (value == false) {
         data = {
