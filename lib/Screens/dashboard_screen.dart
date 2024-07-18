@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class DashBoradScreen extends StatelessWidget {
-  const DashBoradScreen({super.key});
+class WebViewScreen extends StatelessWidget {
+  const WebViewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class DashBoradScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("DashBoard"),
+        title: Obx(() => Text(webController.appBarName.toString())),
       ),
       drawer: AppDrawer(context),
       body: Obx(() {

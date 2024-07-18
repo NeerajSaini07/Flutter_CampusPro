@@ -2,6 +2,7 @@
 
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/shimmer_widget.dart';
@@ -36,6 +37,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
         Get.find<UserTypeController>();
 
     final LogoutController logoutController = Get.find<LogoutController>();
+    final WebController webController = Get.find<WebController>();
     return Scaffold(
         body: Container(
       height: double.infinity,
@@ -127,6 +129,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                 .copyWith(bottom: 10.h),
                             child: InkWell(
                                 onTap: () {
+                                  webController.appBarName.value = "Dashboard";
                                   userTypeController.gotoDashBorad(
                                       UserTypeslist
                                           .userTypesDetails[index].dashboardUrl

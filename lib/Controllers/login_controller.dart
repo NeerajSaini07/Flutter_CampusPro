@@ -80,57 +80,68 @@ class LoginController extends GetxController {
     final UserTypeController userTypeController =
         Get.find<UserTypeController>();
 
+    final sharedfdata = Sharedprefdata();
+
+    bool loginvalue =
+        (await sharedfdata.getbooleandata(Sharedprefdata.loginKey)) ?? false;
+
     loginLoader.value = true;
 
     await LoginRepository.userLoginRepo().then((value) async {
       if (value != null) {
-        await Future.delayed(const Duration(seconds: 2));
-        loginLoader.value = false;
+        if (loginvalue == true) {
+          await Future.delayed(const Duration(seconds: 2));
+          loginLoader.value = false;
 
 //  ********************************* Stroing data into the  model  *************************************
-
-        List<dynamic> data = value['Data'];
-        UserLogin.loginDetails =
-            data.map((json) => LoginModel.fromJson(json)).toList();
-
-// **********************************************************************************************
-
-        if (UserLogin.loginDetails[0].validated == 'N') {
-          showerror.value = false;
-          gloableError.value = true;
-          formErrorText.value =
-              UserLogin.loginDetails[0].validateMessage.toString();
+          List<dynamic> data = value['Data'];
+          UserLogin.loginDetails =
+              data.map((json) => LoginModel.fromJson(json)).toList();
         } else {
+// *********************** user sign in manul **********************************
+// **********************************************************************************************
+          await Future.delayed(const Duration(seconds: 2));
+
+          loginLoader.value = false;
+          List<dynamic> data = value['Data'];
+          UserLogin.loginDetails =
+              data.map((json) => LoginModel.fromJson(json)).toList();
+
+          if (UserLogin.loginDetails[0].validated == 'N') {
+            showerror.value = false;
+            gloableError.value = true;
+            formErrorText.value =
+                UserLogin.loginDetails[0].validateMessage.toString();
+          } else {
 // ********************************** stored in prefrence ***************************
 
-          Sharedprefdata.setbooleandata(Sharedprefdata.loginKey, true);
-          Sharedprefdata.storeStringData(
-              Sharedprefdata.token, UserLogin.loginDetails[0].token.toString());
-          Sharedprefdata.storeStringData(
-              Sharedprefdata.uid, UserLogin.loginDetails[0].oUserid.toString());
-          Sharedprefdata.storeStringData(
-              Sharedprefdata.mobile, mobileNumber.value);
-          Sharedprefdata.storeStringData(
-              Sharedprefdata.password, passWord.value);
+            Sharedprefdata.setbooleandata(Sharedprefdata.loginKey, true);
+            Sharedprefdata.storeStringData(Sharedprefdata.token,
+                UserLogin.loginDetails[0].token.toString());
+            Sharedprefdata.storeStringData(Sharedprefdata.uid,
+                UserLogin.loginDetails[0].oUserid.toString());
+            Sharedprefdata.storeStringData(
+                Sharedprefdata.mobile, mobileNumber.value);
+            Sharedprefdata.storeStringData(
+                Sharedprefdata.password, passWord.value);
 
-          // *************************************** clear variable value of **********
+            // *************************************** clear variable value of **********
 
-          showerror.value = false;
-          gloableError.value = false;
-          formErrorText.value = '';
-          mobileNumber.value = '';
-          passWord.value = '';
-          mobileNumberController.clear();
-          passwordController.clear();
+            showerror.value = false;
+            gloableError.value = false;
+            formErrorText.value = '';
+            mobileNumber.value = '';
+            passWord.value = '';
+            mobileNumberController.clear();
+            passwordController.clear();
 
-          // ***********************************************************************
-          Get.offAndToNamed(Routes.userType);
+            await userTypeController.getUsers();
+            // ***********************************************************************
+            Get.offAndToNamed(Routes.userType);
 
 // ************************ finding the users list of currect the login user**********************
-          userTypeController.getUsers();
+          }
         }
-      } else {
-        loginLoader.value = false;
       }
     });
   }

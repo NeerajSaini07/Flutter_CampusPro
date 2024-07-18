@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
               Routes.userType: (context) => UserTypeScreen(),
               Routes.CreatePassword: (context) => CreatePassword(),
               Routes.opt: (context) => OTPScreen(),
-              Routes.dashboard: (context) => DashBoradScreen(),
+              Routes.webview: (context) => WebViewScreen(),
               Routes.noInternet: (context) => NoInternetScreen(),
             },
             home: SplashScreen());

@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
+
 import 'dart:io' show Platform;
+
 import 'package:campuspro/Controllers/logout_controller.dart';
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
@@ -8,7 +11,6 @@ import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/drawer_image.dart';
 import 'package:campuspro/Utilities/routes.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -59,7 +61,7 @@ Widget AppDrawer(BuildContext context) {
         Expanded(
           child: ListView(
             padding: EdgeInsets.zero,
-            children: buildMenuItems(),
+            children: buildMenuItems(context),
           ),
         ),
         Divider(),
@@ -79,7 +81,8 @@ Widget AppDrawer(BuildContext context) {
   );
 }
 
-List<Widget> buildMenuItems() {
+List<Widget> buildMenuItems(BuildContext context) {
+  final WebController webController = Get.find<WebController>();
   return MenuItemList.menuItemDetails.map((menuItem) {
     if (menuItem.subMenu != null && menuItem.subMenu!.isNotEmpty) {
       return ExpansionTile(
@@ -110,9 +113,11 @@ List<Widget> buildMenuItems() {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
-              if (kDebugMode) {
-                print(subMenuItem.nevigateUrl);
-              }
+              webController.appBarName.value =
+                  subMenuItem.subMenuName.toString();
+              Navigator.pop(context);
+              webController.generateWebUrl(
+                  subMenuItem.nevigateUrl, subMenuItem.subMenuName);
               // Handle submenu tap
             },
           );
@@ -134,7 +139,9 @@ List<Widget> buildMenuItems() {
           ),
         ),
         onTap: () {
-          // Handle menu item tap
+          webController.appBarName.value = menuItem.menuName.toString();
+          Navigator.pop(context);
+          webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
         },
       );
     }

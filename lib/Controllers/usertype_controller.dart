@@ -11,7 +11,6 @@ class UserTypeController extends GetxController {
   getUsers() async {
     try {
       await UserTypeRepository.getuserstypeInRepo().then((value) {
-        print(value);
         if (value != null) {
           List<dynamic> data = value['Data'];
           UserTypeslist.userTypesDetails =
@@ -27,20 +26,23 @@ class UserTypeController extends GetxController {
   gotoDashBorad(String url, [Map<String, int>? indexMap]) async {
     final WebController webController = Get.find<WebController>();
     await getUsers();
-
     int index = indexMap?.values.first ?? -1;
 //  **************************** Stroing index of the currect user  ********************************
     await Sharedprefdata.storeIntegerData(Sharedprefdata.userTypeIndex, index);
     // *****************************************************************
     if (UserTypeslist.userTypesDetails[index].dashboardType == 'W') {
       try {
+        // ********************* finding menu from user *************************************
+
         await UserTypeRepository.getDrawerData(index).then((value) {
           List<dynamic> data = value['Data'];
-          print(data);
           MenuItemList.menuItemDetails =
               data.map((json) => DrawerMenu.fromJson(json)).toList();
         });
-        Get.toNamed(Routes.dashboard);
+
+// ************************************************************************
+
+        Get.toNamed(Routes.webview);
       } catch (e) {
         if (kDebugMode) {
           print(e);
@@ -48,7 +50,7 @@ class UserTypeController extends GetxController {
       }
     }
 
-    webController.gotoWebDashboard(url);
+    webController.gotoWebview(url);
     webController.currentUrl.value = url;
   }
 }

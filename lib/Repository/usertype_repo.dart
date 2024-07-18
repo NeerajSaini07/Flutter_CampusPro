@@ -5,6 +5,7 @@ import 'package:campuspro/Services/ApiService/Data/Network/base_api_services.dar
 import 'package:campuspro/Services/ApiService/Data/Network/network_api_service.dart';
 import 'package:campuspro/Utilities/api_end_point.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
+import 'package:flutter/foundation.dart';
 
 class UserTypeRepository {
   static Future<dynamic> getuserstypeInRepo() async {
@@ -20,7 +21,9 @@ class UserTypeRepository {
       "Pwd": pass
     };
     log(data.toString());
-    print(APIENDPOINT.userTypeApi);
+    if (kDebugMode) {
+      print(APIENDPOINT.userTypeApi);
+    }
 
     BaseApiServices apiServices = NetworkApiServices();
     try {
