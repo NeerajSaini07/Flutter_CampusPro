@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:developer';
 import 'dart:io' show Platform;
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
