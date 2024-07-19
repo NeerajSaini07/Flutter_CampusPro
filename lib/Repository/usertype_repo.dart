@@ -39,6 +39,7 @@ class UserTypeRepository {
   static Future<dynamic> getDrawerData(index) async {
     var url = APIENDPOINT.drawerApi;
     BaseApiServices apiServices = NetworkApiServices();
+
     try {
       final drawerData = {
         "OrgId": UserTypeslist.userTypesDetails[index].organizationId,

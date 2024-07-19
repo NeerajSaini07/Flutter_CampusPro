@@ -18,6 +18,12 @@ class WebController extends GetxController {
   var pageLoader = false.obs;
   var appBarName = ''.obs;
 
+  @override
+  void onClose() {
+    super.onClose();
+    viewcontroller.value = null;
+  }
+
   Future<void> initializeWebViewController(url) async {
     currentUrl.value = url;
     late final PlatformWebViewControllerCreationParams params;
@@ -48,11 +54,11 @@ class WebController extends GetxController {
           },
           onPageFinished: (String url) async {
             controller.runJavaScript("""
-      var style = document.createElement('style');
-      style.type = 'text/css';
-      style.innerHTML = '.topbar { display: none !important; }';
-      document.getElementsByTagName('head')[0].appendChild(style);
-    """);
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '.topbar { display: none !important; }';
+        document.getElementsByTagName('head')[0].appendChild(style);
+      """);
           },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
@@ -82,8 +88,7 @@ class WebController extends GetxController {
 
   gotoWebview(url) async {
     await initializeWebViewController(url);
-
-    //viewcontroller.clearCache();
+    //viewcontroller.close();
   }
 
   // ******************************** generating url  foer web

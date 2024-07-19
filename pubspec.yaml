@@ -50,6 +50,11 @@ dependencies:
   webview_flutter_wkwebview: ^3.14.0
   webview_flutter_android: ^3.16.3
   webview_flutter_platform_interface: ^2.10.0
+  iamport_webview_flutter: ^3.0.7
+  firebase_core: ^2.1.1
+  firebase_auth: ^4.1.1
+  firebase_messaging: ^14.2.1
+  firebase_messaging_platform_interface: ^4.5.37
 
 dev_dependencies:
   flutter_test:

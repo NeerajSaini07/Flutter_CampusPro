@@ -41,7 +41,6 @@ class UserTypeController extends GetxController {
         });
 
 // ************************************************************************
-
         Get.toNamed(Routes.webview);
       } catch (e) {
         if (kDebugMode) {

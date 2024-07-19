@@ -12,7 +12,6 @@ class AppExceptions implements Exception {
     final ExceptionController exceptionController =
         Get.find<ExceptionController>();
     exceptionController.showDialog(title: _prefix, message: _message);
-    print('$_prefix$_message');
     return '$_message';
   }
 }

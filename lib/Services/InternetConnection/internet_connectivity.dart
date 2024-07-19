@@ -1,10 +1,14 @@
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 
 class ConnectivityService extends GetxService {
   var isConnected = true.obs;
+  var isReconnected = false.obs;
   String? previousRoute;
+
+  final WebController webController = Get.find<WebController>();
 
   @override
   void onInit() {
@@ -20,15 +24,24 @@ class ConnectivityService extends GetxService {
   void _updateConnectionStatus(List<ConnectivityResult> result) {
     bool wasConnected = isConnected.value;
     isConnected.value = _isConnected(result);
+
+    if (!wasConnected && isConnected.value) {
+      isReconnected.value = true;
+      if (previousRoute == Routes.webview) {}
+    } else {
+      isReconnected.value = false; // Reset reconnected flag
+    }
+
     if (!isConnected.value && wasConnected) {
-      // Get.snackbar(
-      //   'No Internet Connection',
-      //   'Please check your internet settings.',
-      //   snackPosition: SnackPosition.BOTTOM,
-      // );
       _navigateToNoInternetScreen();
     } else if (isConnected.value && !wasConnected && previousRoute != null) {
-      _navigateBack();
+      if (previousRoute == Routes.webview) {
+        webController.currentUrl.value = webController.currentUrl.value;
+        webController.gotoWebview(webController.currentUrl.value);
+        Get.toNamed(Routes.webview);
+      } else {
+        _navigateBack();
+      }
     }
   }
 
