@@ -12,7 +12,6 @@ class WebViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final WebController webController = Get.find<WebController>();
-
     return PopScope(
       canPop: true,
       child: Scaffold(

@@ -18,6 +18,12 @@ class WebController extends GetxController {
   var pageLoader = false.obs;
   var appBarName = ''.obs;
 
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  //   viewcontroller.value = null;
+  // }
+
   Future<void> initializeWebViewController(url) async {
     currentUrl.value = url;
     late final PlatformWebViewControllerCreationParams params;

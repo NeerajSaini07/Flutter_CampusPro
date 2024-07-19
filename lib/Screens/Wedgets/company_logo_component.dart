@@ -7,7 +7,6 @@ Widget companylog() {
       "assets/images/companylogO2.png",
       fit: BoxFit.fitHeight,
       height: 62.h,
-      width: 56.w,
     ),
   );
 }

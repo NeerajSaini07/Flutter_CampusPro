@@ -23,7 +23,7 @@ class GenerateUrlRepository {
       "PageUrl": pageurl,
       "StuEmpId": UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId,
       "UserType": UserTypeslist.userTypesDetails[usertypeIndex].ouserType,
-      "Flag": "F",
+      "Flag": "W",
       "PageName": pageName,
     };
     const url = APIENDPOINT.gotoWebApp;
