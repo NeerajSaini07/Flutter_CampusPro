@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
@@ -8,9 +10,8 @@ import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
-
+import 'package:campuspro/Services/notificationService/notification_service.dart';
 import 'package:campuspro/Utilities/routes.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,26 +23,36 @@ import 'Screens/splash_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
-}
+// @pragma('vm:entry-point')
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
 
-Future<void> main() async {
+//   log('Handling a background message: ${message.messageId}');
+// }
+
+void main() async {
   DependencyInjection.init();
-
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await Firebase.initializeApp();
-
+  await NotificationService().initialize();
+  Get.put(ConnectivityService());
   final token = await FirebaseMessaging.instance.getToken();
-  print("FCM Token generated => $token");
-  //Get.put(ConnectivityService());
+  log("FCM Token generated => $token");
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    initializeNotification();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Utilities/routes.dart';
+import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +22,7 @@ class ConnectivityService extends GetxService {
     _checkInitialConnection();
   }
 
-  void _updateConnectionStatus(List<ConnectivityResult> result) {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     bool wasConnected = isConnected.value;
     isConnected.value = _isConnected(result);
 
@@ -59,7 +60,9 @@ class ConnectivityService extends GetxService {
 
   void _navigateToNoInternetScreen() {
     final currentRoute = Get.currentRoute;
-    if (currentRoute != Routes.splash && currentRoute != Routes.login) {
+    if (currentRoute != Routes.splash &&
+        currentRoute != Routes.login &&
+        currentRoute != Routes.webview) {
       previousRoute = currentRoute;
       Get.toNamed(Routes.noInternet);
     }

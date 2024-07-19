@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Sharedprefdata {
@@ -9,6 +7,7 @@ class Sharedprefdata {
   static const mobile = "mobileNumber";
   static const password = "password";
   static const userTypeIndex = "UserTypeIndex";
+  static const fcmToken = "fcmToken";
 
   // **************************** boolean value stored in prefrence************************
 
