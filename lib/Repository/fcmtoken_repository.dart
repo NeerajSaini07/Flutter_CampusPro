@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
@@ -24,6 +25,7 @@ class FcmTokenRepository {
       "IsMstPwd": "0",
       "DeviceType": Platform.isAndroid ? 'Android' : 'Ios',
     };
+    log(fcmTokenData.toString());
 
     BaseApiServices apiServices = NetworkApiServices();
 

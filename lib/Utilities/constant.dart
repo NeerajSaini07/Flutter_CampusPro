@@ -10,4 +10,7 @@ class Constant {
   static const switchAccountIcon = 'assets/drawer/switchAccountIcon.png';
   static const noInternetIcon = 'assets/images/no_internet.png';
   static const userTypeBg = 'assets/images/userTypeBackGround.png';
+  static const busMarker = 'assets/images/bus_marker.png';
+  static const busIcon = 'assets/images/bus_icon.png';
+  static const busStop = 'assets/images/bus_stop.png';
 }

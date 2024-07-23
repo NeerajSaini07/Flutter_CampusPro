@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:campuspro/Controllers/fetch_current_location_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Screens/Wedgets/drawer.dart';
 import 'package:campuspro/Screens/Wedgets/nev_bar.dart';
+import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -17,7 +20,7 @@ class WebViewScreen extends StatelessWidget {
     return PopScope(
       canPop: true,
       child: Scaffold(
-        appBar: customAppBar(),
+        appBar: customAppBar(context),
         bottomNavigationBar: Obx(
           () => BottomNavBar(
             currentIndex: webController.selectedBottomNavIndex.value,
@@ -39,7 +42,7 @@ class WebViewScreen extends StatelessWidget {
     );
   }
 
-  AppBar customAppBar() {
+  AppBar customAppBar(BuildContext context) {
     final WebController webController = Get.find<WebController>();
     return AppBar(
       backgroundColor: AppColors.primarycolor, // Change to your desired color
@@ -62,7 +65,13 @@ class WebViewScreen extends StatelessWidget {
             width: 24,
             height: 24,
           ),
-          onSelected: (value) {},
+          onSelected: (value) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BusTrackerScreen(),
+                ));
+          },
           itemBuilder: (BuildContext context) {
             return [
               const PopupMenuItem<String>(

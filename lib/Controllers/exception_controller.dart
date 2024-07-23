@@ -9,10 +9,10 @@ class ExceptionController extends GetxController {
   }) {
     Get.dialog(
       CustomDialog(
-        icon: Icons.warning_amber_rounded,
-        title: title,
-        message: message,
-      ),
+          icon: Icons.warning_amber_rounded,
+          title: title,
+          message: message,
+          btnText: "Try Again!"),
     );
   }
 }
@@ -21,11 +21,13 @@ class CustomDialog extends StatelessWidget {
   final IconData icon;
   final String title;
   final String message;
+  final String btnText;
   const CustomDialog({
     super.key,
     required this.icon,
     required this.title,
     required this.message,
+    required this.btnText,
   });
 
   @override
@@ -67,7 +69,7 @@ class CustomDialog extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          child: const Text("Try Again!"),
+          child: Text(btnText),
         ),
       ],
     );

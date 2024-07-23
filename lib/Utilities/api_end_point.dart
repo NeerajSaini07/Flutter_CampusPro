@@ -9,4 +9,8 @@ class APIENDPOINT {
   static const drawerApi = baseUrl + "Managemenu";
   static const gotoWebApp = baseUrl + "GotoWebApp4Flutter";
   static const saveFcmToken = baseUrl + "UpdateLastActive_fcmtokenwebnew";
+  static const checkBusAllotApi = baseUrl + "CheckBusAllot";
+  static const schoolBusRouteApi = baseUrl + "MapRealData";
+  static const schoolBusLiveLocationApi = baseUrl + "VehicleDetails";
+  static const schoolBusDetailApi = baseUrl + "Stutansportreport";
 }
