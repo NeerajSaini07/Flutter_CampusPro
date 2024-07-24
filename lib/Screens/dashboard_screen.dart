@@ -1,12 +1,8 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:campuspro/Controllers/fetch_current_location_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Screens/Wedgets/drawer.dart';
 import 'package:campuspro/Screens/Wedgets/nev_bar.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';

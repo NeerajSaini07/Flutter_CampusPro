@@ -8,11 +8,13 @@ import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
+import 'package:campuspro/Screens/TransportModule/transport_dashboard_screen.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/drawer_image.dart';
 import 'package:campuspro/Utilities/routes.dart';
+import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -154,16 +156,35 @@ List<Widget> buildMenuItems(BuildContext context) {
             color: Colors.white,
           ),
         ),
-        onTap: () {
-          log(menuItem.menuName.toString());
+        onTap: () async {
+          // log(menuItem.menuName.toString());
           // Check if the menu name is in the special actions map
-          final action = specialActions[menuItem.menuName?.toLowerCase()];
-          if (action != null) {
-            action(context);
-          } else {
-            webController.appBarName.value = menuItem.menuName.toString();
-            Navigator.pop(context);
-            webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
+          final usertypeIndex =
+              await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+          // log(UserTypeslist.userTypesDetails[usertypeIndex].ouserType
+          //     .toString());
+          if (context.mounted) {
+            if (menuItem.menuName.toString().toLowerCase() == "dashboard" &&
+                UserTypeslist.userTypesDetails[usertypeIndex].ouserType
+                        .toString()
+                        .toLowerCase() ==
+                    "t") {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TransportDashboard(),
+                  ));
+            } else {
+              final action = specialActions[menuItem.menuName?.toLowerCase()];
+              if (action != null) {
+                action(context);
+              } else {
+                webController.appBarName.value = menuItem.menuName.toString();
+                Navigator.pop(context);
+                webController.generateWebUrl(
+                    menuItem.menuUrl, menuItem.menuName);
+              }
+            }
           }
         },
       );
