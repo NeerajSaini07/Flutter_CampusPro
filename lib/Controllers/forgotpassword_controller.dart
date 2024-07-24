@@ -76,6 +76,7 @@ class ForgotPasswordController extends GetxController {
   Future<dynamic> verifyOTP() async {
     await ForgotPasswordRepository.otpVerification().then((value) {
       if (value != null) {
+        print(value);
         if (value['Status'] == 'Y') {
           Get.toNamed(Routes.CreatePassword);
 

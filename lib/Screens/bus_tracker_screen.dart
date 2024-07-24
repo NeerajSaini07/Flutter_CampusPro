@@ -1,10 +1,8 @@
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 class BusTrackerScreen extends StatelessWidget {
@@ -107,69 +105,7 @@ class BusTrackerScreen extends StatelessWidget {
             ],
           );
         }
-      }
-          // FutureBuilder(
-          //   future: busTrackerController.getSchoolBusRoute(context),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const Center(
-          //         child: CircularProgressIndicator(),
-          //       );
-          //     } else if (snapshot.connectionState == ConnectionState.done) {
-          //       return GoogleMap(
-          //         polylines: busTrackerController.polylines,
-          //         markers: busTrackerController.markers,
-          //         // circles: ,
-          //         zoomControlsEnabled: false,
-          //         onMapCreated: (GoogleMapController controller) {
-          //           busTrackerController.mapController = controller;
-          //         },
-          //         initialCameraPosition: const CameraPosition(
-          //             target: LatLng(28.7041, 77.1025), zoom: 17),
-          //         buildingsEnabled: true,
-          //         //minMaxZoomPreference: MinMaxZoomPreference(100, 2000),
-          //         zoomGesturesEnabled: true,
-          //         mapType: MapType.normal,
-          //         myLocationEnabled: true,
-          //         compassEnabled: true,
-          //         // trafficEnabled: true,
-          //       );
-          //     } else {
-          //       return Padding(
-          //         padding: EdgeInsets.only(bottom: 20.h),
-          //         child: Center(
-          //             child: Lottie.asset('assets/lottie_json/no_data.json',
-          //                 height: MediaQuery.sizeOf(context).height * 0.3)),
-          //       );
-          //     }
-          //   },
-          // ),
-          ),
+      }),
     );
-  }
-
-  // GoogleMap buildGoogleMaps(
-  //     BuildContext context, BusTrackerController busTrackerController) {
-  //   return
-  // }
-
-  void _onMapCreated(GoogleMapController controllerParam) async {
-    final BusTrackerController busTrackerController =
-        Get.find<BusTrackerController>();
-    busTrackerController.mapController = controllerParam;
-    // Uint8List imageData = await getMarker();
-
-    // print("marker length${markersList.length}");
-    // markersList.forEach((element) {
-    //   print("markersList items 2 => ${element.stopName}");
-    // });
-
-    // _polyline.add(Polyline(
-    //   polylineId: PolylineId('Pickup'),
-    //   visible: true,
-    //   points: polyList,
-    //   width: 4,
-    //   color: Colors.black,
-    // ));
   }
 }

@@ -1,6 +1,8 @@
+import 'package:campuspro/Controllers/exception_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/login_model.dart';
 import 'package:campuspro/Repository/login_repository.dart';
+import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
@@ -80,69 +82,81 @@ class LoginController extends GetxController {
     final UserTypeController userTypeController =
         Get.find<UserTypeController>();
 
+    final ConnectivityService connectivityService =
+        Get.find<ConnectivityService>();
+
+    final ExceptionController exceptionController =
+        Get.find<ExceptionController>();
+
     final sharedfdata = Sharedprefdata();
 
-    bool loginvalue =
-        (await sharedfdata.getbooleandata(Sharedprefdata.loginKey)) ?? false;
+    if (connectivityService.isConnected.value) {
+      bool loginvalue =
+          (await sharedfdata.getbooleandata(Sharedprefdata.loginKey)) ?? false;
 
-    loginLoader.value = true;
+      loginLoader.value = true;
 
-    await LoginRepository.userLoginRepo().then((value) async {
-      if (value != null) {
-        if (loginvalue == true) {
-          await Future.delayed(const Duration(seconds: 2));
-          loginLoader.value = false;
+      await LoginRepository.userLoginRepo().then((value) async {
+        if (value != null) {
+          if (loginvalue == true) {
+            await Future.delayed(const Duration(seconds: 2));
+            loginLoader.value = false;
 
 //  ********************************* Stroing data into the  model  *************************************
-          List<dynamic> data = value['Data'];
-          UserLogin.loginDetails =
-              data.map((json) => LoginModel.fromJson(json)).toList();
-        } else {
+            List<dynamic> data = value['Data'];
+            UserLogin.loginDetails =
+                data.map((json) => LoginModel.fromJson(json)).toList();
+          } else {
 // *********************** user sign in manul **********************************
 // **********************************************************************************************
-          await Future.delayed(const Duration(seconds: 2));
+            await Future.delayed(const Duration(seconds: 2));
 
-          loginLoader.value = false;
-          List<dynamic> data = value['Data'];
-          UserLogin.loginDetails =
-              data.map((json) => LoginModel.fromJson(json)).toList();
+            loginLoader.value = false;
+            List<dynamic> data = value['Data'];
+            UserLogin.loginDetails =
+                data.map((json) => LoginModel.fromJson(json)).toList();
 
-          if (UserLogin.loginDetails[0].validated == 'N') {
-            showerror.value = false;
-            gloableError.value = true;
-            formErrorText.value =
-                UserLogin.loginDetails[0].validateMessage.toString();
-          } else {
+            if (UserLogin.loginDetails[0].validated == 'N') {
+              showerror.value = false;
+              gloableError.value = true;
+              formErrorText.value =
+                  UserLogin.loginDetails[0].validateMessage.toString();
+            } else {
 // ********************************** stored in prefrence ***************************
 
-            Sharedprefdata.setbooleandata(Sharedprefdata.loginKey, true);
-            Sharedprefdata.storeStringData(Sharedprefdata.token,
-                UserLogin.loginDetails[0].token.toString());
-            Sharedprefdata.storeStringData(Sharedprefdata.uid,
-                UserLogin.loginDetails[0].oUserid.toString());
-            Sharedprefdata.storeStringData(
-                Sharedprefdata.mobile, mobileNumber.value);
-            Sharedprefdata.storeStringData(
-                Sharedprefdata.password, passWord.value);
+              Sharedprefdata.setbooleandata(Sharedprefdata.loginKey, true);
+              Sharedprefdata.storeStringData(Sharedprefdata.token,
+                  UserLogin.loginDetails[0].token.toString());
+              Sharedprefdata.storeStringData(Sharedprefdata.uid,
+                  UserLogin.loginDetails[0].oUserid.toString());
+              Sharedprefdata.storeStringData(
+                  Sharedprefdata.mobile, mobileNumber.value);
+              Sharedprefdata.storeStringData(
+                  Sharedprefdata.password, passWord.value);
 
-            // *************************************** clear variable value of **********
+              // *************************************** clear variable value of **********
 
-            showerror.value = false;
-            gloableError.value = false;
-            formErrorText.value = '';
-            mobileNumber.value = '';
-            passWord.value = '';
-            mobileNumberController.clear();
-            passwordController.clear();
+              showerror.value = false;
+              gloableError.value = false;
+              formErrorText.value = '';
+              mobileNumber.value = '';
+              passWord.value = '';
+              mobileNumberController.clear();
+              passwordController.clear();
 
-            await userTypeController.getUsers();
-            // ***********************************************************************
-            Get.offAndToNamed(Routes.userType);
+              await userTypeController.getUsers();
+              // ***********************************************************************
+              Get.offAndToNamed(Routes.userType);
 
 // ************************ finding the users list of currect the login user**********************
+            }
           }
         }
-      }
-    });
+      });
+    } else {
+      exceptionController.showDialog(
+          title: "Oops! No internet ",
+          message: 'Please check your settings and try again');
+    }
   }
 }

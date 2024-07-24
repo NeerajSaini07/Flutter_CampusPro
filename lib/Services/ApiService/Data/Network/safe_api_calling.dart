@@ -22,14 +22,14 @@ void showAlertDialog(String title, String content) {
   );
 }
 
-Future<T> safeApiCall<T>(Future<T> Function() apiCall) async {
-  try {
-    return await apiCall();
-  } on AppExceptions catch (e) {
-    showAlertDialog("Error", e.toString());
-    rethrow;
-  } catch (e) {
-    showAlertDialog("Error", "An unexpected error occurred: $e");
-    rethrow;
-  }
-}
+// Future<T> safeApiCall<T>(Future<T> Function() apiCall) async {
+//   try {
+//     return await apiCall();
+//   } on AppExceptions catch (e) {
+//     showAlertDialog("Error", e.toString());
+//     rethrow;
+//   } catch (e) {
+//     showAlertDialog("Error", "An unexpected error occurred: $e");
+//     rethrow;
+//   }
+// }
