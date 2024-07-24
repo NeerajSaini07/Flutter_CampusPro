@@ -1,8 +1,6 @@
 import 'package:campuspro/Controllers/exception_controller.dart';
-import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/forgotpassword_controller.dart';
-import 'package:campuspro/Controllers/getpassController.dart';
-import 'package:campuspro/Controllers/internet_controller.dart';
+
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
@@ -19,8 +17,5 @@ class DependencyInjection {
     Get.lazyPut<LogoutController>(() => LogoutController());
     Get.lazyPut<ExceptionController>(() => ExceptionController());
     Get.lazyPut<WebController>(() => WebController());
-    Get.lazyPut<InternetController>(() => InternetController());
-    Get.lazyPut<GetPassController>(() => GetPassController());
-    Get.lazyPut<FcmTokenController>(() => FcmTokenController());
   }
 }

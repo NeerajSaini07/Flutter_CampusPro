@@ -78,8 +78,6 @@ initializeNotification() async {
     iOS: iosInitializationSettings,
   );
 
-  // await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-  //     onSelectNotification: selectNotification);
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
   );
@@ -100,11 +98,7 @@ initializeNotification() async {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              // icon: "@mipmap/icon",
-              // icon: "@mipmap/new_icon_trans",
               icon: "@mipmap/ic_launcher",
-              // largeIcon: DrawableResourceAndroidBitmap("@mipmap/launcher_icon"),
-              // largeIcon: DrawableResourceAndroidBitmap("@mipmap/new_icon"),
               largeIcon: DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
 
               // User For Providing expanded button in notification such that to show all body text
@@ -160,13 +154,7 @@ Future instantNofitication() async {
   var android = AndroidNotificationDetails(
     "id",
     "channel",
-    // "description",
-    // icon: "@mipmap/icon",
-    // icon: "@mipmap/new_icon_trans",
     icon: "@mipmap/ic_launcher",
-    // largeIcon: DrawableResourceAndroidBitmap("@mipmap/launcher_icon"),
-    // largeIcon: DrawableResourceAndroidBitmap("@mipmap/new_icon"),
-    // largeIcon: DrawableResourceAndroidBitmap("$notificationLargeIcon"),
     largeIcon: DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
 
     // User For Providing expanded button in notification such that to show all body text
@@ -182,175 +170,3 @@ Future instantNofitication() async {
       0, "Instant notification", "Tap to do something", platform,
       payload: "Welcome to app");
 }
-
-// class NotificationService extends ChangeNotifier {
-//   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-//       FlutterLocalNotificationsPlugin();
-
-//   //initilize
-
-//   Future initialize() async {
-//     await Firebase.initializeApp();
-
-//     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//         FlutterLocalNotificationsPlugin();
-
-//     AndroidInitializationSettings androidInitializationSettings =
-//         AndroidInitializationSettings("@mipmap/launcher_icon");
-
-//     IOSInitializationSettings iosInitializationSettings =
-//         IOSInitializationSettings();
-
-//     final InitializationSettings initializationSettings =
-//         InitializationSettings(
-//             android: androidInitializationSettings,
-//             iOS: iosInitializationSettings);
-
-//     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-//     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-//     await flutterLocalNotificationsPlugin
-//         .resolvePlatformSpecificImplementation<
-//             AndroidFlutterLocalNotificationsPlugin>()
-//         ?.createNotificationChannel(channel);
-
-//     final token = await FirebaseMessaging.instance.getToken();
-//     print("FCM Token generated => $token");
-//     // await UserUtils.cacheUserToken(token);
-//     // setState(() {
-//     //   token = token;
-//     // });
-//   }
-
-//   initializeNotification() {
-//     AndroidInitializationSettings initialzationSettingsAndroid =
-//         AndroidInitializationSettings(AppImages.logo);
-
-//     IOSInitializationSettings iosInitializationSettings =
-//         IOSInitializationSettings();
-
-//     InitializationSettings initializationSettings = InitializationSettings(
-//         android: initialzationSettingsAndroid, iOS: iosInitializationSettings);
-
-//     _flutterLocalNotificationsPlugin.initialize(initializationSettings);
-//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//       RemoteNotification? notification = message.notification;
-//       AndroidNotification? android = message.notification?.android;
-//       if (notification != null && android != null) {
-//         _flutterLocalNotificationsPlugin.show(
-//             notification.hashCode,
-//             notification.title,
-//             notification.body,
-//             NotificationDetails(
-//               android: AndroidNotificationDetails(
-//                 channel.id,
-//                 channel.name,
-//                 channel.description,
-//                 icon: android.smallIcon,
-//               ),
-//             ));
-//       }
-//     });
-//   }
-
-//   Future<void> _firebaseMessagingBackgroundHandler(
-//       RemoteMessage message) async {
-//     await Firebase.initializeApp();
-//     print('Handling a background message ${message.messageId}');
-
-//     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-//         AndroidNotificationDetails(
-//             'your channel id', 'your channel name', 'your channel description',
-//             importance: Importance.max,
-//             priority: Priority.high,
-//             ticker: 'ticker');
-//     const NotificationDetails platformChannelSpecifics =
-//         NotificationDetails(android: androidPlatformChannelSpecifics);
-//     await _flutterLocalNotificationsPlugin.show(
-//         0, 'plain title', 'plain body', platformChannelSpecifics,
-//         payload: 'item x');
-
-//     print('message.data = ${message.data}');
-//   }
-
-//   //Instant Notifications
-//   Future instantNofitication() async {
-//     var android = AndroidNotificationDetails("id", "channel", "description");
-
-//     var ios = IOSNotificationDetails();
-
-//     var platform = new NotificationDetails(android: android, iOS: ios);
-
-//     await _flutterLocalNotificationsPlugin.show(
-//         0, "Demo instant notification", "Tap to do something", platform,
-//         payload: "Welcome to demo app");
-//   }
-
-//   //Image notification
-//   Future imageNotification() async {
-//     var bigPicture = BigPictureStyleInformation(
-//         DrawableResourceAndroidBitmap("@mipmap/launcher_icon"),
-//         largeIcon: DrawableResourceAndroidBitmap("@mipmap/launcher_icon"),
-//         contentTitle: "Demo image notification",
-//         summaryText: "This is some text",
-//         htmlFormatContent: true,
-//         htmlFormatContentTitle: true);
-
-//     var android = AndroidNotificationDetails("id", "channel", "description",
-//         styleInformation: bigPicture);
-
-//     var platform = new NotificationDetails(android: android);
-
-//     await _flutterLocalNotificationsPlugin.show(
-//         0, "Demo Image notification", "Tap to do something", platform,
-//         payload: "Welcome to demo app");
-//   }
-
-//   //Stylish Notification
-//   Future stylishNotification() async {
-//     var android = AndroidNotificationDetails("id", "channel", "description",
-//         color: Colors.deepOrange,
-//         enableLights: true,
-//         enableVibration: true,
-//         largeIcon: DrawableResourceAndroidBitmap("@mipmap/launcher_icon"),
-//         styleInformation: MediaStyleInformation(
-//             htmlFormatContent: true, htmlFormatTitle: true));
-
-//     var platform = new NotificationDetails(android: android);
-
-//     await _flutterLocalNotificationsPlugin.show(
-//         0, "Demo Stylish notification", "Tap to do something", platform);
-//   }
-
-//   //Sheduled Notification
-
-//   Future sheduledNotification() async {
-//     var interval = RepeatInterval.everyMinute;
-//     var bigPicture = BigPictureStyleInformation(
-//         DrawableResourceAndroidBitmap("@mipmap/launcher_icon"),
-//         largeIcon: DrawableResourceAndroidBitmap("@mipmap/launcher_icon"),
-//         contentTitle: "Demo image notification",
-//         summaryText: "This is some text",
-//         htmlFormatContent: true,
-//         htmlFormatContentTitle: true);
-
-//     var android = AndroidNotificationDetails("id", "channel", "description",
-//         styleInformation: bigPicture);
-
-//     var platform = new NotificationDetails(android: android);
-
-//     await _flutterLocalNotificationsPlugin.periodicallyShow(
-//         0,
-//         "Demo Sheduled notification",
-//         "Tap to do something",
-//         interval,
-//         platform);
-//   }
-
-//   //Cancel notification
-
-//   Future cancelNotification() async {
-//     await _flutterLocalNotificationsPlugin.cancelAll();
-//   }
-// }

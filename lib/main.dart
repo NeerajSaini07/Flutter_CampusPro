@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
+import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
 import 'package:campuspro/Screens/forgot_password_screen.dart';
@@ -83,6 +84,7 @@ class _MyAppState extends State<MyApp> {
               Routes.webview: (context) => WebViewScreen(),
               Routes.noInternet: (context) => NoInternetScreen(),
               Routes.visitorHistory: (context) => GetPassvisitorHistory(),
+              Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             },
             home: SplashScreen());
       },

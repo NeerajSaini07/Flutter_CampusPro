@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
 import 'dart:io' show Platform;
 
-import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
@@ -84,6 +85,13 @@ Widget AppDrawer(BuildContext context) {
 
 List<Widget> buildMenuItems(BuildContext context) {
   final WebController webController = Get.find<WebController>();
+  final BusTrackerController busTrackerController =
+      Get.find<BusTrackerController>();
+  final Map<String, Function(BuildContext context)> specialActions = {
+    "student bus location": (BuildContext context) {
+      busTrackerController.getBusAllot(context);
+    },
+  };
   return MenuItemList.menuItemDetails.map((menuItem) {
     if (menuItem.subMenu != null && menuItem.subMenu!.isNotEmpty) {
       return ExpansionTile(
@@ -114,12 +122,19 @@ List<Widget> buildMenuItems(BuildContext context) {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
+              // Handle submenu tap
               webController.appBarName.value =
                   subMenuItem.subMenuName.toString();
               Navigator.pop(context);
-              webController.generateWebUrl(
-                  subMenuItem.nevigateUrl, subMenuItem.subMenuName);
-              // Handle submenu tap
+              // Check if the submenu name is in the special actions map
+              final action =
+                  specialActions[subMenuItem.subMenuName?.toLowerCase()];
+              if (action != null) {
+                action(context);
+              } else {
+                webController.generateWebUrl(
+                    subMenuItem.nevigateUrl, subMenuItem.subMenuName);
+              }
             },
           );
         }).toList(),
@@ -140,20 +155,9 @@ List<Widget> buildMenuItems(BuildContext context) {
           ),
         ),
         onTap: () {
-          if (menuItem.menuName == 'Visitor New') {
-            final GetPassController getPassController =
-                Get.find<GetPassController>();
-
-            getPassController.getVisitorHistory();
-            getPassController.showvisitorDetails.value = false;
-            getPassController.showErrorfield.value = false;
-            getPassController.showvisitoryHistory.value = false;
-            Get.toNamed(Routes.visitorHistory);
-          } else {
-            webController.appBarName.value = menuItem.menuName.toString();
-            Navigator.pop(context);
-            webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
-          }
+          webController.appBarName.value = menuItem.menuName.toString();
+          Navigator.pop(context);
+          webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
         },
       );
     }

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Modal/weburl_model.dart';
 import 'package:campuspro/Repository/gerenateurl_repository.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -12,7 +13,7 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class WebController extends GetxController {
   late final PlatformWebViewControllerCreationParams params;
-
+  RxInt selectedBottomNavIndex = 0.obs;
   var viewcontroller = Rxn<WebViewController>();
   var currentUrl = ''.obs;
   var pageLoader = false.obs;
@@ -23,6 +24,16 @@ class WebController extends GetxController {
   //   super.onClose();
   //   viewcontroller.value = null;
   // }
+
+  void onItemTappedChangeBottomNavIndex(int index) {
+    switch (index) {
+      case 1:
+        Get.offAllNamed(Routes.userType);
+        selectedBottomNavIndex.value = 0;
+      default:
+        selectedBottomNavIndex.value = index;
+    }
+  }
 
   Future<void> initializeWebViewController(url) async {
     currentUrl.value = url;
