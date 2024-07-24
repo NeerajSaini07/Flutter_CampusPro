@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unused_local_variable
+
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -84,10 +86,8 @@ initializeNotification() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
+    //AndroidNotification? android = message.notification?.android;
     if (notification != null) {
-      print("Notification Title : ${notification.title}");
-      print("Notification Body : ${notification.body}");
       flutterLocalNotificationsPlugin.show(
           notification.hashCode,
           notification.title,
@@ -98,7 +98,8 @@ initializeNotification() async {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              icon: "@mipmap/ic_launcher",
+              //  icon: "@mipmap/ic_launcher",
+
               largeIcon: DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
 
               // User For Providing expanded button in notification such that to show all body text

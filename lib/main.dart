@@ -34,6 +34,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await NotificationService().initialize();
+  initializeNotification();
 
   DependencyInjection.init();
   Get.put(ConnectivityService());

@@ -309,4 +309,31 @@ class GetPassRepository {
     });
     return response;
   }
+
+  static Future<dynamic> getPassHistory() async {
+    int usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    var visitorlistRequest = {
+      "OUserId": UserLogin.loginDetails[0].oUserid,
+      "Token": FcmTokenList.tokenlist[0].token,
+      "OrgId": UserTypeslist.userTypesDetails[usertypeIndex].organizationId,
+      "Schoolid": UserTypeslist.userTypesDetails[usertypeIndex].schoolId,
+      "StuEmpId": UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId,
+      "UserType": UserTypeslist.userTypesDetails[usertypeIndex].ouserType,
+      //"MeetToId": "0"
+    };
+
+    print(visitorlistRequest);
+    print(APIENDPOINT.getVisitorListApi);
+
+    BaseApiServices apiServices = NetworkApiServices();
+
+    try {
+      dynamic response = await apiServices.postApiRequest(
+          visitorlistRequest, APIENDPOINT.getGatePassHistoryApi);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

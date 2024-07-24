@@ -91,6 +91,9 @@ List<Widget> buildMenuItems(BuildContext context) {
     "student bus location": (BuildContext context) {
       busTrackerController.getBusAllot(context);
     },
+    "Visitor New": (BuildContext context) {
+      return Navigator.pushNamed(context, Routes.visitorHistory);
+    },
   };
   return MenuItemList.menuItemDetails.map((menuItem) {
     if (menuItem.subMenu != null && menuItem.subMenu!.isNotEmpty) {
@@ -155,9 +158,13 @@ List<Widget> buildMenuItems(BuildContext context) {
           ),
         ),
         onTap: () {
-          webController.appBarName.value = menuItem.menuName.toString();
-          Navigator.pop(context);
-          webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
+          if (menuItem.menuName == 'Visitor New') {
+            Navigator.pushNamed(context, Routes.visitorHistory);
+          } else {
+            webController.appBarName.value = menuItem.menuName.toString();
+            Navigator.pop(context);
+            webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
+          }
         },
       );
     }
