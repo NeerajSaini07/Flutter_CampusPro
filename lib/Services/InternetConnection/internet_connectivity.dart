@@ -10,7 +10,6 @@ class ConnectivityService extends GetxService {
   String? previousRoute;
 
   final WebController webController = Get.find<WebController>();
-
   @override
   void onInit() {
     super.onInit();

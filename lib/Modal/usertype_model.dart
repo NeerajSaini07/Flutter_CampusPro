@@ -33,7 +33,6 @@ class UserTypeModel {
   String? baseDomainURL = "";
   String? appUrl = "";
   String? userName = "";
-  //
   String? dashboardUrl = "";
   String? dashboardType = "";
 

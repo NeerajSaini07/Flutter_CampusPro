@@ -1,4 +1,6 @@
 // ignore: file_names
+// ignore_for_file: constant_identifier_names
+
 class Routes {
   static const String splash = '/splash';
   static const String webview = '/webview';
@@ -8,4 +10,5 @@ class Routes {
   static const String opt = 'otp';
   static const String CreatePassword = '/CreatePassword';
   static const String noInternet = '/noInternet';
+  static const String visitorHistory = '/visitorHistory';
 }

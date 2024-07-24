@@ -6,13 +6,17 @@ import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
 import 'package:campuspro/Screens/forgot_password_screen.dart';
+import 'package:campuspro/Screens/getpass/visitor_history.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
 import 'package:campuspro/Services/notificationService/notification_service.dart';
 import 'package:campuspro/Utilities/routes.dart';
+import 'package:campuspro/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,17 +27,14 @@ import 'Screens/splash_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-// @pragma('vm:entry-point')
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp();
-
-//   log('Handling a background message: ${message.messageId}');
-// }
-
 void main() async {
-  DependencyInjection.init();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await NotificationService().initialize();
+
+  DependencyInjection.init();
   Get.put(ConnectivityService());
   final token = await FirebaseMessaging.instance.getToken();
   log("FCM Token generated => $token");
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initializeNotification();
+    //initializeNotification();
   }
 
   @override
@@ -81,6 +82,7 @@ class _MyAppState extends State<MyApp> {
               Routes.opt: (context) => OTPScreen(),
               Routes.webview: (context) => WebViewScreen(),
               Routes.noInternet: (context) => NoInternetScreen(),
+              Routes.visitorHistory: (context) => GetPassvisitorHistory(),
             },
             home: SplashScreen());
       },

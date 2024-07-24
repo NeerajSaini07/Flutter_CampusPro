@@ -2,6 +2,7 @@
 
 import 'dart:io' show Platform;
 
+import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
@@ -139,9 +140,20 @@ List<Widget> buildMenuItems(BuildContext context) {
           ),
         ),
         onTap: () {
-          webController.appBarName.value = menuItem.menuName.toString();
-          Navigator.pop(context);
-          webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
+          if (menuItem.menuName == 'Visitor New') {
+            final GetPassController getPassController =
+                Get.find<GetPassController>();
+
+            getPassController.getVisitorHistory();
+            getPassController.showvisitorDetails.value = false;
+            getPassController.showErrorfield.value = false;
+            getPassController.showvisitoryHistory.value = false;
+            Get.toNamed(Routes.visitorHistory);
+          } else {
+            webController.appBarName.value = menuItem.menuName.toString();
+            Navigator.pop(context);
+            webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
+          }
         },
       );
     }

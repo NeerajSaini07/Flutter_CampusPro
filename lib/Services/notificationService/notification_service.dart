@@ -7,9 +7,9 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 class NotificationService {
   Future initialize() async {
-    await Firebase.initializeApp();
-    FirebaseMessaging.instance.requestPermission(
-        alert: true, badge: true, carPlay: true, sound: true);
+    //await Firebase.initializeApp();
+    // FirebaseMessaging.instance.requestPermission(
+    //     alert: true, badge: true, carPlay: true, sound: true);
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     await flutterLocalNotificationsPlugin

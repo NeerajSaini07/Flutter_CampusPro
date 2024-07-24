@@ -4,9 +4,23 @@ class APIENDPOINT {
   static const baseUrl = 'https://fmobile.campuspro.in/api/';
   //-------LOGIN----------------------------------------------------------------
   static const loginApi = baseUrl + "AutheticateLogin";
+
+  // **********************************************
   static const userTypeApi = baseUrl + "GetOurSchools";
   static const sendOtpForgotPassword = baseUrl + "SendOtpForgetPassword";
   static const drawerApi = baseUrl + "Managemenu";
   static const gotoWebApp = baseUrl + "GotoWebApp4Flutter";
   static const saveFcmToken = baseUrl + "UpdateLastActive_fcmtokenwebnew";
+
+  // ************************ Gate Pass *************************
+  static const searchRequest = baseUrl + "searchNoDetails_V1";
+  static const gatePassMeetToApi = baseUrl + "getVisitorMeetTo_v1";
+  static const gatePassPurposeApi = baseUrl + "getVisitorPurpose_v1";
+  static const gatePassVerifyOtpApi = baseUrl + "verifyVisitorOtp_V1";
+  static const saveVisitorGatePassApi = baseUrl + "updateVisitorDetailV1";
+  static const getVisitorListApi = baseUrl + "getVisitorListToday_V1";
+  static const markVisitorExitApi = baseUrl + "markVisitorExit_V1";
+  static const markGatePassExitApi = baseUrl + "markGatePassExit";
+  static const verifyIdGatePass = baseUrl + "updateVisitorIdProofV1";
+  static const getGatePassHistoryApi = baseUrl + "getGatePasssListToday";
 }
