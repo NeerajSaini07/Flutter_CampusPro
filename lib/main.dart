@@ -33,7 +33,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await NotificationService().initialize();
+  // Initialize NotificationService
+  NotificationService notificationService = NotificationService();
+  await notificationService.initialize();
+  initializeNotification();
 
   DependencyInjection.init();
   Get.put(ConnectivityService());
@@ -42,19 +45,8 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    //initializeNotification();
-  }
 
   @override
   Widget build(BuildContext context) {

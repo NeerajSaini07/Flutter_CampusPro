@@ -98,8 +98,10 @@ initializeNotification() async {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              icon: "@mipmap/ic_launcher",
-              largeIcon: DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
+              icon: "@mipmap/ic_notification",
+
+              largeIcon:
+                  DrawableResourceAndroidBitmap("@mipmap/ic_notification"),
 
               // User For Providing expanded button in notification such that to show all body text
               styleInformation: BigTextStyleInformation(''),
