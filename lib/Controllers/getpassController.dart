@@ -62,59 +62,67 @@ class GetPassController extends GetxController {
     showErrorfield.value = false;
     showOTPwidget.value = false;
     // finding ther userindex from chache ***************************************
-    int usertypeIndex =
-        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    await GetPassRepository.searchvistor().then((value) {
-      //  *******************  if data is empty ******************
-      if (value['Status'] == 'Cam-006') {
-        // ***********************  if visitor is mother or father ************
-        if (visitorTyep.value == 'Father' || visitorTyep.value == 'Mother') {
-          errorMessage.value = "Mobile Number Not Registered";
+    if (mobileNo.value.isNotEmpty) {
+      int usertypeIndex =
+          await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+      await GetPassRepository.searchvistor().then((value) {
+        //  *******************  if data is empty ******************
+        if (value['Status'] == 'Cam-006') {
+          // ***********************  if visitor is mother or father ************
+          if (visitorTyep.value == 'Father' || visitorTyep.value == 'Mother') {
+            errorMessage.value = "Mobile Number Not Registered";
 
 //  ******************************** make it false if any is true **************
-          showErrorfield.value = true;
-          showOTPwidget.value = false;
-          showvisitorDetails.value = false;
+            showErrorfield.value = true;
+            showOTPwidget.value = false;
+            showvisitorDetails.value = false;
 
-          //  *******************************other ************************
-        } else {
-          showErrorfield.value = false;
-          errorMessage.value = '';
+            //  *******************************other ************************
+          } else {
+            showErrorfield.value = false;
+            errorMessage.value = '';
+            List<dynamic> data = value['Data'];
+            VisitorData.visitorListDetails =
+                data.map((json) => VisitorDataModel.fromJson(json)).toList();
+//   ***************** if otp is enable *********************************
+
+            if (UserTypeslist
+                    .userTypesDetails[usertypeIndex].sendOtpToVisitor ==
+                'Y') {
+              showOTPwidget.value = true;
+
+              //  show details page ***************************************
+            } else {
+              showOTPwidget.value = false;
+              showvisitorDetails.value = true;
+              showErrorfield.value = false;
+              errorMessage.value = '';
+            }
+          }
+        }
+
+        // ***********************  if respose is succcess **********************
+        else if (value['Status'] == 'Cam-001') {
           List<dynamic> data = value['Data'];
           VisitorData.visitorListDetails =
               data.map((json) => VisitorDataModel.fromJson(json)).toList();
-//   ***************** if otp is enable *********************************
-
           if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor ==
               'Y') {
             showOTPwidget.value = true;
-
-            //  show details page ***************************************
           } else {
             showOTPwidget.value = false;
             showvisitorDetails.value = true;
-            showErrorfield.value = false;
-            errorMessage.value = '';
           }
         }
-      }
-
-      // ***********************  if respose is succcess **********************
-      else if (value['Status'] == 'Cam-001') {
-        List<dynamic> data = value['Data'];
-        VisitorData.visitorListDetails =
-            data.map((json) => VisitorDataModel.fromJson(json)).toList();
-        if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor ==
-            'Y') {
-          showOTPwidget.value = true;
-        } else {
-          showOTPwidget.value = false;
-          showvisitorDetails.value = true;
-        }
-      }
 
 // Storing data in model for dispalying ************************************
-    });
+      });
+    } else {
+      errorMessage.value = "Enter Mobile Number";
+      showErrorfield.value = true;
+      showOTPwidget.value = false;
+      showvisitorDetails.value = false;
+    }
   }
 
   // *********************************************get visitor History ******************

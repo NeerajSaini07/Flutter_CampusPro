@@ -69,7 +69,7 @@ class WebController extends GetxController {
         style.type = 'text/css';
         style.innerHTML = '.topbar { display: none !important; }';
         document.getElementsByTagName('head')[0].appendChild(style);
-      """);
+        """);
           },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {

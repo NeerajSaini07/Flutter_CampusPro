@@ -27,4 +27,6 @@ class APIENDPOINT {
   static const schoolBusRouteApi = baseUrl + "MapRealData";
   static const schoolBusLiveLocationApi = baseUrl + "VehicleDetails";
   static const schoolBusDetailApi = baseUrl + "Stutansportreport";
+  static const transportStudentdDetailsApi =
+      baseUrl + "FillTransportStudentDetail_V1";
 }

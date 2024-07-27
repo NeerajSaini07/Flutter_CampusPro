@@ -5,11 +5,14 @@ import 'dart:io' show Platform;
 
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
+import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
+import 'package:campuspro/Screens/TransportModule/studentList/student_list_screen.dart';
 import 'package:campuspro/Screens/TransportModule/transport_dashboard_screen.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
+import 'package:campuspro/Screens/getpass/visitor_history.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/drawer_image.dart';
@@ -93,6 +96,13 @@ List<Widget> buildMenuItems(BuildContext context) {
     "student bus location": (BuildContext context) {
       busTrackerController.getBusAllot(context);
     },
+    "visitor new": (BuildContext context) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GetPassvisitorHistory(),
+          ));
+    },
   };
   return MenuItemList.menuItemDetails.map((menuItem) {
     if (menuItem.subMenu != null && menuItem.subMenu!.isNotEmpty) {
@@ -169,11 +179,9 @@ List<Widget> buildMenuItems(BuildContext context) {
                         .toString()
                         .toLowerCase() ==
                     "t") {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TransportDashboard(),
-                  ));
+              Get.lazyPut<TransportStudentListController>(
+                  () => TransportStudentListController());
+              Get.to(() => TransportStudentList());
             } else {
               final action = specialActions[menuItem.menuName?.toLowerCase()];
               if (action != null) {

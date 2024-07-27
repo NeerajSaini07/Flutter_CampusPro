@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -32,29 +34,42 @@ void prompt(String url) async {
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('Handling a background message ${message.data}');
-  // print(message.data);
-  // flutterLocalNotificationsPlugin.show(
-  //     message.data.hashCode,
-  //     message.data['title'],
-  //     // message.data['body'],
-  //     "Notification",
-  //     NotificationDetails(
-  //       android: AndroidNotificationDetails(
-  //         channel.id,
-  //         channel.name,
-  //         channel.description,
-  //         icon: "@mipmap/icon",
-  //         largeIcon: DrawableResourceAndroidBitmap("@mipmap/launcher_icon"),
-  //       ),
-  //     ));
+  log('Handling a background message ${message.data}');
+  RemoteNotification? notification = message.notification;
+  AndroidNotification? android = message.notification?.android;
+  if (notification != null && android != null) {
+    log("Notification Title : ${notification.title}");
+    log("Notification Body : ${notification.body}");
+    flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          iOS: DarwinNotificationDetails(
+              presentSound: true, presentAlert: true, presentBadge: true),
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            icon: "@drawable/file",
+            importance: Importance.max,
+            priority: Priority.max,
+            visibility: NotificationVisibility.public,
+            largeIcon:
+                DrawableResourceAndroidBitmap("@drawable/ic_notification"),
+
+            // User For Providing expanded button in notification such that to show all body text
+            styleInformation: BigTextStyleInformation(''),
+          ),
+        ));
+  }
 }
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
-  // 'This channel is used for important notifications.', // description
-  importance: Importance.high,
+  description:
+      'This channel is used for important notifications.', // description
+  importance: Importance.max,
 );
 // final IOSFlutterLocalNotificationsPlugin iosChannel=IOSFlutterLocalNotificationsPlugin();
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -85,9 +100,9 @@ initializeNotification() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
-    if (notification != null) {
-      print("Notification Title : ${notification.title}");
-      print("Notification Body : ${notification.body}");
+    if (notification != null && android != null) {
+      log("Notification Title : ${notification.title}");
+      log("Notification Body : ${notification.body}");
       flutterLocalNotificationsPlugin.show(
           notification.hashCode,
           notification.title,
@@ -98,10 +113,12 @@ initializeNotification() async {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              icon: "@mipmap/ic_notification",
-
+              icon: "@drawable/file",
+              importance: Importance.max,
+              priority: Priority.max,
+              visibility: NotificationVisibility.public,
               largeIcon:
-                  DrawableResourceAndroidBitmap("@mipmap/ic_notification"),
+                  DrawableResourceAndroidBitmap("@drawable/ic_notification"),
 
               // User For Providing expanded button in notification such that to show all body text
               styleInformation: BigTextStyleInformation(''),
@@ -147,7 +164,7 @@ Future onDidReceiveLocalNotification(
 
 Future<void> getToken() async {
   final token = await FirebaseMessaging.instance.getToken();
-  print("FCM Token generated => $token");
+  log("FCM Token generated => $token");
   await Sharedprefdata.storeStringData(
       Sharedprefdata.fcmToken, token.toString());
 }
