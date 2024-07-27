@@ -85,6 +85,8 @@ class GetPassController extends GetxController {
             showErrorfield.value = false;
             errorMessage.value = '';
             List<dynamic> data = value['Data'];
+
+            log(data.toString());
             VisitorData.visitorListDetails =
                 data.map((json) => VisitorDataModel.fromJson(json)).toList();
 //   ***************** if otp is enable *********************************
@@ -136,8 +138,6 @@ class GetPassController extends GetxController {
 
     final value = await GetPassRepository.getvisitorHistory();
     List<dynamic> data = value['Data'];
-    print(data);
-
     VisitorHistory.visitorHistoryListDetails =
         data.map((json) => VisitorHistoryModal.fromJson(json)).toList();
 
@@ -242,20 +242,12 @@ class GetPassController extends GetxController {
     });
   }
 
-  bool hasExitTime(int index) {
-    if (index < exitTimes.length) {
-      return exitTimes[index].isNotEmpty;
-    }
-    return false;
-  }
-
   markVisitorExitApi(index) async {
     GetPassRepository.exitVisitor(index).then((value) async {
       await getVisitorHistory();
       showvisitoryHistory.value = false;
       await Future.delayed(const Duration(microseconds: 100));
       showvisitoryHistory.value = true;
-      hasExitTime(index);
     });
   }
 
@@ -279,19 +271,9 @@ class GetPassController extends GetxController {
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 
-    log("checking to call pass");
-
-    final value = await GetPassRepository.getPassHistory();
-    print(value);
-    List<dynamic> data = value['Data'];
-    print(data);
-
-    // VisitorHistory.visitorHistoryListDetails =
-    //     data.map((json) => VisitorHistoryModal.fromJson(json)).toList();
-
-    // if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor == 'Y') {
-    //   showOTPwidget.value = false;
-    // }
+    GetPassRepository.getPassHistory().then((value) {
+      print(value);
+    });
 
     return VisitorHistory.visitorHistoryListDetails;
   }

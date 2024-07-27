@@ -44,6 +44,8 @@ class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
   @override
   Widget build(BuildContext context) {
     final GetPassController getPassController = Get.find<GetPassController>();
+
+    print(VisitorData.visitorListDetails);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
@@ -66,12 +68,8 @@ class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: double.infinity.w,
-                    // height: getPassController.showErrorfield.value
-                    //     ? 320.h
-                    //     : 300.h,
+                    width: double.infinity,
                     child: Card(
-                      color: Colors.white,
                       margin: EdgeInsets.all(8.0.sp),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14.0.sp),
@@ -280,8 +278,11 @@ Widget ShowVisitordata(BuildContext context) {
                       onTap: () {
                         getPassController.visitorImagepicker();
                       },
-                      child: Image.network(
-                          VisitorData.visitorListDetails.last.imagePath!),
+                      child: FadeInImage.assetNetwork(
+                        image: VisitorData.visitorListDetails[0].visitorImage
+                            .toString(),
+                        placeholder: "assets/icon/person_icon.png",
+                      ),
                     );
                   } else if (getPassController.visitorImage.value.isNotEmpty) {
                     return Image.file(

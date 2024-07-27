@@ -2,6 +2,7 @@
 
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/dialogbox.dart';
+import 'package:campuspro/Screens/getpass/history_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,7 +22,10 @@ Widget overflowbutton(BuildContext context) {
         backgroundColor: Colors.red,
       ),
       onPressed: () {
-        showGetpassDilaog(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return VisitorHistoryPage();
+        }));
+        //showGetpassDilaog(context);
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,

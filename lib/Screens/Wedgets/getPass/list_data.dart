@@ -23,7 +23,7 @@ Widget historyData(index) {
           DataCell(Container(
             alignment: Alignment.center,
             child: Padding(
-              padding: EdgeInsets.only(top: 3),
+              padding: const EdgeInsets.only(top: 3),
               child: Image.network(
                 VisitorHistory.visitorHistoryListDetails[index].visitorImagePath
                     .toString(),
@@ -31,6 +31,13 @@ Widget historyData(index) {
                 height: 100, // Set desired height
                 fit: BoxFit
                     .cover, // Fit the image within the specified dimensions
+                errorBuilder: (BuildContext context, Object error,
+                    StackTrace? stackTrace) {
+                  print("comming here");
+                  // Handle image loading errors and show a default image
+                  return Image.asset(
+                      'assets/icon/person_icon.png'); // Default image
+                },
               ),
             ),
           )),

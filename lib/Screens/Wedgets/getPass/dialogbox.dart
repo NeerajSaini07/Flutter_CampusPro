@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
-import 'dart:js';
-
 import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/getpass_list.dart';
 import 'package:flutter/material.dart';

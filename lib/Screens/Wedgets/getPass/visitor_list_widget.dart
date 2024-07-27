@@ -96,12 +96,21 @@ Widget ShowvistoryList() {
                               child: Padding(
                                 padding: EdgeInsets.only(top: 3),
                                 child: Image.network(
-                                  snapshot.data![index].visitorImagePath
+                                  VisitorHistory
+                                      .visitorHistoryListDetails[index]
+                                      .visitorImagePath
                                       .toString(),
-                                  width: 80, // Set desired width
-                                  height: 120, // Set desired height
+                                  width: 70, // Set desired width
+                                  height: 100, // Set desired height
                                   fit: BoxFit
                                       .cover, // Fit the image within the specified dimensions
+                                  errorBuilder: (BuildContext context,
+                                      Object error, StackTrace? stackTrace) {
+                                    print("comming here");
+                                    // Handle image loading errors and show a default image
+                                    return Image.asset(
+                                        'assets/icon/person_icon.png'); // Default image
+                                  },
                                 ),
                               ),
                             )),

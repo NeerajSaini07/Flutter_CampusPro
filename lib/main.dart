@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:developer';
-
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
@@ -17,12 +15,10 @@ import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'Dependency_injection/injection.dart';
 import 'Screens/splash_screen.dart';
 
@@ -33,13 +29,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await NotificationService().initialize();
   initializeNotification();
-
   DependencyInjection.init();
   Get.put(ConnectivityService());
-  final token = await FirebaseMessaging.instance.getToken();
-  log("FCM Token generated => $token");
   runApp(const MyApp());
 }
 
@@ -59,6 +51,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     final textTheme = Theme.of(context).textTheme;
     return ScreenUtilInit(
       designSize: const Size(360, 690),
@@ -67,7 +60,6 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         return GetMaterialApp(
             theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
                 textTheme: GoogleFonts.latoTextTheme(textTheme)),
             debugShowCheckedModeBanner: false,
@@ -90,5 +82,10 @@ class _MyAppState extends State<MyApp> {
             home: SplashScreen());
       },
     );
+  }
+
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    print("Handling a background message: ${message.messageId}");
   }
 }

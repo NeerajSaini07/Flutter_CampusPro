@@ -141,10 +141,10 @@ packages:
     dependency: transitive
     description:
       name: file
-      sha256: "5fc22d7c25582e38ad9a8515372cd9a93834027aacf1801cf01164dac0ffa08c"
+      sha256: "1b92bec4fc2a72f59a8e15af5f52cd441e4a7860b49499d69dfa817af20e925d"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "6.1.4"
   file_selector_linux:
     dependency: transitive
     description:
@@ -177,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+2"
+  firebase_analytics_platform_interface:
+    dependency: "direct main"
+    description:
+      name: firebase_analytics_platform_interface
+      sha256: "4ea00fe31ff74c92c613e082193b55bd21f0653b536dd77cc1ba4cf60771d214"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0"
   firebase_core:
     dependency: "direct main"
     description:
@@ -210,7 +218,7 @@ packages:
     source: hosted
     version: "15.0.3"
   firebase_messaging_platform_interface:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: firebase_messaging_platform_interface
       sha256: "10408c5ca242b7fc632dd5eab4caf8fdf18ebe88db6052980fa71a18d88bd200"
@@ -225,19 +233,67 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.8.11"
-  fixnum:
-    dependency: transitive
-    description:
-      name: fixnum
-      sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_inappwebview:
+    dependency: "direct main"
+    description:
+      name: flutter_inappwebview
+      sha256: "3e9a443a18ecef966fb930c3a76ca5ab6a7aafc0c7b5e14a4a850cf107b09959"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
+  flutter_inappwebview_android:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_android
+      sha256: d247f6ed417f1f8c364612fa05a2ecba7f775c8d0c044c1d3b9ee33a6515c421
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.13"
+  flutter_inappwebview_internal_annotations:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_internal_annotations
+      sha256: "5f80fd30e208ddded7dbbcd0d569e7995f9f63d45ea3f548d8dd4c0b473fb4c8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
+  flutter_inappwebview_ios:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_ios
+      sha256: f363577208b97b10b319cd0c428555cd8493e88b468019a8c5635a0e4312bd0f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.13"
+  flutter_inappwebview_macos:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_macos
+      sha256: b55b9e506c549ce88e26580351d2c71d54f4825901666bd6cfa4be9415bb2636
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.11"
+  flutter_inappwebview_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_platform_interface
+      sha256: "545fd4c25a07d2775f7d5af05a979b2cac4fbf79393b0a7f5d33ba39ba4f6187"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.10"
+  flutter_inappwebview_web:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview_web
+      sha256: d8c680abfb6fec71609a700199635d38a744df0febd5544c5a020bd73de8ee07
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.8"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -304,54 +360,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.7.0"
-  geolocator:
-    dependency: "direct main"
-    description:
-      name: geolocator
-      sha256: "149876cc5207a0f5daf4fdd3bfcf0a0f27258b3fe95108fa084f527ad0568f1b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "12.0.0"
-  geolocator_android:
-    dependency: transitive
-    description:
-      name: geolocator_android
-      sha256: "00c7177a95823dd3ee35ef42fd8666cd27d219ae14cea472ac76a21dff43000b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.6.0"
-  geolocator_apple:
-    dependency: transitive
-    description:
-      name: geolocator_apple
-      sha256: bc2aca02423ad429cb0556121f56e60360a2b7d694c8570301d06ea0c00732fd
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.7"
-  geolocator_platform_interface:
-    dependency: transitive
-    description:
-      name: geolocator_platform_interface
-      sha256: "386ce3d9cce47838355000070b1d0b13efb5bc430f8ecda7e9238c8409ace012"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.2.4"
-  geolocator_web:
-    dependency: transitive
-    description:
-      name: geolocator_web
-      sha256: "7a22f400d831f924a89d931ba126a10e6b8b437f31e6b9311320435f3e1571bd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
-  geolocator_windows:
-    dependency: transitive
-    description:
-      name: geolocator_windows
-      sha256: "53da08937d07c24b0d9952eb57a3b474e29aae2abf9dd717f7e1230995f13f0e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.3"
   get:
     dependency: "direct main"
     description:
@@ -688,6 +696,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  process:
+    dependency: transitive
+    description:
+      name: process
+      sha256: "53fd8db9cec1d37b0574e12f07520d582019cb6c44abf5479a01505099a34a09"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.4"
   sanitize_html:
     dependency: transitive
     description:
@@ -773,14 +789,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
-  sprintf:
-    dependency: transitive
-    description:
-      name: sprintf
-      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.0.0"
   stack_trace:
     dependency: transitive
     description:
@@ -909,14 +917,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      sha256: "83d37c7ad7aaf9aa8e275490669535c8080377cfa7a7004c24dfac53afffaa90"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.4.2"
   vector_math:
     dependency: transitive
     description:
@@ -977,10 +977,10 @@ packages:
     dependency: transitive
     description:
       name: xdg_directories
-      sha256: faea9dee56b520b55a566385b84f2e8de55e7496104adada9962e0bd11bcff1d
+      sha256: bd512f03919aac5f1313eb8249f223bacf4927031bf60b02601f81f687689e86
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "0.2.0+3"
   xml:
     dependency: transitive
     description:

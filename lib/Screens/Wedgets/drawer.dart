@@ -1,18 +1,20 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:developer';
 import 'dart:io' show Platform;
 
+//import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
+
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/drawer_image.dart';
 import 'package:campuspro/Utilities/routes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -160,6 +162,9 @@ List<Widget> buildMenuItems(BuildContext context) {
         onTap: () {
           if (menuItem.menuName == 'Visitor New') {
             Navigator.pushNamed(context, Routes.visitorHistory);
+          } else if (menuItem.menuName == 'Student Bus Location') {
+            busTrackerController.getBusAllot(context);
+            Navigator.pop(context);
           } else {
             webController.appBarName.value = menuItem.menuName.toString();
             Navigator.pop(context);

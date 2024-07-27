@@ -54,7 +54,7 @@ class BusTrackerController extends GetxController {
                         .toLowerCase() ==
                     "f") {
               //Alert : "Bus is not running at this time"
-              Navigator.pop(context);
+              // Navigator.pop(context);
               Get.dialog(
                 const CustomDialog(
                   icon: Icons.warning_amber_rounded,
@@ -75,7 +75,7 @@ class BusTrackerController extends GetxController {
                         .toLowerCase() ==
                     "f") {
               //Alert : "Bus is not assigned"
-              Navigator.pop(context);
+              // Navigator.pop(context);
               Get.dialog(
                 const CustomDialog(
                   icon: Icons.warning_amber_rounded,

@@ -35,10 +35,7 @@ class UserTypeController extends GetxController {
     //  ************************  storig user details *******************
 
     await getUsers();
-
     // **********************************  Generat fcm Token **************
-    await fcmTokenController.getFCMToken();
-
     int index = indexMap?.values.first ?? -1;
 //  **************************** Stroing index of the currect user  ********************************
     await Sharedprefdata.storeIntegerData(Sharedprefdata.userTypeIndex, index);
