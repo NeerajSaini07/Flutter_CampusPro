@@ -29,8 +29,8 @@ class GetPassRepository {
       "MeetToId": "0"
     };
 
-    print(visitorlistRequest);
-    print(APIENDPOINT.getVisitorListApi);
+    // print(visitorlistRequest);
+    // print(APIENDPOINT.getVisitorListApi);
 
     BaseApiServices apiServices = NetworkApiServices();
 
@@ -264,11 +264,12 @@ class GetPassRepository {
       "OtherDet": "null",
       "MeetToId": getPassController.selectedOption.value,
       "PurposeId": getPassController.selectedPurpose.value,
-      "OtherPurpose": 'yyyy',
+      "OtherPurpose": getPassController.otherMessage.value,
       "VisitorId": VisitorData.visitorListDetails.last.visitorId.toString(),
       "Flag": "F",
     };
     log(requestdata.toString());
+    log(APIENDPOINT.saveVisitorGatePassApi);
 
     BaseApiServices apiServices = NetworkApiServices();
     try {
@@ -308,5 +309,34 @@ class GetPassRepository {
       throw stackTrace;
     });
     return response;
+  }
+
+  static Future<dynamic> getPassHistory() async {
+    int usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    var visitorlistRequest = {
+      "OUserId": UserLogin.loginDetails[0].oUserid.toString(),
+      "Token": FcmTokenList.tokenlist[0].token.toString(),
+      "OrgId": UserTypeslist.userTypesDetails[usertypeIndex].organizationId
+          .toString(),
+      "Schoolid":
+          UserTypeslist.userTypesDetails[usertypeIndex].schoolId.toString(),
+      "StuEmpId":
+          UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
+      "UserType":
+          UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
+      //"MeetToId": "0"
+    };
+
+    log(visitorlistRequest.toString());
+
+    BaseApiServices apiServices = NetworkApiServices();
+    try {
+      dynamic response = await apiServices.postApiRequest(
+          visitorlistRequest, APIENDPOINT.getGatePassHistoryApi);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -9,10 +9,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 class NotificationService {
   Future initialize() async {
-    //await Firebase.initializeApp();
-    // FirebaseMessaging.instance.requestPermission(
-    //     alert: true, badge: true, carPlay: true, sound: true);
-
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
@@ -45,7 +41,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         notification.title,
         notification.body,
         NotificationDetails(
-          iOS: DarwinNotificationDetails(
+          iOS: const DarwinNotificationDetails(
               presentSound: true, presentAlert: true, presentBadge: true),
           android: AndroidNotificationDetails(
             channel.id,
@@ -54,11 +50,11 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
             importance: Importance.max,
             priority: Priority.max,
             visibility: NotificationVisibility.public,
-            largeIcon:
-                DrawableResourceAndroidBitmap("@drawable/ic_notification"),
+            largeIcon: const DrawableResourceAndroidBitmap(
+                "@drawable/ic_notification"),
 
             // User For Providing expanded button in notification such that to show all body text
-            styleInformation: BigTextStyleInformation(''),
+            styleInformation: const BigTextStyleInformation(''),
           ),
         ));
   }
@@ -76,11 +72,11 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 initializeNotification() async {
-  final initialzationSettingsAndroid =
+  const initialzationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
 
   //******IOs notification settings */
-  final DarwinInitializationSettings iosInitializationSettings =
+  const DarwinInitializationSettings iosInitializationSettings =
       DarwinInitializationSettings(
     requestSoundPermission: false,
     requestBadgePermission: false,
@@ -88,7 +84,7 @@ initializeNotification() async {
     onDidReceiveLocalNotification: onDidReceiveLocalNotification,
   );
 
-  final initializationSettings = InitializationSettings(
+  const initializationSettings = InitializationSettings(
     android: initialzationSettingsAndroid,
     iOS: iosInitializationSettings,
   );
@@ -108,7 +104,7 @@ initializeNotification() async {
           notification.title,
           notification.body,
           NotificationDetails(
-            iOS: DarwinNotificationDetails(
+            iOS: const DarwinNotificationDetails(
                 presentSound: true, presentAlert: true, presentBadge: true),
             android: AndroidNotificationDetails(
               channel.id,
@@ -117,16 +113,16 @@ initializeNotification() async {
               importance: Importance.max,
               priority: Priority.max,
               visibility: NotificationVisibility.public,
-              largeIcon:
-                  DrawableResourceAndroidBitmap("@drawable/ic_notification"),
+              largeIcon: const DrawableResourceAndroidBitmap(
+                  "@drawable/ic_notification"),
 
               // User For Providing expanded button in notification such that to show all body text
-              styleInformation: BigTextStyleInformation(''),
+              styleInformation: const BigTextStyleInformation(''),
             ),
           ));
     }
   });
-  getToken();
+  //getToken();
 }
 
 Future selectNotification(String? payload) async {
@@ -170,7 +166,7 @@ Future<void> getToken() async {
 }
 
 Future instantNofitication() async {
-  var android = AndroidNotificationDetails(
+  var android = const AndroidNotificationDetails(
     "id",
     "channel",
     icon: "@mipmap/ic_launcher",
@@ -180,10 +176,10 @@ Future instantNofitication() async {
     styleInformation: BigTextStyleInformation(''),
   );
 
-  var ios = DarwinNotificationDetails(
+  var ios = const DarwinNotificationDetails(
       presentAlert: true, presentBadge: true, presentSound: true);
 
-  var platform = new NotificationDetails(android: android, iOS: ios);
+  var platform = NotificationDetails(android: android, iOS: ios);
 
   await flutterLocalNotificationsPlugin.show(
       0, "Instant notification", "Tap to do something", platform,

@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Modal/login_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Services/ApiService/Data/Network/base_api_services.dart';
@@ -34,7 +33,7 @@ class FcmTokenRepository {
           fcmTokenData, APIENDPOINT.saveFcmToken);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

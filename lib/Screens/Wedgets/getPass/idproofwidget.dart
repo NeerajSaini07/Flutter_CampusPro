@@ -3,7 +3,6 @@
 import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 void idProvebottom(BuildContext context) {
   final GetPassController getPassController = Get.find<GetPassController>();

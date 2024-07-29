@@ -300,14 +300,13 @@ class StudentListDetail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  CustomeHeight(6.h),
                   const Divider(
                     height: 1,
                     thickness: 1,
                   ),
                   CustomeHeight(6.h),
-                  headingContent(
-                      heading: "Contact No. : ",
-                      content: sDetail.guardianMobileNo),
+                  headingContent(heading: "Adm No. : ", content: sDetail.admNo),
                   headingContent(
                       heading: "Father Name : ", content: sDetail.fatherName),
                   headingContent(
@@ -346,7 +345,6 @@ class StudentListDetail extends StatelessWidget {
               maxLines: 1,
               style: TextStyle(
                 fontSize: 14.sp,
-                // color: AppColors.primarycolor,
                 fontWeight: FontWeight.w500,
               ),
             ),

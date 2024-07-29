@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:developer';
+
 import 'package:campuspro/Modal/visitor_history_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitordata_model.dart';
@@ -25,7 +27,8 @@ class GetPassController extends GetxController {
   RxString otpValue = ''.obs;
 
 //  tomeet*****************************************
-  var toMeetOptions = <List<dynamic>>[].obs;
+  RxList toMeetOptions = [].obs;
+  RxList<VisitorHistoryModal> vistorData = <VisitorHistoryModal>[].obs;
 
 // ************************  image ************************
   RxString imagesource = ''.obs;
@@ -33,12 +36,13 @@ class GetPassController extends GetxController {
   final picker = ImagePicker();
 
   // ******************************** purpose ****************************
-  var purposelist = <List<dynamic>>[].obs;
+  RxList purposelist = [].obs;
 
   // *********************************** profile update ******************
 
   RxString FullName = ''.obs;
   RxString adress = ''.obs;
+  RxString otherMessage = ''.obs;
   RxString selectedPurpose = ''.obs;
   RxString selectedOption = ''.obs;
 
@@ -61,8 +65,9 @@ class GetPassController extends GetxController {
     // ************************** when click on it then make it false ****************
     showErrorfield.value = false;
     showOTPwidget.value = false;
-    // finding ther userindex from chache ***************************************
+
     if (mobileNo.value.isNotEmpty) {
+      // finding ther userindex from chache ***************************************
       int usertypeIndex =
           await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
       await GetPassRepository.searchvistor().then((value) {
@@ -82,6 +87,8 @@ class GetPassController extends GetxController {
             showErrorfield.value = false;
             errorMessage.value = '';
             List<dynamic> data = value['Data'];
+
+            log(data.toString());
             VisitorData.visitorListDetails =
                 data.map((json) => VisitorDataModel.fromJson(json)).toList();
 //   ***************** if otp is enable *********************************
@@ -133,15 +140,13 @@ class GetPassController extends GetxController {
 
     final value = await GetPassRepository.getvisitorHistory();
     List<dynamic> data = value['Data'];
-    print(data);
-
     VisitorHistory.visitorHistoryListDetails =
         data.map((json) => VisitorHistoryModal.fromJson(json)).toList();
 
     if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor == 'Y') {
       showOTPwidget.value = false;
     }
-
+    vistorData.value = VisitorHistory.visitorHistoryListDetails;
     return VisitorHistory.visitorHistoryListDetails;
   }
 
@@ -174,7 +179,8 @@ class GetPassController extends GetxController {
         var data = value['Data'];
 
         for (var ele1 in data) {
-          toMeetOptions.add([ele1["Name"], ele1["Id"].toString()]);
+          toMeetOptions.value
+              .add({"name": ele1["Name"], "id": ele1["Id"].toString()});
         }
       }
     }).catchError((error) {});
@@ -187,7 +193,7 @@ class GetPassController extends GetxController {
       if (value != null) {
         var data = value['Data'];
         for (var ele1 in data) {
-          purposelist.add([ele1["Name"], ele1["Id"].toString()]);
+          purposelist.add({"name": ele1["Name"], "id": ele1["Id"].toString()});
         }
       }
     }).catchError((error) {
@@ -233,17 +239,11 @@ class GetPassController extends GetxController {
         selectedPurpose.value = '';
         FullName.value = '';
         adress.value = '';
+        otherMessage.value = '';
         showOTPwidget.value = false;
         showvisitorDetails.value = false;
       }
     });
-  }
-
-  bool hasExitTime(int index) {
-    if (index < exitTimes.length) {
-      return exitTimes[index].isNotEmpty;
-    }
-    return false;
   }
 
   markVisitorExitApi(index) async {
@@ -252,7 +252,6 @@ class GetPassController extends GetxController {
       showvisitoryHistory.value = false;
       await Future.delayed(const Duration(microseconds: 100));
       showvisitoryHistory.value = true;
-      hasExitTime(index);
     });
   }
 
@@ -270,5 +269,16 @@ class GetPassController extends GetxController {
 
       // Use pickedFile.path to get the file path
     }
+  }
+
+  Future<List<VisitorHistoryModal>> getpassHistory() async {
+    int usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
+    GetPassRepository.getPassHistory().then((value) {
+      print(value);
+    });
+
+    return VisitorHistory.visitorHistoryListDetails;
   }
 }

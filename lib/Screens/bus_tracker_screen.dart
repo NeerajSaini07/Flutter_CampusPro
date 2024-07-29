@@ -1,4 +1,5 @@
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
+import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,8 +18,9 @@ class BusTrackerScreen extends StatelessWidget {
     });
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.loginscafoldcoolr,
         title: const Text("Bus Tracker"),
-        centerTitle: true,
+        centerTitle: false,
       ),
       body: Obx(() {
         if (busTrackerController.markers.isEmpty) {

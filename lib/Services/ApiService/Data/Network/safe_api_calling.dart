@@ -1,4 +1,3 @@
-import 'package:campuspro/Services/ApiService/app_exception.dart';
 import 'package:campuspro/main.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: sized_box_for_whitespace
 
 import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';
@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget ShowvistoryList() {
+Widget shoGetPasslist() {
   final GetPassController getPassController = Get.find<GetPassController>();
-  getPassController.getVisitorHistory();
+  getPassController.getpassHistory();
   return Stack(
     children: [
       Card(
@@ -18,7 +18,7 @@ Widget ShowvistoryList() {
         child: Container(
           height: 200.h,
           child: FutureBuilder<List<VisitorHistoryModal>>(
-            future: getPassController.getVisitorHistory(),
+            future: getPassController.getpassHistory(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -96,21 +96,12 @@ Widget ShowvistoryList() {
                               child: Padding(
                                 padding: EdgeInsets.only(top: 3),
                                 child: Image.network(
-                                  VisitorHistory
-                                      .visitorHistoryListDetails[index]
-                                      .visitorImagePath
+                                  snapshot.data![index].visitorImagePath
                                       .toString(),
-                                  width: 70, // Set desired width
-                                  height: 100, // Set desired height
+                                  width: 80, // Set desired width
+                                  height: 120, // Set desired height
                                   fit: BoxFit
                                       .cover, // Fit the image within the specified dimensions
-                                  errorBuilder: (BuildContext context,
-                                      Object error, StackTrace? stackTrace) {
-                                    print("comming here");
-                                    // Handle image loading errors and show a default image
-                                    return Image.asset(
-                                        'assets/icon/person_icon.png'); // Default image
-                                  },
                                 ),
                               ),
                             )),
@@ -175,5 +166,3 @@ Widget ShowvistoryList() {
     ],
   );
 }
-
-//123587

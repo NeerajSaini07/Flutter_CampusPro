@@ -22,7 +22,7 @@ class APIENDPOINT {
   static const markVisitorExitApi = baseUrl + "markVisitorExit_V1";
   static const markGatePassExitApi = baseUrl + "markGatePassExit";
   static const verifyIdGatePass = baseUrl + "updateVisitorIdProofV1";
-  static const getGatePassHistoryApi = baseUrl + "getGatePasssListToday";
+  static const getGatePassHistoryApi = baseUrl + "getGatePasssListToday_V1";
   static const checkBusAllotApi = baseUrl + "CheckBusAllot";
   static const schoolBusRouteApi = baseUrl + "MapRealData";
   static const schoolBusLiveLocationApi = baseUrl + "VehicleDetails";
