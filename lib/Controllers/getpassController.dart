@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:campuspro/Modal/gatepass_history_model.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitordata_model.dart';
@@ -25,10 +26,13 @@ class GetPassController extends GetxController {
   RxString visitorTyep = ''.obs;
   RxString mobileNo = ''.obs;
   RxString otpValue = ''.obs;
+  RxInt gatePassId = 0.obs;
 
 //  tomeet*****************************************
   RxList toMeetOptions = [].obs;
   RxList<VisitorHistoryModal> vistorData = <VisitorHistoryModal>[].obs;
+  RxList<GatePassHistoryModel> gatePassHistoryData =
+      <GatePassHistoryModel>[].obs;
 
 // ************************  image ************************
   RxString imagesource = ''.obs;
@@ -150,12 +154,6 @@ class GetPassController extends GetxController {
     return VisitorHistory.visitorHistoryListDetails;
   }
 
-  // *******************************************send otp to vistory ***********
-
-  sendOTPRequest() async {
-    await GetPassRepository.sendingOtpForGatePass().then((value) {});
-  }
-
   // **********************************verify OTP *************************
 
   verifyvisitoryOTP() async {
@@ -174,6 +172,7 @@ class GetPassController extends GetxController {
   }
 
   toMeetdata() async {
+    toMeetOptions.value = [];
     await GetPassRepository.getDataForToMeet().then((value) {
       if (value != null) {
         var data = value['Data'];
@@ -189,11 +188,13 @@ class GetPassController extends GetxController {
   // **********************************************************************
 
   PursposedataGeting() async {
+    purposelist.value = [];
     await GetPassRepository.getPurpose().then((value) {
       if (value != null) {
         var data = value['Data'];
         for (var ele1 in data) {
-          purposelist.add({"name": ele1["Name"], "id": ele1["Id"].toString()});
+          purposelist.value
+              .add({"name": ele1["Name"], "id": ele1["Id"].toString()});
         }
       }
     }).catchError((error) {
@@ -271,14 +272,23 @@ class GetPassController extends GetxController {
     }
   }
 
-  Future<List<VisitorHistoryModal>> getpassHistory() async {
-    int usertypeIndex =
-        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-
+  getpassHistory() {
+    gatePassHistoryData.value = [];
     GetPassRepository.getPassHistory().then((value) {
-      print(value);
+      if (value['Data'] != null) {
+        List<dynamic> data = value['Data'];
+        GatePassHistory.gatePassHistoryList =
+            data.map((json) => GatePassHistoryModel.fromJson(json)).toList();
+        gatePassHistoryData.value = GatePassHistory.gatePassHistoryList;
+      } else {
+        gatePassHistoryData.value = [];
+      }
     });
+  }
 
-    return VisitorHistory.visitorHistoryListDetails;
+  markGatePassExitApi(index) async {
+    GetPassRepository.exitGatePass(index).then((value) async {
+      await getpassHistory();
+    });
   }
 }
