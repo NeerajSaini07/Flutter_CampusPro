@@ -30,8 +30,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   initializeNotification();
+
+  final token = await FirebaseMessaging.instance.getToken();
   DependencyInjection.init();
   Get.put(ConnectivityService());
+
   runApp(const MyApp());
 }
 
