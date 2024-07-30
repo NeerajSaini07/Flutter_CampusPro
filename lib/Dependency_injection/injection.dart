@@ -1,3 +1,5 @@
+import 'package:campuspro/Controllers/appbar_controller.dart';
+import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/exception_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
@@ -15,16 +17,30 @@ import 'package:campuspro/Controllers/web_controller.dart';
 class DependencyInjection {
   static void init() {
     Get.lazyPut<SplashScreenController>(() => SplashScreenController());
+
     Get.lazyPut<LoginController>(() => LoginController());
+
     Get.lazyPut<ForgotPasswordController>(() => ForgotPasswordController());
+
     Get.lazyPut<UserTypeController>(() => UserTypeController());
+
     Get.lazyPut<LogoutController>(() => LogoutController());
+
     Get.lazyPut<ExceptionController>(() => ExceptionController());
+
     Get.lazyPut<WebController>(() => WebController());
+
     Get.lazyPut<FcmTokenController>(() => FcmTokenController());
+
     Get.lazyPut<BusTrackerController>(() => BusTrackerController());
+
     Get.lazyPut<GetPassController>(() => GetPassController());
+
     Get.lazyPut<TransportStudentListController>(
         () => TransportStudentListController());
+
+    Get.lazyPut<AppbarController>(() => AppbarController());
+
+    Get.lazyPut<BottomBarController>(() => BottomBarController());
   }
 }

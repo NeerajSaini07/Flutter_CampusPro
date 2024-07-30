@@ -3,10 +3,14 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Modal/visitordata_model.dart';
+import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
+import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/common_form_component.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
+import 'package:campuspro/Screens/Wedgets/drawer.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/otp.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/overflowButton.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/visitor_list_widget.dart';
@@ -23,43 +27,23 @@ class GetPassvisitorHistory extends StatefulWidget {
 }
 
 class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
-  String? selectedToMeet;
-  String? selectedPurpose;
-
-  // Example dropdown items
-
-  final List<String> purposeOptions = [
-    'Meeting',
-    'Other',
-  ];
-
   final GetPassController getPassController = Get.find<GetPassController>();
-
-  @override
-  void initState() {
-    getPassController.toMeetdata();
-    getPassController.PursposedataGeting();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     final GetPassController getPassController = Get.find<GetPassController>();
+
+    final BottomBarController bottomBarController =
+        Get.find<BottomBarController>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Dashboard',
-          style: TextStyle(color: Colors.white),
+      appBar: customAppBar(context),
+      bottomNavigationBar: Obx(
+        () => BottomNavBar(
+          currentIndex: bottomBarController.selectedBottomNavIndex.value,
+          onTap: bottomBarController.onItemTappedChangeBottomNavIndex,
         ),
-        backgroundColor: AppColors.primarycolor,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: const Icon(Icons.history),
-        //     tooltip: 'Show History',
-        //   ),
-        // ],
       ),
+      drawer: AppDrawer(context),
       body: Stack(
         children: [
           SingleChildScrollView(

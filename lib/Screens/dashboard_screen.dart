@@ -1,18 +1,14 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, unused_local_variable
 
+import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
+import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/drawer.dart';
-import 'package:campuspro/Screens/Wedgets/nev_bar.dart';
-import 'package:campuspro/Screens/bus_tracker_screen.dart';
-import 'package:campuspro/Utilities/colors.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({super.key});
@@ -22,43 +18,12 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Request permission for iOS
-    _firebaseMessaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    // Handle foreground messages
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message while in the foreground!');
-      print('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
-    });
-
-    // Handle background and terminated messages
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('Message clicked!');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     late InAppWebViewController webViewController;
     final WebController webController = Get.find<WebController>();
+    final BottomBarController bottomBarController =
+        Get.find<BottomBarController>();
 
     return PopScope(
       canPop: true,
@@ -66,8 +31,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
         appBar: customAppBar(context),
         bottomNavigationBar: Obx(
           () => BottomNavBar(
-            currentIndex: webController.selectedBottomNavIndex.value,
-            onTap: webController.onItemTappedChangeBottomNavIndex,
+            currentIndex: bottomBarController.selectedBottomNavIndex.value,
+            onTap: bottomBarController.onItemTappedChangeBottomNavIndex,
           ),
         ),
         drawer: AppDrawer(context),
@@ -145,85 +110,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
           }
         }),
       ),
-    );
-  }
-
-  AppBar customAppBar(BuildContext context) {
-    final WebController webController = Get.find<WebController>();
-    return AppBar(
-      backgroundColor: AppColors.primarycolor, // Change to your desired color
-      centerTitle: false,
-      title: Obx(
-        () => Text(
-          webController.appBarName.toString(),
-          style: TextStyle(
-            color: Colors.white, // Change to your desired title color
-            fontSize: 20, // Change to your desired font size
-            fontWeight: FontWeight.bold, // Change to your desired font weight
-          ),
-        ),
-      ),
-      iconTheme: const IconThemeData(color: Colors.white),
-      actions: [
-        PopupMenuButton<String>(
-          icon: Image.asset(
-            'assets/images/person_icon.png',
-            width: 24,
-            height: 24,
-          ),
-          onSelected: (value) {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => BusTrackerScreen(),
-            //     ));
-          },
-          itemBuilder: (BuildContext context) {
-            return [
-              const PopupMenuItem<String>(
-                value: 'change_password',
-                child: ListTile(
-                  leading: Icon(Icons.lock, color: AppColors.primarycolor),
-                  title: Text('Change Password'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'logout',
-                child: ListTile(
-                  leading: Icon(Icons.logout, color: AppColors.primarycolor),
-                  title: Text('Logout'),
-                ),
-              ),
-            ];
-          },
-        ),
-        PopupMenuButton<String>(
-          icon: Badge(
-            label: Text("1"),
-            child: const Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-          ),
-          onSelected: (String value) {
-            // Handle notification item selection
-            print('Selected: $value');
-          },
-          itemBuilder: (BuildContext context) {
-            return List<PopupMenuEntry<String>>.generate(
-              5,
-              (int index) => PopupMenuItem<String>(
-                value: 'Notification $index',
-                child: ListTile(
-                  leading: const Icon(Icons.notifications),
-                  title: Text('Notification $index'),
-                  subtitle: Text('this is detail $index'),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
     );
   }
 }

@@ -44,7 +44,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             child: Image.asset('assets/images/helpdesk.png',
                 width: 24, height: 24),
           ),
-          label: 'F&Q',
+          label: 'Help & Support',
         ),
       ],
       currentIndex: widget.currentIndex,

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
 
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
@@ -38,6 +39,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
 
     final LogoutController logoutController = Get.find<LogoutController>();
     final WebController webController = Get.find<WebController>();
+    final AppbarController appbarController = Get.find<AppbarController>();
     return Scaffold(
         body: SafeArea(
       child: Container(
@@ -100,35 +102,6 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CustomeHeight(18.h),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: 30.w)
-                    //       .copyWith(top: 10.h),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Text(
-                    //         "Choose Account",
-                    //         style: TextStyle(
-                    //             fontSize: 22.sp,
-                    //             color: Colors.black,
-                    //             fontWeight: FontWeight.bold),
-                    //       ),
-                    //       GestureDetector(
-                    //         onTap: () {
-                    //           logoutController.userlogOut();
-                    //         },
-                    //         child: CircleAvatar(
-                    //           radius: 22.w,
-                    //           backgroundColor: AppColors.logoutBg,
-                    //           child: Icon(
-                    //             Icons.logout,
-                    //             color: AppColors.logoutColor,
-                    //           ),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
 
                     FutureBuilder(
                       future: userTypeController.getUsers(),
@@ -253,15 +226,26 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                             .copyWith(bottom: 20.h),
                                     child: InkWell(
                                         onTap: () async {
-                                          webController.appBarName.value =
+                                          // ***************************  calling method for passing url index and page name  with cotext  *********************
+                                          //
+                                          //
+                                          //url: for webview routing ;
+                                          //pagename : for flutter dashboard routing
+                                          // index : fopr finding  user data
+                                          //
+                                          final pagename = UserTypeslist
+                                              .userTypesDetails[index].ouserType
+                                              .toString();
+                                          appbarController.appBarName.value =
                                               "Dashboard";
                                           await userTypeController
                                               .gotoDashBorad(
-                                                  UserTypeslist
-                                                      .userTypesDetails[index]
-                                                      .dashboardUrl
-                                                      .toString(),
-                                                  {index.toString(): index});
+                                            UserTypeslist
+                                                .userTypesDetails[index]
+                                                .dashboardUrl
+                                                .toString(),
+                                            {index.toString(): index},
+                                          );
                                         },
                                         child: userListCard(index)));
                               },

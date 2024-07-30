@@ -1,12 +1,15 @@
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Repository/usertype_repo.dart';
+import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 class UserTypeController extends GetxController {
   getUsers() async {
@@ -33,6 +36,13 @@ class UserTypeController extends GetxController {
 
     final WebController webController = Get.find<WebController>();
 
+    final AppbarController appbarController = Get.find<AppbarController>();
+
+    //  Putting Company Name on
+
+    appbarController.appBarName.value = Constant.schoolName;
+    Constant.dashBoardUrl = url;
+
     //  ************************  storig user details *******************
 
     await getUsers();
@@ -55,8 +65,15 @@ class UserTypeController extends GetxController {
               data.map((json) => DrawerMenu.fromJson(json)).toList();
         });
 
+        // if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
+        //   Get.toNamed(Routes.visitorHistory);
+        // } else {
+        //   Get.toNamed(Routes.webview);
+        // }
+
+        Get.toNamed(Routes.webview);
+
 // ************************************************************************
-        Get.offAllNamed(Routes.webview);
       } catch (e) {
         if (kDebugMode) {
           print(e);
@@ -64,7 +81,7 @@ class UserTypeController extends GetxController {
       }
     }
 
-    webController.gotoWebview(url);
+    //webController.gotoWebview(url);
     webController.currentUrl.value = url;
   }
 }
