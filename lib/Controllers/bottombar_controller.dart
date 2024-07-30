@@ -1,9 +1,7 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
-
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
-
 import 'package:get/get.dart';
 
 class BottomBarController extends GetxController {
@@ -28,7 +26,6 @@ class BottomBarController extends GetxController {
         selectedBottomNavIndex.value = 0;
 
       case 2:
-        // Get.offAllNamed(Routes.userType);
         appbarController.appBarName.value = "Chat";
         webController.generateWebUrl(
             Constant.chatBoatUrl, Constant.chatBoatName);

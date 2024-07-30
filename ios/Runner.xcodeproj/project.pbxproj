@@ -11,6 +11,9 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3540C0AE2C53695100C068DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3540C0AD2C53695100C068DC /* GoogleService-Info.plist */; };
+		357946862C58BA4E00F722A5 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 357946852C58BA4E00F722A5 /* FirebaseCore.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		357946882C58BA5900F722A5 /* FirebaseAnalytics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 357946872C58BA5900F722A5 /* FirebaseAnalytics.xcframework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3579468A2C58BA6100F722A5 /* FirebaseAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 357946892C58BA6100F722A5 /* FirebaseAuth.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -49,6 +52,9 @@
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3540C0AD2C53695100C068DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		357946852C58BA4E00F722A5 /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		357946872C58BA5900F722A5 /* FirebaseAnalytics.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:EQHXZ8M8AV:Google LLC"; lastKnownFileType = wrapper.xcframework; name = FirebaseAnalytics.xcframework; path = Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.xcframework; sourceTree = "<group>"; };
+		357946892C58BA6100F722A5 /* FirebaseAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		359665B92C52838200B9ADB7 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		38259E92162672C369287EA9 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -83,6 +89,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3579468A2C58BA6100F722A5 /* FirebaseAuth.framework in Frameworks */,
+				357946882C58BA5900F722A5 /* FirebaseAnalytics.xcframework in Frameworks */,
+				357946862C58BA4E00F722A5 /* FirebaseCore.framework in Frameworks */,
 				ACA62A2FC7C2F30FBE0C6625 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,6 +172,9 @@
 		EA35893F1500FD6F4CFEB24A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				357946892C58BA6100F722A5 /* FirebaseAuth.framework */,
+				357946872C58BA5900F722A5 /* FirebaseAnalytics.xcframework */,
+				357946852C58BA4E00F722A5 /* FirebaseCore.framework */,
 				9851FEFC7B3199773C8899AB /* Pods_Runner.framework */,
 				43755D96196F5C68AEA4C108 /* Pods_RunnerTests.framework */,
 			);
