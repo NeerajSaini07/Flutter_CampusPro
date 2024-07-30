@@ -39,6 +39,9 @@ Card buildTextField({
       maxLength: maxLength,
       keyboardType: keyboardType,
       style: style,
+      onFieldSubmitted: (value) {
+        print("herer is method call");
+      },
       decoration: InputDecoration(
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
