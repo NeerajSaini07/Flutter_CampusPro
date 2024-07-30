@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
@@ -29,28 +31,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // Initialize NotificationService
+  NotificationService notificationService = NotificationService();
+  await notificationService.initialize();
   initializeNotification();
 
-  final token = await FirebaseMessaging.instance.getToken();
   DependencyInjection.init();
   Get.put(ConnectivityService());
-
+  final token = await FirebaseMessaging.instance.getToken();
+  log("FCM Token generated => $token");
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    //initializeNotification();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +79,5 @@ class _MyAppState extends State<MyApp> {
             home: SplashScreen());
       },
     );
-  }
-
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    print("Handling a background message: ${message.messageId}");
   }
 }

@@ -80,9 +80,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 initialUrlRequest: URLRequest(
                     url: WebUri("${webController.currentUrl.value}")),
                 initialSettings: InAppWebViewSettings(
-                  useHybridComposition: true,
-                  geolocationEnabled: true,
-                ),
+                    useHybridComposition: true, geolocationEnabled: true),
                 onWebViewCreated: (InAppWebViewController controller) =>
                     webViewController = controller,
                 shouldOverrideUrlLoading: (controller, action) async {

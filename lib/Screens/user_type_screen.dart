@@ -252,15 +252,16 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                         EdgeInsets.symmetric(horizontal: 18.w)
                                             .copyWith(bottom: 20.h),
                                     child: InkWell(
-                                        onTap: () {
+                                        onTap: () async {
                                           webController.appBarName.value =
                                               "Dashboard";
-                                          userTypeController.gotoDashBorad(
-                                              UserTypeslist
-                                                  .userTypesDetails[index]
-                                                  .dashboardUrl
-                                                  .toString(),
-                                              {index.toString(): index});
+                                          await userTypeController
+                                              .gotoDashBorad(
+                                                  UserTypeslist
+                                                      .userTypesDetails[index]
+                                                      .dashboardUrl
+                                                      .toString(),
+                                                  {index.toString(): index});
                                         },
                                         child: userListCard(index)));
                               },

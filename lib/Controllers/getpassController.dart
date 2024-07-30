@@ -27,7 +27,8 @@ class GetPassController extends GetxController {
   RxString otpValue = ''.obs;
 
 //  tomeet*****************************************
-  var toMeetOptions = <List<dynamic>>[].obs;
+  RxList toMeetOptions = [].obs;
+  RxList<VisitorHistoryModal> vistorData = <VisitorHistoryModal>[].obs;
 
 // ************************  image ************************
   RxString imagesource = ''.obs;
@@ -35,12 +36,13 @@ class GetPassController extends GetxController {
   final picker = ImagePicker();
 
   // ******************************** purpose ****************************
-  var purposelist = <List<dynamic>>[].obs;
+  RxList purposelist = [].obs;
 
   // *********************************** profile update ******************
 
   RxString FullName = ''.obs;
   RxString adress = ''.obs;
+  RxString otherMessage = ''.obs;
   RxString selectedPurpose = ''.obs;
   RxString selectedOption = ''.obs;
 
@@ -144,7 +146,7 @@ class GetPassController extends GetxController {
     if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor == 'Y') {
       showOTPwidget.value = false;
     }
-
+    vistorData.value = VisitorHistory.visitorHistoryListDetails;
     return VisitorHistory.visitorHistoryListDetails;
   }
 
@@ -177,7 +179,8 @@ class GetPassController extends GetxController {
         var data = value['Data'];
 
         for (var ele1 in data) {
-          toMeetOptions.add([ele1["Name"], ele1["Id"].toString()]);
+          toMeetOptions.value
+              .add({"name": ele1["Name"], "id": ele1["Id"].toString()});
         }
       }
     }).catchError((error) {});
@@ -190,7 +193,7 @@ class GetPassController extends GetxController {
       if (value != null) {
         var data = value['Data'];
         for (var ele1 in data) {
-          purposelist.add([ele1["Name"], ele1["Id"].toString()]);
+          purposelist.add({"name": ele1["Name"], "id": ele1["Id"].toString()});
         }
       }
     }).catchError((error) {
@@ -236,6 +239,7 @@ class GetPassController extends GetxController {
         selectedPurpose.value = '';
         FullName.value = '';
         adress.value = '';
+        otherMessage.value = '';
         showOTPwidget.value = false;
         showvisitorDetails.value = false;
       }

@@ -2,14 +2,13 @@
 
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/dialogbox.dart';
-import 'package:campuspro/Screens/getpass/history_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget overflowbutton(BuildContext context) {
   return Positioned(
-    top: 8.0,
-    right: 0.0,
+    top: 1.0,
+    right: 1.0,
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(
@@ -22,10 +21,7 @@ Widget overflowbutton(BuildContext context) {
         backgroundColor: Colors.red,
       ),
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return VisitorHistoryPage();
-        }));
-        //showGetpassDilaog(context);
+        showGetpassDilaog(context);
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,

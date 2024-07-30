@@ -1,20 +1,18 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:io' show Platform;
-
-//import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
+import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
-
+import 'package:campuspro/Screens/TransportModule/studentList/student_list_screen.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/drawer_image.dart';
 import 'package:campuspro/Utilities/routes.dart';
-
+import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -93,7 +91,7 @@ List<Widget> buildMenuItems(BuildContext context) {
     "student bus location": (BuildContext context) {
       busTrackerController.getBusAllot(context);
     },
-    "Visitor New": (BuildContext context) {
+    "visitor new": (BuildContext context) {
       return Navigator.pushNamed(context, Routes.visitorHistory);
     },
   };
@@ -146,32 +144,61 @@ List<Widget> buildMenuItems(BuildContext context) {
       );
     } else {
       return ListTile(
-        leading: Image.asset(
-          DrawerImages.getImage(menuItem.menuName ?? ''),
-          height: 26,
-          width: 26,
-        ),
-        title: Text(
-          menuItem.menuName ?? 'No Menu Name',
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
+          leading: Image.asset(
+            DrawerImages.getImage(menuItem.menuName ?? ''),
+            height: 26,
+            width: 26,
           ),
-        ),
-        onTap: () {
-          if (menuItem.menuName == 'Visitor New') {
-            Navigator.pushNamed(context, Routes.visitorHistory);
-          } else if (menuItem.menuName == 'Student Bus Location') {
-            busTrackerController.getBusAllot(context);
-            Navigator.pop(context);
-          } else {
-            webController.appBarName.value = menuItem.menuName.toString();
-            Navigator.pop(context);
-            webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
+          title: Text(
+            menuItem.menuName ?? 'No Menu Name',
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () async {
+            // log(menuItem.menuName.toString());
+            // Check if the menu name is in the special actions map
+            final usertypeIndex = await Sharedprefdata.getIntegerData(
+                Sharedprefdata.userTypeIndex);
+            // log(UserTypeslist.userTypesDetails[usertypeIndex].ouserType
+            //     .toString());
+            if (context.mounted) {
+              if (menuItem.menuName.toString().toLowerCase() == "dashboard" &&
+                  UserTypeslist.userTypesDetails[usertypeIndex].ouserType
+                          .toString()
+                          .toLowerCase() ==
+                      "t") {
+                Get.lazyPut<TransportStudentListController>(
+                    () => TransportStudentListController());
+                Get.to(() => TransportStudentList());
+              } else {
+                final action = specialActions[menuItem.menuName?.toLowerCase()];
+                if (action != null) {
+                  action(context);
+                } else {
+                  webController.appBarName.value = menuItem.menuName.toString();
+                  Navigator.pop(context);
+                  webController.generateWebUrl(
+                      menuItem.menuUrl, menuItem.menuName);
+                }
+              }
+            }
           }
-        },
-      );
+          // onTap: () {
+          //   if (menuItem.menuName == 'Visitor New') {
+          //     Navigator.pushNamed(context, Routes.visitorHistory);
+          //   } else if (menuItem.menuName == 'Student Bus Location') {
+          //     busTrackerController.getBusAllot(context);
+          //     Navigator.pop(context);
+          //   } else {
+          //     webController.appBarName.value = menuItem.menuName.toString();
+          //     Navigator.pop(context);
+          //     webController.generateWebUrl(menuItem.menuUrl, menuItem.menuName);
+          //   }
+          // },
+          );
     }
   }).toList();
 }

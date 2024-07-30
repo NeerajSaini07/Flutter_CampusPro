@@ -10,7 +10,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double customHeight = ScreenUtil().screenHeight > 800 ? 480.h : 520.h;
+    double customHeight = ScreenUtil().screenHeight > 800 ? 500.h : 550.h;
 
     return Scaffold(
       backgroundColor: AppColors.loginscafoldcoolr,

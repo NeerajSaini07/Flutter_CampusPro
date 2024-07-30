@@ -29,8 +29,8 @@ class GetPassRepository {
       "MeetToId": "0"
     };
 
-    print(visitorlistRequest);
-    print(APIENDPOINT.getVisitorListApi);
+    // print(visitorlistRequest);
+    // print(APIENDPOINT.getVisitorListApi);
 
     BaseApiServices apiServices = NetworkApiServices();
 
@@ -264,11 +264,12 @@ class GetPassRepository {
       "OtherDet": "null",
       "MeetToId": getPassController.selectedOption.value,
       "PurposeId": getPassController.selectedPurpose.value,
-      "OtherPurpose": 'yyyy',
+      "OtherPurpose": getPassController.otherMessage.value,
       "VisitorId": VisitorData.visitorListDetails.last.visitorId.toString(),
       "Flag": "F",
     };
     log(requestdata.toString());
+    log(APIENDPOINT.saveVisitorGatePassApi);
 
     BaseApiServices apiServices = NetworkApiServices();
     try {

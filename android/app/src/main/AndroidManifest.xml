@@ -17,17 +17,28 @@
    
     <application
         android:name="androidx.multidex.MultiDexApplication"
+        android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:label="campuspro"
+        android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true"
-        android:icon="@mipmap/ic_launcher">
+        android:exported="true"
+        >
 <!-- ************ -->
         
+        <meta-data
+          android:name="com.google.firebase.messaging.default_notification_icon"
+          android:resource="@drawable/file" />  
+
         <!-- Firebase Messaging Service -->
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
             android:exported="true"
-            tools:replace="android:exported" />
+            tools:replace="android:exported">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         
         <!-- Component Discovery Service -->
         <service
@@ -41,7 +52,12 @@
             android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"
-            tools:replace="android:exported, android:permission" />
+            tools:replace="android:exported, android:permission" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
         
         <!-- Flutter Local Notifications Receivers -->
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
@@ -53,13 +69,7 @@
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
-<!-- ************** -->
-
-
-   <!-- Meta-data tag for default notification icon -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_launcher" />
+        <!-- Main Activity -->
         
         <activity
             android:name=".MainActivity"
