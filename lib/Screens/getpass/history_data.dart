@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, camel_case_types
 
 import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Screens/getpass/history_details_page.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,11 +18,11 @@ class VisitorHistoryPage extends StatelessWidget {
     });
     return Scaffold(
         appBar: customAppBar(context),
-        backgroundColor: AppColors.primarycolor,
         body: Obx(
           () => getPassController.vistorData.value.isEmpty
               ? Center(child: Text('No data available'))
               : ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
                   itemCount: getPassController.vistorData.value.length,
                   itemBuilder: (context, index) {
                     final visitor = getPassController.vistorData.value[index];
@@ -37,18 +38,18 @@ class VisitorHistoryPage extends StatelessWidget {
                       ),
                       title: GestureDetector(
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => VisitorDetailScreen(
-                          //       visitor: visitors,
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HistoryDetails(
+                                index: index,
+                              ),
+                            ),
+                          );
                         },
                         child: Text(visitor.visitorName ?? "N/A"),
                       ),
-                      subtitle: Text('Status: ${visitor.status}'),
+                      subtitle: Text('Address: ${visitor.visitorAddress}'),
                       trailing: visitor.exitTime != null &&
                               visitor.exitTime!.isNotEmpty
                           ? null
@@ -58,73 +59,13 @@ class VisitorHistoryPage extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.appbuttonColor),
-                              child: Text('Exit ${visitor.exitTime}',
+                              child: Text('Exit',
                                   style: TextStyle(color: Colors.white)),
                             ),
                     );
                   },
                   separatorBuilder: (BuildContext context, index) => Divider(),
                 ),
-        )
-        // vistorData.isEmpty ? Center(child: Text('No data available')):
-
-        // FutureBuilder<List<VisitorHistoryModal>>(
-        //     future: getPassController.getVisitorHistory(),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //         return Center(child: CircularProgressIndicator());
-        //       } else if (snapshot.hasError) {
-        //         return Center(child: Text('Error: ${snapshot.error}'));
-        //       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        //         return Center(child: Text('No data available'));
-        //       } else {
-        //         return ListView.separated(
-        //           itemCount: snapshot.data!.length,
-        //           itemBuilder: (context, index) {
-        //             final visitor = snapshot.data![index];
-        //             return ListTile(
-        //               leading: CircleAvatar(
-        //                 radius: 28.w,
-        //                 backgroundImage:
-        //                     NetworkImage(visitor.visitorImagePath.toString()),
-        //                 onBackgroundImageError: (error, stackTrace) {},
-        //                 child: visitor.visitorImagePath!.isEmpty
-        //                     ? Icon(Icons.person)
-        //                     : null,
-        //               ),
-        //               title: GestureDetector(
-        //                 onTap: () {
-        //                   // Navigator.push(
-        //                   //   context,
-        //                   //   MaterialPageRoute(
-        //                   //     builder: (context) => VisitorDetailScreen(
-        //                   //       visitor: visitors,
-        //                   //     ),
-        //                   //   ),
-        //                   // );
-        //                 },
-        //                 child: Text(visitor.visitorName ?? "N/A"),
-        //               ),
-        //               subtitle: Text('Status: ${visitor.status}'),
-        //               trailing: visitor.exitTime != null &&
-        //                       visitor.exitTime!.isNotEmpty
-        //                   ? null
-        //                   : ElevatedButton(
-        //                       onPressed: () {
-        //                         getPassController.markVisitorExitApi(index);
-        //                       },
-        //                       style: ElevatedButton.styleFrom(
-        //                           backgroundColor: AppColors.appbuttonColor),
-        //                       child: Text('Exit ${visitor.exitTime}',
-        //                           style: TextStyle(color: Colors.white)),
-        //                     ),
-        //             );
-        //           },
-        //           separatorBuilder: (BuildContext context, index) =>
-        //               Divider(),
-        //         );
-        //       }
-        //     }),
-        );
+        ));
   }
 }

@@ -30,6 +30,15 @@ class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
   final GetPassController getPassController = Get.find<GetPassController>();
 
   @override
+  void initState() {
+    getPassController.toMeetdata();
+    getPassController.PursposedataGeting();
+    getPassController.showvisitorDetails.value = false;
+    getPassController.visitorImage.value = '';
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final GetPassController getPassController = Get.find<GetPassController>();
 
@@ -98,6 +107,8 @@ class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                     getPassController.visitorTyep.value =
                                         'Father';
                                     getPassController.searchvistorByMobile();
@@ -136,6 +147,8 @@ class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                     getPassController.visitorTyep.value =
                                         'Mother';
                                     getPassController.searchvistorByMobile();
@@ -175,10 +188,12 @@ class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
                           const SizedBox(height: 0),
                           GestureDetector(
                             onTap: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               getPassController.visitorTyep.value = 'Other';
                               getPassController.searchvistorByMobile();
                             },
                             child: Container(
+                              width: double.infinity,
                               padding: const EdgeInsets.all(20.0),
                               decoration: const BoxDecoration(
                                 color: Colors.amber,
@@ -217,8 +232,6 @@ class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
                       return ShowVisitordata(context);
                     } else if (getPassController.showOTPwidget.value) {
                       return otpModule(context);
-                    } else if (getPassController.showvisitoryHistory.value) {
-                      return ShowvistoryList();
                     } else {
                       return SizedBox();
                     }
@@ -254,14 +267,17 @@ Widget ShowVisitordata(BuildContext context) {
               children: [
                 Center(
                     child: (() {
-                  if (VisitorData
+                  if (getPassController.visitorImage.value.isNotEmpty) {
+                    return Image.file(
+                        File(getPassController.visitorImage.toString()));
+                  } else if (VisitorData
                       .visitorListDetails.last.imagePath!.isNotEmpty) {
                     return InkWell(
                       onTap: () {
                         getPassController.visitorImagepicker();
                       },
                       child: FadeInImage.assetNetwork(
-                        image: VisitorData.visitorListDetails[0].visitorImage
+                        image: VisitorData.visitorListDetails[0].imagePath
                             .toString(),
                         placeholder: "assets/icon/person_icon.png",
                         imageErrorBuilder: (context, error, stackTrace) {
@@ -269,9 +285,6 @@ Widget ShowVisitordata(BuildContext context) {
                         },
                       ),
                     );
-                  } else if (getPassController.visitorImage.value.isNotEmpty) {
-                    return Image.file(
-                        File(getPassController.visitorImage.toString()));
                   } else {
                     return Image.asset("assets/icon/person_icon.png");
                   }

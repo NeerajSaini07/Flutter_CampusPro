@@ -31,13 +31,9 @@ class BottomBarController extends GetxController {
             Constant.chatBoatUrl, Constant.chatBoatName);
         selectedBottomNavIndex.value = 0;
       case 3:
-        // Get.offAllNamed(Routes.userType);
-
-        appbarController.appBarName.value = "Help & Support";
-        webController.currentUrl.value =
-            "https: //demo.eiterp.com/Help-Support.aspx";
-        Get.offAllNamed(Routes.webview);
-
+        appbarController.appBarName.value = "Help And Support";
+        Get.offAllNamed(Routes.helpAndSupportScreen);
+        selectedBottomNavIndex.value = 0;
       default:
         selectedBottomNavIndex.value = index;
     }

@@ -1,7 +1,10 @@
 // ignore_for_file: unused_local_variable
 
 import 'dart:developer';
-
+import 'dart:io';
+import 'package:campuspro/Modal/gatepass_history_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
 import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
@@ -12,6 +15,7 @@ import 'package:campuspro/Services/ApiService/Data/Network/network_api_service.d
 import 'package:campuspro/Utilities/api_end_point.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import '../Modal/login_model.dart';
 
 class GetPassRepository {
@@ -41,22 +45,6 @@ class GetPassRepository {
     } catch (e) {
       rethrow;
     }
-  }
-
-// ************************************************************  sending otp **************************
-
-  static Future<dynamic> sendingOtpForGatePass({String? number}) async {
-    // final sendingData = {
-    //   "OUserId": uid,
-    //   "Token": token,
-    //   "OrgId": userData!.organizationId,
-    //   "Schoolid": userData.schoolId,
-    //   "EmpId": userData.stuEmpId,
-    //   "UserType": userData.ouserType,
-    //   "No": number,
-    // };
-
-    //print("sending data for send otp $sendingData");
   }
 
   // ***************************************verify Opt method**************************************
@@ -226,6 +214,25 @@ class GetPassRepository {
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 
+    Future<String> downloadAndSaveImage(String url) async {
+      // Get the image from the network
+      final response = await http.get(Uri.parse(url));
+
+      // Get the temporary directory
+      final documentDirectory = await getTemporaryDirectory();
+
+      // Parse the URL to extract the file name
+      String fileName = Uri.parse(url).pathSegments.last;
+
+      // Create the file path
+      final file = File(join(documentDirectory.path, fileName));
+
+      // Write the image bytes to the file
+      file.writeAsBytesSync(response.bodyBytes);
+
+      return file.path;
+    }
+
     final name = getPassController.FullName.value.isNotEmpty
         ? getPassController.FullName.value
         : VisitorData.visitorListDetails.isNotEmpty
@@ -241,7 +248,8 @@ class GetPassRepository {
     final imagepath = getPassController.visitorImage.value.isNotEmpty
         ? getPassController.visitorImage.value
         : VisitorData.visitorListDetails.isNotEmpty
-            ? VisitorData.visitorListDetails.last.name
+            ? await downloadAndSaveImage(
+                VisitorData.visitorListDetails.last.imagePath.toString())
             : '';
 
     Map<String, String> requestdata = {
@@ -324,11 +332,11 @@ class GetPassRepository {
       "StuEmpId":
           UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
       "UserType":
-          UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
-      //"MeetToId": "0"
+          UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString()
     };
 
-    log(visitorlistRequest.toString());
+    // log(visitorlistRequest.toString());
+    // log(APIENDPOINT.getGatePassHistoryApi);
 
     BaseApiServices apiServices = NetworkApiServices();
     try {
@@ -338,5 +346,34 @@ class GetPassRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  static Future<dynamic> exitGatePass(index) async {
+    int usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    final sendingData = {
+      'OUserId': UserLogin.loginDetails[0].oUserid.toString(),
+      'Token': FcmTokenList.tokenlist[0].token.toString(),
+      'Schoolid':
+          UserTypeslist.userTypesDetails[usertypeIndex].schoolId.toString(),
+      'OrgId': UserTypeslist.userTypesDetails[usertypeIndex].organizationId
+          .toString(),
+      'StuEmpId':
+          UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
+      'UserType':
+          UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
+      "ID": GatePassHistory.gatePassHistoryList[index].id.toString()
+    };
+
+    log(sendingData.toString());
+    log(APIENDPOINT.markGatePassExitApi);
+    BaseApiServices apiServices = NetworkApiServices();
+
+    dynamic response = await apiServices
+        .postApiRequest(sendingData, APIENDPOINT.markGatePassExitApi)
+        .onError((error, stackTrace) {
+      throw stackTrace;
+    });
+    return response;
   }
 }

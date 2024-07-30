@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:campuspro/Controllers/getpassController.dart';
-import 'package:campuspro/Screens/Wedgets/getPass/getpass_list.dart';
+import 'package:campuspro/Screens/getpass/gatepass_history_list.dart';
 import 'package:campuspro/Screens/getpass/history_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +34,13 @@ Future showGetpassDilaog(BuildContext context) {
                     children: <Widget>[
                       ElevatedButton(
                         onPressed: () {
-                          shoGetPasslist();
+                          // getPassController.getpassHistory();
+                          Get.back();
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return GatePassHistoryListScreen();
+                          }));
+                          // shoGetPasslist();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:

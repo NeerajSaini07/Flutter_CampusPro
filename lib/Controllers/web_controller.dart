@@ -21,7 +21,6 @@ class WebController extends GetxController {
     await initializeWebViewController(url);
     currentUrl.value = url;
     Get.toNamed(Routes.webview);
-
     //viewcontroller.close();
   }
 

@@ -3,17 +3,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ExceptionController extends GetxController {
+  bool _isDialogOpen = false;
   void showDialog({
     required String title,
     required String message,
   }) {
-    Get.dialog(
-      CustomDialog(
-          icon: Icons.warning_amber_rounded,
-          title: title,
-          message: message,
-          btnText: "Try Again!"),
-    );
+    if (!_isDialogOpen) {
+      _isDialogOpen = true;
+      Get.dialog(
+        CustomDialog(
+            icon: Icons.warning_amber_rounded,
+            title: title,
+            message: message,
+            btnText: "Try Again!"),
+      ).then((value) {
+        _isDialogOpen = false;
+      });
+    }
   }
 }
 

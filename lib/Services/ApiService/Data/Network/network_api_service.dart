@@ -38,7 +38,7 @@ class NetworkApiServices extends BaseApiServices {
       final fileName = file.uri.pathSegments.last;
 
       final multipartFile = http.MultipartFile.fromBytes(
-        key, // The name of the file field
+        key,
         fileBytes,
         filename: fileName,
       );

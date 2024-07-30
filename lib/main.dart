@@ -8,6 +8,7 @@ import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
 import 'package:campuspro/Screens/forgot_password_screen.dart';
 import 'package:campuspro/Screens/getpass/visitor_history.dart';
+import 'package:campuspro/Screens/help_and_support_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
               Routes.noInternet: (context) => NoInternetScreen(),
               Routes.visitorHistory: (context) => GetPassvisitorHistory(),
               Routes.busTrackerScreen: (context) => BusTrackerScreen(),
+              Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
             },
             home: SplashScreen());
       },
