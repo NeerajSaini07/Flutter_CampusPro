@@ -20,20 +20,23 @@ class BottomBarController extends GetxController {
         Get.offAllNamed(Routes.webview);
         appbarController.appBarName.value = Constant.schoolName.toString();
         webController.currentUrl.value = Constant.dashBoardUrl;
+        selectedBottomNavIndex.value = 0;
 
       case 1:
         Get.offAllNamed(Routes.userType);
+        appbarController.appBarName.value = Constant.schoolName.toString();
         selectedBottomNavIndex.value = 0;
 
       case 2:
         // Get.offAllNamed(Routes.userType);
+        appbarController.appBarName.value = "Chat";
         webController.generateWebUrl(
             Constant.chatBoatUrl, Constant.chatBoatName);
-        selectedBottomNavIndex.value = 0;
+        selectedBottomNavIndex.value = 2;
       case 3:
-        appbarController.appBarName.value = "Help And Support";
+        appbarController.appBarName.value = "Help & Support";
         Get.offAllNamed(Routes.helpAndSupportScreen);
-        selectedBottomNavIndex.value = 0;
+        selectedBottomNavIndex.value = 3;
       default:
         selectedBottomNavIndex.value = index;
     }
