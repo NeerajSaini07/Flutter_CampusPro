@@ -137,14 +137,13 @@ List<Widget> buildMenuItems(BuildContext context) {
             onTap: () async {
               final AppRouting appRouting = AppRouting();
 
-              print(subMenuItem.nevigateUrl);
-
               appRouting.navigate(
                   subMenuItem.subMenuName, subMenuItem.nevigateUrl, context);
               Navigator.pop(context);
 
-              // appbarController.appBarName.value =
-              //     subMenuItem.subMenuName.toString();
+              appbarController.appBarName.value =
+                  subMenuItem.subMenuName.toString();
+
               // final AppRouting appRouting = AppRouting();
               // Navigator.pop(context);
               // final action = await appRouting.navigate(
@@ -176,9 +175,11 @@ List<Widget> buildMenuItems(BuildContext context) {
             ),
           ),
           onTap: () async {
-            final usertypeIndex = await Sharedprefdata.getIntegerData(
-                Sharedprefdata.userTypeIndex);
+            // final usertypeIndex = await Sharedprefdata.getIntegerData(
+            //     Sharedprefdata.userTypeIndex);
             final AppRouting appRouting = AppRouting();
+            appbarController.appBarName.value = menuItem.menuName.toString();
+
             appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context);
             Navigator.pop(context);
 
@@ -210,8 +211,7 @@ List<Widget> buildMenuItems(BuildContext context) {
               //   // if (action != null) {
               //   //   action(context);
               //   // } else {
-              //   //   appbarController.appBarName.value =
-              //   //       menuItem.menuName.toString();
+
               //   //   Navigator.pop(context);
               //   //   webController.generateWebUrl(
               //   //       menuItem.menuUrl, menuItem.menuName);

@@ -9,6 +9,7 @@ import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({super.key});
@@ -41,68 +42,68 @@ class _WebViewScreenState extends State<WebViewScreen> {
             // webController.viewcontroller.value!
             //     .loadRequest(Uri.parse(webController.currentUrl.value));
 
-            return InAppWebView(
-                initialUrlRequest: URLRequest(
-                    url: WebUri("${webController.currentUrl.value}")),
-                initialSettings: InAppWebViewSettings(
-                    useHybridComposition: true, geolocationEnabled: true),
-                onWebViewCreated: (InAppWebViewController controller) =>
-                    webViewController = controller,
-                shouldOverrideUrlLoading: (controller, action) async {
-                  return NavigationActionPolicy.ALLOW;
-                });
-
             // return InAppWebView(
-            //   initialUrlRequest:
-            //       URLRequest(url: WebUri("${webController.currentUrl.value}")),
-            //   // initialHeaders: {},
-            //   initialSettings: InAppWebViewSettings(
-            //     useHybridComposition: true,
-            //     geolocationEnabled: true,
-            //     useOnDownloadStart: true,
-            //     cacheEnabled: true,
-            //     thirdPartyCookiesEnabled: true,
-            //     databaseEnabled: true,
-            //     domStorageEnabled: true,
-            //   ),
-            //   onWebViewCreated: (InAppWebViewController controller) =>
-            //       webViewController = controller,
-            //   onLoadStart: (InAppWebViewController controller, Uri? url) {},
-            //   onLoadStop: (InAppWebViewController controller, Uri? url) async {
-            //     await controller.evaluateJavascript(
-            //         source:
-            //             "window.localStorage.setItem('key', 'localStorage value!')");
-            //     // await controller.evaluateJavascript(
-            //     //     source: "alert(window.localStorage.getItem('key'))");
-            //   },
-            //   shouldOverrideUrlLoading: (controller, action) async {
-            //     print(
-            //         "shouldOverrideUrlLoading >>>>>>: ${action.request.url?.host}");
-            //     if (action.request.url != null &&
-            //         (action.request.url!.host.contains('meet.google.com') ||
-            //             action.request.url!.toString().contains('tel:'))) {
-            //       // launchUrl(
-            //       //   Uri.parse(action.request.url!.toString()),
-            //       //   mode: LaunchMode.externalApplication,
-            //       // );
-            //       return NavigationActionPolicy.CANCEL;
-            //     }
-            //     return NavigationActionPolicy.ALLOW;
-            //   },
-            //   onDownloadStartRequest: (
-            //     controller,
-            //     url,
-            //   ) async {
-            //     print("onDownloadStart ${url.url}");
-            //     final String _urlFiles = "${url.url}";
-            //     void _launchURLFiles() async => await canLaunchUrl(
-            //           Uri.parse(_urlFiles),
-            //         )
-            //             ? await launchUrl(Uri.parse(_urlFiles))
-            //             : throw 'Could not launch $_urlFiles';
-            //     _launchURLFiles();
-            //   },
-            // );
+            //     initialUrlRequest: URLRequest(
+            //         url: WebUri("${webController.currentUrl.value}")),
+            //     initialSettings: InAppWebViewSettings(
+            //         useHybridComposition: true, geolocationEnabled: true),
+            //     onWebViewCreated: (InAppWebViewController controller) =>
+            //         webViewController = controller,
+            //     shouldOverrideUrlLoading: (controller, action) async {
+            //       return NavigationActionPolicy.ALLOW;
+            //     });
+
+            return InAppWebView(
+              initialUrlRequest:
+                  URLRequest(url: WebUri("${webController.currentUrl.value}")),
+              // initialHeaders: {},
+              initialSettings: InAppWebViewSettings(
+                useHybridComposition: true,
+                geolocationEnabled: true,
+                useOnDownloadStart: true,
+                cacheEnabled: true,
+                thirdPartyCookiesEnabled: true,
+                databaseEnabled: true,
+                domStorageEnabled: true,
+              ),
+              onWebViewCreated: (InAppWebViewController controller) =>
+                  webViewController = controller,
+              onLoadStart: (InAppWebViewController controller, Uri? url) {},
+              onLoadStop: (InAppWebViewController controller, Uri? url) async {
+                await controller.evaluateJavascript(
+                    source:
+                        "window.localStorage.setItem('key', 'localStorage value!')");
+                // await controller.evaluateJavascript(
+                //     source: "alert(window.localStorage.getItem('key'))");
+              },
+              shouldOverrideUrlLoading: (controller, action) async {
+                print(
+                    "shouldOverrideUrlLoading >>>>>>: ${action.request.url?.host}");
+                if (action.request.url != null &&
+                    (action.request.url!.host.contains('meet.google.com') ||
+                        action.request.url!.toString().contains('tel:'))) {
+                  // launchUrl(
+                  //   Uri.parse(action.request.url!.toString()),
+                  //   mode: LaunchMode.externalApplication,
+                  // );
+                  return NavigationActionPolicy.CANCEL;
+                }
+                return NavigationActionPolicy.ALLOW;
+              },
+              onDownloadStartRequest: (
+                controller,
+                url,
+              ) async {
+                print("onDownloadStart ${url.url}");
+                final String _urlFiles = "${url.url}";
+                void _launchURLFiles() async => await canLaunchUrl(
+                      Uri.parse(_urlFiles),
+                    )
+                        ? await launchUrl(Uri.parse(_urlFiles))
+                        : throw 'Could not launch $_urlFiles';
+                _launchURLFiles();
+              },
+            );
             // return WebViewWidget(
             //     controller: webController.viewcontroller.value!);
           } else {
