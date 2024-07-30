@@ -12,6 +12,7 @@ import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({super.key});
@@ -27,6 +28,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
     final WebController webController = Get.find<WebController>();
     final BottomBarController bottomBarController =
         Get.find<BottomBarController>();
+
+    String extractPhoneNumber(String url) {
+      final RegExp phoneRegExp = RegExp(r'tel:(\d+)');
+      final Match? match = phoneRegExp.firstMatch(url);
+      return match != null ? match.group(1) ?? '' : '';
+    }
 
     return PopScope(
       canPop: true,
@@ -53,8 +60,30 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       // debuggingEnabled: true,
                       useOnDownloadStart: true),
                 ),
+                onReceivedError: (controller, request, error) {
+                  if (request.url.host.contains('meet.google.com') ||
+                      request.url.toString().contains('tel:')) {
+                    controller.goBack();
+                  }
+                },
                 onWebViewCreated: (InAppWebViewController controller) =>
                     webViewController = controller,
+                onLoadStart:
+                    (InAppWebViewController controller, Uri? url) async {
+                  if (url != null &&
+                      (url.host.contains('meet.google.com') ||
+                          url.toString().contains('tel:'))) {
+                    final Uri launchUri = Uri(
+                      scheme: 'tel',
+                      path: extractPhoneNumber(url.toString()),
+                    );
+                    if (await canLaunchUrl(launchUri)) {
+                      await launchUrl(launchUri);
+                    } else {
+                      throw 'Could not launch ${url.toString()}';
+                    }
+                  }
+                },
                 onLoadStop:
                     (InAppWebViewController controller, Uri? url) async {
                   if (url

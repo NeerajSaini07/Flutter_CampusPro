@@ -7,13 +7,6 @@ import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:get/get.dart';
 
 class SplashScreenController extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
-    // internetController.networkConnectivity();
-    redirectslash_screen();
-  }
-
   void redirectslash_screen() async {
     final Sharedprefdata sharedprefdata = Sharedprefdata();
     final ConnectivityService connectivityService =
