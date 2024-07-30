@@ -1,6 +1,9 @@
+import 'package:campuspro/Controllers/bottombar_controller.dart';
+import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HelpAndSupportScreen extends StatelessWidget {
@@ -8,8 +11,16 @@ class HelpAndSupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BottomBarController bottomBarController =
+        Get.find<BottomBarController>();
     return Scaffold(
       appBar: customAppBar(context),
+      bottomNavigationBar: Obx(
+        () => BottomNavBar(
+          currentIndex: bottomBarController.selectedBottomNavIndex.value,
+          onTap: bottomBarController.onItemTappedChangeBottomNavIndex,
+        ),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 12.h),
         child: Padding(

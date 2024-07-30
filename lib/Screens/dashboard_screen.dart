@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, unused_local_variable
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, unused_local_variable, deprecated_member_use, avoid_print, unnecessary_null_comparison
 
 import 'dart:developer';
 
@@ -47,23 +47,21 @@ class _WebViewScreenState extends State<WebViewScreen> {
                   URLRequest(url: WebUri("${webController.currentUrl.value}")),
               initialOptions: InAppWebViewGroupOptions(
                 android: AndroidInAppWebViewOptions(useHybridComposition: true),
-                crossPlatform: InAppWebViewOptions(
-                    // debuggingEnabled: true,
-                    useOnDownloadStart: true),
+                crossPlatform: InAppWebViewOptions(useOnDownloadStart: true),
               ),
-              // initialHeaders: {},
-              // initialSettings: InAppWebViewSettings(
-              //   useHybridComposition: true,
-              //   geolocationEnabled: true,
-              //   useOnDownloadStart: true,
-              //   cacheEnabled: true,
-              //   thirdPartyCookiesEnabled: true,
-              //   databaseEnabled: true,
-              //   domStorageEnabled: true,
-              // ),
-              onWebViewCreated: (InAppWebViewController controller) =>
-                  webViewController = controller,
-              onLoadStart: (InAppWebViewController controller, Uri? url) {},
+              onWebViewCreated: (InAppWebViewController controller) {
+                webViewController = controller;
+              },
+              shouldOverrideUrlLoading: (controller, navigationAction) async {
+                var uri = navigationAction.request.url;
+                if (uri != null && uri.scheme == 'tel') {
+                  await _launchURL(uri.toString());
+                  return NavigationActionPolicy.CANCEL;
+                }
+                return NavigationActionPolicy.ALLOW;
+              },
+              onLoadStart:
+                  (InAppWebViewController controller, Uri? url) async {},
               onLoadStop: (InAppWebViewController controller, Uri? url) async {
                 if (url
                     .toString()
@@ -71,30 +69,24 @@ class _WebViewScreenState extends State<WebViewScreen> {
                   Get.offAllNamed(Routes.userType);
                 }
               },
-
-              shouldOverrideUrlLoading: (controller, action) async {
-                if (action.request.url != null &&
-                    (action.request.url!.host.contains('meet.google.com') ||
-                        action.request.url!.toString().contains('tel:'))) {
-                  // launchUrl(
-                  //   Uri.parse(action.request.url!.toString()),
-                  //   mode: LaunchMode.externalApplication,
-                  // );
-                  return NavigationActionPolicy.CANCEL;
-                }
-                return NavigationActionPolicy.ALLOW;
-              },
-              onDownloadStartRequest: (
-                controller,
-                url,
-              ) async {
+              onDownloadStartRequest: (controller, url) async {
                 final String _urlFiles = "${url.url}";
-                void _launchURLFiles() async => await canLaunchUrl(
-                      Uri.parse(_urlFiles),
-                    )
-                        ? await launchUrl(Uri.parse(_urlFiles))
-                        : throw 'Could not launch $_urlFiles';
-                _launchURLFiles();
+                if (await canLaunch(_urlFiles)) {
+                  await launch(_urlFiles);
+                } else {
+                  throw 'Could not launch $_urlFiles';
+                }
+              },
+              onReceivedError: (controller, request, error) async {
+                if (request.url.toString().contains('tel')) {
+                  _launchURL(request.url.toString());
+                }
+                var uri = request.url;
+                if (uri.scheme == 'tel') {
+                  await _launchURL(uri.toString());
+                  //return NavigationActionPolicy.CANCEL;
+                }
+                // return NavigationActionPolicy.ALLOW;
               },
             );
 
@@ -130,5 +122,16 @@ class _WebViewScreenState extends State<WebViewScreen> {
         }),
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri launchUri = Uri(
+      path: url,
+    );
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
