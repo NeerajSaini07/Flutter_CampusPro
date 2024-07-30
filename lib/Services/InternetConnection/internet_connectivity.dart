@@ -1,10 +1,8 @@
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:campuspro/Utilities/routes.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ConnectivityService extends GetxService {
@@ -70,17 +68,23 @@ class ConnectivityService extends GetxService {
 
   void _navigateToNoInternetScreen() {
     final currentRoute = Get.currentRoute;
-    if (currentRoute != Routes.splash &&
-        currentRoute != Routes.login &&
-        currentRoute != Routes.webview) {
-      previousRoute = currentRoute;
-      Get.toNamed(Routes.noInternet);
-    }
+    // if (currentRoute != Routes.splash &&
+    //     currentRoute != Routes.login &&
+    //     currentRoute != Routes.webview) {
+    previousRoute = currentRoute;
+    _showNoConnectionBottomSheet();
+    // Get.toNamed(Routes.noInternet);
+    // }
   }
 
   void _navigateBack() {
-    if (previousRoute != null && Get.currentRoute == Routes.noInternet) {
-      Get.offNamed(previousRoute!);
+    if (previousRoute != null
+        // && Get.currentRoute == Routes.noInternet
+        ) {
+      // Get.offNamed(previousRoute!);
+      if (Get.isBottomSheetOpen == true) {
+        Get.back();
+      }
       previousRoute = null;
     }
   }
@@ -92,7 +96,7 @@ class ConnectivityService extends GetxService {
           width: double.infinity,
           color: AppColors.primarycolor,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
                 const Icon(
@@ -100,8 +104,8 @@ class ConnectivityService extends GetxService {
                   color: Colors.white,
                   size: 50,
                 ),
-                customWidth(12.w),
-                Expanded(
+                customWidth(12),
+                const Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +116,7 @@ class ConnectivityService extends GetxService {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18.sp,
+                          fontSize: 18,
                         ),
                       ),
                       Text(
@@ -121,7 +125,7 @@ class ConnectivityService extends GetxService {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14.sp,
+                          fontSize: 14,
                         ),
                         textAlign: TextAlign.center,
                       ),

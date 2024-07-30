@@ -68,93 +68,95 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
   Widget gatePassCardView(
       BuildContext context, GatePassHistoryModel gatePassData, int index) {
     final GetPassController getPassController = Get.find<GetPassController>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InkWell(
-          onTap: () {
-            if (getPassController.gatePassId.value == gatePassData.id) {
-              getPassController.gatePassId.value = 0;
-            } else {
-              getPassController.gatePassId.value = gatePassData.id ?? 0;
-            }
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        gatePassData.name ?? "N/A",
-                        textScaler: TextScaler.noScaling,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: () {
+              if (getPassController.gatePassId.value == gatePassData.id) {
+                getPassController.gatePassId.value = 0;
+              } else {
+                getPassController.gatePassId.value = gatePassData.id ?? 0;
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          gatePassData.name ?? "N/A",
+                          textScaler: TextScaler.noScaling,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      CustomeHeight(2.h),
-                      Text(
-                        'Purpose: ${gatePassData.purpose}',
-                        textScaler: TextScaler.noScaling,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 14,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: Colors.grey[500],
-                          fontWeight: FontWeight.w500,
+                        CustomeHeight(2.h),
+                        Text(
+                          'Purpose: ${gatePassData.purpose}',
+                          textScaler: TextScaler.noScaling,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 14,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.grey[500],
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                  gatePassData.toTime != null && gatePassData.toTime!.isNotEmpty
+                      ? const SizedBox.shrink()
+                      : ElevatedButton(
+                          onPressed: () {
+                            getPassController.markGatePassExitApi(index);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.appbuttonColor),
+                          child: const Text('Exit',
+                              style: TextStyle(color: Colors.white)),
+                        )
+                ],
+              ),
+            ),
+          ),
+          Visibility(
+            visible: getPassController.gatePassId.value == gatePassData.id,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomeHeight(6.h),
+                const Divider(
+                  height: 1,
+                  thickness: 1,
                 ),
-                gatePassData.toTime != null && gatePassData.toTime!.isNotEmpty
-                    ? const SizedBox.shrink()
-                    : ElevatedButton(
-                        onPressed: () {
-                          getPassController.markGatePassExitApi(index);
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.appbuttonColor),
-                        child: const Text('Exit',
-                            style: TextStyle(color: Colors.white)),
-                      )
+                CustomeHeight(6.h),
+                headingContent(
+                    heading: "Entry Time : ",
+                    content: gatePassData.time ?? "N/A"),
+                headingContent(
+                    heading: "Exit Time : ",
+                    content: gatePassData.toTime ?? "N/A"),
+                headingContent(
+                    heading: "Mobile No : ",
+                    content: gatePassData.contactNo ?? "N/A"),
+                headingContent(
+                    heading: "Pass Type : ",
+                    content: gatePassData.passType ?? "N/A"),
               ],
             ),
           ),
-        ),
-        Visibility(
-          visible: getPassController.gatePassId.value == gatePassData.id,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomeHeight(6.h),
-              const Divider(
-                height: 1,
-                thickness: 1,
-              ),
-              CustomeHeight(6.h),
-              headingContent(
-                  heading: "Entry Time : ",
-                  content: gatePassData.time ?? "N/A"),
-              headingContent(
-                  heading: "Exit Time : ",
-                  content: gatePassData.toTime ?? "N/A"),
-              headingContent(
-                  heading: "Mobile No : ",
-                  content: gatePassData.contactNo ?? "N/A"),
-              headingContent(
-                  heading: "Pass Type : ",
-                  content: gatePassData.passType ?? "N/A"),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

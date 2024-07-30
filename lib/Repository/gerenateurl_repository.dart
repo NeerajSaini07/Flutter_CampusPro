@@ -7,6 +7,7 @@ import 'package:campuspro/Services/ApiService/Data/Network/base_api_services.dar
 import 'package:campuspro/Services/ApiService/Data/Network/network_api_service.dart';
 import 'package:campuspro/Utilities/api_end_point.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
+import 'package:flutter/foundation.dart';
 
 class GenerateUrlRepository {
   static Future<dynamic> getGenerateUrl(pageurl, pageName) async {
@@ -27,6 +28,7 @@ class GenerateUrlRepository {
       "PageName": pageName,
     };
     const url = APIENDPOINT.gotoWebApp;
+
     log(data.toString());
 
     BaseApiServices apiServices = NetworkApiServices();
@@ -38,7 +40,9 @@ class GenerateUrlRepository {
       });
       return response;
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       rethrow;
     }
   }

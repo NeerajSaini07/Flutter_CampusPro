@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 import 'dart:io' show Platform;
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
@@ -8,6 +9,8 @@ import 'package:campuspro/Modal/drawer_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/TransportModule/studentList/student_list_screen.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
+import 'package:campuspro/Screens/Wedgets/customeheight.dart';
+import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/drawer_image.dart';
@@ -23,42 +26,50 @@ Widget AppDrawer(BuildContext context) {
     backgroundColor: AppColors.loginscafoldcoolr,
     child: Column(
       children: [
-        UserAccountsDrawerHeader(
+        Container(
+          height: 160.h,
           decoration: BoxDecoration(color: AppColors.appbuttonColor),
-          margin: EdgeInsets.zero,
-          currentAccountPicture: CircleAvatar(
-            child: Icon(Icons.access_time_rounded),
-          ),
-          accountName: Text(
-            UserTypeslist.userTypesDetails[0].stuEmpName.toString(),
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomeHeight(20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.offAllNamed(Routes.userType);
+                      },
+                      child: Image.asset(
+                        Constant.switchAccountIcon,
+                        height: 28.h,
+                        width: 28.w,
+                      ),
+                    ),
+                  ],
+                ),
+                CircleAvatar(
+                  radius: 20.w,
+                  backgroundImage: AssetImage(Constant.companylogo),
+                ),
+                CustomeHeight(5.h),
+                Text(
+                  Constant.schoolName,
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      overflow: TextOverflow.ellipsis),
+                )
+              ],
             ),
           ),
-          accountEmail: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Text(
-                    UserTypeslist.userTypesDetails[0].schoolName.toString(),
-                    style:
-                        TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.offAllNamed(Routes.userType);
-                  },
-                  child: Image.asset(
-                    Constant.switchAccountIcon,
-                    height: 28.h,
-                    width: 28.w,
-                  ),
-                ),
-                customWidth(6.w)
-              ]),
+        ),
+        Divider(
+          height: 0,
         ),
         Expanded(
           child: ListView(
@@ -84,17 +95,13 @@ Widget AppDrawer(BuildContext context) {
 }
 
 List<Widget> buildMenuItems(BuildContext context) {
-  final WebController webController = Get.find<WebController>();
-  final BusTrackerController busTrackerController =
-      Get.find<BusTrackerController>();
-  final Map<String, Function(BuildContext context)> specialActions = {
-    "student bus location": (BuildContext context) {
-      busTrackerController.getBusAllot(context);
-    },
-    "visitor new": (BuildContext context) {
-      return Navigator.pushNamed(context, Routes.visitorHistory);
-    },
-  };
+  final webController = Get.find<WebController>();
+
+  Get.lazyPut<TransportStudentListController>(
+      () => TransportStudentListController());
+
+  final appbarController = Get.find<AppbarController>();
+
   return MenuItemList.menuItemDetails.map((menuItem) {
     if (menuItem.subMenu != null && menuItem.subMenu!.isNotEmpty) {
       return ExpansionTile(
@@ -113,7 +120,10 @@ List<Widget> buildMenuItems(BuildContext context) {
             color: Colors.white,
           ),
         ),
-        children: menuItem.subMenu!.map((subMenuItem) {
+        children: menuItem.subMenu!
+            .where(
+                (subMenuItem) => menuItem.menuName != subMenuItem.subMenuName)
+            .map((subMenuItem) {
           return ListTile(
             leading: Image.asset(
               DrawerImages.getImage(subMenuItem.subMenuName ?? ''),
@@ -124,20 +134,28 @@ List<Widget> buildMenuItems(BuildContext context) {
               subMenuItem.subMenuName ?? 'No Submenu Name',
               style: TextStyle(color: Colors.white),
             ),
-            onTap: () {
-              // Handle submenu tap
-              webController.appBarName.value =
-                  subMenuItem.subMenuName.toString();
+            onTap: () async {
+              final AppRouting appRouting = AppRouting();
+
+              // print(subMenuItem.nevigateUrl);
+
+              appRouting.navigate(
+                  subMenuItem.subMenuName, subMenuItem.nevigateUrl, context);
               Navigator.pop(context);
-              // Check if the submenu name is in the special actions map
-              final action =
-                  specialActions[subMenuItem.subMenuName?.toLowerCase()];
-              if (action != null) {
-                action(context);
-              } else {
-                webController.generateWebUrl(
-                    subMenuItem.nevigateUrl, subMenuItem.subMenuName);
-              }
+
+              // appbarController.appBarName.value =
+              //     subMenuItem.subMenuName.toString();
+              // final AppRouting appRouting = AppRouting();
+              // Navigator.pop(context);
+              // final action = await appRouting.navigate(
+              //     subMenuItem.subMenuName.toString().toLowerCase(), context);
+
+              // if (action != null) {
+              //   action(context);
+              // } else {
+              //   webController.generateWebUrl(
+              //       subMenuItem.nevigateUrl, subMenuItem.subMenuName);
+              // }
             },
           );
         }).toList(),
@@ -158,32 +176,47 @@ List<Widget> buildMenuItems(BuildContext context) {
             ),
           ),
           onTap: () async {
-            // log(menuItem.menuName.toString());
-            // Check if the menu name is in the special actions map
             final usertypeIndex = await Sharedprefdata.getIntegerData(
                 Sharedprefdata.userTypeIndex);
-            // log(UserTypeslist.userTypesDetails[usertypeIndex].ouserType
-            //     .toString());
+            final AppRouting appRouting = AppRouting();
+            appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context);
+            Navigator.pop(context);
+
             if (context.mounted) {
-              if (menuItem.menuName.toString().toLowerCase() == "dashboard" &&
-                  UserTypeslist.userTypesDetails[usertypeIndex].ouserType
-                          .toString()
-                          .toLowerCase() ==
-                      "t") {
-                Get.lazyPut<TransportStudentListController>(
-                    () => TransportStudentListController());
-                Get.to(() => TransportStudentList());
-              } else {
-                final action = specialActions[menuItem.menuName?.toLowerCase()];
-                if (action != null) {
-                  action(context);
-                } else {
-                  webController.appBarName.value = menuItem.menuName.toString();
-                  Navigator.pop(context);
-                  webController.generateWebUrl(
-                      menuItem.menuUrl, menuItem.menuName);
-                }
-              }
+              // if (menuItem.menuName.toString().toLowerCase() == "dashboard" &&
+              //     UserTypeslist.userTypesDetails[usertypeIndex].ouserType
+              //             .toString()
+              //             .toLowerCase() ==
+              //         "t") {
+              //   Get.to(() => TransportStudentList());
+              // } else if (menuItem.menuName.toString().toLowerCase() ==
+              //         "dashboard" &&
+              //     UserTypeslist.userTypesDetails[usertypeIndex].ouserType
+              //             .toString() ==
+              //         "G") {
+              //   Navigator.pop(context);
+              //   Get.toNamed(Routes.visitorHistory);
+              // } else {
+              //   final AppRouting appRouting = AppRouting();
+
+              //   appRouting.navigate(
+              //       menuItem.menuName, menuItem.menuUrl, context);
+              //   Navigator.pop(context);
+
+              //   // print("ferer");
+              //   // final AppRouting appRouting = AppRouting();
+              //   // final action = await appRouting.navigate(
+              //   //     menuItem.menuName.toString(), context);
+              //   // if (action != null) {
+              //   //   action(context);
+              //   // } else {
+              //   //   appbarController.appBarName.value =
+              //   //       menuItem.menuName.toString();
+              //   //   Navigator.pop(context);
+              //   //   webController.generateWebUrl(
+              //   //       menuItem.menuUrl, menuItem.menuName);
+              //   // }
+              // }
             }
           }
           // onTap: () {

@@ -12,4 +12,5 @@ class Routes {
   static const String noInternet = '/noInternet';
   static const String visitorHistory = '/visitorHistory';
   static const String busTrackerScreen = '/busTrackerScreen';
+  static const String helpAndSupportScreen = '/helpAndSupportScreen';
 }
