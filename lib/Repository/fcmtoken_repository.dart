@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:campuspro/Modal/login_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Services/ApiService/Data/Network/base_api_services.dart';
@@ -12,6 +11,8 @@ class FcmTokenRepository {
   static Future<dynamic> getfcmTokendata() async {
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    String fcmToken =
+        await Sharedprefdata.getStrigData(Sharedprefdata.fcmToken);
 
     final fcmTokenData = {
       'OuserId': UserLogin.loginDetails[0].oUserid,
@@ -19,7 +20,7 @@ class FcmTokenRepository {
       'UserType': UserTypeslist.userTypesDetails[usertypeIndex].ouserType,
       'SchoolId': UserTypeslist.userTypesDetails[usertypeIndex].schoolId,
       'StuEmpId': UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId,
-      'FcmToken': UserLogin.loginDetails[0].token,
+      'FcmToken': fcmToken,
       "IsUpdateToken": "N",
       "IsMstPwd": "0",
       "DeviceType": Platform.isAndroid ? 'Android' : 'Ios',
@@ -31,6 +32,26 @@ class FcmTokenRepository {
     try {
       dynamic response = await apiServices.postApiRequest(
           fcmTokenData, APIENDPOINT.saveFcmToken);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<dynamic> removefcmToken() async {
+    String fcmToken =
+        await Sharedprefdata.getStrigData(Sharedprefdata.fcmToken);
+
+    final removeFcmTokenData = {
+      'OUserId': UserLogin.loginDetails[0].oUserid,
+      'FcmToken': fcmToken
+    };
+    log(removeFcmTokenData.toString());
+    BaseApiServices apiServices = NetworkApiServices();
+
+    try {
+      dynamic response = await apiServices.postApiRequest(
+          removeFcmTokenData, APIENDPOINT.removeFcmToken);
       return response;
     } catch (e) {
       rethrow;

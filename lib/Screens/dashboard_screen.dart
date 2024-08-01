@@ -92,6 +92,18 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     Get.offAllNamed(Routes.userType);
                   }
                 },
+                onDownloadStartRequest: (
+                  controller,
+                  url,
+                ) async {
+                  final String _urlFiles = "${url.url}";
+                  void _launchURLFiles() async => await canLaunchUrl(
+                        Uri.parse(_urlFiles),
+                      )
+                          ? await launchUrl(Uri.parse(_urlFiles))
+                          : throw 'Could not launch $_urlFiles';
+                  _launchURLFiles();
+                },
                 shouldOverrideUrlLoading: (controller, action) async {
                   return NavigationActionPolicy.ALLOW;
                 });

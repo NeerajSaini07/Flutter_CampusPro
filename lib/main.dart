@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
@@ -15,6 +17,7 @@ import 'package:campuspro/Services/notificationService/notification_service.dart
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -108,6 +111,8 @@ class MyApp extends StatelessWidget {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    NotificationService notificationService = NotificationService();
+    notificationService.initialize();
     initializeNotification();
   }
 }

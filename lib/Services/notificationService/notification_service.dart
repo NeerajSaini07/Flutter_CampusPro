@@ -121,7 +121,7 @@ initializeNotification() async {
           ));
     }
   });
-  //getToken();
+  getToken();
 }
 
 Future selectNotification(String? payload) async {

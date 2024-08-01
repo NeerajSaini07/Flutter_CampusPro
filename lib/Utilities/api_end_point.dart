@@ -10,7 +10,8 @@ class APIENDPOINT {
   static const sendOtpForgotPassword = baseUrl + "SendOtpForgetPassword";
   static const drawerApi = baseUrl + "Managemenu";
   static const gotoWebApp = baseUrl + "GotoWebApp4Flutter";
-  static const saveFcmToken = baseUrl + "UpdateLastActive_fcmtokenwebnew";
+  static const saveFcmToken = baseUrl + "UpdateFcmToken";
+  static const removeFcmToken = baseUrl + "RemoveFcmToken";
 
   // ************************ Gate Pass *************************
   static const searchRequest = baseUrl + "searchNoDetails_V1";
