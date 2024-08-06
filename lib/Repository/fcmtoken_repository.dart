@@ -9,6 +9,7 @@ import 'package:campuspro/Utilities/sharedpref.dart';
 
 class FcmTokenRepository {
   static Future<dynamic> getfcmTokendata() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     String fcmToken =
@@ -31,7 +32,7 @@ class FcmTokenRepository {
 
     try {
       dynamic response = await apiServices.postApiRequest(
-          fcmTokenData, APIENDPOINT.saveFcmToken);
+          fcmTokenData, baseUrl + APIENDPOINT.saveFcmToken);
       return response;
     } catch (e) {
       rethrow;
@@ -39,6 +40,7 @@ class FcmTokenRepository {
   }
 
   static Future<dynamic> removefcmToken() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     String fcmToken =
         await Sharedprefdata.getStrigData(Sharedprefdata.fcmToken);
 
@@ -51,7 +53,7 @@ class FcmTokenRepository {
 
     try {
       dynamic response = await apiServices.postApiRequest(
-          removeFcmTokenData, APIENDPOINT.removeFcmToken);
+          removeFcmTokenData, baseUrl + APIENDPOINT.removeFcmToken);
       return response;
     } catch (e) {
       rethrow;

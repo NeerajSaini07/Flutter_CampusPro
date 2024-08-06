@@ -21,6 +21,7 @@ import '../Modal/login_model.dart';
 class GetPassRepository {
   // ******************************************************* history *******************
   static Future<dynamic> getvisitorHistory() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     var visitorlistRequest = {
@@ -40,7 +41,7 @@ class GetPassRepository {
 
     try {
       dynamic response = await apiServices.postApiRequest(
-          visitorlistRequest, APIENDPOINT.getVisitorListApi);
+          visitorlistRequest, baseUrl + APIENDPOINT.getVisitorListApi);
       return response;
     } catch (e) {
       rethrow;
@@ -51,6 +52,7 @@ class GetPassRepository {
 
   static Future<dynamic> verifyOtpGatePass(
       {String? otp, String? visitorid}) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final GetPassController getPassController = Get.find<GetPassController>();
 
     int usertypeIndex =
@@ -72,11 +74,11 @@ class GetPassRepository {
 
     try {
       dynamic response = await apiServices
-          .postApiRequest(verifyOtpRequest, APIENDPOINT.gatePassVerifyOtpApi)
+          .postApiRequest(
+              verifyOtpRequest, baseUrl + APIENDPOINT.gatePassVerifyOtpApi)
           .onError((error, stackTrace) {
         throw stackTrace;
       });
-
       return response;
     } catch (e) {
       rethrow;
@@ -90,6 +92,7 @@ class GetPassRepository {
 // ***************************************search visitory ********************
 
   static Future<dynamic> searchvistor() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     final GetPassController getPassController = Get.find<GetPassController>();
@@ -111,7 +114,8 @@ class GetPassRepository {
 
     try {
       dynamic response = await apiServices
-          .postApiRequest(visitorSearchRequest, APIENDPOINT.searchRequest)
+          .postApiRequest(
+              visitorSearchRequest, baseUrl + APIENDPOINT.searchRequest)
           .onError((error, stackTrace) {
         throw stackTrace;
       });
@@ -123,6 +127,7 @@ class GetPassRepository {
   }
 
   static Future<dynamic> getDataForToMeet() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 
@@ -139,7 +144,8 @@ class GetPassRepository {
 
     try {
       dynamic response = await apiServices
-          .postApiRequest(getToMeetApiRequest, APIENDPOINT.gatePassMeetToApi)
+          .postApiRequest(
+              getToMeetApiRequest, baseUrl + APIENDPOINT.gatePassMeetToApi)
           .onError((error, stackTrace) {
         throw stackTrace;
       });
@@ -151,6 +157,7 @@ class GetPassRepository {
   }
 
   static Future<dynamic> getPurpose() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     BaseApiServices apiServices = NetworkApiServices();
@@ -166,8 +173,8 @@ class GetPassRepository {
 
     try {
       dynamic response = await apiServices
-          .postApiRequest(
-              sendingrequestdatapurpose, APIENDPOINT.gatePassPurposeApi)
+          .postApiRequest(sendingrequestdatapurpose,
+              baseUrl + APIENDPOINT.gatePassPurposeApi)
           .onError((error, stackTrace) {
         throw stackTrace;
       });
@@ -179,6 +186,7 @@ class GetPassRepository {
   }
 
   static Future<dynamic> updateIdProof() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final GetPassController getPassController = Get.find<GetPassController>();
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
@@ -203,13 +211,14 @@ class GetPassRepository {
           UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
       'Flag': 'F',
     };
-    final request = apiServices.postFileRequest(
-        updateProofid, "fileBase64", filePaths, APIENDPOINT.verifyIdGatePass);
+    final request = apiServices.postFileRequest(updateProofid, "fileBase64",
+        filePaths, baseUrl + APIENDPOINT.verifyIdGatePass);
 
     return request;
   }
 
   static Future<dynamic> saveVisitordata() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final GetPassController getPassController = Get.find<GetPassController>();
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
@@ -277,12 +286,12 @@ class GetPassRepository {
       "Flag": "F",
     };
     log(requestdata.toString());
-    log(APIENDPOINT.saveVisitorGatePassApi);
+    log(baseUrl + APIENDPOINT.saveVisitorGatePassApi);
 
     BaseApiServices apiServices = NetworkApiServices();
     try {
       final request = apiServices.postFileRequest(requestdata, "fileBase64",
-          imagepath.toString(), APIENDPOINT.saveVisitorGatePassApi);
+          imagepath.toString(), baseUrl + APIENDPOINT.saveVisitorGatePassApi);
 
       return request;
     } catch (e) {
@@ -291,6 +300,7 @@ class GetPassRepository {
   }
 
   static Future<dynamic> exitVisitor(index) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     final sendingData = {
@@ -308,11 +318,11 @@ class GetPassRepository {
     };
 
     log(sendingData.toString());
-    log(APIENDPOINT.markVisitorExitApi);
+    log(baseUrl + APIENDPOINT.markVisitorExitApi);
     BaseApiServices apiServices = NetworkApiServices();
 
     dynamic response = await apiServices
-        .postApiRequest(sendingData, APIENDPOINT.markVisitorExitApi)
+        .postApiRequest(sendingData, baseUrl + APIENDPOINT.markVisitorExitApi)
         .onError((error, stackTrace) {
       throw stackTrace;
     });
@@ -320,6 +330,7 @@ class GetPassRepository {
   }
 
   static Future<dynamic> getPassHistory() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     var visitorlistRequest = {
@@ -341,7 +352,7 @@ class GetPassRepository {
     BaseApiServices apiServices = NetworkApiServices();
     try {
       dynamic response = await apiServices.postApiRequest(
-          visitorlistRequest, APIENDPOINT.getGatePassHistoryApi);
+          visitorlistRequest, baseUrl + APIENDPOINT.getGatePassHistoryApi);
       return response;
     } catch (e) {
       rethrow;
@@ -349,6 +360,7 @@ class GetPassRepository {
   }
 
   static Future<dynamic> exitGatePass(index) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     final sendingData = {
@@ -366,11 +378,11 @@ class GetPassRepository {
     };
 
     log(sendingData.toString());
-    log(APIENDPOINT.markGatePassExitApi);
+    log(baseUrl + APIENDPOINT.markGatePassExitApi);
     BaseApiServices apiServices = NetworkApiServices();
 
     dynamic response = await apiServices
-        .postApiRequest(sendingData, APIENDPOINT.markGatePassExitApi)
+        .postApiRequest(sendingData, baseUrl + APIENDPOINT.markGatePassExitApi)
         .onError((error, stackTrace) {
       throw stackTrace;
     });

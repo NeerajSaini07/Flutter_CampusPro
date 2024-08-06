@@ -5,6 +5,7 @@ import 'package:campuspro/Controllers/exception_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/forgotpassword_controller.dart';
 import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Controllers/help_and_support_controller.dart';
 
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
@@ -42,5 +43,7 @@ class DependencyInjection {
     Get.lazyPut<AppbarController>(() => AppbarController());
 
     Get.lazyPut<BottomBarController>(() => BottomBarController());
+
+    Get.lazyPut<HelpAndSupportController>(() => HelpAndSupportController());
   }
 }

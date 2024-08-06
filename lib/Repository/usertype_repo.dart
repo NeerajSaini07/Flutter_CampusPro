@@ -8,7 +8,31 @@ import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 
 class UserTypeRepository {
+  static Future<dynamic> getbaseUrlInRepo() async {
+    BaseApiServices apiServices = NetworkApiServices();
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+    final number = await Sharedprefdata.getStrigData(Sharedprefdata.mobile);
+    try {
+      Map<String, String> requestData = {
+        "OUserId": uid!.toString(),
+        "MobileNo": number.toString()
+      };
+      // log(requestData.toString());
+      dynamic response = await apiServices
+          .postApiRequest(requestData, APIENDPOINT.getBaseUrl)
+          .onError((error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   static Future<dynamic> getuserstypeInRepo() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final loginToken = await Sharedprefdata.getStrigData(Sharedprefdata.token);
     final number = await Sharedprefdata.getStrigData(Sharedprefdata.mobile);
@@ -22,14 +46,15 @@ class UserTypeRepository {
     };
     log(data.toString());
     if (kDebugMode) {
-      print(APIENDPOINT.userTypeApi);
+      print(baseUrl + APIENDPOINT.userTypeApi);
     }
 
     BaseApiServices apiServices = NetworkApiServices();
     try {
       dynamic response = apiServices
-          .postApiRequest(data, APIENDPOINT.userTypeApi)
+          .postApiRequest(data, baseUrl + APIENDPOINT.userTypeApi)
           .onError((error, stackTrace) {});
+      log(response.toString());
       return response;
     } catch (e) {
       rethrow;
@@ -37,7 +62,8 @@ class UserTypeRepository {
   }
 
   static Future<dynamic> getDrawerData(index) async {
-    var url = APIENDPOINT.drawerApi;
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    var url = baseUrl + APIENDPOINT.drawerApi;
     BaseApiServices apiServices = NetworkApiServices();
 
     try {

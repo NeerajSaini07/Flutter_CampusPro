@@ -28,7 +28,7 @@ void prompt(String url) async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   log('Handling a background message ${message.data}');
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
