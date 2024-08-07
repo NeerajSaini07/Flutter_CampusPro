@@ -226,7 +226,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                               .userTypesDetails[index].ouserType
                                               .toString();
                                           appbarController.appBarName.value =
-                                              "Dashboard";
+                                              Constant.schoolName.toString();
                                           await userTypeController
                                               .gotoDashBorad(
                                             UserTypeslist
