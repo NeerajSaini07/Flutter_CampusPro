@@ -12,4 +12,11 @@ class FcmTokenController extends GetxController {
       }
     });
   }
+
+  //Removes FCM token for notification at logout
+  removeFCMToken() async {
+    await FcmTokenRepository.removefcmToken().then((value) async {
+      if (value != null) {}
+    });
+  }
 }

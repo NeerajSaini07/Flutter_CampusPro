@@ -12,6 +12,7 @@ class BusTrackerRepository {
   static Future<dynamic> checkBusAllotRepo() async {
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     // final apiToken = await Sharedprefdata.getStrigData(Sharedprefdata.apiToken);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
@@ -34,7 +35,7 @@ class BusTrackerRepository {
       };
 
       dynamic response = await apiServices
-          .postApiRequest(requestData, APIENDPOINT.checkBusAllotApi)
+          .postApiRequest(requestData, baseUrl + APIENDPOINT.checkBusAllotApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);
@@ -48,6 +49,7 @@ class BusTrackerRepository {
 
   //******************* School Bus Route ************************//
   static Future<dynamic> schoolBusRouteRepo() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final usertypeIndex =
@@ -73,7 +75,8 @@ class BusTrackerRepository {
       };
 
       dynamic response = await apiServices
-          .postApiRequest(requestBusRoute, APIENDPOINT.schoolBusRouteApi)
+          .postApiRequest(
+              requestBusRoute, baseUrl + APIENDPOINT.schoolBusRouteApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);
@@ -90,6 +93,7 @@ class BusTrackerRepository {
       String? vehicleNumber, String? trackingDeviceIMEI) async {
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 
@@ -113,8 +117,8 @@ class BusTrackerRepository {
       };
 
       dynamic response = await apiServices
-          .postApiRequest(
-              requestBusLiveLocation, APIENDPOINT.schoolBusLiveLocationApi)
+          .postApiRequest(requestBusLiveLocation,
+              baseUrl + APIENDPOINT.schoolBusLiveLocationApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);
@@ -128,6 +132,7 @@ class BusTrackerRepository {
 
   //******************* School Bus Detail ************************//
   static Future<dynamic> schoolBusDetailRepo() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final usertypeIndex =
@@ -152,7 +157,7 @@ class BusTrackerRepository {
 
       dynamic response = await apiServices
           .postApiRequest(
-              requestSchoolBusDetail, APIENDPOINT.schoolBusDetailApi)
+              requestSchoolBusDetail, baseUrl + APIENDPOINT.schoolBusDetailApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);

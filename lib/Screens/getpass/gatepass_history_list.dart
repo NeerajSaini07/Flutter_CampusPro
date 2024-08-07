@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Modal/gatepass_history_model.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 

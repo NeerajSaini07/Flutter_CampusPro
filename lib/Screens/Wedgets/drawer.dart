@@ -176,6 +176,7 @@ List<Widget> buildMenuItems(BuildContext context) {
           onTap: () async {
             // final usertypeIndex = await Sharedprefdata.getIntegerData(
             //     Sharedprefdata.userTypeIndex);
+
             final AppRouting appRouting = AppRouting();
             appbarController.appBarName.value = menuItem.menuName.toString();
 

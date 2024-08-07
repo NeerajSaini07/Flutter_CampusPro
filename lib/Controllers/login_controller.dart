@@ -3,6 +3,7 @@ import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/login_model.dart';
 import 'package:campuspro/Repository/login_repository.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
+import 'package:campuspro/Services/notificationService/notification_service.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
@@ -145,6 +146,7 @@ class LoginController extends GetxController {
               passwordController.clear();
 
               await userTypeController.getUsers();
+              getToken();
               // ***********************************************************************
               Get.offAndToNamed(Routes.userType);
 

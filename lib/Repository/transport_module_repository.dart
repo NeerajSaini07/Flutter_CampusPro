@@ -12,6 +12,7 @@ class TransportModuleRepository {
   static Future<dynamic> getStudentListRouteDropDown() async {
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 
@@ -33,7 +34,8 @@ class TransportModuleRepository {
                 "",
       };
       dynamic response = await apiServices
-          .postApiRequest(requestData, APIENDPOINT.transportStudentdDetailsApi)
+          .postApiRequest(
+              requestData, baseUrl + APIENDPOINT.transportStudentdDetailsApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);
@@ -50,6 +52,8 @@ class TransportModuleRepository {
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     try {
       Map<String, String> requestData = {
@@ -70,7 +74,8 @@ class TransportModuleRepository {
         "RouteNo": routeID
       };
       dynamic response = await apiServices
-          .postApiRequest(requestData, APIENDPOINT.transportStudentdDetailsApi)
+          .postApiRequest(
+              requestData, baseUrl + APIENDPOINT.transportStudentdDetailsApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);
@@ -88,6 +93,7 @@ class TransportModuleRepository {
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     try {
       Map<String, String> requestData = {
@@ -110,7 +116,8 @@ class TransportModuleRepository {
         "Date": "No"
       };
       dynamic response = await apiServices
-          .postApiRequest(requestData, APIENDPOINT.transportStudentdDetailsApi)
+          .postApiRequest(
+              requestData, baseUrl + APIENDPOINT.transportStudentdDetailsApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);

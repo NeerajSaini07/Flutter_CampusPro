@@ -23,7 +23,6 @@ class AppRouting extends GetxService {
         break;
       default:
         // Handle unknown actions or provide a default action
-        print('Unknown action: $name');
 
         webController.generateWebUrl(pageurl, name);
         break;

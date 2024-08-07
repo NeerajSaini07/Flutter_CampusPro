@@ -1,14 +1,11 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, unused_local_variable
 
-import 'dart:developer';
-
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/drawer.dart';
 import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
 import 'package:campuspro/Utilities/routes.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -49,52 +46,63 @@ class _WebViewScreenState extends State<WebViewScreen> {
         body: Obx(() {
           if (webController.currentUrl.isNotEmpty) {
             return InAppWebView(
-                initialUrlRequest: URLRequest(
-                    url: WebUri("${webController.currentUrl.value}")),
-                // initialSettings: InAppWebViewSettings(
-                //     useHybridComposition: true, useOnDownloadStart: true),
-                initialOptions: InAppWebViewGroupOptions(
-                  android:
-                      AndroidInAppWebViewOptions(useHybridComposition: true),
-                  crossPlatform: InAppWebViewOptions(
-                      // debuggingEnabled: true,
-                      useOnDownloadStart: true),
-                ),
-                onReceivedError: (controller, request, error) {
-                  if (request.url.host.contains('meet.google.com') ||
-                      request.url.toString().contains('tel:')) {
-                    controller.goBack();
+              initialUrlRequest:
+                  URLRequest(url: WebUri("${webController.currentUrl.value}")),
+              // initialSettings: InAppWebViewSettings(
+              //     useHybridComposition: true, useOnDownloadStart: true),
+              initialOptions: InAppWebViewGroupOptions(
+                android: AndroidInAppWebViewOptions(useHybridComposition: true),
+                crossPlatform: InAppWebViewOptions(
+                    // debuggingEnabled: true,
+                    useOnDownloadStart: true),
+              ),
+              onReceivedError: (controller, request, error) {
+                if (request.url.host.contains('meet.google.com') ||
+                    request.url.toString().contains('tel:')) {
+                  controller.goBack();
+                }
+              },
+              onWebViewCreated: (InAppWebViewController controller) =>
+                  webViewController = controller,
+              onLoadStart: (InAppWebViewController controller, Uri? url) async {
+                if (url != null &&
+                    (url.host.contains('meet.google.com') ||
+                        url.toString().contains('tel:'))) {
+                  final Uri launchUri = Uri(
+                    scheme: 'tel',
+                    path: extractPhoneNumber(url.toString()),
+                  );
+                  if (await canLaunchUrl(launchUri)) {
+                    await launchUrl(launchUri);
+                  } else {
+                    throw 'Could not launch ${url.toString()}';
                   }
-                },
-                onWebViewCreated: (InAppWebViewController controller) =>
-                    webViewController = controller,
-                onLoadStart:
-                    (InAppWebViewController controller, Uri? url) async {
-                  if (url != null &&
-                      (url.host.contains('meet.google.com') ||
-                          url.toString().contains('tel:'))) {
-                    final Uri launchUri = Uri(
-                      scheme: 'tel',
-                      path: extractPhoneNumber(url.toString()),
-                    );
-                    if (await canLaunchUrl(launchUri)) {
-                      await launchUrl(launchUri);
-                    } else {
-                      throw 'Could not launch ${url.toString()}';
-                    }
-                  }
-                },
-                onLoadStop:
-                    (InAppWebViewController controller, Uri? url) async {
-                  if (url
-                      .toString()
-                      .contains("https://app.campuspro.in/Login.aspx")) {
-                    Get.offAllNamed(Routes.userType);
-                  }
-                },
-                shouldOverrideUrlLoading: (controller, action) async {
-                  return NavigationActionPolicy.ALLOW;
-                });
+                }
+              },
+              onLoadStop: (InAppWebViewController controller, Uri? url) async {
+                if (url
+                    .toString()
+                    .contains("https://app.campuspro.in/Login.aspx")) {
+                  Get.offAllNamed(Routes.userType);
+                }
+              },
+              shouldOverrideUrlLoading: (controller, action) async {
+                return NavigationActionPolicy.ALLOW;
+              },
+              onDownloadStartRequest: (
+                controller,
+                url,
+              ) async {
+                print("onDownloadStart ${url.url}");
+                final String _urlFiles = "${url.url}";
+                void _launchURLFiles() async => await canLaunchUrl(
+                      Uri.parse(_urlFiles),
+                    )
+                        ? await launchUrl(Uri.parse(_urlFiles))
+                        : throw 'Could not launch $_urlFiles';
+                _launchURLFiles();
+              },
+            );
           } else {
             return Center(child: CircularProgressIndicator());
           }

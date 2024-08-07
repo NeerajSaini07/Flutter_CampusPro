@@ -9,7 +9,6 @@ import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 class UserTypeController extends GetxController {
   getUsers() async {
@@ -22,6 +21,19 @@ class UserTypeController extends GetxController {
 
           // await Sharedprefdata.storeStringData(Sharedprefdata.userTypeData,
           //     jsonEncode(UserTypeslist.userTypesDetails));
+        }
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  getBaseUrl() async {
+    try {
+      await UserTypeRepository.getbaseUrlInRepo().then((value) async {
+        if (value != null) {
+          await Sharedprefdata.storeStringData(
+              Sharedprefdata.baseUrl, value['Data']['BaseApiUrl']);
         }
       });
     } catch (e) {

@@ -10,6 +10,7 @@ class LoginRepository {
   static Future<dynamic> userLoginRepo() async {
     final LoginController loginController = Get.find<LoginController>();
     BaseApiServices apiServices = NetworkApiServices();
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     const url = APIENDPOINT.loginApi;
     final sharedfdata = Sharedprefdata();
@@ -32,7 +33,7 @@ class LoginRepository {
       }
 
       dynamic response = await apiServices
-          .postApiRequest(data, url)
+          .postApiRequest(data, baseUrl + url)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);

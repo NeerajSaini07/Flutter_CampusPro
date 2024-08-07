@@ -13,6 +13,7 @@ class GenerateUrlRepository {
   static Future<dynamic> getGenerateUrl(pageurl, pageName) async {
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final data = {
       "OUserId": UserLogin.loginDetails[0].oUserid,
       "Token": FcmTokenList.tokenlist[0].token,
@@ -34,7 +35,7 @@ class GenerateUrlRepository {
     BaseApiServices apiServices = NetworkApiServices();
     try {
       dynamic response = await apiServices
-          .postApiRequest(data, url)
+          .postApiRequest(data, baseUrl + url)
           .onError((error, stackTrace) {
         throw stackTrace;
       });

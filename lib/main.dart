@@ -15,6 +15,7 @@ import 'package:campuspro/Services/notificationService/notification_service.dart
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -26,19 +27,25 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.testMode = true;
-  // await Future.microtask(() async {
-  //   await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions.currentPlatform,
-  //   );
-  //   initializeNotification();
-  // });
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
 
-// final token = await FirebaseMessaging.instance.getToken();
-//   log("FCM Token generated => $token");
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    if (kDebugMode) {
+      print(e);
+    }
+  }
+
+  //   log('Firebase initialized.');
+  // } else {
+  //   log('Firebase already initialized.');
+  // }
+
+  NotificationService notificationService = NotificationService();
+  await notificationService.initialize();
+  await initializeNotification();
 
   runApp(const MyApp());
 }
@@ -50,64 +57,38 @@ class MyApp extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     // Use FutureBuilder to handle asynchronous initialization tasks
-    return FutureBuilder(
-      future: _initializeApp(), // Asynchronous initialization tasks
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            // Handle initialization error
-            return Container(); // Replace with your error screen widget
-          }
-
-          // App is ready, return the GetMaterialApp
-          return ScreenUtilInit(
-            designSize: const Size(360, 690),
-            minTextAdapt: true,
-            splitScreenMode: true,
-            builder: (context, child) {
-              return GetMaterialApp(
-                theme: ThemeData(
-                  useMaterial3: true,
-                  textTheme: GoogleFonts.latoTextTheme(textTheme),
-                ),
-                debugShowCheckedModeBanner: false,
-                initialBinding: BindingsBuilder(() {
-                  DependencyInjection.init();
-                  Get.put(ConnectivityService());
-                }),
-                navigatorKey: navigatorKey,
-                routes: {
-                  Routes.splash: (context) => const SplashScreen(),
-                  Routes.login: (context) => LoginScreen(),
-                  Routes.forgotpassword: (context) => ForgotPassword(),
-                  Routes.userType: (context) => UserTypeScreen(),
-                  Routes.CreatePassword: (context) => CreatePassword(),
-                  Routes.opt: (context) => OTPScreen(),
-                  Routes.webview: (context) => WebViewScreen(),
-                  Routes.noInternet: (context) => NoInternetScreen(),
-                  Routes.visitorHistory: (context) => GetPassvisitorHistory(),
-                  Routes.busTrackerScreen: (context) => BusTrackerScreen(),
-                  Routes.helpAndSupportScreen: (context) =>
-                      HelpAndSupportScreen(),
-                },
-                home: SplashScreen(), // Show the SplashScreen initially
-              );
-            },
-          );
-        }
-
-        // While loading, show a progress indicator
-        return CircularProgressIndicator(); // Replace with your loading screen widget
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return GetMaterialApp(
+          theme: ThemeData(
+            useMaterial3: true,
+            textTheme: GoogleFonts.latoTextTheme(textTheme),
+          ),
+          debugShowCheckedModeBanner: false,
+          initialBinding: BindingsBuilder(() {
+            DependencyInjection.init();
+            Get.put(ConnectivityService());
+          }),
+          navigatorKey: navigatorKey,
+          routes: {
+            Routes.splash: (context) => const SplashScreen(),
+            Routes.login: (context) => LoginScreen(),
+            Routes.forgotpassword: (context) => ForgotPassword(),
+            Routes.userType: (context) => UserTypeScreen(),
+            Routes.CreatePassword: (context) => CreatePassword(),
+            Routes.opt: (context) => OTPScreen(),
+            Routes.webview: (context) => WebViewScreen(),
+            Routes.noInternet: (context) => NoInternetScreen(),
+            Routes.visitorHistory: (context) => GetPassvisitorHistory(),
+            Routes.busTrackerScreen: (context) => BusTrackerScreen(),
+            Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
+          },
+          home: SplashScreen(), // Show the SplashScreen initially
+        );
       },
     );
-  }
-
-// Function to handle async initialization tasks
-  Future<void> _initializeApp() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    initializeNotification();
   }
 }

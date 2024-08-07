@@ -4,12 +4,14 @@ import 'package:campuspro/Controllers/forgotpassword_controller.dart';
 import 'package:campuspro/Services/ApiService/Data/Network/base_api_services.dart';
 import 'package:campuspro/Services/ApiService/Data/Network/network_api_service.dart';
 import 'package:campuspro/Utilities/api_end_point.dart';
+import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class ForgotPasswordRepository {
   static Future<dynamic> checkschool() async {
     const url = APIENDPOINT.sendOtpForgotPassword;
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     final ForgotPasswordController forgotPasswordController =
         Get.find<ForgotPasswordController>();
@@ -29,7 +31,7 @@ class ForgotPasswordRepository {
 
     try {
       dynamic response = await apiServices
-          .postApiRequest(data, url)
+          .postApiRequest(data, baseUrl + url)
           .onError((error, stackTrace) {});
       return response;
     } catch (e) {
@@ -41,6 +43,7 @@ class ForgotPasswordRepository {
   }
 
   static Future<dynamic> sendForOTP() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     const url = APIENDPOINT.sendOtpForgotPassword;
 
     final ForgotPasswordController forgotPasswordController =
@@ -61,7 +64,7 @@ class ForgotPasswordRepository {
     BaseApiServices apiServices = NetworkApiServices();
     try {
       dynamic response = await apiServices
-          .postApiRequest(data, url)
+          .postApiRequest(data, baseUrl + url)
           .onError((error, stackTrace) {});
       return response;
     } catch (e) {
@@ -73,6 +76,7 @@ class ForgotPasswordRepository {
   }
 
   static Future<dynamic> otpVerification() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     const url = APIENDPOINT.sendOtpForgotPassword;
 
     final ForgotPasswordController forgotPasswordController =
@@ -94,7 +98,7 @@ class ForgotPasswordRepository {
 
     try {
       dynamic response = await apiServices
-          .postApiRequest(data, url)
+          .postApiRequest(data, baseUrl + url)
           .onError((error, stackTrace) {
         throw stackTrace;
       });
@@ -109,6 +113,7 @@ class ForgotPasswordRepository {
   }
 
   static Future<dynamic> changesPassword() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     const url = APIENDPOINT.sendOtpForgotPassword;
 
     final ForgotPasswordController forgotPasswordController =
@@ -124,7 +129,7 @@ class ForgotPasswordRepository {
 
     try {
       dynamic response = await apiServices
-          .postApiRequest(data, url)
+          .postApiRequest(data, baseUrl + url)
           .onError((error, stackTrace) {
         throw stackTrace;
       });
