@@ -14,7 +14,9 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final SplashScreenController splashScreenController =
         Get.find<SplashScreenController>();
-    splashScreenController.redirectslash_screen();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      splashScreenController.redirectslash_screen();
+    });
     return Scaffold(
       backgroundColor: Color(0xffe9e9e9),
       body: SizedBox(

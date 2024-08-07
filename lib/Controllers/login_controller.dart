@@ -99,7 +99,7 @@ class LoginController extends GetxController {
       await LoginRepository.userLoginRepo().then((value) async {
         if (value != null) {
           if (loginvalue == true) {
-            await Future.delayed(const Duration(seconds: 2));
+            // await Future.delayed(const Duration(seconds: 2));
             loginLoader.value = false;
 
 //  ********************************* Stroing data into the  model  *************************************
@@ -109,7 +109,7 @@ class LoginController extends GetxController {
           } else {
 // *********************** user sign in manul **********************************
 // **********************************************************************************************
-            await Future.delayed(const Duration(seconds: 2));
+            // await Future.delayed(const Duration(seconds: 2));
 
             loginLoader.value = false;
             List<dynamic> data = value['Data'];

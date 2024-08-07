@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, unused_local_variable, deprecated_member_use, avoid_print, unnecessary_null_comparison
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, unused_local_variable
 
 import 'dart:developer';
 
@@ -29,6 +29,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
     final BottomBarController bottomBarController =
         Get.find<BottomBarController>();
 
+    String extractPhoneNumber(String url) {
+      final RegExp phoneRegExp = RegExp(r'tel:(\d+)');
+      final Match? match = phoneRegExp.firstMatch(url);
+      return match != null ? match.group(1) ?? '' : '';
+    }
+
     return PopScope(
       canPop: true,
       child: Scaffold(
@@ -43,95 +49,57 @@ class _WebViewScreenState extends State<WebViewScreen> {
         body: Obx(() {
           if (webController.currentUrl.isNotEmpty) {
             return InAppWebView(
-              initialUrlRequest:
-                  URLRequest(url: WebUri("${webController.currentUrl.value}")),
-              initialOptions: InAppWebViewGroupOptions(
-                android: AndroidInAppWebViewOptions(useHybridComposition: true),
-                crossPlatform: InAppWebViewOptions(useOnDownloadStart: true),
-              ),
-              onWebViewCreated: (InAppWebViewController controller) {
-                webViewController = controller;
-              },
-              shouldOverrideUrlLoading: (controller, navigationAction) async {
-                var uri = navigationAction.request.url;
-                if (uri != null && uri.scheme == 'tel') {
-                  await _launchURL(uri.toString());
-                  return NavigationActionPolicy.CANCEL;
-                }
-                return NavigationActionPolicy.ALLOW;
-              },
-              onLoadStart:
-                  (InAppWebViewController controller, Uri? url) async {},
-              onLoadStop: (InAppWebViewController controller, Uri? url) async {
-                if (url
-                    .toString()
-                    .contains("https://app.campuspro.in/Login.aspx")) {
-                  Get.offAllNamed(Routes.userType);
-                }
-              },
-              onDownloadStartRequest: (controller, url) async {
-                final String _urlFiles = "${url.url}";
-                if (await canLaunch(_urlFiles)) {
-                  await launch(_urlFiles);
-                } else {
-                  throw 'Could not launch $_urlFiles';
-                }
-              },
-              onReceivedError: (controller, request, error) async {
-                if (request.url.toString().contains('tel')) {
-                  _launchURL(request.url.toString());
-                }
-                var uri = request.url;
-                if (uri.scheme == 'tel') {
-                  await _launchURL(uri.toString());
-                  //return NavigationActionPolicy.CANCEL;
-                }
-                // return NavigationActionPolicy.ALLOW;
-              },
-            );
-
-            // // return WebViewWidget(
-            // //     controller: webController.viewcontroller.value!);
-            //     initialUrlRequest: URLRequest(
-            //         url: WebUri("${webController.currentUrl.value}")),
-            //     // initialSettings: InAppWebViewSettings(
-            //     //     useHybridComposition: true, useOnDownloadStart: true),
-            //     initialOptions: InAppWebViewGroupOptions(
-            //       android:
-            //           AndroidInAppWebViewOptions(useHybridComposition: true),
-            //       crossPlatform: InAppWebViewOptions(
-            //           // debuggingEnabled: true,
-            //           useOnDownloadStart: true),
-            //     ),
-            //     onWebViewCreated: (InAppWebViewController controller) =>
-            //         webViewController = controller,
-            //     onLoadStop:
-            //         (InAppWebViewController controller, Uri? url) async {
-            //       if (url
-            //           .toString()
-            //           .contains("https://app.campuspro.in/Login.aspx")) {
-            //         Get.offAllNamed(Routes.userType);
-            //       }
-            //     },
-            //     shouldOverrideUrlLoading: (controller, action) async {
-            //       return NavigationActionPolicy.ALLOW;
-            //     });
+                initialUrlRequest: URLRequest(
+                    url: WebUri("${webController.currentUrl.value}")),
+                // initialSettings: InAppWebViewSettings(
+                //     useHybridComposition: true, useOnDownloadStart: true),
+                initialOptions: InAppWebViewGroupOptions(
+                  android:
+                      AndroidInAppWebViewOptions(useHybridComposition: true),
+                  crossPlatform: InAppWebViewOptions(
+                      // debuggingEnabled: true,
+                      useOnDownloadStart: true),
+                ),
+                onReceivedError: (controller, request, error) {
+                  if (request.url.host.contains('meet.google.com') ||
+                      request.url.toString().contains('tel:')) {
+                    controller.goBack();
+                  }
+                },
+                onWebViewCreated: (InAppWebViewController controller) =>
+                    webViewController = controller,
+                onLoadStart:
+                    (InAppWebViewController controller, Uri? url) async {
+                  if (url != null &&
+                      (url.host.contains('meet.google.com') ||
+                          url.toString().contains('tel:'))) {
+                    final Uri launchUri = Uri(
+                      scheme: 'tel',
+                      path: extractPhoneNumber(url.toString()),
+                    );
+                    if (await canLaunchUrl(launchUri)) {
+                      await launchUrl(launchUri);
+                    } else {
+                      throw 'Could not launch ${url.toString()}';
+                    }
+                  }
+                },
+                onLoadStop:
+                    (InAppWebViewController controller, Uri? url) async {
+                  if (url
+                      .toString()
+                      .contains("https://app.campuspro.in/Login.aspx")) {
+                    Get.offAllNamed(Routes.userType);
+                  }
+                },
+                shouldOverrideUrlLoading: (controller, action) async {
+                  return NavigationActionPolicy.ALLOW;
+                });
           } else {
             return Center(child: CircularProgressIndicator());
           }
         }),
       ),
     );
-  }
-
-  Future<void> _launchURL(String url) async {
-    final Uri launchUri = Uri(
-      path: url,
-    );
-    if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }
