@@ -6,6 +6,7 @@ import 'package:campuspro/Screens/Wedgets/common_button.dart';
 import 'package:campuspro/Screens/Wedgets/common_form_component.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
+import 'package:campuspro/Screens/change_password_screen.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';

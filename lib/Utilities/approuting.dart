@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
+import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,9 @@ class AppRouting extends GetxService {
         break;
       case "G x":
         Navigator.pushNamed(context, Routes.visitorHistory);
+        break;
+      case "Go to Site":
+        UrlLuncher.launchUrls(pageurl);
         break;
       default:
         // Handle unknown actions or provide a default action

@@ -5,6 +5,7 @@ class APIENDPOINT {
   //-------LOGIN----------------------------------------------------------------
   static const getBaseUrl = baseUrl + 'GetBaseApiUrl';
   static const loginApi = baseUrl + "AutheticateLogin";
+  static const changePasswordApi = baseUrl + "ChangeDefaultPasswordNew";
   // **********************************************
   static const sendOtpForgotPassword = baseUrl + "SendOtpForgetPassword";
   static const userTypeApi = "GetOurSchools";

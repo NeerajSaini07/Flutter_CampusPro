@@ -177,8 +177,9 @@ List<Widget> buildMenuItems(BuildContext context) {
             // final usertypeIndex = await Sharedprefdata.getIntegerData(
             //     Sharedprefdata.userTypeIndex);
             final AppRouting appRouting = AppRouting();
-            appbarController.appBarName.value = menuItem.menuName.toString();
-
+            if (menuItem.menuName != "Go to Site") {
+              appbarController.appBarName.value = menuItem.menuName.toString();
+            }
             appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context);
             Navigator.pop(context);
 

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
+import 'package:campuspro/Screens/change_password_screen.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
 import 'package:campuspro/Screens/forgot_password_screen.dart';
@@ -46,8 +47,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
-    // Use FutureBuilder to handle asynchronous initialization tasks
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -76,13 +75,11 @@ class MyApp extends StatelessWidget {
             Routes.visitorHistory: (context) => GetPassvisitorHistory(),
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
+            Routes.changePasswordScreen: (context) => ChangePasswordScreen(),
           },
           home: SplashScreen(), // Show the SplashScreen initially
         );
       },
     );
   }
-
-// Function to handle async initialization tasks
-  // Future<void> _initializeApp() async {}
 }

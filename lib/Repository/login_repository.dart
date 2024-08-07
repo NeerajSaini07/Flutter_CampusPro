@@ -43,4 +43,28 @@ class LoginRepository {
       rethrow;
     }
   }
+
+  static Future<dynamic> changeUserPasswordRepo(String newPassword) async {
+    BaseApiServices apiServices = NetworkApiServices();
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+    final number = await Sharedprefdata.getStrigData(Sharedprefdata.mobile);
+    try {
+      Map<String, String> requestData = {
+        "OUserId": uid!.toString(),
+        "MobileNo": number.toString(),
+        "NewPassword": newPassword
+      };
+      // log(requestData.toString());
+      dynamic response = await apiServices
+          .postApiRequest(requestData, APIENDPOINT.changePasswordApi)
+          .onError((error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

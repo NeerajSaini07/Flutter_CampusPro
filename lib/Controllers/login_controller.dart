@@ -123,17 +123,31 @@ class LoginController extends GetxController {
               formErrorText.value =
                   UserLogin.loginDetails[0].validateMessage.toString();
             } else {
-// ********************************** stored in prefrence ***************************
-
-              Sharedprefdata.setbooleandata(Sharedprefdata.loginKey, true);
-              Sharedprefdata.storeStringData(Sharedprefdata.token,
-                  UserLogin.loginDetails[0].token.toString());
-              Sharedprefdata.storeStringData(Sharedprefdata.uid,
-                  UserLogin.loginDetails[0].oUserid.toString());
-              Sharedprefdata.storeStringData(
+              // ***********************************************************************
+              await Sharedprefdata.storeStringData(
                   Sharedprefdata.mobile, mobileNumber.value);
-              Sharedprefdata.storeStringData(
-                  Sharedprefdata.password, passWord.value);
+              await Sharedprefdata.storeStringData(Sharedprefdata.uid,
+                  UserLogin.loginDetails[0].oUserid.toString());
+              if (mobileNumber.value
+                      .toString()
+                      .substring(mobileNumber.value.length - 5) ==
+                  passWord.value) {
+                Sharedprefdata.setbooleandata(Sharedprefdata.loginKey, false);
+                Get.toNamed(Routes.changePasswordScreen);
+              } else {
+                // ********************************** stored in prefrence ***************************
+
+                await Sharedprefdata.setbooleandata(
+                    Sharedprefdata.loginKey, true);
+                await Sharedprefdata.storeStringData(Sharedprefdata.token,
+                    UserLogin.loginDetails[0].token.toString());
+                await Sharedprefdata.storeStringData(
+                    Sharedprefdata.password, passWord.value);
+
+                await userTypeController.getUsers();
+
+                Get.offAndToNamed(Routes.userType);
+              }
 
               // *************************************** clear variable value of **********
 
@@ -145,10 +159,6 @@ class LoginController extends GetxController {
               mobileNumberController.clear();
               passwordController.clear();
 
-              await userTypeController.getUsers();
-              // ***********************************************************************
-
-              Get.offAndToNamed(Routes.userType);
 // ************************ finding the users list of currect the login user**********************
             }
           }

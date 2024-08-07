@@ -9,7 +9,10 @@ Card buildTextField({
   bool obscureText = false,
   bool? suffixIcon = false,
   int? maxLength,
+  bool? suffixCustomIcon = false,
+  Widget? customWidget,
   String? hintText,
+  bool readOnly = false,
   TextStyle? style = const TextStyle(
     color: Colors.black,
     fontSize: 16,
@@ -42,6 +45,7 @@ Card buildTextField({
       onFieldSubmitted: (value) {
         print("herer is method call");
       },
+      readOnly: readOnly,
       decoration: InputDecoration(
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -59,6 +63,7 @@ Card buildTextField({
               )
             : null,
         hintText: hintText,
+
         hintStyle: TextStyle(
           color: Colors.black,
           fontSize: 16.sp,
@@ -68,16 +73,18 @@ Card buildTextField({
         contentPadding:
             EdgeInsets.symmetric(vertical: 20.0), // Adjust vertical padding
         suffixIcon: suffixIcon == true
-            ? Obx(
-                () => IconButton(
-                  icon: !loginController.passwordHide.value
-                      ? Icon(Icons.visibility_off)
-                      : Icon(Icons.visibility),
-                  onPressed: () {
-                    loginController.showHidePassword();
-                  },
-                ),
-              )
+            ? suffixCustomIcon == true
+                ? customWidget
+                : Obx(
+                    () => IconButton(
+                      icon: !loginController.passwordHide.value
+                          ? Icon(Icons.visibility_off)
+                          : Icon(Icons.visibility),
+                      onPressed: () {
+                        loginController.showHidePassword();
+                      },
+                    ),
+                  )
             : null,
       ),
     ),

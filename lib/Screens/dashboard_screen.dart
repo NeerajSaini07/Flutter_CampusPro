@@ -78,16 +78,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
             ),
           );
 
-          // Download the file
-          // var response = await http.get(Uri.parse(url));
-          // if (response.statusCode == 200) {
-          //   File file = File(savePath);
-          //   await file.writeAsBytes(response.bodyBytes);
-          //   log('File saved to: $savePath');
-          // } else {
-          //   log('Failed to download file');
-          // }
-
           var response =
               await http.Client().send(http.Request('GET', Uri.parse(url)));
           int totalBytes = response.contentLength ?? 0;

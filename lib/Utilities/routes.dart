@@ -13,4 +13,5 @@ class Routes {
   static const String visitorHistory = '/visitorHistory';
   static const String busTrackerScreen = '/busTrackerScreen';
   static const String helpAndSupportScreen = '/helpAndSupportScreen';
+  static const String changePasswordScreen = '/changePasswordScreen';
 }
