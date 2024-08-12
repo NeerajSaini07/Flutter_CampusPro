@@ -8,7 +8,6 @@ class Sharedprefdata {
   static const password = "password";
   static const userTypeIndex = "UserTypeIndex";
   static const fcmToken = "fcmToken";
-
   static const baseUrl = "baseUrl";
 
   // **************************** boolean value stored in prefrence************************

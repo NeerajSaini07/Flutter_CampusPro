@@ -10,9 +10,10 @@ class BusTrackerRepository {
   //******************* Check Bus Allot Status ************************//
 
   static Future<dynamic> checkBusAllotRepo() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+
     // final apiToken = await Sharedprefdata.getStrigData(Sharedprefdata.apiToken);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
@@ -91,9 +92,10 @@ class BusTrackerRepository {
   //******************* School Bus Route ************************//
   static Future<dynamic> schoolBusLiveLocationRepo(
       String? vehicleNumber, String? trackingDeviceIMEI) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 

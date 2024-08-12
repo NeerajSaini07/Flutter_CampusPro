@@ -10,9 +10,10 @@ import 'package:flutter/foundation.dart';
 
 class TransportModuleRepository {
   static Future<dynamic> getStudentListRouteDropDown() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 
@@ -48,12 +49,11 @@ class TransportModuleRepository {
   }
 
   static Future<dynamic> getStudentListAreaDropDown(String routeID) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     try {
       Map<String, String> requestData = {
@@ -89,11 +89,11 @@ class TransportModuleRepository {
 
   static Future<dynamic> getStudentListDetails(
       String routeID, String areaID) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     try {
       Map<String, String> requestData = {

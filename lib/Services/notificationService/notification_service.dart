@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:campuspro/Utilities/sharedpref.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -28,7 +27,7 @@ void prompt(String url) async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   log('Handling a background message ${message.data}');
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
@@ -49,8 +48,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
             importance: Importance.max,
             priority: Priority.max,
             visibility: NotificationVisibility.public,
-            largeIcon: const DrawableResourceAndroidBitmap(
-                "@drawable/ic_notification"),
+            largeIcon:
+                const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
 
             // User For Providing expanded button in notification such that to show all body text
             styleInformation: const BigTextStyleInformation(''),
@@ -112,8 +111,8 @@ initializeNotification() async {
               importance: Importance.max,
               priority: Priority.max,
               visibility: NotificationVisibility.public,
-              largeIcon: const DrawableResourceAndroidBitmap(
-                  "@drawable/ic_notification"),
+              largeIcon:
+                  const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
 
               // User For Providing expanded button in notification such that to show all body text
               styleInformation: const BigTextStyleInformation(''),

@@ -21,9 +21,10 @@ import '../Modal/login_model.dart';
 class GetPassRepository {
   // ******************************************************* history *******************
   static Future<dynamic> getvisitorHistory() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+
     var visitorlistRequest = {
       "OUserId": UserLogin.loginDetails[0].oUserid,
       "Token": FcmTokenList.tokenlist[0].token,
@@ -52,9 +53,8 @@ class GetPassRepository {
 
   static Future<dynamic> verifyOtpGatePass(
       {String? otp, String? visitorid}) async {
-    final GetPassController getPassController = Get.find<GetPassController>();
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
-
+    final GetPassController getPassController = Get.find<GetPassController>();
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     final verifyOtpRequest = {
@@ -79,7 +79,6 @@ class GetPassRepository {
           .onError((error, stackTrace) {
         throw stackTrace;
       });
-
       return response;
     } catch (e) {
       rethrow;
@@ -93,9 +92,10 @@ class GetPassRepository {
 // ***************************************search visitory ********************
 
   static Future<dynamic> searchvistor() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+
     final GetPassController getPassController = Get.find<GetPassController>();
 
     var visitorSearchRequest = {
@@ -128,9 +128,9 @@ class GetPassRepository {
   }
 
   static Future<dynamic> getDataForToMeet() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     final getToMeetApiRequest = {
       'OUserId': UserLogin.loginDetails[0].oUserid,
@@ -158,9 +158,10 @@ class GetPassRepository {
   }
 
   static Future<dynamic> getPurpose() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+
     BaseApiServices apiServices = NetworkApiServices();
 
     var sendingrequestdatapurpose = {
@@ -187,10 +188,11 @@ class GetPassRepository {
   }
 
   static Future<dynamic> updateIdProof() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final GetPassController getPassController = Get.find<GetPassController>();
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+
     final filePaths = getPassController.imagePathForIdProof.value;
 
     BaseApiServices apiServices = NetworkApiServices();
@@ -212,17 +214,17 @@ class GetPassRepository {
           UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
       'Flag': 'F',
     };
-    final request = apiServices.postFileRequest(
-        updateProofid, "fileBase64", filePaths, APIENDPOINT.verifyIdGatePass);
+    final request = apiServices.postFileRequest(updateProofid, "fileBase64",
+        filePaths, baseUrl + APIENDPOINT.verifyIdGatePass);
 
     return request;
   }
 
   static Future<dynamic> saveVisitordata() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final GetPassController getPassController = Get.find<GetPassController>();
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     Future<String> downloadAndSaveImage(String url) async {
       // Get the image from the network
@@ -287,7 +289,7 @@ class GetPassRepository {
       "Flag": "F",
     };
     log(requestdata.toString());
-    log(APIENDPOINT.saveVisitorGatePassApi);
+    log(baseUrl + APIENDPOINT.saveVisitorGatePassApi);
 
     BaseApiServices apiServices = NetworkApiServices();
     try {
@@ -319,7 +321,7 @@ class GetPassRepository {
     };
 
     log(sendingData.toString());
-    log(APIENDPOINT.markVisitorExitApi);
+    log(baseUrl + APIENDPOINT.markVisitorExitApi);
     BaseApiServices apiServices = NetworkApiServices();
 
     dynamic response = await apiServices
@@ -379,7 +381,7 @@ class GetPassRepository {
     };
 
     log(sendingData.toString());
-    log(APIENDPOINT.markGatePassExitApi);
+    log(baseUrl + APIENDPOINT.markGatePassExitApi);
     BaseApiServices apiServices = NetworkApiServices();
 
     dynamic response = await apiServices

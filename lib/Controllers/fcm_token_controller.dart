@@ -3,6 +3,7 @@ import 'package:campuspro/Repository/fcmtoken_repository.dart';
 import 'package:get/get.dart';
 
 class FcmTokenController extends GetxController {
+  //Token Generated to use in Future Apis and also updates the FCM token for notification
   getFCMToken() async {
     await FcmTokenRepository.getfcmTokendata().then((value) async {
       if (value != null) {

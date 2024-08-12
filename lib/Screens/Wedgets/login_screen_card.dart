@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:async';
+
+import 'package:campuspro/Controllers/forgotpassword_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Screens/Wedgets/common_button.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
@@ -8,6 +11,7 @@ import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'common_form_component.dart';
@@ -58,6 +62,7 @@ Widget loginFormCard(BuildContext context) {
                       focusNode: loginController.phoneNode,
                       obscureText: false,
                       keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       style: TextStyle(
                         color: loginController.isPhoneFocused.value
                             ? Colors.black
@@ -112,7 +117,6 @@ Widget loginFormCard(BuildContext context) {
 
 // *************************************** end login form section **************************
 
-          CustomeHeight(14.h),
           forgotPasswordSec(),
 
           Spacer(),
@@ -179,40 +183,47 @@ Widget loginFormCard(BuildContext context) {
 }
 
 Widget forgotPasswordSec() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      GestureDetector(
-        onTap: () {
+  return Align(
+    alignment: Alignment.center,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: () async {
+          // *************** clear value if user back from that screnn **************
+
           Get.toNamed(Routes.forgotpassword);
         },
-        child: Text(
-          "Forgot login ID ",
-          style: TextStyle(
-              color: AppColors.primarytextcolor,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Forgot login ID ",
+                style: TextStyle(
+                    color: AppColors.primarytextcolor,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400),
+              ),
+              Text(
+                " or ",
+                style: TextStyle(
+                    color: AppColors.primarytextcolor,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400),
+              ),
+              Text(
+                " Password ?",
+                style: TextStyle(
+                    color: AppColors.primarytextcolor,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
         ),
       ),
-      Text(
-        " or ",
-        style: TextStyle(
-            color: AppColors.primarytextcolor,
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400),
-      ),
-      GestureDetector(
-        onTap: () {
-          Get.toNamed(Routes.forgotpassword);
-        },
-        child: Text(
-          " Password ?",
-          style: TextStyle(
-              color: AppColors.primarytextcolor,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400),
-        ),
-      ),
-    ],
+    ),
   );
 }

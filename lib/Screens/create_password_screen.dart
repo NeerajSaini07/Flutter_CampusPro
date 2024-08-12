@@ -9,6 +9,7 @@ import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 class CreatePassword extends StatelessWidget {
   const CreatePassword({super.key});
@@ -19,6 +20,10 @@ class CreatePassword extends StatelessWidget {
         Get.find<ForgotPasswordController>();
     return Scaffold(
       backgroundColor: AppColors.loginscafoldcoolr,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: AppColors.loginscafoldcoolr,
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: SingleChildScrollView(
@@ -26,7 +31,7 @@ class CreatePassword extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomeHeight(100.h),
+              CustomeHeight(50.h),
               Text(
                 "Set new Password",
                 style: TextStyle(
@@ -51,28 +56,7 @@ class CreatePassword extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          buildTextField(
-                              hintText: "Create Password",
-                              obscureText: false,
-                              controller:
-                                  forgotPasswordController.createPassword,
-                              onChanged: (value) {
-                                forgotPasswordController.showerrortext.value =
-                                    false;
-                              },
-                              prefixIconData: Icons.lock),
-                          CustomeHeight(10.h),
-                          buildTextField(
-                              hintText: "Conform Password",
-                              obscureText: true,
-                              controller:
-                                  forgotPasswordController.conformPassword,
-                              onChanged: (value) {
-                                forgotPasswordController.showerrortext.value =
-                                    false;
-                              },
-                              prefixIconData: Icons.lock),
-                          Obx(() => forgotPasswordController.showerrortext.value
+                          Obx(() => forgotPasswordController.globleError.value
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
@@ -84,9 +68,66 @@ class CreatePassword extends StatelessWidget {
                                   ),
                                 )
                               : SizedBox()),
-                          Obx(() => forgotPasswordController.showerrortext.value
-                              ? CustomeHeight(20.h)
-                              : CustomeHeight(50.h)),
+                          buildTextField(
+                              hintText: "Create Password",
+                              obscureText: false,
+                              controller:
+                                  forgotPasswordController.createPassword,
+                              onChanged: (value) {
+                                forgotPasswordController.globleError.value =
+                                    false;
+                                forgotPasswordController
+                                    .passwordfielderror.value = false;
+                                forgotPasswordController.showerrortext.value =
+                                    false;
+                                forgotPasswordController
+                                    .confrmpasserrofield.value = false;
+                              },
+                              prefixIconData: Icons.lock),
+                          Obx(() => forgotPasswordController
+                                  .passwordfielderror.value
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    forgotPasswordController.errorText.value,
+                                    style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.red),
+                                  ),
+                                )
+                              : SizedBox()),
+                          CustomeHeight(10.h),
+                          buildTextField(
+                              hintText: "Confirm Password",
+                              obscureText: true,
+                              controller:
+                                  forgotPasswordController.conformPassword,
+                              onChanged: (value) {
+                                forgotPasswordController.globleError.value =
+                                    false;
+                                forgotPasswordController
+                                    .passwordfielderror.value = false;
+                                forgotPasswordController.showerrortext.value =
+                                    false;
+                                forgotPasswordController
+                                    .confrmpasserrofield.value = false;
+                              },
+                              prefixIconData: Icons.lock),
+                          Obx(() => forgotPasswordController
+                                  .confrmpasserrofield.value
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    forgotPasswordController.errorText.value,
+                                    style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.red),
+                                  ),
+                                )
+                              : SizedBox()),
+                          CustomeHeight(20.h),
                           appCommonbutton(
                               onpressed: () {
                                 forgotPasswordController

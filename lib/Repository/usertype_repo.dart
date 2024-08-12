@@ -8,8 +8,6 @@ import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 
 class UserTypeRepository {
-  //  ***************************************  geting base url for login all type  fo domain  *****************************************
-
   static Future<dynamic> getbaseUrlInRepo() async {
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
@@ -34,11 +32,11 @@ class UserTypeRepository {
   }
 
   static Future<dynamic> getuserstypeInRepo() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final loginToken = await Sharedprefdata.getStrigData(Sharedprefdata.token);
     final number = await Sharedprefdata.getStrigData(Sharedprefdata.mobile);
     final pass = await Sharedprefdata.getStrigData(Sharedprefdata.password);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
 
     final data = {
       "OUserId": uid!,
@@ -48,7 +46,7 @@ class UserTypeRepository {
     };
     log(data.toString());
     if (kDebugMode) {
-      print(APIENDPOINT.userTypeApi);
+      print(baseUrl + APIENDPOINT.userTypeApi);
     }
 
     BaseApiServices apiServices = NetworkApiServices();
@@ -56,6 +54,7 @@ class UserTypeRepository {
       dynamic response = apiServices
           .postApiRequest(data, baseUrl + APIENDPOINT.userTypeApi)
           .onError((error, stackTrace) {});
+      log(response.toString());
       return response;
     } catch (e) {
       rethrow;

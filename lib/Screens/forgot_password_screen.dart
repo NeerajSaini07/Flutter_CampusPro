@@ -9,16 +9,33 @@ import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
+  final ForgotPasswordController forgotPasswordController =
+      Get.find<ForgotPasswordController>();
+
+  @override
+  void initState() {
+    super.initState();
+    forgotPasswordController.clearvalue();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ForgotPasswordController forgotPasswordController =
-        Get.find<ForgotPasswordController>();
     return Scaffold(
         backgroundColor: AppColors.loginscafoldcoolr,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: AppColors.loginscafoldcoolr,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -26,7 +43,7 @@ class ForgotPassword extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomeHeight(100.h),
+                CustomeHeight(80.h),
                 Text(
                   "Forgot Password",
                   style: TextStyle(
@@ -71,6 +88,10 @@ class ForgotPassword extends StatelessWidget {
                           Obx(
                             () => buildTextField(
                               hintText: "Mobile",
+                              maxLength: 10,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               initialValue:
                                   forgotPasswordController.showDropDown.value
                                       ? forgotPasswordController
@@ -78,15 +99,32 @@ class ForgotPassword extends StatelessWidget {
                                       : null,
                               prefixIconData: Icons.call,
                               onChanged: (value) {
+                                //  ********************************  for forget pass word filed empty and recalling the api ****************
                                 forgotPasswordController.showerrortext.value =
                                     false;
                                 forgotPasswordController
                                     .mobileForForgotPass.value = value;
+                                forgotPasswordController.items.clear();
+                                forgotPasswordController.showDropDown.value =
+                                    false;
+                                forgotPasswordController
+                                    .selectedDropDownId.value = '';
+                                forgotPasswordController.selectedvalue.value =
+                                    '';
+                                if (value.length == 10) {
+                                  forgotPasswordController.items.clear();
+                                  forgotPasswordController
+                                      .forgotpassForFetchSchool();
+                                  FocusScope.of(context).unfocus();
+                                }
                               },
                             ),
                           ),
                           CustomeHeight(8.h),
-                          Obx(() => forgotPasswordController.showDropDown.value
+                          Obx(() => (forgotPasswordController
+                                      .showDropDown.value &&
+                                  forgotPasswordController
+                                      .mobileForForgotPass.isNotEmpty)
                               ? Card(
                                   color: Colors.white,
                                   child: Padding(
@@ -136,9 +174,14 @@ class ForgotPassword extends StatelessWidget {
                           CustomeHeight(13.h),
                           appCommonbutton(
                               onpressed: () {
-                                if (forgotPasswordController.items.isEmpty) {
-                                  forgotPasswordController
-                                      .forgotpassForFetchSchool();
+                                if (forgotPasswordController
+                                        .mobileForForgotPass.value.length <
+                                    10) {
+                                  forgotPasswordController.showerrortext.value =
+                                      true;
+                                  forgotPasswordController.errorText.value = '';
+                                  forgotPasswordController.errorText.value =
+                                      'Please Enter A Valid Number';
                                 } else {
                                   forgotPasswordController
                                       .forgetPasswordForSendotp();
@@ -151,6 +194,8 @@ class ForgotPassword extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: () {
+                                  forgotPasswordController
+                                      .forgotPassMobile.value = '';
                                   Get.toNamed(Routes.login);
                                 },
                                 child: Text(

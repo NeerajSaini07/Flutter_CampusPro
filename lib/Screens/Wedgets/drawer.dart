@@ -178,11 +178,14 @@ List<Widget> buildMenuItems(BuildContext context) {
             //     Sharedprefdata.userTypeIndex);
 
             final AppRouting appRouting = AppRouting();
-            appbarController.appBarName.value = menuItem.menuName.toString();
-
+            if (menuItem.menuName != "Go to Site") {
+              appbarController.appBarName.value = menuItem.menuName.toString();
+            }
+            if (menuItem.menuName == "Dashboard") {
+              appbarController.appBarName.value = Constant.schoolName;
+            }
             appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context);
             Navigator.pop(context);
-
             if (context.mounted) {
               // if (menuItem.menuName.toString().toLowerCase() == "dashboard" &&
               //     UserTypeslist.userTypesDetails[usertypeIndex].ouserType

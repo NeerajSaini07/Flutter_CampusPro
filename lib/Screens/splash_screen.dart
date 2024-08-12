@@ -36,10 +36,12 @@ class SplashScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               child: Text("Welcome To ${Constant.schoolName}",
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: AppColors.splashScreenHeading,
                     fontWeight: FontWeight.w700,
-                    fontSize: 20.sp,
+                    fontSize: 18.sp,
                   )),
             ),
           ],

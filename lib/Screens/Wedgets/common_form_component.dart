@@ -1,7 +1,10 @@
 // ignore_for_file: unnecessary_null_in_if_null_operators, prefer_const_constructors, avoid_unnecessary_containers
 
+import 'dart:ffi';
+
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +12,10 @@ Card buildTextField({
   bool obscureText = false,
   bool? suffixIcon = false,
   int? maxLength,
+  bool? suffixCustomIcon = false,
+  Widget? customWidget,
   String? hintText,
+  bool readOnly = false,
   TextStyle? style = const TextStyle(
     color: Colors.black,
     fontSize: 16,
@@ -22,6 +28,7 @@ Card buildTextField({
   void Function(String)? onChanged,
   IconData? prefixIconData,
   TextEditingController? controller,
+  List<TextInputFormatter>? inputFormatters,
   String? initialValue,
 }) {
   final LoginController loginController = Get.find<LoginController>();
@@ -34,14 +41,14 @@ Card buildTextField({
       focusNode: focusNode,
       controller: controller,
       obscureText: obscureText,
-      onChanged: onChanged,
       validator: validator,
       maxLength: maxLength,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       style: style,
-      onFieldSubmitted: (value) {
-        print("herer is method call");
-      },
+      onFieldSubmitted: (value) {},
+      onChanged: onChanged,
+      readOnly: readOnly,
       decoration: InputDecoration(
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -59,6 +66,7 @@ Card buildTextField({
               )
             : null,
         hintText: hintText,
+
         hintStyle: TextStyle(
           color: Colors.black,
           fontSize: 16.sp,
@@ -68,16 +76,18 @@ Card buildTextField({
         contentPadding:
             EdgeInsets.symmetric(vertical: 20.0), // Adjust vertical padding
         suffixIcon: suffixIcon == true
-            ? Obx(
-                () => IconButton(
-                  icon: !loginController.passwordHide.value
-                      ? Icon(Icons.visibility_off)
-                      : Icon(Icons.visibility),
-                  onPressed: () {
-                    loginController.showHidePassword();
-                  },
-                ),
-              )
+            ? suffixCustomIcon == true
+                ? customWidget
+                : Obx(
+                    () => IconButton(
+                      icon: !loginController.passwordHide.value
+                          ? Icon(Icons.visibility_off)
+                          : Icon(Icons.visibility),
+                      onPressed: () {
+                        loginController.showHidePassword();
+                      },
+                    ),
+                  )
             : null,
       ),
     ),

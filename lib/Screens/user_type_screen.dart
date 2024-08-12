@@ -3,7 +3,6 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
-import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
@@ -24,21 +23,11 @@ class UserTypeScreen extends StatefulWidget {
 
 class _UserTypeScreenState extends State<UserTypeScreen> {
   @override
-  void initState() {
-    final UserTypeController userTypeController =
-        Get.find<UserTypeController>();
-
-    userTypeController.getUsers();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final UserTypeController userTypeController =
         Get.find<UserTypeController>();
-
     final LogoutController logoutController = Get.find<LogoutController>();
-    final WebController webController = Get.find<WebController>();
+    // final WebController webController = Get.find<WebController>();
     final AppbarController appbarController = Get.find<AppbarController>();
     return Scaffold(
         body: SafeArea(

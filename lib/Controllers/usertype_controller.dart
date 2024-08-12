@@ -1,4 +1,5 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
+import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
@@ -12,13 +13,13 @@ import 'package:get/get.dart';
 
 class UserTypeController extends GetxController {
   getUsers() async {
+    await getBaseUrl();
     try {
       await UserTypeRepository.getuserstypeInRepo().then((value) async {
         if (value != null) {
           List<dynamic> data = value['Data'];
           UserTypeslist.userTypesDetails =
               data.map((json) => UserTypeModel.fromJson(json)).toList();
-
           // await Sharedprefdata.storeStringData(Sharedprefdata.userTypeData,
           //     jsonEncode(UserTypeslist.userTypesDetails));
         }
@@ -43,6 +44,10 @@ class UserTypeController extends GetxController {
 
 // selecting the user typ and redirecting to web dashborad ***************
   gotoDashBorad(String url, [Map<String, int>? indexMap]) async {
+    final BottomBarController bottomBarController =
+        Get.find<BottomBarController>();
+    bottomBarController.checkToShowChatOption(indexMap?.values.first ?? -1);
+
     final FcmTokenController fcmTokenController =
         Get.find<FcmTokenController>();
 
@@ -57,7 +62,7 @@ class UserTypeController extends GetxController {
 
     //  ************************  storig user details *******************
 
-    await getUsers();
+    // await getUsers();
     // **********************************  Generat fcm Token **************
     int index = indexMap?.values.first ?? -1;
 //  **************************** Stroing index of the currect user  ********************************

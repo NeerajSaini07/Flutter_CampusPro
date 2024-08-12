@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:developer';
 
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
+import 'package:campuspro/Screens/change_password_screen.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
 import 'package:campuspro/Screens/forgot_password_screen.dart';
@@ -15,12 +17,13 @@ import 'package:campuspro/Services/notificationService/notification_service.dart
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'Dependency_injection/injection.dart';
+import 'Screens/opt_screen_1.dart';
 import 'Screens/splash_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -28,25 +31,15 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } catch (e) {
-    if (kDebugMode) {
-      print(e);
-    }
-  }
-
-  //   log('Firebase initialized.');
-  // } else {
-  //   log('Firebase already initialized.');
-  // }
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   NotificationService notificationService = NotificationService();
-  await notificationService.initialize();
-  await initializeNotification();
-
+  notificationService.initialize();
+  initializeNotification();
+  final token = await FirebaseMessaging.instance.getToken();
+  print(token);
   runApp(const MyApp());
 }
 
@@ -57,6 +50,8 @@ class MyApp extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     // Use FutureBuilder to handle asynchronous initialization tasks
+
+    // App is ready, return the GetMaterialApp
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -85,10 +80,13 @@ class MyApp extends StatelessWidget {
             Routes.visitorHistory: (context) => GetPassvisitorHistory(),
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
+            Routes.changePasswordScreen: (context) => ChangePasswordScreen()
           },
           home: SplashScreen(), // Show the SplashScreen initially
         );
       },
     );
   }
+
+  // While loading, show a progress indicator
 }

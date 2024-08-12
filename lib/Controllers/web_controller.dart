@@ -19,9 +19,9 @@ class WebController extends GetxController {
 
   gotoWebview(url) async {
     await initializeWebViewController(url);
+
     currentUrl.value = url;
     Get.toNamed(Routes.webview);
-    //viewcontroller.close();
   }
 
   // ******************************** generating url  foer web

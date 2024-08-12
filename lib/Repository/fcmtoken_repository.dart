@@ -9,12 +9,9 @@ import 'package:campuspro/Utilities/sharedpref.dart';
 
 class FcmTokenRepository {
   static Future<dynamic> getfcmTokendata() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
-
-    String fcmToken =
-        await Sharedprefdata.getStrigData(Sharedprefdata.fcmToken);
 
     final fcmTokenData = {
       'OuserId': UserLogin.loginDetails[0].oUserid,
@@ -22,7 +19,7 @@ class FcmTokenRepository {
       'UserType': UserTypeslist.userTypesDetails[usertypeIndex].ouserType,
       'SchoolId': UserTypeslist.userTypesDetails[usertypeIndex].schoolId,
       'StuEmpId': UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId,
-      'FcmToken': fcmToken,
+      'FcmToken': UserLogin.loginDetails[0].token,
       "IsUpdateToken": "N",
       "IsMstPwd": "0",
       "DeviceType": Platform.isAndroid ? 'Android' : 'Ios',
