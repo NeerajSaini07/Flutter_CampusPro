@@ -1,21 +1,16 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 import 'dart:io' show Platform;
 import 'package:campuspro/Controllers/appbar_controller.dart';
-import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/drawer_model.dart';
-import 'package:campuspro/Modal/usertype_model.dart';
-import 'package:campuspro/Screens/TransportModule/studentList/student_list_screen.dart';
-import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/drawer_image.dart';
 import 'package:campuspro/Utilities/routes.dart';
-import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -136,7 +131,7 @@ List<Widget> buildMenuItems(BuildContext context) {
             ),
             onTap: () async {
               final AppRouting appRouting = AppRouting();
-
+              print(subMenuItem.subMenuName);
               appRouting.navigate(
                   subMenuItem.subMenuName, subMenuItem.nevigateUrl, context);
               Navigator.pop(context);

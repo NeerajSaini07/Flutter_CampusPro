@@ -33,8 +33,6 @@ class AppRouting extends GetxService {
         break;
 
       default:
-        // Handle unknown actions or provide a default action
-
         if (pageurl == '') {
           pageurl = 'Index.aspx';
           appbarController.appBarName.value = Constant.schoolName;

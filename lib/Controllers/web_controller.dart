@@ -19,7 +19,7 @@ class WebController extends GetxController {
 
   gotoWebview(url) async {
     await initializeWebViewController(url);
-
+    print("comming on this method");
     currentUrl.value = url;
     Get.toNamed(Routes.webview);
   }

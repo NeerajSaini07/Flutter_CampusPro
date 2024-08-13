@@ -23,7 +23,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'Dependency_injection/injection.dart';
-import 'Screens/opt_screen_1.dart';
+
 import 'Screens/splash_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -38,8 +38,6 @@ void main() async {
   NotificationService notificationService = NotificationService();
   notificationService.initialize();
   initializeNotification();
-  final token = await FirebaseMessaging.instance.getToken();
-  print(token);
   runApp(const MyApp());
 }
 

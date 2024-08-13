@@ -153,7 +153,7 @@ Widget otpBox(
                     forgotPasswordController.verifyOTP();
                   }
                 },
-                text: "Very OTP"),
+                text: "Verify OTP"),
           ],
         ),
       ),

@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'Wedgets/drawer.dart';
+
 class HelpAndSupportScreen extends StatefulWidget {
   const HelpAndSupportScreen({super.key});
 
@@ -43,6 +45,7 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
         Get.find<BottomBarController>();
     return Scaffold(
       appBar: customAppBar(context),
+      drawer: AppDrawer(context),
       bottomNavigationBar: Obx(
         () => BottomNavBar(
           currentIndex: bottomBarController.selectedBottomNavIndex.value,
