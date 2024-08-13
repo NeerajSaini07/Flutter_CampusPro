@@ -5,6 +5,7 @@ import 'package:campuspro/Screens/Wedgets/app_rights.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -84,7 +85,7 @@ class OTPScreen extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 180.h,
+      height: 240.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
         child: Form(
@@ -144,7 +145,38 @@ class OTPScreen extends StatelessWidget {
                       forgotPasswordController.verifyOTP();
                     }
                   },
-                  text: "Very OTP"),
+                  text: "Verify OTP"),
+              CustomeHeight(8.h),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: InkWell(
+                    onTap: () {
+                      Get.offAllNamed(Routes.login);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.w, vertical: 12.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            " Login ",
+                            style: TextStyle(
+                                color: AppColors.primarytextcolor,
+                                fontSize: 16.sp,
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.primarytextcolor,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

@@ -2,6 +2,7 @@
 
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,7 @@ Card buildTextField({
   Widget? customWidget,
   String? hintText,
   bool readOnly = false,
+  List<TextInputFormatter>? inputFormatters,
   TextStyle? style = const TextStyle(
     color: Colors.black,
     fontSize: 16,
@@ -35,6 +37,7 @@ Card buildTextField({
       textInputAction: textInputAction,
       initialValue: initialValue,
       focusNode: focusNode,
+      inputFormatters: inputFormatters,
       controller: controller,
       obscureText: obscureText,
       onChanged: onChanged,
