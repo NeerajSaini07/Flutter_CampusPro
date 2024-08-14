@@ -24,10 +24,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      forgotPasswordController.initialStateData();
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      forgotPasswordController.clearvalue();
+    });
   }
 
   @override
@@ -38,6 +38,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       },
       child: Scaffold(
           backgroundColor: AppColors.loginscafoldcoolr,
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.white),
+            backgroundColor: AppColors.loginscafoldcoolr,
+          ),
           body: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -45,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomeHeight(100.h),
+                  CustomeHeight(30.h),
                   Text(
                     "Forgot Password",
                     style: TextStyle(
@@ -105,86 +109,90 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               //         : null,
                               prefixIconData: Icons.call,
                               onChanged: (value) {
+                                //  ********************************  for forget pass word filed empty and recalling the api ****************
+                                forgotPasswordController.showerrortext.value =
+                                    false;
+                                forgotPasswordController
+                                    .mobileForForgotPass.value = value;
+                                forgotPasswordController.items.clear();
+                                forgotPasswordController.showDropDown.value =
+                                    false;
+                                forgotPasswordController
+                                    .selectedDropDownId.value = '';
+                                forgotPasswordController.selectedvalue.value =
+                                    '';
                                 if (value.length == 10) {
-                                  forgotPasswordController
-                                      .mobileForForgotPass.value = value;
+                                  forgotPasswordController.items.clear();
                                   forgotPasswordController
                                       .forgotpassForFetchSchool();
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-                                } else {
-                                  forgotPasswordController
-                                      .mobileForForgotPass.value = "";
-                                  forgotPasswordController.showDropDown.value =
-                                      false;
+                                  FocusScope.of(context).unfocus();
                                 }
-
-                                // forgotPasswordController.showerrortext.value =
-                                //     false;
-                                // forgotPasswordController
-                                //     .mobileForForgotPass.value = value;
                               },
                             ),
                             CustomeHeight(8.h),
-                            Obx(() => forgotPasswordController
-                                    .showDropDown.value
-                                ? forgotPasswordController.items.value.length >
-                                        1
-                                    ? Card(
-                                        color: Colors.white,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 14.h, horizontal: 14.w),
-                                          child: DropdownButton<String>(
-                                            isDense: true,
-                                            value: forgotPasswordController
-                                                    .selectedvalue.value.isEmpty
-                                                ? null
-                                                : forgotPasswordController
-                                                    .selectedvalue.value,
-                                            isExpanded: true,
-                                            underline: Container(),
-                                            hint: Text(
-                                              'Select School Name',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 15.sp),
-                                            ),
-                                            items: forgotPasswordController
-                                                .items
-                                                .map((value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value[1],
-                                                child: Text(value[1]),
-                                              );
-                                            }).toList(),
-                                            onChanged: (val) {
-                                              forgotPasswordController
-                                                  .selectedvalue.value = val!;
-
-                                              for (var element
-                                                  in forgotPasswordController
-                                                      .items) {
-                                                if (element[1] ==
-                                                    forgotPasswordController
-                                                        .selectedvalue.value) {
-                                                  forgotPasswordController
-                                                      .selectedDropDownId
-                                                      .value = element[0];
-                                                }
-                                              }
-                                            },
-                                          ),
+                            Obx(() => (forgotPasswordController
+                                        .showDropDown.value &&
+                                    forgotPasswordController
+                                        .mobileForForgotPass.isNotEmpty)
+                                ? Card(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 14.h, horizontal: 14.w),
+                                      child: DropdownButton<String>(
+                                        isDense: true,
+                                        value: forgotPasswordController
+                                                .selectedvalue.value.isEmpty
+                                            ? null
+                                            : forgotPasswordController
+                                                .selectedvalue.value,
+                                        isExpanded: true,
+                                        underline: Container(),
+                                        hint: Text(
+                                          'Select School Name',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15.sp),
                                         ),
-                                      )
-                                    : SizedBox()
+                                        items: forgotPasswordController.items
+                                            .map((value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value[1],
+                                            child: Text(value[1]),
+                                          );
+                                        }).toList(),
+                                        onChanged: (val) {
+                                          forgotPasswordController
+                                              .selectedvalue.value = val!;
+
+                                          for (var element
+                                              in forgotPasswordController
+                                                  .items) {
+                                            if (element[1] ==
+                                                forgotPasswordController
+                                                    .selectedvalue.value) {
+                                              forgotPasswordController
+                                                  .selectedDropDownId
+                                                  .value = element[0];
+                                            }
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  )
                                 : SizedBox()),
                             CustomeHeight(13.h),
                             appCommonbutton(
                                 onpressed: () {
-                                  if (forgotPasswordController.items.isEmpty) {
+                                  if (forgotPasswordController
+                                          .mobileForForgotPass.value.length <
+                                      10) {
                                     forgotPasswordController
-                                        .forgotpassForFetchSchool();
+                                        .showerrortext.value = true;
+                                    forgotPasswordController.errorText.value =
+                                        '';
+                                    forgotPasswordController.errorText.value =
+                                        'Please Enter A Valid Number';
                                   } else {
                                     forgotPasswordController
                                         .forgetPasswordForSendotp();

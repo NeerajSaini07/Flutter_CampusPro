@@ -13,6 +13,7 @@ class TransportModuleRepository {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 

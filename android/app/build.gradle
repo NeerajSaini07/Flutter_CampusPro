@@ -54,7 +54,7 @@ android {
         applicationId "com.campuspro.campurPro_EdTech"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode flutterVersionCode.toInteger()
+        versionCode 23 // for upload
         versionName flutterVersionName
     }
 

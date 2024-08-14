@@ -2,6 +2,7 @@ import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/help_and_support_controller.dart';
 import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
+import 'package:campuspro/Screens/Wedgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -43,6 +44,7 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
         Get.find<BottomBarController>();
     return Scaffold(
       appBar: customAppBar(context),
+      drawer: AppDrawer(context),
       bottomNavigationBar: Obx(
         () => BottomNavBar(
           currentIndex: bottomBarController.selectedBottomNavIndex.value,

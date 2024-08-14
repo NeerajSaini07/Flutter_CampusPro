@@ -58,13 +58,13 @@ class LoginController extends GetxController {
   }
 
   void validatePhoneNumber(BuildContext context) {
+    // print("value not comming");
     // final InternetController internetController =
     //     Get.find<InternetController>();
-
     // if (internetController.internetChecker.value == true) {
-    if (mobileNumber.value.isEmpty) {
+    if (mobileNumber.value.length != 10) {
       showerror.value = true;
-      formErrorText.value = "Please enter a number";
+      formErrorText.value = "Please Enter a Valid Number";
     } else {
       showerror.value = false;
       formErrorText.value = "";

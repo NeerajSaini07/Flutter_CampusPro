@@ -14,6 +14,7 @@ class GenerateUrlRepository {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
     final data = {
       "OUserId": UserLogin.loginDetails[0].oUserid,
       "Token": FcmTokenList.tokenlist[0].token,

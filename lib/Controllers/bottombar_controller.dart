@@ -35,10 +35,9 @@ class BottomBarController extends GetxController {
           selectedBottomNavIndex.value = 0;
 
         case 1:
-          Get.offAllNamed(Routes.userType);
+          Get.toNamed(Routes.userType);
           appbarController.appBarName.value = Constant.schoolName.toString();
           selectedBottomNavIndex.value = 0;
-
         case 2:
           appbarController.appBarName.value = "Chat";
           webController.generateWebUrl(
@@ -46,7 +45,7 @@ class BottomBarController extends GetxController {
           selectedBottomNavIndex.value = 2;
         case 3:
           appbarController.appBarName.value = "Help & Support";
-          Get.offAllNamed(Routes.helpAndSupportScreen);
+          Get.toNamed(Routes.helpAndSupportScreen);
           selectedBottomNavIndex.value = 3;
         default:
           selectedBottomNavIndex.value = index;
@@ -60,13 +59,13 @@ class BottomBarController extends GetxController {
           selectedBottomNavIndex.value = 0;
 
         case 1:
-          Get.offAllNamed(Routes.userType);
+          Get.toNamed(Routes.userType);
           appbarController.appBarName.value = Constant.schoolName.toString();
           selectedBottomNavIndex.value = 0;
 
         case 2:
           appbarController.appBarName.value = "Help & Support";
-          Get.offAllNamed(Routes.helpAndSupportScreen);
+          Get.toNamed(Routes.helpAndSupportScreen);
           selectedBottomNavIndex.value = 2;
 
         default:

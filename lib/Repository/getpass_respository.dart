@@ -24,6 +24,7 @@ class GetPassRepository {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
     var visitorlistRequest = {
       "OUserId": UserLogin.loginDetails[0].oUserid,
       "Token": FcmTokenList.tokenlist[0].token,
@@ -54,7 +55,6 @@ class GetPassRepository {
       {String? otp, String? visitorid}) async {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     final GetPassController getPassController = Get.find<GetPassController>();
-
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     final verifyOtpRequest = {
@@ -95,6 +95,7 @@ class GetPassRepository {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
     final GetPassController getPassController = Get.find<GetPassController>();
 
     var visitorSearchRequest = {
@@ -160,6 +161,7 @@ class GetPassRepository {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
     BaseApiServices apiServices = NetworkApiServices();
 
     var sendingrequestdatapurpose = {
@@ -190,6 +192,7 @@ class GetPassRepository {
     final GetPassController getPassController = Get.find<GetPassController>();
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
     final filePaths = getPassController.imagePathForIdProof.value;
 
     BaseApiServices apiServices = NetworkApiServices();

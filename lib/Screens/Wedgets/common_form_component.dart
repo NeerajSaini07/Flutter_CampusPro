@@ -3,6 +3,7 @@
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -40,7 +41,6 @@ Card buildTextField({
       inputFormatters: inputFormatters,
       controller: controller,
       obscureText: obscureText,
-      onChanged: onChanged,
       validator: validator,
       maxLength: maxLength,
       keyboardType: keyboardType,
@@ -48,6 +48,7 @@ Card buildTextField({
       onFieldSubmitted: (value) {
         print("herer is method call");
       },
+      onChanged: onChanged,
       readOnly: readOnly,
       decoration: InputDecoration(
         border: OutlineInputBorder(

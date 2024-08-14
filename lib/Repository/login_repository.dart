@@ -10,7 +10,6 @@ class LoginRepository {
   static Future<dynamic> userLoginRepo() async {
     final LoginController loginController = Get.find<LoginController>();
     BaseApiServices apiServices = NetworkApiServices();
-
     const url = APIENDPOINT.loginApi;
     final sharedfdata = Sharedprefdata();
 
