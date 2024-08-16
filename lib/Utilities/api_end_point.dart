@@ -8,6 +8,7 @@ class APIENDPOINT {
   static const changePasswordApi = baseUrl + "ChangeDefaultPasswordNew";
   // **********************************************
   static const sendOtpForgotPassword = baseUrl + "SendOtpForgetPassword";
+  static const apiCallStatus = "ApiCallStatus";
   static const userTypeApi = "GetOurSchools";
   static const drawerApi = "Managemenu";
   static const gotoWebApp = "GotoWebApp4Flutter";

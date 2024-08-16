@@ -38,6 +38,19 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
     }
   }
 
+  Future<void> _openEmail(String number) async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: helpAndSupportController.email.value,
+      query: 'subject=Support Request',
+    );
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    } else {
+      throw 'Could not launch email client';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final BottomBarController bottomBarController =
@@ -111,7 +124,13 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
                           ),
                           const SizedBox(height: 20),
                           SupportCardRow(
-                            onTap: () {},
+                            onTap: () {
+                              if (helpAndSupportController
+                                  .email.value.isNotEmpty) {
+                                _openEmail(
+                                    helpAndSupportController.email.value);
+                              }
+                            },
                             title: 'Email',
                             image: 'assets/images/email.jpg',
                             info:
