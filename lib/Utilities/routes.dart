@@ -14,4 +14,7 @@ class Routes {
   static const String busTrackerScreen = '/busTrackerScreen';
   static const String helpAndSupportScreen = '/helpAndSupportScreen';
   static const String changePasswordScreen = '/changePasswordScreen';
+
+  // ***********************************  student portal **************************************************
+  static const String StudentDashboad = '/studentdashboard';
 }

@@ -2,14 +2,16 @@ import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
-import 'package:campuspro/Modal/drawer_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Repository/usertype_repo.dart';
+import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+
+import 'menu_controller.dart';
 
 class UserTypeController extends GetxController {
   getUsers() async {
@@ -47,13 +49,13 @@ class UserTypeController extends GetxController {
     final BottomBarController bottomBarController =
         Get.find<BottomBarController>();
     bottomBarController.checkToShowChatOption(indexMap?.values.first ?? -1);
-
     final FcmTokenController fcmTokenController =
         Get.find<FcmTokenController>();
 
     final WebController webController = Get.find<WebController>();
 
     final AppbarController appbarController = Get.find<AppbarController>();
+    final UserMenuController menuController = Get.find<UserMenuController>();
 
     //  Putting Company Name on
 
@@ -76,19 +78,19 @@ class UserTypeController extends GetxController {
     if (UserTypeslist.userTypesDetails[index].dashboardType == 'W') {
       try {
         // ********************* finding menu from user *************************************
-        await UserTypeRepository.getDrawerData(index).then((value) {
-          List<dynamic> data = value['Data'];
-          MenuItemList.menuItemDetails =
-              data.map((json) => DrawerMenu.fromJson(json)).toList();
-        });
 
-        // if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
-        //   Get.toNamed(Routes.visitorHistory);
-        // } else {
-        //   Get.toNamed(Routes.webview);
+        await menuController.getmenuFromServer(index);
+
+        if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
+          Get.toNamed(Routes.visitorHistory);
+        } else {
+          Get.toNamed(Routes.webview);
+        }
+
+        // Get.toNamed(Routes.webview);
+        // if (url.contains("Student/Index")) {
+        //   Get.toNamed(Routes.StudentDashboad);
         // }
-
-        Get.toNamed(Routes.webview);
 
 // ************************************************************************
       } catch (e) {

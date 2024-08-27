@@ -16,6 +16,7 @@ import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart
 import 'package:campuspro/Services/notificationService/notification_service.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/firebase_options.dart';
+import 'package:campuspro/localdatabase/db_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +26,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'Dependency_injection/injection.dart';
 
 import 'Screens/splash_screen.dart';
+import 'Screens/studenPortal/dashboard.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   NotificationService notificationService = NotificationService();
-  notificationService.initialize();
-  initializeNotification();
+  await notificationService.initialize();
+  await initializeNotification();
+
+  // **********************************  database initialize *****************************************************
+  final databaseManager = DatabaseManager();
+  databaseManager.database;
+
+  //  *****************************************************************
+
   runApp(const MyApp());
 }
 
@@ -78,7 +85,8 @@ class MyApp extends StatelessWidget {
             Routes.visitorHistory: (context) => GetPassvisitorHistory(),
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
-            Routes.changePasswordScreen: (context) => ChangePasswordScreen()
+            Routes.changePasswordScreen: (context) => ChangePasswordScreen(),
+            Routes.StudentDashboad: (context) => StudentDashboad(),
           },
           home: SplashScreen(), // Show the SplashScreen initially
         );
@@ -88,3 +96,23 @@ class MyApp extends StatelessWidget {
 
   // While loading, show a progress indicator
 }
+
+
+//  final usermobile =
+//               await Sharedprefdata.getIntegerData(Sharedprefdata.mobile);
+
+//           final userData = UserData(
+//             mobileNo: usermobile.toString(), // Replace with actual value
+//             userId: UserLogin.loginDetails.last.oUserid
+//                 .toString(), // Replace with actual value
+//             updatedDate: '', // Replace with actual value
+//             orgId: UserTypeslist.userTypesDetails[index].organizationId
+//                 .toString(), // Replace with actual value
+//             schoolId: UserTypeslist.userTypesDetails[index].schoolId
+//                 .toString(), // Replace with actual value
+//             userType: UserTypeslist.userTypesDetails[index].ouserType
+//                 .toString(), // Replace with actual value
+//             drawerData: data.map((json) => DrawerMenu.fromJson(json)).toList(),
+//           );
+
+//           db_helper.insertUserData(userData);

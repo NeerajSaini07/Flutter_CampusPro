@@ -29,7 +29,7 @@ class ForgotPasswordController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print("gerer");
+
     clearvalue();
   }
 
@@ -83,7 +83,6 @@ class ForgotPasswordController extends GetxController {
             showerrortext.value = false;
           } else {
             showerrortext.value = true;
-
             errorText.value = "Mobile Number Not Registered";
           }
         }

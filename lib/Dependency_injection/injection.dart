@@ -13,8 +13,11 @@ import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Controllers/splash_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
+
+import '../Controllers/menu_controller.dart';
 
 class DependencyInjection {
   static void init() {
@@ -48,5 +51,7 @@ class DependencyInjection {
     Get.lazyPut<HelpAndSupportController>(() => HelpAndSupportController());
 
     Get.lazyPut<ChangePasswordController>(() => ChangePasswordController());
+
+    Get.lazyPut<UserMenuController>(() => UserMenuController());
   }
 }

@@ -62,78 +62,107 @@ class _WebViewScreenState extends State<WebViewScreen> {
         body: Obx(() {
           if (webController.currentUrl.isNotEmpty) {
             return InAppWebView(
-                initialUrlRequest: URLRequest(
-                    url: WebUri("${webController.currentUrl.value}")),
-                // initialSettings: InAppWebViewSettings(
-                //     useHybridComposition: true, useOnDownloadStart: true),
-                initialOptions: InAppWebViewGroupOptions(
-                  ios: IOSInAppWebViewOptions(
-                    allowsInlineMediaPlayback: true,
-                  ),
-                  android:
-                      AndroidInAppWebViewOptions(useHybridComposition: true),
-                  crossPlatform: InAppWebViewOptions(
-                      // debuggingEnabled: true,
-                      javaScriptEnabled: true,
-                      useOnDownloadStart: true),
+              initialUrlRequest:
+                  URLRequest(url: WebUri("${webController.currentUrl.value}")),
+              // initialSettings: InAppWebViewSettings(
+              //     useHybridComposition: true, useOnDownloadStart: true),
+              initialOptions: InAppWebViewGroupOptions(
+                ios: IOSInAppWebViewOptions(
+                  allowsInlineMediaPlayback: true,
                 ),
-                onReceivedError: (controller, request, error) {
-                  if (request.url.host.contains('meet.google.com') ||
-                      request.url.toString().contains('tel:')) {
-                    controller.goBack();
+                android: AndroidInAppWebViewOptions(useHybridComposition: true),
+                crossPlatform: InAppWebViewOptions(
+                    // debuggingEnabled: true,
+                    javaScriptEnabled: true,
+                    useOnDownloadStart: true),
+              ),
+              onReceivedError: (controller, request, error) {
+                if (request.url.host.contains('meet.google.com') ||
+                    request.url.toString().contains('tel:')) {
+                  controller.goBack();
+                }
+              },
+              onWebViewCreated: (InAppWebViewController controller) =>
+                  webViewController = controller,
+              onLoadStart: (InAppWebViewController controller, Uri? url) async {
+                if (url != null &&
+                    (url.host.contains('meet.google.com') ||
+                        url.toString().contains('tel:'))) {
+                  final Uri launchUri = Uri(
+                    scheme: 'tel',
+                    path: extractPhoneNumber(url.toString()),
+                  );
+                  if (await canLaunchUrl(launchUri)) {
+                    await launchUrl(launchUri);
+                  } else {
+                    throw 'Could not launch ${url.toString()}';
                   }
-                },
-                onWebViewCreated: (InAppWebViewController controller) =>
-                    webViewController = controller,
-                onLoadStart:
-                    (InAppWebViewController controller, Uri? url) async {
-                  if (url != null &&
-                      (url.host.contains('meet.google.com') ||
-                          url.toString().contains('tel:'))) {
-                    final Uri launchUri = Uri(
-                      scheme: 'tel',
-                      path: extractPhoneNumber(url.toString()),
+                } else if (url.toString().contains(
+                    "https://app.campuspro.in/Student/OnlineTest.aspx")) {
+                  UrlLuncher.launchUrls(url.toString());
+                  appbarController.appBarName.value = Constant.schoolName;
+                  webController.currentUrl.value = url.toString();
+                  webController.generateWebUrl('Index.aspx', 'Dashboard');
+                }
+              },
+              onLoadStop: (InAppWebViewController controller, Uri? url) async {
+                await controller.evaluateJavascript(
+                    source:
+                        "window.localStorage.setItem('key', 'localStorage value!')");
+                if (url
+                    .toString()
+                    .contains("https://app.campuspro.in/Login.aspx")) {
+                  Get.offAllNamed(Routes.userType);
+                }
+                controller.addJavaScriptHandler(
+                    handlerName: 'downloadPDF',
+                    callback: (args) async {
+                      final pdfUrl = args[0];
+                      if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+                        await launchUrl(Uri.parse(pdfUrl),
+                            mode: LaunchMode.externalApplication);
+                      } else {
+                        throw 'Could not launch $pdfUrl';
+                      }
+                    });
+              },
+
+              onDownloadStartRequest: (
+                controller,
+                url,
+              ) async {
+                // await downloadFile(url.url.toString(), context);
+                final String _urlFiles = "${url.url}";
+                void _launchURLFiles() async => await canLaunchUrl(
+                      Uri.parse(_urlFiles),
+                    )
+                        ? await launchUrl(
+                            Uri.parse(_urlFiles),
+                            mode: LaunchMode.externalApplication,
+                          )
+                        : throw 'Could not launch $_urlFiles';
+                _launchURLFiles();
+              },
+              shouldOverrideUrlLoading: (controller, navigationAction) async {
+                final url = navigationAction.request.url.toString();
+                print("Navigating to: $url");
+
+                if (url.endsWith('.pdf')) {
+                  // Open the PDF using an external application
+                  if (await canLaunchUrl(Uri.parse(url))) {
+                    await launchUrl(
+                      Uri.parse(url),
+                      mode: LaunchMode.externalApplication,
                     );
-                    if (await canLaunchUrl(launchUri)) {
-                      await launchUrl(launchUri);
-                    } else {
-                      throw 'Could not launch ${url.toString()}';
-                    }
-                  } else if (url.toString().contains(
-                      "https://app.campuspro.in/Student/OnlineTest.aspx")) {
-                    UrlLuncher.launchUrls(url.toString());
-                    appbarController.appBarName.value = Constant.schoolName;
-                    webController.currentUrl.value = url.toString();
-                    webController.generateWebUrl('Index.aspx', 'Dashboard');
+                  } else {
+                    throw 'Could not launch $url';
                   }
-                },
-                onLoadStop:
-                    (InAppWebViewController controller, Uri? url) async {
-                  await controller.evaluateJavascript(
-                      source:
-                          "window.localStorage.setItem('key', 'localStorage value!')");
-                  if (url
-                      .toString()
-                      .contains("https://app.campuspro.in/Login.aspx")) {
-                    Get.offAllNamed(Routes.userType);
-                  }
-                },
-                onDownloadStartRequest: (
-                  controller,
-                  url,
-                ) async {
-                  // await downloadFile(url.url.toString(), context);
-                  final String _urlFiles = "${url.url}";
-                  void _launchURLFiles() async => await canLaunchUrl(
-                        Uri.parse(_urlFiles),
-                      )
-                          ? await launchUrl(Uri.parse(_urlFiles))
-                          : throw 'Could not launch $_urlFiles';
-                  _launchURLFiles();
-                },
-                shouldOverrideUrlLoading: (controller, action) async {
-                  return NavigationActionPolicy.ALLOW;
-                });
+                  return NavigationActionPolicy.CANCEL;
+                }
+
+                return NavigationActionPolicy.ALLOW;
+              },
+            );
           } else {
             return Center(child: CircularProgressIndicator());
           }

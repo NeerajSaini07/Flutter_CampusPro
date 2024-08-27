@@ -8,9 +8,9 @@ import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitordata_model.dart';
 import 'package:campuspro/Repository/getpass_respository.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/idProofuploadedDilog.dart';
-import 'package:campuspro/Screens/Wedgets/getPass/visitordetailsupload_dialog.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,6 +21,8 @@ class GetPassController extends GetxController {
   RxBool showvisitorDetails = false.obs;
   RxBool showErrorfield = false.obs;
   RxBool otperrorfield = false.obs;
+
+  final TextEditingController mobilenumberController = TextEditingController();
 
   RxString errorMessage = ''.obs;
   RxString visitorTyep = ''.obs;
@@ -69,65 +71,71 @@ class GetPassController extends GetxController {
     // ************************** when click on it then make it false ****************
     showErrorfield.value = false;
     showOTPwidget.value = false;
-
     if (mobileNo.value.isNotEmpty) {
-      // finding ther userindex from chache ***************************************
-      int usertypeIndex =
-          await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-      await GetPassRepository.searchvistor().then((value) {
-        //  *******************  if data is empty ******************
-        if (value['Status'] == 'Cam-006') {
-          // ***********************  if visitor is mother or father ************
-          if (visitorTyep.value == 'Father' || visitorTyep.value == 'Mother') {
-            errorMessage.value = "Mobile Number Not Registered";
+      if (mobileNo.value.length < 10) {
+        showErrorfield.value = true;
+        errorMessage.value = "Please Enter Valid Number";
+      } else {
+        // finding ther userindex from chache ***************************************
+        int usertypeIndex =
+            await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+        await GetPassRepository.searchvistor().then((value) {
+          //  *******************  if data is empty ******************
+          if (value['Status'] == 'Cam-006') {
+            // ***********************  if visitor is mother or father ************
+            if (visitorTyep.value == 'Father' ||
+                visitorTyep.value == 'Mother') {
+              errorMessage.value = "Mobile Number Not Registered";
 
 //  ******************************** make it false if any is true **************
-            showErrorfield.value = true;
-            showOTPwidget.value = false;
-            showvisitorDetails.value = false;
+              showErrorfield.value = true;
+              showOTPwidget.value = false;
+              showvisitorDetails.value = false;
 
-            //  *******************************other ************************
-          } else {
-            showErrorfield.value = false;
-            errorMessage.value = '';
-            List<dynamic> data = value['Data'];
+              //  *******************************other ************************
+            } else {
+              showErrorfield.value = false;
+              errorMessage.value = '';
+              List<dynamic> data = value['Data'];
 
-            log(data.toString());
-            VisitorData.visitorListDetails =
-                data.map((json) => VisitorDataModel.fromJson(json)).toList();
+              log(data.toString());
+              VisitorData.visitorListDetails =
+                  data.map((json) => VisitorDataModel.fromJson(json)).toList();
 //   ***************** if otp is enable *********************************
 
+              if (UserTypeslist
+                      .userTypesDetails[usertypeIndex].sendOtpToVisitor ==
+                  'Y') {
+                showOTPwidget.value = true;
+
+                //  show details page ***************************************
+              } else {
+                showOTPwidget.value = false;
+                showvisitorDetails.value = true;
+                showErrorfield.value = false;
+                errorMessage.value = '';
+              }
+            }
+          }
+
+          // ***********************  if respose is succcess **********************
+          else if (value['Status'] == 'Cam-001') {
+            List<dynamic> data = value['Data'];
+            VisitorData.visitorListDetails =
+                data.map((json) => VisitorDataModel.fromJson(json)).toList();
             if (UserTypeslist
                     .userTypesDetails[usertypeIndex].sendOtpToVisitor ==
                 'Y') {
               showOTPwidget.value = true;
-
-              //  show details page ***************************************
             } else {
               showOTPwidget.value = false;
               showvisitorDetails.value = true;
-              showErrorfield.value = false;
-              errorMessage.value = '';
             }
           }
-        }
-
-        // ***********************  if respose is succcess **********************
-        else if (value['Status'] == 'Cam-001') {
-          List<dynamic> data = value['Data'];
-          VisitorData.visitorListDetails =
-              data.map((json) => VisitorDataModel.fromJson(json)).toList();
-          if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor ==
-              'Y') {
-            showOTPwidget.value = true;
-          } else {
-            showOTPwidget.value = false;
-            showvisitorDetails.value = true;
-          }
-        }
 
 // Storing data in model for dispalying ************************************
-      });
+        });
+      }
     } else {
       errorMessage.value = "Enter Mobile Number";
       showErrorfield.value = true;
@@ -234,11 +242,33 @@ class GetPassController extends GetxController {
     await GetPassRepository.saveVisitordata().then((value) {
       if (value['Status'] == 'Cam-001') {
         getVisitorHistory();
-        showuploadVisitorDialog(context, true);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            duration: const Duration(milliseconds: 1000),
+            content: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                "Visitor Data Updated",
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        );
+
         visitorImage.value = '';
         selectedOption.value = '';
         selectedPurpose.value = '';
         FullName.value = '';
+        mobileNo.value = '';
+        mobilenumberController.clear();
         adress.value = '';
         otherMessage.value = '';
         showOTPwidget.value = false;

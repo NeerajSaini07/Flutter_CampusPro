@@ -3,9 +3,7 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
-import 'package:campuspro/Screens/getpass/visitor_history.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -31,11 +29,7 @@ customAppBar(BuildContext context) {
     iconTheme: const IconThemeData(color: Colors.white),
     actions: [
       PopupMenuButton<String>(
-        icon: Image.asset(
-          'assets/images/person_icon.png',
-          width: 24.w,
-          height: 24.h,
-        ),
+        icon: Icon(Icons.settings),
         onSelected: (value) {
           if (value == 'logout') {
             logoutController.userlogOut();

@@ -20,18 +20,23 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.5.2</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>12</string>
+	<string>1</string>
+	<key>FLTEnableImpeller</key>
+	<false/>
 	<key>FlutterImpeller</key>
 	<false/>
-	<key>FLTEnableImpeller</key>
-    <false />
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take pictures.</string>
+	<string>This app requires camera access to allow you to capture your profile picture, which will be displayed in your profile</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need access to your location to provide services both when the app is active and in the background</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need access to your location to provide relevant services.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -62,13 +67,5 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
-
-	<!-- Allow HTTP connections -->
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<!-- Allowing arbitrary loads for HTTP connections -->
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 </dict>
 </plist>

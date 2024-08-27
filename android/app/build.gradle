@@ -85,4 +85,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.window:window:1.0.0'
+    //implementation "com.squareup.sqldelight:sqlite-driver:2.1.0"// or another available version
+
 }
