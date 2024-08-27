@@ -246,6 +246,7 @@
 
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
+import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/drawer.dart';
@@ -353,8 +354,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     } else {
                       throw 'Could not launch ${url.toString()}';
                     }
-                  } else if (url.toString().contains(
-                      "https://app.campuspro.in/Student/OnlineTest.aspx")) {
+                  } else if (url.toString().contains("OnlineTest.aspx")) {
                     UrlLuncher.launchUrls(url.toString());
                     appbarController.appBarName.value = Constant.schoolName;
                     webController.currentUrl.value = url.toString();
@@ -366,11 +366,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
                   await controller.evaluateJavascript(
                       source:
                           "window.localStorage.setItem('key', 'localStorage value!')");
-                  if (url
-                      .toString()
-                      .contains("https://app.campuspro.in/Login.aspx")) {
-                    Get.offAllNamed(Routes.userType);
-                  }
+                  // if (url
+                  //     .toString()
+                  //     .contains("https://app.campuspro.in/Login.aspx")) {
+                  //   Get.offAllNamed(Routes.userType);
+                  // }
                 },
                 onDownloadStartRequest: (
                   controller,
@@ -396,6 +396,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       Uri.parse(action.request.url!.toString()),
                       mode: LaunchMode.externalApplication,
                     );
+                    return NavigationActionPolicy.CANCEL;
+                  } else if (action.request.url
+                      .toString()
+                      .contains("login.aspx")) {
+                    final LogoutController logoutController =
+                        Get.find<LogoutController>();
+                    logoutController.userlogOut();
                     return NavigationActionPolicy.CANCEL;
                   }
                   return NavigationActionPolicy.ALLOW;

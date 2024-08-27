@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:developer';
 
+import 'package:campuspro/Screens/TransportModule/transport_dashboard_screen.dart';
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Screens/change_password_screen.dart';
@@ -17,6 +18,7 @@ import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart
 import 'package:campuspro/Services/notificationService/notification_service.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/firebase_options.dart';
+import 'package:campuspro/localdatabase/db_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'Dependency_injection/injection.dart';
 
 import 'Screens/splash_screen.dart';
+import 'Screens/studenPortal/dashboard.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -35,11 +38,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   NotificationService notificationService = NotificationService();
-  notificationService.initialize();
-  initializeNotification();
+  await notificationService.initialize();
+  await initializeNotification();
 
-// final token = await FirebaseMessaging.instance.getToken();
-//   log("FCM Token generated => $token");
+  // **********************************  database initialize *****************************************************
+  final databaseManager = DatabaseManager();
+  databaseManager.database;
+
+  //  *****************************************************************
 
   runApp(const MyApp());
 }
@@ -78,6 +84,8 @@ class MyApp extends StatelessWidget {
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
             Routes.changePasswordScreen: (context) => ChangePasswordScreen(),
+            Routes.StudentDashboad: (context) => StudentDashboad(),
+            Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially
         );

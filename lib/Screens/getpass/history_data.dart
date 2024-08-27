@@ -1,71 +1,155 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, camel_case_types
-
 import 'package:campuspro/Controllers/getpassController.dart';
-import 'package:campuspro/Screens/getpass/history_details_page.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../Wedgets/common_appbar.dart';
 
 class VisitorHistoryPage extends StatelessWidget {
+  const VisitorHistoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final GetPassController getPassController = Get.find<GetPassController>();
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       getPassController.getVisitorHistory();
     });
+
     return Scaffold(
-        appBar: customAppBar(context),
-        body: Obx(
-          () => getPassController.vistorData.value.isEmpty
-              ? Center(child: Text('No data available'))
-              : ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                  itemCount: getPassController.vistorData.value.length,
-                  itemBuilder: (context, index) {
-                    final visitor = getPassController.vistorData.value[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        radius: 28.w,
-                        backgroundImage:
-                            NetworkImage(visitor.visitorImagePath.toString()),
-                        onBackgroundImageError: (error, stackTrace) {},
-                        child: visitor.visitorImagePath!.isEmpty
-                            ? Icon(Icons.person)
-                            : null,
+      appBar: customAppBar(context),
+      body: Obx(
+        () => getPassController.vistorData.value.isEmpty
+            ? Center(child: Text('No data available'))
+            : ListView.separated(
+                padding: EdgeInsets.symmetric(vertical: 16.h),
+                itemCount: getPassController.vistorData.value.length,
+                itemBuilder: (context, index) {
+                  final visitor = getPassController.vistorData.value[index];
+
+                  return GestureDetector(
+                    onTap: () {
+                      // Navigate to HistoryDetails when tapping anywhere on the Card
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => HistoryDetails(
+                      //       index: index,
+                      //     ),
+                      //   ),
+                      // );
+                    },
+                    child: Card(
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
-                      title: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HistoryDetails(
-                                index: index,
+                      elevation: 4,
+                      child: Padding(
+                        padding: EdgeInsets.all(6.w),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                // Replacing CircleAvatar with Container for a rectangular image
+                                Container(
+                                  width: 100
+                                      .w, // Adjust width to match desired size
+                                  height: 100
+                                      .w, // Adjust height to match desired size
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        6.0), // Adjust the radius as needed
+                                    image: visitor.visitorImagePath!.isEmpty
+                                        ? null
+                                        : DecorationImage(
+                                            image: NetworkImage(visitor
+                                                .visitorImagePath
+                                                .toString()),
+                                            fit: BoxFit.fill,
+                                          ),
+                                    color: visitor.visitorImagePath!.isEmpty
+                                        ? Colors.grey
+                                        : null,
+                                  ),
+                                  child: visitor.visitorImagePath!.isEmpty
+                                      ? Icon(Icons.person,
+                                          size: 30
+                                              .w) // Adjust icon size as needed
+                                      : null,
+                                ),
+                                SizedBox(width: 16.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Tooltip(
+                                        decoration:
+                                            BoxDecoration(color: Colors.white),
+                                        triggerMode: TooltipTriggerMode.tap,
+                                        textStyle: TextStyle(
+                                            fontSize: 10.sp,
+                                            color: Colors.black),
+                                        message: visitor.visitorName ??
+                                            "N/A", // Full name for tooltip
+                                        child: Text(
+                                          visitor.visitorName != null &&
+                                                  visitor.visitorName!.length >
+                                                      20
+                                              ? '${visitor.visitorName!.substring(0, 20)}...'
+                                              : visitor.visitorName ?? "N/A",
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                          overflow: TextOverflow
+                                              .ellipsis, // Truncate the text if too long
+                                        ),
+                                      ),
+                                      SizedBox(height: 1.h),
+                                      Text('ID: ${visitor.id ?? "N/A"}'),
+                                      Text(
+                                          'Address: ${visitor.visitorAddress}'),
+                                      Text(
+                                          'Entry Time: ${visitor.entryTime ?? "N/A"}'),
+                                      Text(
+                                          'Exit Time: ${visitor.exitTime ?? "N/A"}'),
+                                      Text(
+                                          'Mobile No: ${visitor.number ?? "N/A"}'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8.h),
+                            if (visitor.exitTime == null ||
+                                visitor.exitTime!.isEmpty)
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    getPassController.markVisitorExitApi(index);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.appbuttonColor,
+                                  ),
+                                  child: Text(
+                                    'Exit',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        child: Text(visitor.visitorName ?? "N/A"),
+                          ],
+                        ),
                       ),
-                      subtitle: Text('Address: ${visitor.visitorAddress}'),
-                      trailing: visitor.exitTime != null &&
-                              visitor.exitTime!.isNotEmpty
-                          ? null
-                          : ElevatedButton(
-                              onPressed: () {
-                                getPassController.markVisitorExitApi(index);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.appbuttonColor),
-                              child: Text('Exit',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, index) => Divider(),
-                ),
-        ));
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, index) => Divider(),
+              ),
+      ),
+    );
   }
 }

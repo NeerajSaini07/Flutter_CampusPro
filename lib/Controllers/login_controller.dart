@@ -136,7 +136,8 @@ class LoginController extends GetxController {
                 Get.toNamed(Routes.changePasswordScreen);
               } else {
                 // ********************************** stored in prefrence ***************************
-
+                await Sharedprefdata.storeStringData(
+                    Sharedprefdata.mobile, mobileNumber.value);
                 await Sharedprefdata.setbooleandata(
                     Sharedprefdata.loginKey, true);
                 await Sharedprefdata.storeStringData(Sharedprefdata.token,

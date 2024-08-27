@@ -7,7 +7,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 class NotificationService {
   Future initialize() async {
+    // Setting up background message handler and creating notification channel
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -18,6 +25,7 @@ class NotificationService {
 }
 
 void prompt(String url) async {
+  // Launching URL if it's valid, otherwise throwing an error
   if (await canLaunchUrlString(url)) {
     await launchUrlString(url);
   } else {
@@ -27,7 +35,7 @@ void prompt(String url) async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // await Firebase.initializeApp();
+  // Handling background messages and showing notifications
   log('Handling a background message ${message.data}');
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
@@ -50,8 +58,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
             visibility: NotificationVisibility.public,
             largeIcon:
                 const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
-
-            // User For Providing expanded button in notification such that to show all body text
+            // Provides expanded notification to show all body text
             styleInformation: const BigTextStyleInformation(''),
           ),
         ));
@@ -59,44 +66,47 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
+  'high_importance_channel', // id of the channel
+  'High Importance Notifications', // channel name
   description:
-      'This channel is used for important notifications.', // description
+      'This channel is used for important notifications.', // channel description
   importance: Importance.max,
 );
-// final IOSFlutterLocalNotificationsPlugin iosChannel=IOSFlutterLocalNotificationsPlugin();
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 initializeNotification() async {
+  // Initializing Android notification settings
   const initialzationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  //******IOs notification settings */
+  // iOS notification settings with sound, alert, and badge permissions
   const DarwinInitializationSettings iosInitializationSettings =
       DarwinInitializationSettings(
-    requestSoundPermission: false,
-    requestBadgePermission: false,
-    requestAlertPermission: false,
+    requestSoundPermission: true, // Request sound permission explicitly
+    requestBadgePermission: true, // Request badge permission explicitly
+    requestAlertPermission: true, // Request alert permission explicitly
     onDidReceiveLocalNotification: onDidReceiveLocalNotification,
   );
 
+  // Combining both Android and iOS settings
   const initializationSettings = InitializationSettings(
     android: initialzationSettingsAndroid,
     iOS: iosInitializationSettings,
   );
 
+  // Initializing the Flutter local notifications plugin
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
   );
 
+  // Listening to foreground messages (when app is open) and showing notifications
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
+
     if (notification != null && android != null) {
-      log("Notification Title : ${notification.title}");
-      log("Notification Body : ${notification.body}");
       flutterLocalNotificationsPlugin.show(
           notification.hashCode,
           notification.title,
@@ -113,64 +123,61 @@ initializeNotification() async {
               visibility: NotificationVisibility.public,
               largeIcon:
                   const DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
-
-              // User For Providing expanded button in notification such that to show all body text
+              // Provides expanded notification to show all body text
               styleInformation: const BigTextStyleInformation(''),
             ),
           ));
     }
   });
+
+  // Requesting permission to show notifications and getting the FCM token
+  await requestNotificationPermission();
   getToken();
 }
 
+Future requestNotificationPermission() async {
+  // Request notification permissions on iOS
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    log('User granted permission');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    log('User granted provisional permission');
+  } else {
+    log('User declined or has not accepted permission');
+  }
+}
+
 Future selectNotification(String? payload) async {
+  // Handling notification tap (if any action needs to be taken on tap)
   if (payload != null) {
     debugPrint('notification payload: $payload');
   }
 }
 
 Future onDidReceiveLocalNotification(
-    int? id, String? title, String? body, String? payload) async {
-  // display a dialog with the notification details, tap ok to go to another page
-  // showDialog(
-  //   context: context,
-  //   builder: (BuildContext context) => CupertinoAlertDialog(
-  //     title: Text(title),
-  //     content: Text(body),
-  //     actions: [
-  //       CupertinoDialogAction(
-  //         isDefaultAction: true,
-  //         child: Text('Ok'),
-  //         onPressed: () async {
-  //           Navigator.of(context, rootNavigator: true).pop();
-  //           await Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => SecondScreen(payload),
-  //             ),
-  //           );
-  //         },
-  //       )
-  //     ],
-  //   ),
-  // );
-}
+    int? id, String? title, String? body, String? payload) async {}
 
 Future<void> getToken() async {
+  // Fetching and logging the FCM token
   final token = await FirebaseMessaging.instance.getToken();
   log("FCM Token generated => $token");
   await Sharedprefdata.storeStringData(
       Sharedprefdata.fcmToken, token.toString());
 }
 
-Future instantNofitication() async {
+Future instantNotification() async {
+  // Creating and showing an instant notification (manually triggered)
   var android = const AndroidNotificationDetails(
     "id",
     "channel",
     icon: "@mipmap/ic_launcher",
     largeIcon: DrawableResourceAndroidBitmap("@mipmap/ic_launcher"),
-
-    // User For Providing expanded button in notification such that to show all body text
     styleInformation: BigTextStyleInformation(''),
   );
 
@@ -179,6 +186,7 @@ Future instantNofitication() async {
 
   var platform = NotificationDetails(android: android, iOS: ios);
 
+  // Showing the notification
   await flutterLocalNotificationsPlugin.show(
       0, "Instant notification", "Tap to do something", platform,
       payload: "Welcome to app");
