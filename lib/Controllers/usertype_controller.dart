@@ -136,15 +136,12 @@ class UserTypeController extends GetxController {
           }
           log(value.toString());
         });
-
         // if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
         //   Get.toNamed(Routes.visitorHistory);
         // } else {
         //   Get.toNamed(Routes.webview);
         // }
-
         Get.toNamed(Routes.webview);
-
 // ************************************************************************
       } catch (e) {
         await UserTypeRepository.getDrawerData(index).then((value) {
@@ -154,7 +151,6 @@ class UserTypeController extends GetxController {
         });
       }
     }
-
     //webController.gotoWebview(url);
     webController.currentUrl.value = url;
   }
