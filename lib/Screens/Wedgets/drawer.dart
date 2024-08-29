@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 import 'dart:io' show Platform;
 import 'package:campuspro/Controllers/appbar_controller.dart';
+import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
@@ -17,6 +18,8 @@ import 'package:get/get.dart';
 
 // ignore: non_constant_identifier_names
 Widget AppDrawer(BuildContext context) {
+  final BottomBarController bottomBarController =
+      Get.find<BottomBarController>();
   return Drawer(
     backgroundColor: AppColors.loginscafoldcoolr,
     child: Column(
@@ -36,7 +39,8 @@ Widget AppDrawer(BuildContext context) {
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.offAllNamed(Routes.userType);
+                        bottomBarController.selectedBottomNavIndex.value = 0;
+                        Get.toNamed(Routes.userType);
                       },
                       child: Image.asset(
                         Constant.switchAccountIcon,
@@ -131,7 +135,7 @@ List<Widget> buildMenuItems(BuildContext context) {
             ),
             onTap: () async {
               final AppRouting appRouting = AppRouting();
-              print(subMenuItem.subMenuName);
+              if (subMenuItem.subMenuName == "Fee Payment") {}
               appRouting.navigate(
                   subMenuItem.subMenuName, subMenuItem.nevigateUrl, context);
               Navigator.pop(context);

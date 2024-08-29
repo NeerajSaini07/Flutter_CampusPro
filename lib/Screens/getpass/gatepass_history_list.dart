@@ -66,17 +66,7 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
       BuildContext context, GatePassHistoryModel gatePassData, int index) {
     final GetPassController getPassController = Get.find<GetPassController>();
     return GestureDetector(
-      onTap: () {
-        // Navigate to HistoryDetails when tapping anywhere on the Card
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => HistoryDetails(
-        //       index: index,
-        //     ),
-        //   ),
-        // );
-      },
+      onTap: () {},
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
         shape: RoundedRectangleBorder(
@@ -113,7 +103,7 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Tooltip(
-                          decoration: BoxDecoration(color: Colors.white),
+                          decoration: const BoxDecoration(color: Colors.white),
                           triggerMode: TooltipTriggerMode.tap,
                           textStyle:
                               TextStyle(fontSize: 10.sp, color: Colors.black),
@@ -146,10 +136,6 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
                           style: TextStyle(fontSize: 15.sp),
                         ),
                         Text(
-                          'Exit Time: ${gatePassData.toTime ?? "N/A"}',
-                          style: TextStyle(fontSize: 15.sp),
-                        ),
-                        Text(
                           'Mobile No: ${gatePassData.contactNo ?? "N/A"}',
                           style: TextStyle(fontSize: 15.sp),
                         ),
@@ -164,12 +150,12 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      getPassController.markVisitorExitApi(index);
+                      getPassController.markGatePassExitApi(index);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.appbuttonColor,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Exit',
                       style: TextStyle(color: Colors.white),
                     ),

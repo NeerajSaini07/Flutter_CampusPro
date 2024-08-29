@@ -1,9 +1,11 @@
 import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../Wedgets/common_appbar.dart';
+import 'fullscreenImage.dart';
 
 class VisitorHistoryPage extends StatelessWidget {
   const VisitorHistoryPage({super.key});
@@ -28,17 +30,7 @@ class VisitorHistoryPage extends StatelessWidget {
                   final visitor = getPassController.vistorData.value[index];
 
                   return GestureDetector(
-                    onTap: () {
-                      // Navigate to HistoryDetails when tapping anywhere on the Card
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => HistoryDetails(
-                      //       index: index,
-                      //     ),
-                      //   ),
-                      // );
-                    },
+                    onTap: () {},
                     child: Card(
                       margin:
                           EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
@@ -53,31 +45,42 @@ class VisitorHistoryPage extends StatelessWidget {
                             Row(
                               children: [
                                 // Replacing CircleAvatar with Container for a rectangular image
-                                Container(
-                                  width: 100
-                                      .w, // Adjust width to match desired size
-                                  height: 100
-                                      .w, // Adjust height to match desired size
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        6.0), // Adjust the radius as needed
-                                    image: visitor.visitorImagePath!.isEmpty
-                                        ? null
-                                        : DecorationImage(
-                                            image: NetworkImage(visitor
-                                                .visitorImagePath
-                                                .toString()),
-                                            fit: BoxFit.fill,
-                                          ),
-                                    color: visitor.visitorImagePath!.isEmpty
-                                        ? Colors.grey
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return FullScreenImage(
+                                          image: visitor.visitorImagePath,
+                                        );
+                                      },
+                                    ));
+                                  },
+                                  child: Container(
+                                    width: 100
+                                        .w, // Adjust width to match desired size
+                                    height: 100
+                                        .w, // Adjust height to match desired size
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          6.0), // Adjust the radius as needed
+                                      image: visitor.visitorImagePath!.isEmpty
+                                          ? null
+                                          : DecorationImage(
+                                              image: NetworkImage(visitor
+                                                  .visitorImagePath
+                                                  .toString()),
+                                              fit: BoxFit.fill,
+                                            ),
+                                      color: visitor.visitorImagePath!.isEmpty
+                                          ? Colors.grey
+                                          : null,
+                                    ),
+                                    child: visitor.visitorImagePath!.isEmpty
+                                        ? Icon(Icons.person,
+                                            size: 30
+                                                .w) // Adjust icon size as needed
                                         : null,
                                   ),
-                                  child: visitor.visitorImagePath!.isEmpty
-                                      ? Icon(Icons.person,
-                                          size: 30
-                                              .w) // Adjust icon size as needed
-                                      : null,
                                 ),
                                 SizedBox(width: 16.w),
                                 Expanded(

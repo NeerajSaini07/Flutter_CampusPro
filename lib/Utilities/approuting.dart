@@ -37,8 +37,10 @@ class AppRouting extends GetxService {
         if (pageurl == '') {
           pageurl = 'Index.aspx';
           appbarController.appBarName.value = Constant.schoolName;
+        } else {
+          webController.generateWebUrl(pageurl, name);
+          appbarController.appBarName.value = name;
         }
-        webController.generateWebUrl(pageurl, name);
         break;
     }
   }

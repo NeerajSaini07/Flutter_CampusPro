@@ -46,10 +46,9 @@ class _GetPassvisitorHistoryState extends State<GetPassvisitorHistory> {
     return Scaffold(
       appBar: customAppBar(context),
       bottomNavigationBar: Obx(
-        () => BottomNavBar(
-          currentIndex: bottomBarController.selectedBottomNavIndex.value,
-          onTap: bottomBarController.onItemTappedChangeBottomNavIndex,
-        ),
+        () => customBottomNavBar(
+            bottomBarController.selectedBottomNavIndex.value,
+            bottomBarController.onItemTappedChangeBottomNavIndex),
       ),
       drawer: AppDrawer(context),
       body: Stack(

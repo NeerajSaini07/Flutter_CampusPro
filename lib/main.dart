@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:developer';
 
+import 'package:campuspro/Screens/TransportModule/transport_dashboard_screen.dart';
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Screens/change_password_screen.dart';
+
 import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
 import 'package:campuspro/Screens/forgot_password_screen.dart';
@@ -12,6 +13,7 @@ import 'package:campuspro/Screens/help_and_support_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
+import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
 import 'package:campuspro/Services/notificationService/notification_service.dart';
 import 'package:campuspro/Utilities/routes.dart';
@@ -41,7 +43,7 @@ void main() async {
 
   // **********************************  database initialize *****************************************************
   final databaseManager = DatabaseManager();
-  databaseManager.database;
+  databaseManager.initWinDB();
 
   //  *****************************************************************
 
@@ -53,10 +55,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
-    // Use FutureBuilder to handle asynchronous initialization tasks
-
-    // App is ready, return the GetMaterialApp
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -80,39 +78,20 @@ class MyApp extends StatelessWidget {
             Routes.userType: (context) => UserTypeScreen(),
             Routes.CreatePassword: (context) => CreatePassword(),
             Routes.opt: (context) => OTPScreen(),
-            Routes.webview: (context) => WebViewScreen(),
+            Routes.Dashboardboard: (context) => WebViewScreen(),
             Routes.noInternet: (context) => NoInternetScreen(),
             Routes.visitorHistory: (context) => GetPassvisitorHistory(),
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
             Routes.changePasswordScreen: (context) => ChangePasswordScreen(),
             Routes.StudentDashboad: (context) => StudentDashboad(),
+            Routes.webviewpage: (context) => WebViewDashboardPage()
+
+            // Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially
         );
       },
     );
   }
-
-  // While loading, show a progress indicator
 }
-
-
-//  final usermobile =
-//               await Sharedprefdata.getIntegerData(Sharedprefdata.mobile);
-
-//           final userData = UserData(
-//             mobileNo: usermobile.toString(), // Replace with actual value
-//             userId: UserLogin.loginDetails.last.oUserid
-//                 .toString(), // Replace with actual value
-//             updatedDate: '', // Replace with actual value
-//             orgId: UserTypeslist.userTypesDetails[index].organizationId
-//                 .toString(), // Replace with actual value
-//             schoolId: UserTypeslist.userTypesDetails[index].schoolId
-//                 .toString(), // Replace with actual value
-//             userType: UserTypeslist.userTypesDetails[index].ouserType
-//                 .toString(), // Replace with actual value
-//             drawerData: data.map((json) => DrawerMenu.fromJson(json)).toList(),
-//           );
-
-//           db_helper.insertUserData(userData);

@@ -14,6 +14,9 @@ import 'package:get/get.dart';
 import 'menu_controller.dart';
 
 class UserTypeController extends GetxController {
+  var usertypeIndex;
+
+  //var bottomIndexvalueForhelpAndSupport;
   getUsers() async {
     await getBaseUrl();
     try {
@@ -61,6 +64,7 @@ class UserTypeController extends GetxController {
 
     appbarController.appBarName.value = Constant.schoolName;
     Constant.dashBoardUrl = url;
+    print(Constant.dashBoardUrl);
 
     //  ************************  storig user details *******************
 
@@ -79,17 +83,35 @@ class UserTypeController extends GetxController {
       try {
         // ********************* finding menu from user *************************************
 
-        await menuController.getmenuFromServer(index);
+//  *****************************************************************************
 
+        // Modification date : 22-08 -2024
+        // Purpose: storing menu in local db and get pass module included
+
+        await menuController.getmenuFromServer(index);
         if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
           Get.toNamed(Routes.visitorHistory);
         } else {
-          Get.toNamed(Routes.webview);
+          Get.toNamed(Routes.Dashboardboard);
         }
+        // } else if (url.contains("Student/Index")) {
+        //   Get.toNamed(Routes.StudentDashboad);
+        // } else {
+        //   Get.toNamed(Routes.Dashboardboard);
+        // }
+
+        usertypeIndex =
+            await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 
         // Get.toNamed(Routes.webview);
         // if (url.contains("Student/Index")) {
         //   Get.toNamed(Routes.StudentDashboad);
+        // }
+
+        // if (UserTypeslist.userTypesDetails[index].ouserType == 'S') {
+        //   bottomIndexvalueForhelpAndSupport.value = 2;
+        // } else {
+        //   bottomIndexvalueForhelpAndSupport.value = 2;
         // }
 
 // ************************************************************************

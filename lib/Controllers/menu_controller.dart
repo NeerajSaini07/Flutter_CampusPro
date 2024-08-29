@@ -11,6 +11,7 @@ import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:campuspro/localdatabase/db_helper.dart';
 import 'package:campuspro/localdatabase/menu_model.dart';
 import 'package:get/get.dart';
+import '../localdatabase/dashboard_menu_model.dart';
 
 class UserMenuController extends GetxController {
   var NewRefreshDateTime = '';
@@ -22,31 +23,54 @@ class UserMenuController extends GetxController {
     await lastupdatemenu();
     var usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-    if (NewRefreshDateTime == '890') {
+
+//  ************************** checking the  new menu update  ******************
+
+    if (NewRefreshDateTime == '78') {
+      // ************************* if no new menu added for this user  then get the data from local database ************
       await db_helper
           .getmenudata(UserTypeslist.userTypesDetails[usertypeIndex].ouserType)
           .then((value) {
         String drawerDataJson = value![0]['drawerData'];
-        // Decode the JSON string into a List<dynamic>
         List<dynamic> drawerDataList = jsonDecode(drawerDataJson);
         MenuItemList.menuItemDetails =
             drawerDataList.map((json) => DrawerMenu.fromJson(json)).toList();
       });
+
+      // *******************************  for dashboard Menu ***************************
+
+      await db_helper
+          .getDashboardMenu(
+              UserTypeslist.userTypesDetails[usertypeIndex].ouserType)
+          .then((value) {
+        String dashboardmenu = value![0]['dashboardmenu'];
+
+        List<dynamic> dashbaordMenuList = jsonDecode(dashboardmenu);
+        DashboardMenulist.dashboardMenulistdetails = dashbaordMenuList
+            .map((json) => Dashboardmenumodel.fromJson(json))
+            .toList();
+      });
     } else {
+//  **********************  take the data ffrom api call the api for finding the menu list ****************
+
       await UserTypeRepository.getDrawerData(index).then((value) async {
         List<dynamic> data = value['Data'];
-        //List<dynamic> dashboardMenu = value['DashboardData'];
+        List<dynamic> dashboardmenudata = value['DashboardData'];
+        print(dashboardmenudata);
 
         MenuItemList.menuItemDetails =
             data.map((json) => DrawerMenu.fromJson(json)).toList();
 
-        // DashboardMenulist.dashboardMenulistdetails = dashboardMenu
-        //     .map((json) => Dashboardmenumodel.fromJson(json))
-        //     .toList();
+        DashboardMenulist.dashboardMenulistdetails = dashboardmenudata
+            .map((json) => Dashboardmenumodel.fromJson(json))
+            .toList();
 
         // ********************************** uploading user menu in local database **************************
         final usermobile =
             await Sharedprefdata.getStrigData(Sharedprefdata.mobile);
+
+        //  **************************  for lest side drawer menu *************
+
         final userData = UserData(
           mobileNo: usermobile.toString(),
           userId: UserLogin.loginDetails.last.oUserid.toString(),
@@ -60,9 +84,29 @@ class UserMenuController extends GetxController {
 
         db_helper.insertOrUpdateUserData(userData,
             UserTypeslist.userTypesDetails[index].ouserType.toString());
+
+        //  ******************  for dashboard menu ******************************
+
+        final userdashboardMenudata = DashboardMenuModelLocalDb(
+          mobileNo: usermobile.toString(),
+          userId: UserLogin.loginDetails.last.oUserid.toString(),
+          updatedDate: NewRefreshDateTime,
+          orgId:
+              UserTypeslist.userTypesDetails[index].organizationId.toString(),
+          schoolId: UserTypeslist.userTypesDetails[index].schoolId.toString(),
+          userType: UserTypeslist.userTypesDetails[index].ouserType.toString(),
+          dashboardMenu: dashboardmenudata
+              .map((json) => Dashboardmenumodel.fromJson(json))
+              .toList(),
+        );
+
+        db_helper.insertOrUpdateUserDataforDashboardMenu(userdashboardMenudata,
+            UserTypeslist.userTypesDetails[index].ouserType.toString());
       });
     }
   }
+
+  //  ******************  chech the update time in server *****************************
 
   checkmenuchanges() async {
     await CheckmenuchangesRepo.getApiCallStatusRepo().then((value) {
@@ -71,6 +115,8 @@ class UserMenuController extends GetxController {
       }
     });
   }
+
+//  ****************  check in the last update time in local db **************
 
   lastupdatemenu() async {
     var usertypeIndex =
@@ -86,4 +132,6 @@ class UserMenuController extends GetxController {
       }
     });
   }
+
+  //  *********************************************************
 }
