@@ -350,6 +350,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.19"
+  flutter_profile_picture:
+    dependency: "direct main"
+    description:
+      name: flutter_profile_picture
+      sha256: "067caecef0d7162d3858eaca3c5859cbbb21b3e5704c2bc5b96b50ffe267f45d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -576,6 +584,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   js:
     dependency: transitive
     description:
@@ -673,7 +689,7 @@ packages:
     source: hosted
     version: "0.5.0"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "087ce49c3f0dc39180befefc60fdb4acd8f8620e5682fe2476afd0b3688bb4af"

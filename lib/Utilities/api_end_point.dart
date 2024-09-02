@@ -42,4 +42,8 @@ class APIENDPOINT {
   // ******************************  Employee ****************************
 
   static const employeeProfile = "GetEmpProfilenew_V1";
+
+  // ************************ Student Module *************************
+  static const studentDetailApi = "GetStudentInfo_V1";
+  static const notificationApi = "Getalertnotifications_V1";
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/login_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
@@ -29,7 +27,7 @@ class GenerateUrlRepository {
       "Flag": "F",
       "PageName": pageName,
     };
-    print(data);
+    // print(data);
     String url = baseUrl + APIENDPOINT.gotoWebApp;
     BaseApiServices apiServices = NetworkApiServices();
     try {

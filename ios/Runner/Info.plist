@@ -38,7 +38,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need access to your location to provide services both when the app is active and in the background</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need access to your location to provide relevant services.</string>
+    <string>We need access to your location to provide relevant services.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to select images.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

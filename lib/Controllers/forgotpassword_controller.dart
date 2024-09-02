@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:campuspro/Repository/forgotpassword_repository.dart';
+import 'package:campuspro/Screens/Wedgets/contact_detail_popup.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,6 @@ class ForgotPasswordController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     clearvalue();
   }
 
@@ -37,8 +37,10 @@ class ForgotPasswordController extends GetxController {
     forgotPassMobile.value = '';
     selectedvalue.value = '';
     selectedDropDownId.value = '';
-    items.clear();
+    items.value = [];
     showDropDown.value = false;
+    errorText.value = '';
+    mobileForForgotPass.value = '';
   }
 
   @override
@@ -92,7 +94,9 @@ class ForgotPasswordController extends GetxController {
   }
 
   Future<dynamic> forgetPasswordForSendotp() async {
-    if (selectedvalue.isEmpty) {
+    if (errorText.value == "Mobile Number Not Registered") {
+      showerrortext.value = true;
+    } else if (selectedvalue.isEmpty) {
       showerrortext.value = true;
       errorText.value = "Please Select The School";
     } else {
@@ -118,6 +122,23 @@ class ForgotPasswordController extends GetxController {
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
+        } else if (value != null && value['Status'] == 'N') {
+          if (data is List &&
+              (data.first['MobileNo'] != null ||
+                  data.first['MobileNo'] != null)) {
+            Get.dialog(ContactDialog(
+              mobileNumber: data.first['MobileNo'] ?? "",
+              emailAddress: data.first['Email'] ?? "",
+            ));
+          } else {
+            Get.snackbar(
+              "OTP Error",
+              value['Message'],
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red,
+              colorText: Colors.white,
+            );
+          }
         }
       });
     }
@@ -189,4 +210,27 @@ class ForgotPasswordController extends GetxController {
       });
     }
   }
+}
+
+void showContactInfoDialog(String mobile, String email) {
+  Get.defaultDialog(
+    barrierDismissible: false,
+    title: "Please Contact For Help",
+    content: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("It seems you don't have enough SMS balance."),
+        SizedBox(height: 10),
+        Text("Please contact us for help:"),
+        SizedBox(height: 10),
+        Text("Mobile: $mobile"),
+        Text("Email: $email"),
+      ],
+    ),
+    textConfirm: "OK",
+    confirmTextColor: Colors.white,
+    onConfirm: () {
+      Get.back(); // Close the dialog
+    },
+  );
 }

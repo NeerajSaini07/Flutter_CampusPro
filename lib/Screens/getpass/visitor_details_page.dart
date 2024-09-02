@@ -42,8 +42,8 @@ class VisitorDetialsPage extends StatelessWidget {
                   Center(
                     child: Obx(
                       () => Container(
-                        width: 200.w,
-                        height: 200.h,
+                        width: 150.w,
+                        height: 150.h,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -85,8 +85,6 @@ class VisitorDetialsPage extends StatelessWidget {
                     ),
                   ),
                   CustomeHeight(10.h),
-                  lable("Full Name"),
-                  CustomeHeight(6.h),
                   buildTextField(
                     hintText: "Enter Full Name",
                     initialValue:
@@ -101,9 +99,7 @@ class VisitorDetialsPage extends StatelessWidget {
                     keyboardType: TextInputType.name,
                     prefixIconData: Icons.person,
                   ),
-                  CustomeHeight(10.h),
-                  lable("Address"),
-                  CustomeHeight(6.h),
+                  CustomeHeight(12.h),
                   buildTextField(
                     hintText: "Enter Full Address",
                     onChanged: (value) {
@@ -118,9 +114,7 @@ class VisitorDetialsPage extends StatelessWidget {
                     keyboardType: TextInputType.streetAddress,
                     prefixIconData: Icons.home,
                   ),
-                  CustomeHeight(10.h),
-                  lable("To Meet"),
-                  CustomeHeight(6.h),
+                  CustomeHeight(12.h),
                   Obx(
                     () => DropdownButtonFormField<String>(
                       value: getPassController.selectedOption.value.isNotEmpty
@@ -142,55 +136,72 @@ class VisitorDetialsPage extends StatelessWidget {
                       },
                       decoration: InputDecoration(
                         fillColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                                width: 0.2, color: Colors.grey)),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              15.0), // Set border radius here
-                        ),
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                                width: 0.2, color: Colors.grey)),
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 11.w, vertical: 15.h),
                         isDense: true,
                       ),
-                      hint: Text('Select'),
+                      hint: Text(
+                        'Select Too Meet',
+                        style: TextStyle(
+                            fontSize: 14.sp, fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
-                  CustomeHeight(10.h),
-                  const Text("Purpose"),
-                  CustomeHeight(6.h),
+                  CustomeHeight(12.h),
                   DropdownButtonFormField<String>(
-                      value: getPassController.selectedPurpose.value.isNotEmpty
-                          ? getPassController.selectedPurpose.value
-                          : null,
-                      items: getPassController.purposelist.value.map((value) {
-                        return DropdownMenuItem<String>(
-                          value: value["id"].toString(),
-                          child: Text(value["name"].toString()),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          log(newValue);
-                          getPassController.selectedPurpose.value = newValue;
-                          // handle value change, e.g., update state or make an API call
-                        }
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              15.0), // Set border radius here
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12.w, vertical: 15.h),
-                        isDense: true,
-                      ),
-                      hint: Text('Select')),
-                  CustomeHeight(10.h),
-                  Text("Other"),
+                    value: getPassController.selectedPurpose.value.isNotEmpty
+                        ? getPassController.selectedPurpose.value
+                        : null,
+                    items: getPassController.purposelist.value.map((value) {
+                      return DropdownMenuItem<String>(
+                        value: value["id"].toString(),
+                        child: Text(value["name"].toString()),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        log(newValue);
+                        getPassController.selectedPurpose.value = newValue;
+                        // handle value change, e.g., update state or make an API call
+                      }
+                    },
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(width: 0.2, color: Colors.grey)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(width: 0.2, color: Colors.grey)),
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 11.w, vertical: 15.h),
+                      isDense: true,
+                    ),
+                    hint: Text(
+                      'Select Purpose',
+                      style: TextStyle(
+                          fontSize: 14.sp, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  CustomeHeight(12.h),
                   buildTextField(
-                    hintText: "  ",
+                    hintText: "Other Purposes",
                     onChanged: (value) {
                       getPassController.otherMessage.value = value;
                     },
-                    maxLength: 80,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 14.w),
+                    maxLines: 3,
                     obscureText: false,
                     keyboardType: TextInputType.text,
                   ),

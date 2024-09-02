@@ -2,10 +2,12 @@
 
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
+import 'package:campuspro/Controllers/student_module_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/dashboard_menu.dart';
+import 'package:campuspro/Modal/student_module/notification_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
-import 'package:campuspro/Screens/Wedgets/common_userProfile_ondashboard.dart';
 import 'package:campuspro/Utilities/colors.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../Utilities/approuting.dart';
+import '../Wedgets/greeting_message.dart';
 import 'recent_notification.dart';
 
 class StudentDashboad extends StatelessWidget {
@@ -21,8 +24,10 @@ class StudentDashboad extends StatelessWidget {
   final AppbarController appbarController = Get.find<AppbarController>();
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();
-
+  final WebController webController = Get.find<WebController>();
   final UserTypeController userTypeController = Get.find<UserTypeController>();
+  final StudentModuleController studentController =
+      Get.find<StudentModuleController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +44,71 @@ class StudentDashboad extends StatelessWidget {
           ),
           child: Column(
             children: [
-              userProfileName(),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      AppColors.primarycolor,
+                      Colors.blue[300]!,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.r),
+                    bottomRight: Radius.circular(30.r),
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  // Add padding for spacing
+                  child: Stack(children: [
+                    // Left side: Text
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Hi ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
+                            style: TextStyle(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: 6.h),
+                          Text(
+                            '${getGreetingMessage()},',
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Right side: CircleAvatar
+
+                    SizedBox(height: 5.h),
+                  ]),
+                ),
+              ),
+
               SizedBox(height: 5.h),
               // MarqueeWidget(),
-              SimpleSliderWidget(),
+              Obx(
+                () => studentController.notificationStatus.value
+                    ? SimpleSliderWidget(
+                        notifications: NotificationList.notificationList,
+                      )
+                    : SizedBox(),
+              ),
               SizedBox(height: 7.h),
               Container(
-                  width: 335.w,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -58,7 +121,8 @@ class StudentDashboad extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24.0),
                   ),
-                  padding: EdgeInsets.all(1.0),
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
                   child: _buildActionsCard()),
             ],
           ),
@@ -123,9 +187,9 @@ class StudentDashboad extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          mainAxisSpacing: 14.h,
-          crossAxisSpacing: 0.w,
-          childAspectRatio: 1.04,
+          // mainAxisSpacing: 14.h,
+          // crossAxisSpacing: 0.w,
+          childAspectRatio: 0.8,
         ),
         padding: EdgeInsets.all(8.0), // padding around the grid
         itemCount: DashboardMenulist
@@ -134,12 +198,16 @@ class StudentDashboad extends StatelessWidget {
           return Column(
             children: [
               Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                ),
+                shape: CircleBorder(),
+                // RoundedRectangleBorder(
+                //   borderRadius: BorderRadius.circular(25.0),
+                // ),
                 elevation: 10,
                 child: InkWell(
+                  borderRadius: BorderRadius.circular(24.r + 4),
                   onTap: () async {
+                    bottomBarController.selectedBottomNavIndex.value = 0;
+                    webController.showWebViewScreen.value = true;
                     final AppRouting appRouting = AppRouting();
                     await appRouting.navigate(
                         DashboardMenulist
@@ -149,40 +217,31 @@ class StudentDashboad extends StatelessWidget {
                         context);
                   },
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromARGB(184, 84, 105, 238)
-                              .withOpacity(0.4),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: Offset(4, 7),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    padding: EdgeInsets.all(5.0),
-                    child: SizedBox(
-                      width: 30.w,
-                      height: 30.h,
-                      child: Image.network(
-                        DashboardMenulist
-                            .dashboardMenulistdetails[index].imageUrl
-                            .toString(),
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.network(
-                            'https://picsum.photos/200', // Replace with the path to your dummy image
-                            fit: BoxFit.contain,
-                          );
-                        },
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
                       ),
-                    ),
-                  ),
+                      child: CircleAvatar(
+                        radius: 24.r,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24.r),
+                          child: Image.network(
+                            DashboardMenulist
+                                .dashboardMenulistdetails[index].imageUrl
+                                .toString(),
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.network(
+                                'https://picsum.photos/200', // Replace with the path to your dummy image
+                                fit: BoxFit.contain,
+                              );
+                            },
+                          ),
+                        ),
+                      )),
                 ),
               ),
-              SizedBox(height: 3.h), // Space between the card and text
+              SizedBox(height: 4.h), // Space between the card and text
               Text(
                 DashboardMenulist.dashboardMenulistdetails[index].menuName
                     .toString(),

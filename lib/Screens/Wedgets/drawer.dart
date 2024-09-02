@@ -40,7 +40,7 @@ Widget AppDrawer(BuildContext context) {
                     InkWell(
                       onTap: () {
                         bottomBarController.selectedBottomNavIndex.value = 0;
-                        Get.toNamed(Routes.userType);
+                        Get.offAllNamed(Routes.userType);
                       },
                       child: Image.asset(
                         Constant.switchAccountIcon,
@@ -185,9 +185,6 @@ List<Widget> buildMenuItems(BuildContext context) {
             final AppRouting appRouting = AppRouting();
             if (menuItem.menuName != "Go to Site") {
               appbarController.appBarName.value = menuItem.menuName.toString();
-            }
-            if (menuItem.menuName == "Dashboard") {
-              appbarController.appBarName.value = Constant.schoolName;
             }
             appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context);
             Navigator.pop(context);

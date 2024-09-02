@@ -1,25 +1,33 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
-import 'package:campuspro/Controllers/logout_controller.dart';
+import 'package:campuspro/Controllers/student_module_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
-import 'package:campuspro/Screens/Wedgets/customeheight.dart';
+import 'package:campuspro/Modal/student_module/student_detail_model.dart';
+import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/profile_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 customAppBar(BuildContext context) {
   final AppbarController appbarController = Get.find<AppbarController>();
-  final LogoutController logoutController = Get.find<LogoutController>();
+  final StudentModuleController studentController =
+      Get.find<StudentModuleController>();
   final WebController webController = Get.find<WebController>();
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();
 
+  final UserTypeController userTypeController = Get.find<UserTypeController>();
+
+  final AllEmployeeProfileController employeeProfileController =
+      Get.find<AllEmployeeProfileController>();
+
   return AppBar(
-    backgroundColor: AppColors.primarycolor, // Change to your desired color
+    backgroundColor: AppColors.primarycolor,
     centerTitle: false,
     title: Obx(
       () => Text(
@@ -33,91 +41,124 @@ customAppBar(BuildContext context) {
     ),
     iconTheme: const IconThemeData(color: Colors.white),
     actions: [
-      PopupMenuButton<String>(
-        icon: Image.asset(
-          'assets/images/person_icon.png',
-          width: 24.w,
-          height: 24.h,
+      PopupMenuButton(
+        offset: Offset(0, kToolbarHeight - 5),
+        elevation: 1,
+        color: Colors.white,
+        padding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        icon: ProfilePic(
+          radius: 18,
+          fontSize: 14,
         ),
-        onSelected: (value) {
-          if (value == 'logout') {
-            logoutController.userlogOut();
-          } else {
-            bottomBarController.selectedBottomNavIndex.value = 0;
-            appbarController.appBarName.value = 'Profile';
-            webController.generateWebUrl('Profile.aspx', 'Profile');
-          }
-        },
         itemBuilder: (BuildContext context) {
           return [
-            const PopupMenuItem<String>(
-              value: 'Profile',
-              child: ListTile(
-                leading: Icon(Icons.person, color: AppColors.primarycolor),
-                title: Text('Profile'),
-              ),
-            ),
-            const PopupMenuItem<String>(
-              value: 'logout',
-              child: ListTile(
-                leading: Icon(Icons.logout, color: AppColors.primarycolor),
-                title: Text('Logout'),
+            PopupMenuItem(
+              value: 0,
+              enabled: false,
+              labelTextStyle:
+                  MaterialStatePropertyAll(TextStyle(color: Colors.black)),
+              padding: EdgeInsets.zero,
+              child: SizedBox(
+                width: MediaQuery.sizeOf(context).width * 0.6,
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    cardColor: Colors.white,
+                    shadowColor: Colors.transparent,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ProfilePic(
+                        radius: 26,
+                        fontSize: 22,
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        "Hi, ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName}",
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                      SizedBox(height: 8.h),
+                      UserTypeslist
+                                  .userTypesDetails[
+                                      userTypeController.usertypeIndex]
+                                  .ouserType ==
+                              'S'
+                          ? studentProfiledetails()
+                          : Container(),
+                      SizedBox(height: 8.h),
+                      OutlinedButton(
+                        onPressed: () {
+                          bottomBarController.selectedBottomNavIndex.value = 0;
+                          appbarController.appBarName.value = 'Profile';
+                          webController.generateWebUrl(
+                              'Profile.aspx', 'Profile');
+                          webController.showWebViewScreen.value = true;
+                          Navigator.pop(context);
+                        },
+                        style: OutlinedButton.styleFrom(
+                            backgroundColor: AppColors.appbuttonColor,
+                            alignment: Alignment.center,
+                            elevation: 0,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20.w, vertical: 1.h),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.w))),
+                        child: Text(
+                          'Manage Profile',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ];
         },
       ),
-      // PopupMenuButton<String>(
-      //   icon: Badge(
-      //     label: Text("1"),
-      //     child: const Icon(
-      //       Icons.notifications,
-      //       color: Colors.white,
-      //     ),
-      //   ),
-      //   onSelected: (String value) {
-      //     // Handle notification item selectio
-      //   },
-      //   itemBuilder: (BuildContext context) {
-      //     return List<PopupMenuEntry<String>>.generate(
-      //       5,
-      //       (int index) => PopupMenuItem<String>(
-      //         value: 'Notification $index',
-      //         child: ListTile(
-      //           leading: const Icon(Icons.notifications),
-      //           title: Text('Notification $index'),
-      //           subtitle: Text('this is detail $index'),
-      //         ),
-      //       ),
-      //     );
-      //   },
-      // ),
     ],
   );
 }
 
-Widget StudentProfile() {
-  final UserTypeController userTypeController = Get.find<UserTypeController>();
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Center(
-        child: CircleAvatar(
-          backgroundImage: AssetImage(
-              'assets/images/person_icon.png'), // Replace with your image path
-          radius: 30.r,
+List<dynamic> attendanceStatus(String attStatus) {
+  switch (attStatus) {
+    case "-":
+      return ["Not Marked", AppColors.warningColor];
+    case "Y":
+      return ["Present", AppColors.successColor];
+    case "N":
+      return ["Absent", AppColors.warningColor];
+    case "L":
+      return ["On Leave", AppColors.successColor];
+    default:
+      return ["Not Marked", AppColors.warningColor];
+  }
+}
+
+Widget studentProfiledetails() {
+  return Text.rich(
+    TextSpan(
+      children: [
+        TextSpan(
+          text: "Attendance : ",
+          style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
         ),
-      ),
-      CustomeHeight(8.h),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Name :  Md Nazish Hussain"),
-          Text("Mobile Number:  7301899211"),
-          Text("Class:  V11"),
-        ],
-      )
-    ],
+        TextSpan(
+          text: attendanceStatus(
+                  StudentDetaillist.studentdetails.first.attStatus ?? "")
+              .first,
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: attendanceStatus(
+                      StudentDetaillist.studentdetails.first.attStatus ?? "")
+                  .last),
+        ),
+      ],
+    ),
   );
 }

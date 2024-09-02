@@ -2,6 +2,7 @@ import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart'
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
+import 'package:campuspro/Controllers/student_module_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Repository/usertype_repo.dart';
@@ -63,12 +64,14 @@ class UserTypeController extends GetxController {
 
     final AppbarController appbarController = Get.find<AppbarController>();
     final UserMenuController menuController = Get.find<UserMenuController>();
+    final StudentModuleController studentController =
+        Get.find<StudentModuleController>();
 
     //  Putting Company Name on
 
     appbarController.appBarName.value = Constant.schoolName;
     Constant.dashBoardUrl = url;
-    print(Constant.dashBoardUrl);
+    // print(Constant.dashBoardUrl);
 
     //  ************************  storig user details *******************
 
@@ -85,7 +88,7 @@ class UserTypeController extends GetxController {
 
     if (UserTypeslist.userTypesDetails[index].ouserType == 'S') {
     } else {
-      await allEmployeeProfileController.usergetProfile();
+      allEmployeeProfileController.usergetProfile();
     }
 
     if (UserTypeslist.userTypesDetails[index].dashboardType == 'W') {
@@ -99,8 +102,13 @@ class UserTypeController extends GetxController {
 
         await menuController.getmenuFromServer(index);
         // if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
-        //   Get.toNamed(Routes.visitorHistory);
+        //   Get.toNamed(Routes.Dashboardboard);
         // } else {
+        if (UserTypeslist.userTypesDetails[index].ouserType == "S") {
+          webController.showWebViewScreen.value = false;
+          studentController.getStudentDetails();
+          studentController.getNotification();
+        }
         Get.toNamed(Routes.Dashboardboard);
         // }
         // } else if (url.contains("Student/Index")) {

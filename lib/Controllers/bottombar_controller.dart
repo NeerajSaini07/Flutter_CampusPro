@@ -21,6 +21,7 @@ class BottomBarController extends GetxController {
   final UserTypeController userTypeController = Get.find<UserTypeController>();
   RxInt selectedBottomNavIndex = 0.obs;
   RxBool showChat = false.obs;
+  RxBool webviewpage = false.obs;
 
   void checkToShowChatOption(int index) async {
     if (UserTypeslist.userTypesDetails[index].ouserType
@@ -64,7 +65,7 @@ class BottomBarController extends GetxController {
         // }
 
         case 1:
-          Get.toNamed(Routes.userType);
+          Get.offAllNamed(Routes.userType);
           appbarController.appBarName.value = Constant.schoolName.toString();
           selectedBottomNavIndex.value = 0;
         case 2:
@@ -88,24 +89,26 @@ class BottomBarController extends GetxController {
           //     .contains("Studentx/Index.aspx")) {
           //   Get.offAndToNamed(Routes.StudentDashboad);
           // } else {
-          if (webController.currentUrl.value == Constant.dashBoardUrl) {
-            webController.currentUrl.value = '';
-            Future.delayed(Duration(milliseconds: 100), () {
-              appbarController.appBarName.value =
-                  Constant.schoolName.toString();
-              webController.currentUrl.value = Constant.dashBoardUrl;
-            });
-          } else {
-            // If the URL is different, set it normally
-            appbarController.appBarName.value = Constant.schoolName.toString();
-            webController.currentUrl.value = Constant.dashBoardUrl;
-          }
+          appbarController.appBarName.value = Constant.schoolName.toString();
+          // if (webController.currentUrl.value == Constant.dashBoardUrl) {
+          //   webController.currentUrl.value = '';
+          //   Future.delayed(Duration(milliseconds: 100), () {
+          //     appbarController.appBarName.value =
+          //         Constant.schoolName.toString();
+          //     webController.currentUrl.value = Constant.dashBoardUrl;
+          //   });
+          // } else {
+          //   // If the URL is different, set it normally
+          //   appbarController.appBarName.value = Constant.schoolName.toString();
+          //   webController.currentUrl.value = Constant.dashBoardUrl;
+          // }
+          webController.showWebViewScreen.value = false;
           selectedBottomNavIndex.value = 0;
           break;
 
         // }
         case 1:
-          Get.toNamed(Routes.userType);
+          Get.offAllNamed(Routes.userType);
           appbarController.appBarName.value = Constant.schoolName.toString();
           selectedBottomNavIndex.value = 0;
         case 2:
@@ -126,8 +129,10 @@ class BottomBarController extends GetxController {
     List<Widget> screens = [];
 
     // Add different screens based on the user type
-    if (userType == 'S') {
-      screens.add(StudentDashboad());
+    if (userType == 'S' && webviewpage.value == false) {
+      screens.add(webController.showWebViewScreen.value
+          ? WebViewDashboardPage()
+          : StudentDashboad());
     } else if (userType == 'G') {
       screens.add(GatePassDashboard());
     } else {

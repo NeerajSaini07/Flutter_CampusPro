@@ -14,6 +14,7 @@ import '../Services/urlLuncher/web_url_luncher.dart';
 class WebController extends GetxController {
   var currentUrl = ''.obs;
   var pageLoader = false.obs;
+  var showWebViewScreen = false.obs;
 
   Future<void> initializeWebViewController(url) async {
     currentUrl.value = url;
@@ -58,7 +59,9 @@ class WebController extends GetxController {
               WebUrlList.urlListProperties[0].url.toString();
           webController.generateWebUrl('Index.aspx', 'Dashboard');
         } else {
-          appbarController.appBarName.value = pageName;
+          if (pageName != "Dashboard") {
+            appbarController.appBarName.value = pageName;
+          }
           gotoWebview(WebUrlList.urlListProperties[0].url);
           currentUrl.value = WebUrlList.urlListProperties[0].url.toString();
         }

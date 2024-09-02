@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:campuspro/Screens/TransportModule/transport_dashboard_screen.dart';
 import 'package:campuspro/Screens/Wedgets/no_internet_widget.dart';
 import 'package:campuspro/Screens/bus_tracker_screen.dart';
 import 'package:campuspro/Screens/change_password_screen.dart';

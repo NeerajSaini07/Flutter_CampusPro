@@ -31,7 +31,7 @@ class ConnectivityService extends GetxService {
         Get.back(); // Close the bottom sheet
       }
     } else {
-      _showNoConnectionBottomSheet();
+      showNoConnectionBottomSheet();
     }
 
     // if (!wasConnected && isConnected.value) {
@@ -72,7 +72,7 @@ class ConnectivityService extends GetxService {
     //     currentRoute != Routes.login &&
     //     currentRoute != Routes.webview) {
     previousRoute = currentRoute;
-    _showNoConnectionBottomSheet();
+    showNoConnectionBottomSheet();
     // Get.toNamed(Routes.noInternet);
     // }
   }
@@ -89,7 +89,7 @@ class ConnectivityService extends GetxService {
     }
   }
 
-  void _showNoConnectionBottomSheet() {
+  void showNoConnectionBottomSheet() {
     if (Get.isBottomSheetOpen == null || Get.isBottomSheetOpen == false) {
       Get.bottomSheet(
         Container(

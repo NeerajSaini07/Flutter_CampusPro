@@ -41,7 +41,7 @@ Widget dashboardButton(BuildContext context) {
             "Show Today's Gates Pass History",
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 16.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500),
           ),
         ),
@@ -71,7 +71,7 @@ Widget dashboardButton(BuildContext context) {
           child: Text("Show Today's Visitor History",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500)),
         ),
       ],

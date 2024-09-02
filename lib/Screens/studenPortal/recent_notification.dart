@@ -1,10 +1,16 @@
+import 'package:campuspro/Controllers/web_controller.dart';
+import 'package:campuspro/Modal/dashboard_menu.dart';
+import 'package:campuspro/Modal/student_module/notification_model.dart';
+import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class SimpleSliderWidget extends StatefulWidget {
-  const SimpleSliderWidget({super.key});
-
+  final List<NotificationModel> notifications;
+  const SimpleSliderWidget({super.key, required this.notifications});
   @override
   _SimpleSliderWidgetState createState() => _SimpleSliderWidgetState();
 }
@@ -13,22 +19,20 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
-  final List<String> _messages = [
-    'Important Notice! Holiday',
-    'Another Important Message',
-  ];
+  List<NotificationModel> _messages = [];
 
   @override
   void initState() {
     super.initState();
+    _messages = widget.notifications;
     _startAutoSlide();
   }
 
   void _startAutoSlide() {
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 10), () {
       if (_pageController.hasClients) {
         _pageController.nextPage(
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
           curve: Curves.easeInOut,
         );
         setState(() {
@@ -47,21 +51,21 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final WebController webController = Get.find<WebController>();
     return Center(
       child: Container(
         width: double.infinity,
-        height: 60.h, // Adjust height to accommodate card content
+        height: 60.h,
         padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 10.w),
         child: PageView.builder(
           controller: _pageController,
           itemCount: null, // Use null to allow infinite scrolling
           itemBuilder: (context, index) {
-            // Calculate the actual index for messages
             int actualIndex = index % _messages.length;
 
             return Card(
-              color: Colors.white,
-              elevation: 5,
+              color: Colors.blue[300],
+              elevation: 2,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.r),
               ),
@@ -73,15 +77,18 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
                     Row(
                       children: [
                         Icon(
-                          Icons.chat, // Replace with desired icon
-                          color: Colors.yellow.shade700,
+                          Icons.chat,
+                          color: Colors.white,
                           size: 24.sp,
                         ),
                         SizedBox(width: 10.w), // Space between icon and text
                         Text(
-                          _messages[actualIndex],
+                          trimSentence(
+                              (_messages[actualIndex].alertMessage ?? ""), 18),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -89,9 +96,19 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
                       ],
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        // Define the action for the button
-                        print('Button Pressed');
+                      onPressed: () async {
+                        webController.showWebViewScreen.value = true;
+                        final AppRouting appRouting = AppRouting();
+                        await appRouting.navigate(
+                            DashboardMenulist.dashboardMenulistdetails
+                                .firstWhere((menu) =>
+                                    menu.menuName.contains("Notification"))
+                                .menuName,
+                            DashboardMenulist.dashboardMenulistdetails
+                                .firstWhere((menu) =>
+                                    menu.menuName.contains("Notification"))
+                                .menuURL,
+                            context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.appbuttonColor,
@@ -122,4 +139,18 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
       ),
     );
   }
+}
+
+String trimSentence(String sentence, int maxLength) {
+  if (sentence.length <= maxLength) return sentence;
+
+  String trimmed = sentence.substring(0, maxLength);
+
+  int lastSpace = trimmed.lastIndexOf(' ');
+
+  if (lastSpace != -1) {
+    trimmed = trimmed.substring(0, lastSpace);
+  }
+
+  return "$trimmed...";
 }

@@ -36,8 +36,8 @@ class WebViewDashboardPage extends StatelessWidget {
 
     print(UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
         .isPaymentPageOpenInChrome);
-
     return Obx(() {
+      print(webController.currentUrl.value);
       if (webController.currentUrl.isNotEmpty) {
         return InAppWebView(
             key: ValueKey(webController.currentUrl.value),

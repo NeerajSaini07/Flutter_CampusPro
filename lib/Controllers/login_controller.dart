@@ -147,7 +147,7 @@ class LoginController extends GetxController {
 
                 await userTypeController.getUsers();
 
-                Get.offAndToNamed(Routes.userType);
+                Get.offAllNamed(Routes.userType);
               }
 
               // *************************************** clear variable value of **********
