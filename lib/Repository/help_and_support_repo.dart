@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/login_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
@@ -21,6 +23,9 @@ class HelpAndSupportRepository {
     };
 
     BaseApiServices apiServices = NetworkApiServices();
+
+    log(baseUrl + APIENDPOINT.helpAndSupportDetailApi);
+    log(request.toString());
 
     try {
       dynamic response = await apiServices.postApiRequest(

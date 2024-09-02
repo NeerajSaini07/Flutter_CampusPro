@@ -1,8 +1,12 @@
+import 'package:campuspro/Controllers/web_controller.dart';
+import 'package:campuspro/Modal/dashboard_menu.dart';
 import 'package:campuspro/Modal/student_module/notification_model.dart';
+import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class SimpleSliderWidget extends StatefulWidget {
   final List<NotificationModel> notifications;
@@ -25,10 +29,10 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
   }
 
   void _startAutoSlide() {
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 10), () {
       if (_pageController.hasClients) {
         _pageController.nextPage(
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
           curve: Curves.easeInOut,
         );
         setState(() {
@@ -47,6 +51,7 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final WebController webController = Get.find<WebController>();
     return Center(
       child: Container(
         width: double.infinity,
@@ -59,7 +64,7 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
             int actualIndex = index % _messages.length;
 
             return Card(
-              color: Colors.white,
+              color: Colors.blue[300],
               elevation: 2,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.r),
@@ -73,7 +78,7 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
                       children: [
                         Icon(
                           Icons.chat,
-                          color: Colors.yellow.shade700,
+                          color: Colors.white,
                           size: 24.sp,
                         ),
                         SizedBox(width: 10.w), // Space between icon and text
@@ -83,7 +88,7 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -91,8 +96,19 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
                       ],
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        print('Button Pressed');
+                      onPressed: () async {
+                        webController.showWebViewScreen.value = true;
+                        final AppRouting appRouting = AppRouting();
+                        await appRouting.navigate(
+                            DashboardMenulist.dashboardMenulistdetails
+                                .firstWhere((menu) =>
+                                    menu.menuName.contains("Notification"))
+                                .menuName,
+                            DashboardMenulist.dashboardMenulistdetails
+                                .firstWhere((menu) =>
+                                    menu.menuName.contains("Notification"))
+                                .menuURL,
+                            context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.appbuttonColor,
