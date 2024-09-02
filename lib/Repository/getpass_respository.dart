@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:campuspro/Modal/gatepass_history_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
-import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';
@@ -110,6 +110,8 @@ class GetPassRepository {
       'VisitorType': getPassController.visitorTyep.value,
       'UserType': UserTypeslist.userTypesDetails[usertypeIndex].ouserType,
     };
+
+    print(visitorSearchRequest);
 
     BaseApiServices apiServices = NetworkApiServices();
 
@@ -229,10 +231,8 @@ class GetPassRepository {
     Future<String> downloadAndSaveImage(String url) async {
       // Get the image from the network
       final response = await http.get(Uri.parse(url));
-
       // Get the temporary directory
       final documentDirectory = await getTemporaryDirectory();
-
       // Parse the URL to extract the file name
       String fileName = Uri.parse(url).pathSegments.last;
 

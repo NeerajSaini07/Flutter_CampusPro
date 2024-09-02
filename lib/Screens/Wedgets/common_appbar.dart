@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:campuspro/Controllers/appbar_controller.dart';
+import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
@@ -14,6 +15,8 @@ customAppBar(BuildContext context) {
   final AppbarController appbarController = Get.find<AppbarController>();
   final LogoutController logoutController = Get.find<LogoutController>();
   final WebController webController = Get.find<WebController>();
+  final BottomBarController bottomBarController =
+      Get.find<BottomBarController>();
 
   return AppBar(
     backgroundColor: AppColors.primarycolor, // Change to your desired color
@@ -31,35 +34,36 @@ customAppBar(BuildContext context) {
     iconTheme: const IconThemeData(color: Colors.white),
     actions: [
       PopupMenuButton<String>(
-        color: Colors.white,
-        icon: Icon(Icons.settings),
-        offset: Offset(0, AppBar().preferredSize.height),
-        // onSelected: (value) {
-        //   if (value == 'logout') {
-        //     logoutController.userlogOut();
-        //   } else {
-        //     webController.generateWebUrl('Profile.aspx', 'Profile');
-        //   }
-        //},
+        icon: Image.asset(
+          'assets/images/person_icon.png',
+          width: 24.w,
+          height: 24.h,
+        ),
+        onSelected: (value) {
+          if (value == 'logout') {
+            logoutController.userlogOut();
+          } else {
+            bottomBarController.selectedBottomNavIndex.value = 0;
+            appbarController.appBarName.value = 'Profile';
+            webController.generateWebUrl('Profile.aspx', 'Profile');
+          }
+        },
         itemBuilder: (BuildContext context) {
           return [
-            PopupMenuItem<String>(
-                value: 'Profile',
-                child: Container(
-                  width: 200.w,
-                  height: 150.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: StudentProfile(),
-                )),
-            // const PopupMenuItem<String>(
-            //   value: 'logout',
-            //   child: ListTile(
-            //     leading: Icon(Icons.logout, color: AppColors.primarycolor),
-            //     title: Text('Logout'),
-            //   ),
-            // ),
+            const PopupMenuItem<String>(
+              value: 'Profile',
+              child: ListTile(
+                leading: Icon(Icons.person, color: AppColors.primarycolor),
+                title: Text('Profile'),
+              ),
+            ),
+            const PopupMenuItem<String>(
+              value: 'logout',
+              child: ListTile(
+                leading: Icon(Icons.logout, color: AppColors.primarycolor),
+                title: Text('Logout'),
+              ),
+            ),
           ];
         },
       ),

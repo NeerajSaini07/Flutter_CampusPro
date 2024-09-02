@@ -35,73 +35,64 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
     }
   }
 
+  Future<void> _openEmail(String number) async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: helpAndSupportController.email.value,
+      query: 'subject=Support Request',
+    );
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    } else {
+      throw 'Could not launch email client';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Background card
-        Positioned.fill(
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, 3),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            'For Any Query & Support',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Obx(
+          () => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 20),
+            child: Column(
+              children: [
+                SupportCardRow(
+                  onTap: () {
+                    if (helpAndSupportController.mobileNo.value.isNotEmpty) {
+                      _makePhoneCall(helpAndSupportController.mobileNo.value);
+                    }
+                  },
+                  title: 'Mobile No',
+                  image: 'assets/images/landline.png',
+                  info: helpAndSupportController.mobileNo.value.isNotEmpty
+                      ? helpAndSupportController.mobileNo.value
+                      : "Mobile No. is not available",
+                ),
+                const SizedBox(height: 20),
+                SupportCardRow(
+                  onTap: () {
+                    if (helpAndSupportController.email.value.isNotEmpty) {
+                      _openEmail(helpAndSupportController.email.value);
+                    }
+                  },
+                  title: 'Email',
+                  image: 'assets/images/email.jpg',
+                  info: helpAndSupportController.email.value.isNotEmpty
+                      ? helpAndSupportController.email.value
+                      : "Email is not available",
                 ),
               ],
             ),
           ),
-        ),
-        // Content
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'For Any Query & Support',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Obx(
-              () => Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18.0, vertical: 20),
-                child: Column(
-                  children: [
-                    SupportCardRow(
-                      onTap: () {
-                        if (helpAndSupportController
-                            .mobileNo.value.isNotEmpty) {
-                          _makePhoneCall(
-                              helpAndSupportController.mobileNo.value);
-                        }
-                      },
-                      title: 'Mobile No',
-                      image: 'assets/images/landline.png',
-                      info: helpAndSupportController.mobileNo.value.isNotEmpty
-                          ? helpAndSupportController.mobileNo.value
-                          : "Mobile No. is not available",
-                    ),
-                    const SizedBox(height: 20),
-                    SupportCardRow(
-                      onTap: () {},
-                      title: 'Email',
-                      image: 'assets/images/email.jpg',
-                      info: helpAndSupportController.email.value.isNotEmpty
-                          ? helpAndSupportController.email.value
-                          : "Email is not available",
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
         ),
       ],
     );

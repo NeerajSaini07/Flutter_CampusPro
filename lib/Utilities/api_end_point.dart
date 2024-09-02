@@ -38,4 +38,8 @@ class APIENDPOINT {
 
   // ************************ Help & Support *************************
   static const helpAndSupportDetailApi = "GetHelpAndSupportDetails";
+
+  // ******************************  Employee ****************************
+
+  static const employeeProfile = "GetEmpProfilenew_V1";
 }

@@ -2,12 +2,14 @@
 
 import 'dart:developer';
 
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Modal/gatepass_history_model.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitordata_model.dart';
 import 'package:campuspro/Repository/getpass_respository.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/idProofuploadedDilog.dart';
+import 'package:campuspro/Screens/getpass/visitor_details_page.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,6 +62,14 @@ class GetPassController extends GetxController {
   RxString exitime = ''.obs;
 
   @override
+  void onInit() {
+    super.onInit();
+    toMeetdata();
+    getpassHistory();
+    getVisitorHistory();
+  }
+
+  @override
   void onClose() {
     // Clean up any resources or controllers here if necessary
     super.onClose();
@@ -69,6 +79,8 @@ class GetPassController extends GetxController {
 
   searchvistorByMobile() async {
     // ************************** when click on it then make it false ****************
+
+    final AppbarController appbarController = Get.find<AppbarController>();
     showErrorfield.value = false;
     showOTPwidget.value = false;
     if (mobileNo.value.isNotEmpty) {
@@ -80,6 +92,7 @@ class GetPassController extends GetxController {
         int usertypeIndex =
             await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
         await GetPassRepository.searchvistor().then((value) {
+          print(value);
           //  *******************  if data is empty ******************
           if (value['Status'] == 'Cam-006') {
             // ***********************  if visitor is mother or father ************
@@ -107,7 +120,6 @@ class GetPassController extends GetxController {
                       .userTypesDetails[usertypeIndex].sendOtpToVisitor ==
                   'Y') {
                 showOTPwidget.value = true;
-
                 //  show details page ***************************************
               } else {
                 showOTPwidget.value = false;
@@ -128,8 +140,12 @@ class GetPassController extends GetxController {
                 'Y') {
               showOTPwidget.value = true;
             } else {
+              mobileNo.value = '';
+              mobilenumberController.clear();
+              appbarController.appBarName.value = 'Visitor Details';
+
+              Get.to(const VisitorDetialsPage());
               showOTPwidget.value = false;
-              showvisitorDetails.value = true;
             }
           }
 
@@ -181,13 +197,17 @@ class GetPassController extends GetxController {
 
   toMeetdata() async {
     toMeetOptions.value = [];
+
     await GetPassRepository.getDataForToMeet().then((value) {
       if (value != null) {
         var data = value['Data'];
 
         for (var ele1 in data) {
-          toMeetOptions.value
-              .add({"name": ele1["Name"], "id": ele1["Id"].toString()});
+          if (!toMeetOptions
+              .any((element) => element['name'] == ele1['Name'])) {
+            toMeetOptions
+                .add({"name": ele1["Name"], "id": ele1["Id"].toString()});
+          }
         }
       }
     }).catchError((error) {});
@@ -239,7 +259,9 @@ class GetPassController extends GetxController {
   }
 
   updateVisitorDetails(BuildContext context) async {
+    print("calling");
     await GetPassRepository.saveVisitordata().then((value) {
+      print(value);
       if (value['Status'] == 'Cam-001') {
         getVisitorHistory();
 

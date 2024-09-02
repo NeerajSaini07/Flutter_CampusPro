@@ -30,7 +30,7 @@ class FullScreenImage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 100.0, // Position the cross icon at the top
+            top: 10.0, // Position the cross icon at the top
             right: 0.0, // Position the cross icon on the right
             child: IconButton(
               icon: const Icon(Icons.close, color: Colors.white, size: 30.0),

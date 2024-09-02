@@ -8,7 +8,7 @@ import 'package:campuspro/Screens/change_password_screen.dart';
 import 'package:campuspro/Screens/create_password_screen.dart';
 import 'package:campuspro/Screens/dashboard_screen.dart';
 import 'package:campuspro/Screens/forgot_password_screen.dart';
-import 'package:campuspro/Screens/getpass/visitor_history.dart';
+import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/help_and_support_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
@@ -20,7 +20,7 @@ import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/firebase_options.dart';
 import 'package:campuspro/localdatabase/db_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -44,7 +44,6 @@ void main() async {
   // **********************************  database initialize *****************************************************
   final databaseManager = DatabaseManager();
   databaseManager.initWinDB();
-
   //  *****************************************************************
 
   runApp(const MyApp());
@@ -80,13 +79,12 @@ class MyApp extends StatelessWidget {
             Routes.opt: (context) => OTPScreen(),
             Routes.Dashboardboard: (context) => WebViewScreen(),
             Routes.noInternet: (context) => NoInternetScreen(),
-            Routes.visitorHistory: (context) => GetPassvisitorHistory(),
+            Routes.visitorHistory: (context) => GatePassDashboard(),
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
             Routes.changePasswordScreen: (context) => ChangePasswordScreen(),
             Routes.StudentDashboad: (context) => StudentDashboad(),
             Routes.webviewpage: (context) => WebViewDashboardPage()
-
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially

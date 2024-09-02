@@ -1,4 +1,4 @@
-import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Modal/gatepass_history_model.dart';
 
 import 'package:campuspro/Utilities/colors.dart';

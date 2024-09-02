@@ -16,7 +16,6 @@ import '../localdatabase/dashboard_menu_model.dart';
 class UserMenuController extends GetxController {
   var NewRefreshDateTime = '';
   var updatedmenudate = '';
-
   final db_helper = DatabaseManager();
   getmenuFromServer(index) async {
     await checkmenuchanges();
@@ -26,7 +25,7 @@ class UserMenuController extends GetxController {
 
 //  ************************** checking the  new menu update  ******************
 
-    if (NewRefreshDateTime == '78') {
+    if (NewRefreshDateTime == updatedmenudate) {
       // ************************* if no new menu added for this user  then get the data from local database ************
       await db_helper
           .getmenudata(UserTypeslist.userTypesDetails[usertypeIndex].ouserType)
@@ -126,7 +125,7 @@ class UserMenuController extends GetxController {
             UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString())
         .then((value) {
       if (value == null) {
-        updatedmenudate = '';
+        updatedmenudate = '0';
       } else {
         updatedmenudate = value.toString();
       }

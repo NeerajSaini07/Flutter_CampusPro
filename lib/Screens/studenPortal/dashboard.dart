@@ -5,11 +5,8 @@ import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/dashboard_menu.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
-import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
-import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
-import 'package:campuspro/Screens/Wedgets/drawer.dart';
+import 'package:campuspro/Screens/Wedgets/common_userProfile_ondashboard.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:campuspro/Utilities/sharedpref.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,68 +39,7 @@ class StudentDashboad extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      AppColors.primarycolor,
-                      Colors.blue[300]!,
-                    ],
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30.r),
-                    bottomRight: Radius.circular(30.r),
-                  ),
-                ),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                  // Add padding for spacing
-                  child: Stack(children: [
-                    // Left side: Text
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Hi ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
-                            style: TextStyle(
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(height: 6.h),
-                          Text(
-                            '${_getGreetingMessage()},',
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Right side: CircleAvatar
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage(
-                            'assets/images/person_icon.png'), // Replace with your image path
-                        radius: 30.r,
-                      ),
-                    ),
-
-                    SizedBox(height: 5.h),
-                  ]),
-                ),
-              ),
-
+              userProfileName(),
               SizedBox(height: 5.h),
               // MarqueeWidget(),
               SimpleSliderWidget(),
@@ -129,18 +65,6 @@ class StudentDashboad extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getGreetingMessage() {
-    final hour = DateTime.now().hour;
-
-    if (hour < 12) {
-      return 'Good Morning';
-    } else if (hour < 17) {
-      return 'Good Afternoon';
-    } else {
-      return 'Good Evening';
-    }
   }
 
   Widget _buildActionCard(String title, String iconPath, Color color) {

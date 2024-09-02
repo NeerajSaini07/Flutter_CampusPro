@@ -17,13 +17,12 @@ class DatabaseManager {
   }
 
   Future<Database> initWinDB() async {
-    print("this method is calling");
     final directory = await getApplicationDocumentsDirectory();
-    final path = join(directory.path, 'databases.db');
+    final path = join(directory.path, 'c2.db');
 
     return await openDatabase(
       path,
-      version: 3,
+      version: 1,
       onCreate: _onCreate,
       onUpgrade: onDbUpgrade,
     );
@@ -42,8 +41,7 @@ class DatabaseManager {
           )
           ''');
 
-    if (version == 3) {
-      await db.execute('''
+    await db.execute('''
          CREATE TABLE dashboard_menu(
               mobileNo TEXT,
               userId TEXT,
@@ -54,7 +52,6 @@ class DatabaseManager {
               dashboardmenu TEXT
             )
       ''');
-    }
   }
 
   Future<void> insertOrUpdateUserData(

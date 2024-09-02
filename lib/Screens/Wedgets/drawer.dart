@@ -96,6 +96,9 @@ Widget AppDrawer(BuildContext context) {
 List<Widget> buildMenuItems(BuildContext context) {
   final webController = Get.find<WebController>();
 
+  final BottomBarController bottomBarController =
+      Get.find<BottomBarController>();
+
   Get.lazyPut<TransportStudentListController>(
       () => TransportStudentListController());
 
@@ -134,6 +137,8 @@ List<Widget> buildMenuItems(BuildContext context) {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () async {
+              bottomBarController.selectedBottomNavIndex.value = 0;
+              webController.currentUrl.value = '';
               final AppRouting appRouting = AppRouting();
               if (subMenuItem.subMenuName == "Fee Payment") {}
               appRouting.navigate(
@@ -175,7 +180,8 @@ List<Widget> buildMenuItems(BuildContext context) {
           onTap: () async {
             // final usertypeIndex = await Sharedprefdata.getIntegerData(
             //     Sharedprefdata.userTypeIndex);
-
+            bottomBarController.selectedBottomNavIndex.value = 0;
+            webController.currentUrl.value = '';
             final AppRouting appRouting = AppRouting();
             if (menuItem.menuName != "Go to Site") {
               appbarController.appBarName.value = menuItem.menuName.toString();

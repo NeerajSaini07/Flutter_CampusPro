@@ -1,3 +1,4 @@
+import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
@@ -55,6 +56,9 @@ class UserTypeController extends GetxController {
     final FcmTokenController fcmTokenController =
         Get.find<FcmTokenController>();
 
+    final AllEmployeeProfileController allEmployeeProfileController =
+        Get.find<AllEmployeeProfileController>();
+
     final WebController webController = Get.find<WebController>();
 
     final AppbarController appbarController = Get.find<AppbarController>();
@@ -79,6 +83,11 @@ class UserTypeController extends GetxController {
     await fcmTokenController.getFCMToken();
     // *****************************************************************
 
+    if (UserTypeslist.userTypesDetails[index].ouserType == 'S') {
+    } else {
+      await allEmployeeProfileController.usergetProfile();
+    }
+
     if (UserTypeslist.userTypesDetails[index].dashboardType == 'W') {
       try {
         // ********************* finding menu from user *************************************
@@ -89,11 +98,11 @@ class UserTypeController extends GetxController {
         // Purpose: storing menu in local db and get pass module included
 
         await menuController.getmenuFromServer(index);
-        if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
-          Get.toNamed(Routes.visitorHistory);
-        } else {
-          Get.toNamed(Routes.Dashboardboard);
-        }
+        // if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
+        //   Get.toNamed(Routes.visitorHistory);
+        // } else {
+        Get.toNamed(Routes.Dashboardboard);
+        // }
         // } else if (url.contains("Student/Index")) {
         //   Get.toNamed(Routes.StudentDashboad);
         // } else {
@@ -108,11 +117,14 @@ class UserTypeController extends GetxController {
         //   Get.toNamed(Routes.StudentDashboad);
         // }
 
-        // if (UserTypeslist.userTypesDetails[index].ouserType == 'S') {
-        //   bottomIndexvalueForhelpAndSupport.value = 2;
-        // } else {
-        //   bottomIndexvalueForhelpAndSupport.value = 2;
-        // }
+        if (UserTypeslist.userTypesDetails[index].ouserType == 'E') {
+          bottomBarController.showChat.value = true;
+          //bottomIndexvalueForhelpAndSupport.value = 2;
+        } else {
+          bottomBarController.showChat.value = false;
+          // bottomIndexvalueForhelpAndSupport.value = 2;
+        }
+        bottomBarController.selectedBottomNavIndex.value = 0;
 
 // ************************************************************************
       } catch (e) {

@@ -10,6 +10,8 @@ Widget customBottomNavBar(int currentIndex, Function(int) onTap) {
   return BottomNavigationBar(
     currentIndex: currentIndex,
     onTap: onTap,
+    showSelectedLabels: true,
+    showUnselectedLabels: false,
     selectedItemColor: AppColors.appbuttonColor,
     backgroundColor: Colors.white,
     items: <BottomNavigationBarItem>[

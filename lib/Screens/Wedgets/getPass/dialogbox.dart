@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
-import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Controllers/appbar_controller.dart';
+import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Screens/getpass/gatepass_history_list.dart';
 import 'package:campuspro/Screens/getpass/history_data.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 
 Future showGetpassDilaog(BuildContext context) {
   final GetPassController getPassController = Get.find<GetPassController>();
+  final AppbarController appbarController = Get.find<AppbarController>();
   return showDialog(
     context: context,
     useSafeArea: true,
@@ -35,6 +37,7 @@ Future showGetpassDilaog(BuildContext context) {
                       ElevatedButton(
                         onPressed: () {
                           // getPassController.getpassHistory();
+                          appbarController.appBarName.value = 'Today Getpass';
                           Get.back();
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
@@ -61,11 +64,13 @@ Future showGetpassDilaog(BuildContext context) {
                       SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () async {
+                          appbarController.appBarName.value = 'Today Visitor';
                           getPassController.showvisitorDetails.value = false;
                           await Future.delayed(Duration(microseconds: 10));
                           getPassController.showvisitoryHistory.value = false;
                           getPassController.showOTPwidget.value = false;
                           Get.back();
+
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return VisitorHistoryPage();

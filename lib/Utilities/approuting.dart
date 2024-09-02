@@ -16,7 +16,6 @@ class AppRouting extends GetxService {
   final AppbarController appbarController = Get.find<AppbarController>();
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();
-
   navigate(name, pageurl, BuildContext context) async {
     switch (name) {
       case "Student Bus Location":
@@ -28,11 +27,9 @@ class AppRouting extends GetxService {
       case "G":
         Navigator.pushNamed(context, Routes.visitorHistory);
         break;
-
       case "Go to Site":
         UrlLuncher.launchUrls(pageurl);
         break;
-
       default:
         if (pageurl == '') {
           pageurl = 'Index.aspx';
