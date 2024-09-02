@@ -35,6 +35,7 @@ class UserTypeModel {
   String? userName = "";
   String? dashboardUrl = "";
   String? dashboardType = "";
+  String? isPaymentPageOpenInChrome = '';
 
   UserTypeModel(
       {this.buttonConfigString,
@@ -66,7 +67,8 @@ class UserTypeModel {
       this.appUrl,
       this.dashboardType,
       this.dashboardUrl,
-      this.userName});
+      this.userName,
+      this.isPaymentPageOpenInChrome});
 
   UserTypeModel.fromJson(Map<String, dynamic> json) {
     buttonConfigString = json['ButtonConfigString'] ?? "";
@@ -99,6 +101,7 @@ class UserTypeModel {
     dashboardType = json["Flag"];
     dashboardUrl = json["Url"];
     userName = json["UserName"];
+    isPaymentPageOpenInChrome = json["IsPaymentPageOpenInCharome"];
   }
 
   Map<String, dynamic> toJson() {
@@ -131,6 +134,7 @@ class UserTypeModel {
     data['BaseDomainURL'] = this.baseDomainURL;
     data['AppUrl'] = this.appUrl;
     data['UserName'] = this.userName;
+    data['IsPaymentPageOpenInCharome'] = this.isPaymentPageOpenInChrome;
     return data;
   }
 }

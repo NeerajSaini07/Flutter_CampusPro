@@ -2,10 +2,10 @@
 
 import 'dart:developer';
 import 'dart:io';
+import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Modal/gatepass_history_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
-import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';

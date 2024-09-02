@@ -61,35 +61,9 @@ class UserTypeRepository {
     }
   }
 
-  static Future<dynamic> getApiCallStatusRepo(index) async {
-    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
-
-    final data = {
-      "SchoolId": UserTypeslist.userTypesDetails[index].schoolId,
-      "OrgId": UserTypeslist.userTypesDetails[index].organizationId,
-      "UserType": UserTypeslist.userTypesDetails[index].ouserType,
-      "ApiName": "ManageMenu"
-    };
-    log(data.toString());
-    if (kDebugMode) {
-      print(baseUrl + APIENDPOINT.apiCallStatus);
-    }
-
-    BaseApiServices apiServices = NetworkApiServices();
-    try {
-      dynamic response = apiServices
-          .postApiRequest(data, baseUrl + APIENDPOINT.apiCallStatus)
-          .onError((error, stackTrace) {});
-      log(response.toString());
-      return response;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   static Future<dynamic> getDrawerData(index) async {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
-    var url = baseUrl + APIENDPOINT.drawerApi;
+    var url = APIENDPOINT.drawerApi;
     BaseApiServices apiServices = NetworkApiServices();
 
     try {
@@ -104,7 +78,7 @@ class UserTypeRepository {
       log(url);
 
       dynamic response = apiServices
-          .postApiRequest(drawerData, url)
+          .postApiRequest(drawerData, baseUrl + url)
           .onError((error, stackTrace) {});
 
       return response;

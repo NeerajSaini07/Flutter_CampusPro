@@ -1,8 +1,9 @@
 // ignore_for_file: unnecessary_null_in_if_null_operators, prefer_const_constructors, avoid_unnecessary_containers
 
+import 'dart:ffi';
+
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,6 @@ Card buildTextField({
   Widget? customWidget,
   String? hintText,
   bool readOnly = false,
-  List<TextInputFormatter>? inputFormatters,
   TextStyle? style = const TextStyle(
     color: Colors.black,
     fontSize: 16,
@@ -28,6 +28,7 @@ Card buildTextField({
   void Function(String)? onChanged,
   IconData? prefixIconData,
   TextEditingController? controller,
+  List<TextInputFormatter>? inputFormatters,
   String? initialValue,
 }) {
   final LoginController loginController = Get.find<LoginController>();
@@ -38,16 +39,14 @@ Card buildTextField({
       textInputAction: textInputAction,
       initialValue: initialValue,
       focusNode: focusNode,
-      inputFormatters: inputFormatters,
       controller: controller,
       obscureText: obscureText,
       validator: validator,
       maxLength: maxLength,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       style: style,
-      onFieldSubmitted: (value) {
-        print("herer is method call");
-      },
+      onFieldSubmitted: (value) {},
       onChanged: onChanged,
       readOnly: readOnly,
       decoration: InputDecoration(

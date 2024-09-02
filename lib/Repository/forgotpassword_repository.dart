@@ -17,12 +17,12 @@ class ForgotPasswordRepository {
 
     var data = {
       "Mobile": forgotPasswordController.mobileForForgotPass.value,
-      "Schoolid": forgotPasswordController.selectedDropDownId.value.isEmpty
+      "Schoolid": forgotPasswordController.selectedvalue.value.isEmpty
           ? ""
-          : forgotPasswordController.selectedDropDownId.value.split('#').first,
+          : forgotPasswordController.selectedvalue.value,
       "OrgId": forgotPasswordController.selectedDropDownId.value.isEmpty
           ? ""
-          : forgotPasswordController.selectedDropDownId.value.split('#').last,
+          : forgotPasswordController.selectedDropDownId.value,
       "Flag": 'fetch'
     };
 
@@ -49,7 +49,7 @@ class ForgotPasswordRepository {
 
     var data = {
       "Mobile": forgotPasswordController.mobileForForgotPass.value,
-      "Schoolid": forgotPasswordController.selectedDropDownId.value.isEmpty
+      "Schoolid": forgotPasswordController.selectedvalue.value.isEmpty
           ? ""
           : forgotPasswordController.selectedDropDownId.value.split('#').first,
       "OrgId": forgotPasswordController.selectedDropDownId.value.isEmpty

@@ -1,4 +1,5 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
+import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
@@ -12,8 +13,9 @@ class AppRouting extends GetxService {
       Get.find<BusTrackerController>();
 
   final WebController webController = Get.find<WebController>();
-  final appbarController = Get.find<AppbarController>();
-
+  final AppbarController appbarController = Get.find<AppbarController>();
+  final BottomBarController bottomBarController =
+      Get.find<BottomBarController>();
   navigate(name, pageurl, BuildContext context) async {
     switch (name) {
       case "Student Bus Location":
@@ -30,18 +32,20 @@ class AppRouting extends GetxService {
         UrlLuncher.launchUrls(pageurl);
         break;
       default:
-        // Handle unknown actions or provide a default action
-        // print('Unknown action: $name');
-        if (pageurl.toString().isEmpty) {
-          appbarController.appBarName.value = Constant.schoolName.toString();
-          webController.generateWebUrl('Index.aspx', 'Dashboard');
+        if (pageurl == '') {
+          pageurl = 'Index.aspx';
+          appbarController.appBarName.value = Constant.schoolName;
+          webController.showWebViewScreen.value = false;
         } else {
-          if (name == "Dashboard") {
-            appbarController.appBarName.value = Constant.schoolName.toString();
-          }
           webController.generateWebUrl(pageurl, name);
+          if (pageurl.toString().contains('Index.aspx')) {
+            appbarController.appBarName.value = Constant.schoolName;
+            webController.showWebViewScreen.value = false;
+          } else {
+            appbarController.appBarName.value = name;
+            webController.showWebViewScreen.value = true;
+          }
         }
-        // webController.generateWebUrl(pageurl, name);
         break;
     }
   }

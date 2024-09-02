@@ -1,14 +1,9 @@
-import 'package:campuspro/Controllers/appbar_controller.dart';
-import 'package:campuspro/Controllers/bottombar_controller.dart';
-import 'package:campuspro/Screens/TransportModule/studentList/student_list_screen.dart';
-import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
-import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
-import 'package:campuspro/Screens/Wedgets/drawer.dart';
-import 'package:campuspro/Screens/studenPortal/recent_notification.dart';
+import 'dart:developer';
+import 'package:campuspro/Screens/Wedgets/custom_width.dart';
+import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class TransportDashboard extends StatelessWidget {
   const TransportDashboard({super.key});
@@ -16,212 +11,397 @@ class TransportDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
-    final AppbarController appbarController = Get.find<AppbarController>();
-    final BottomBarController bottomBarController =
-        Get.find<BottomBarController>();
     return Scaffold(
-      appBar: customAppBar(context),
-      bottomNavigationBar: Obx(
-        () => BottomNavBar(
-          currentIndex: bottomBarController.selectedBottomNavIndex.value,
-          onTap: bottomBarController.onItemTappedChangeBottomNavIndex,
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        backgroundColor: AppColors.primarycolor,
+        centerTitle: false,
+        title: const Text(
+          "Dashboard",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-      drawer: AppDrawer(context),
-      body: SingleChildScrollView(
-        child: Container(
-          height: 720.h,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/userTypeBackGround.png'),
-                fit: BoxFit.cover),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              bottom: 1.0,
+      body: Column(
+        children: [
+          //Search TextField
+          Container(
+            clipBehavior: Clip.antiAlias,
+            margin: EdgeInsets.symmetric(horizontal: 16.w)
+                .copyWith(top: 10.h, bottom: 10.h),
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              shadows: const [
+                BoxShadow(
+                  color: Color(0x2B000000),
+                  blurRadius: 18,
+                  offset: Offset(0, 4),
+                  spreadRadius: 0,
+                )
+              ],
             ),
-            child: Column(
-              children: [
-                // Greeting Container
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        AppColors.primarycolor,
-                        Colors.blue[300]!,
+            child: TextField(
+              controller: searchController,
+              textInputAction: TextInputAction.send,
+              keyboardType: TextInputType.text,
+              maxLength: 100,
+              showCursor: true,
+              onChanged: (searchText) {},
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  suffix: searchController.text.isNotEmpty
+                      ? InkWell(
+                          onTap: () {},
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 0),
+                            child: Icon(
+                              Icons.close,
+                              size: 18,
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                  counterText: "",
+                  hintText: "Search by Bus No.",
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  prefixIcon: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Icon(Icons.search)),
+                  filled: true,
+                  isDense: true,
+                  fillColor: Colors.white),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  //top Detail Bar
+                  Container(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 16.h, vertical: 10.h),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0xFFD2D0D0),
+                          offset: Offset(-1, 0),
+                          blurRadius: 20,
+                          spreadRadius: 4,
+                        ),
                       ],
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30.r),
-                      bottomRight: Radius.circular(30.r),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            color: Colors.amber[400]!,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(vertical: 6.h),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.library_books,
+                                  size: 50,
+                                ),
+                                customWidth(16.w),
+                                const Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Vehicles",
+                                      textScaler: TextScaler.noScaling,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "All Vehicles",
+                                      textScaler: TextScaler.noScaling,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          CustomeHeight(1.h),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ColoredBox(
+                                  color: Colors.amber[400]!,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 6.h),
+                                    child: const Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Online",
+                                          textScaler: TextScaler.noScaling,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          "2",
+                                          textScaler: TextScaler.noScaling,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              customWidth(1.w),
+                              Expanded(
+                                child: ColoredBox(
+                                  color: Colors.amber[400]!,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 6.h),
+                                    child: const Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "Offline",
+                                          textScaler: TextScaler.noScaling,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          "4",
+                                          textScaler: TextScaler.noScaling,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                    // Add padding for spacing
-                    child: Stack(children: [
-                      // Left side: Text
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Hi Name!',
-                              style: TextStyle(
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 6.h),
-                            Text(
-                              '${_getGreetingMessage()},',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                  // Bus List Card
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) {
+                      return CustomeHeight(12.h);
+                    },
+                    shrinkWrap: true,
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return busListCardView(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-                      // Right side: CircleAvatar
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: CircleAvatar(
-                          backgroundImage: const AssetImage(
-                              'assets/images/person_icon.png'), // Replace with your image path
-                          radius: 30.r,
-                        ),
-                      ),
-
-                      SizedBox(height: 5.h),
-                    ]),
+  Widget busListCardView(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0xFFD2D0D0),
+            offset: Offset(-1, 0),
+            blurRadius: 20,
+            spreadRadius: 4,
+          ),
+        ],
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Image.asset(
+                    'assets/images/bus.png',
                   ),
                 ),
-
-                SizedBox(height: 5.h),
-                const SimpleSliderWidget(),
-                SizedBox(height: 7.h),
-                Container(
-                    width: 335.w,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.4),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3),
+                customWidth(10.w),
+                const Expanded(
+                  flex: 17,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "WB-07G-1234",
+                              textScaler: TextScaler.noScaling,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.my_location,
+                            size: 18,
+                            color: Colors.green,
+                          )
+                        ],
+                      ),
+                      Text(
+                        "Engine On",
+                        textScaler: TextScaler.noScaling,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24.0),
-                    ),
-                    padding: const EdgeInsets.all(1.0).copyWith(top: 12.h),
-                    child: _buildActionsCard(context)),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  String _getGreetingMessage() {
-    final hour = DateTime.now().hour;
-
-    if (hour < 12) {
-      return 'Good Morning';
-    } else if (hour < 17) {
-      return 'Good Afternoon';
-    } else {
-      return 'Good Evening';
-    }
-  }
-
-  Widget _buildActionCard(
-      BuildContext context, String title, String iconPath, Color color) {
-    return Column(
-      children: [
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
-          ),
-          elevation: 9,
-          child: InkWell(
-            onTap: () {
-              if (title == 'Mark Attendance') {
-                //  Get.offAll(AttendanceScreen());
-              }
-              if (title == 'Student List') {
-                Get.to(TransportStudentList());
-              }
-              // Add more navigation logic for other titles here
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [color.withOpacity(0.8), color],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+          Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: 16.w).copyWith(bottom: 10.h),
+            child: const Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Start Time : ",
+                        textScaler: TextScaler.noScaling,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "07:00 AM",
+                        textScaler: TextScaler.noScaling,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              padding: const EdgeInsets.all(5.0),
-              child: SizedBox(
-                width: MediaQuery.sizeOf(context).width *
-                    0.18, // Adjust the size of the container
-                height: MediaQuery.sizeOf(context).width *
-                    0.18, // Adjust the size of the container
-                child: Image.asset(
-                  iconPath,
-                  fit: BoxFit.fill,
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "End Time : ",
+                        textScaler: TextScaler.noScaling,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "05:00 PM",
+                        textScaler: TextScaler.noScaling,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        ),
-        SizedBox(height: 4.h), // Space between the card and text
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
+          const Divider(
+            height: 1,
+            thickness: 1,
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildActionsCard(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.zero,
-      child: GridView.count(
-        shrinkWrap: true,
-        crossAxisCount: 3,
-        mainAxisSpacing: 17.h,
-        crossAxisSpacing: 0.w,
-        childAspectRatio: 1.04, // Adjusted aspect ratio for the new layout
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          // _buildActionCard('Classroom', 'assets/drawer/classroom.png', Colors.white),
-          // _buildActionCard('Homework', 'assets/drawer/homework.png', Colors.white),
-          // _buildActionCard('Online Exam', 'assets/drawer/onlineTest.png', Colors.white),
-          // _buildActionCard('Fee Payment', 'assets/drawer/fee.png', Colors.white),
-          // _buildActionCard('Notification', 'assets/drawer/sub-popUpConfigure.png', Colors.white),
-          // _buildActionCard('Leave Request', 'assets/drawer/leave.png', Colors.white),
-          // _buildActionCard('Exam Result', 'assets/drawer/exam.png', Colors.white),
-          // _buildActionCard('Circular', 'assets/drawer/circular.png', Colors.white),
-          _buildActionCard(context, 'Student List',
-              'assets/drawer/activity.png', Colors.white),
-          _buildActionCard(context, 'Mark Attendance',
-              'assets/drawer/attendance.png', Colors.white),
+          InkWell(
+            borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)),
+            onTap: () {
+              log("onTap Pressed");
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.location_on_outlined,
+                    color: AppColors.appbuttonColor,
+                    size: 24,
+                  ),
+                  customWidth(4.w),
+                  const Text(
+                    "Check Locaion On Map",
+                    textScaler: TextScaler.noScaling,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

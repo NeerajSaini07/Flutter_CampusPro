@@ -5,7 +5,6 @@ import 'package:campuspro/Screens/Wedgets/app_rights.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

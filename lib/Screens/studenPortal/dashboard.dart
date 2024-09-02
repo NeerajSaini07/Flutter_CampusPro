@@ -2,11 +2,17 @@
 
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
+import 'package:campuspro/Controllers/student_module_controller.dart';
+import 'package:campuspro/Controllers/usertype_controller.dart';
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/dashboard_menu.dart';
+import 'package:campuspro/Modal/student_module/notification_model.dart';
+import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/bottom_bar.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/drawer.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/sharedpref.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,117 +27,115 @@ class StudentDashboad extends StatelessWidget {
   final AppbarController appbarController = Get.find<AppbarController>();
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();
+  final WebController webController = Get.find<WebController>();
+  final UserTypeController userTypeController = Get.find<UserTypeController>();
+  final StudentModuleController studentController =
+      Get.find<StudentModuleController>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(context),
-      bottomNavigationBar: Obx(
-        () => BottomNavBar(
-          currentIndex: bottomBarController.selectedBottomNavIndex.value,
-          onTap: bottomBarController.onItemTappedChangeBottomNavIndex,
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/userTypeBackGround.png'),
+              fit: BoxFit.cover),
         ),
-      ),
-      drawer: AppDrawer(context),
-      body: SingleChildScrollView(
-        child: Container(
-          height: 720.h,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/userTypeBackGround.png'),
-                fit: BoxFit.cover),
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: 1.0,
           ),
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: 1.0,
-            ),
-            child: Column(
-              children: [
-                // Greeting Container
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        AppColors.primarycolor,
-                        Colors.blue[300]!,
-                      ],
-                    ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30.r),
-                      bottomRight: Radius.circular(30.r),
-                    ),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      AppColors.primarycolor,
+                      Colors.blue[300]!,
+                    ],
                   ),
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                    // Add padding for spacing
-                    child: Stack(children: [
-                      // Left side: Text
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Hi Name!',
-                              style: TextStyle(
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 6.h),
-                            Text(
-                              '${_getGreetingMessage()},',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // Right side: CircleAvatar
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage(
-                              'assets/images/person_icon.png'), // Replace with your image path
-                          radius: 30.r,
-                        ),
-                      ),
-
-                      SizedBox(height: 5.h),
-                    ]),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.r),
+                    bottomRight: Radius.circular(30.r),
                   ),
                 ),
-
-                SizedBox(height: 5.h),
-                // MarqueeWidget(),
-                SimpleSliderWidget(),
-                SizedBox(height: 7.h),
-                Container(
-                    width: 335.w,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.4),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24.0),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  // Add padding for spacing
+                  child: Stack(children: [
+                    // Left side: Text
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Hi , ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.capitalizeFirst}',
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: 6.h),
+                          Text(
+                            '${_getGreetingMessage()},',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    padding: EdgeInsets.all(1.0),
-                    child: _buildActionsCard()),
-              ],
-            ),
+
+                    // Right side: CircleAvatar
+                    // Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: CircleAvatar(
+                    //     backgroundImage: AssetImage(
+                    //         'assets/images/person_icon.png'), // Replace with your image path
+                    //     radius: 30.r,
+                    //   ),
+                    // ),
+
+                    SizedBox(height: 5.h),
+                  ]),
+                ),
+              ),
+
+              SizedBox(height: 5.h),
+              // MarqueeWidget(),
+              Obx(
+                () => studentController.notificationStatus.value
+                    ? SimpleSliderWidget(
+                        notifications: NotificationList.notificationList,
+                      )
+                    : SizedBox(),
+              ),
+              SizedBox(height: 7.h),
+              Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.4),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                  child: _buildActionsCard()),
+            ],
           ),
         ),
       ),
@@ -201,8 +205,9 @@ class StudentDashboad extends StatelessWidget {
   Widget _buildActionsCard() {
     return Padding(
       padding: EdgeInsets.zero,
-
       child: GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 14.h,
@@ -221,18 +226,15 @@ class StudentDashboad extends StatelessWidget {
                 ),
                 elevation: 10,
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    webController.showWebViewScreen.value = true;
                     final AppRouting appRouting = AppRouting();
-                    appRouting.navigate(
+                    await appRouting.navigate(
                         DashboardMenulist
                             .dashboardMenulistdetails[index].menuName,
                         DashboardMenulist
                             .dashboardMenulistdetails[index].menuURL,
                         context);
-                    Navigator.pop(context);
-                    appbarController.appBarName.value = DashboardMenulist
-                        .dashboardMenulistdetails[index].menuName
-                        .toString();
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -250,13 +252,19 @@ class StudentDashboad extends StatelessWidget {
                     ),
                     padding: EdgeInsets.all(5.0),
                     child: SizedBox(
-                      width: 65.w,
-                      height: 58.h,
-                      child: Image.asset(
+                      width: 30.w,
+                      height: 30.h,
+                      child: Image.network(
                         DashboardMenulist
                             .dashboardMenulistdetails[index].imageUrl
                             .toString(),
                         fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.network(
+                            'https://picsum.photos/200', // Replace with the path to your dummy image
+                            fit: BoxFit.contain,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -264,7 +272,7 @@ class StudentDashboad extends StatelessWidget {
               ),
               SizedBox(height: 3.h), // Space between the card and text
               Text(
-                DashboardMenulist.dashboardMenulistdetails[index].imageUrl
+                DashboardMenulist.dashboardMenulistdetails[index].menuName
                     .toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -276,36 +284,6 @@ class StudentDashboad extends StatelessWidget {
           );
         },
       ),
-      // child: GridView.bu(
-      //   shrinkWrap: true,
-      //   crossAxisCount: 3,
-      //   mainAxisSpacing: 14.h,
-      //   crossAxisSpacing: 0.w,
-      //   childAspectRatio: 1.04, // Adjusted aspect ratio for the new layout
-      //   physics: NeverScrollableScrollPhysics(),
-      //   children: [
-
-      //   ],
-      // children: [
-      //   _buildActionCard(
-      //       'Classroom', 'assets/icon/classroom.png', Colors.white),
-      //   _buildActionCard(
-      //       'Homework', 'assets/icon/homework.png', Colors.white),
-      //   _buildActionCard('Online Exam', 'assets/icon/exam.png', Colors.white),
-      //   _buildActionCard('Fee Payment', 'assets/icon/fees.png', Colors.white),
-      //   _buildActionCard(
-      //       'Notification', 'assets/icon/notification.png', Colors.white),
-      //   _buildActionCard(
-      //       'Leave Request', 'assets/icon/leave.png', Colors.white),
-      //   _buildActionCard(
-      //       'Exam Result', 'assets/icon/results.png', Colors.white),
-      //   _buildActionCard(
-      //       'Schedule', 'assets/icon/circular.png', Colors.white),
-      //   _buildActionCard(
-      //       'Activity', 'assets/icon/activity.png', Colors.white),
-      //   _buildActionCard(
-      //       'Attendance', 'assets/icon/attendance .png', Colors.white),
-      // ],
     );
   }
 }

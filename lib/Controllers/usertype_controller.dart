@@ -1,25 +1,23 @@
-import 'dart:developer';
-
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
+import 'package:campuspro/Controllers/student_module_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
-import 'package:campuspro/Modal/drawer_model.dart';
-import 'package:campuspro/Modal/login_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Repository/usertype_repo.dart';
-import 'package:campuspro/Screens/TransportModule/transport_dashboard_screen.dart';
 import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import 'menu_controller.dart';
 
 class UserTypeController extends GetxController {
+  var usertypeIndex;
+
+  //var bottomIndexvalueForhelpAndSupport;
   getUsers() async {
     await getBaseUrl();
     try {
@@ -62,11 +60,14 @@ class UserTypeController extends GetxController {
 
     final AppbarController appbarController = Get.find<AppbarController>();
     final UserMenuController menuController = Get.find<UserMenuController>();
+    final StudentModuleController studentController =
+        Get.find<StudentModuleController>();
 
     //  Putting Company Name on
 
     appbarController.appBarName.value = Constant.schoolName;
     Constant.dashBoardUrl = url;
+    // print(Constant.dashBoardUrl);
 
     //  ************************  storig user details *******************
 
@@ -85,38 +86,53 @@ class UserTypeController extends GetxController {
       try {
         // ********************* finding menu from user *************************************
 
-        await menuController.getmenuFromServer(index);
+//  *****************************************************************************
 
-        if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
-          Get.toNamed(Routes.visitorHistory);
-        } else if (UserTypeslist.userTypesDetails[index].ouserType
-                .toString()
-                .toLowerCase() ==
-            "s") {
-          Get.toNamed(Routes.StudentDashboad);
-        } else if (UserTypeslist.userTypesDetails[index].ouserType
-                .toString()
-                .toLowerCase() ==
-            "t") {
-          Get.toNamed(Routes.transportDashboad);
-        } else {
-          Get.toNamed(Routes.webview);
+        // Modification date : 22-08 -2024
+        // Purpose: storing menu in local db and get pass module included
+
+        await menuController.getmenuFromServer(index);
+        // if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
+        //   Get.toNamed(Routes.Dashboardboard);
+        // } else {
+        if (UserTypeslist.userTypesDetails[index].ouserType == "S") {
+          webController.showWebViewScreen.value = false;
+          studentController.getStudentDetails();
+          studentController.getNotification();
         }
+        Get.toNamed(Routes.Dashboardboard);
+        // }
+        // } else if (url.contains("Student/Index")) {
+        //   Get.toNamed(Routes.StudentDashboad);
+        // } else {
+        //   Get.toNamed(Routes.Dashboardboard);
+        // }
+
+        usertypeIndex =
+            await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 
         // Get.toNamed(Routes.webview);
         // if (url.contains("Student/Index")) {
         //   Get.toNamed(Routes.StudentDashboad);
         // }
 
+        if (UserTypeslist.userTypesDetails[index].ouserType == 'E') {
+          bottomBarController.showChat.value = true;
+          //bottomIndexvalueForhelpAndSupport.value = 2;
+        } else {
+          bottomBarController.showChat.value = false;
+          // bottomIndexvalueForhelpAndSupport.value = 2;
+        }
+        bottomBarController.selectedBottomNavIndex.value = 0;
+
 // ************************************************************************
       } catch (e) {
-        await UserTypeRepository.getDrawerData(index).then((value) {
-          List<dynamic> data = value['Data'];
-          MenuItemList.menuItemDetails =
-              data.map((json) => DrawerMenu.fromJson(json)).toList();
-        });
+        if (kDebugMode) {
+          print(e);
+        }
       }
     }
+
     //webController.gotoWebview(url);
     webController.currentUrl.value = url;
   }

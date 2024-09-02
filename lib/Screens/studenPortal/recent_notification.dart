@@ -1,10 +1,12 @@
+import 'package:campuspro/Modal/student_module/notification_model.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SimpleSliderWidget extends StatefulWidget {
-  const SimpleSliderWidget({super.key});
-
+  final List<NotificationModel> notifications;
+  const SimpleSliderWidget({super.key, required this.notifications});
   @override
   _SimpleSliderWidgetState createState() => _SimpleSliderWidgetState();
 }
@@ -13,14 +15,12 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
-  final List<String> _messages = [
-    'Important Notice! Holiday',
-    'Another Important Message',
-  ];
+  List<NotificationModel> _messages = [];
 
   @override
   void initState() {
     super.initState();
+    _messages = widget.notifications;
     _startAutoSlide();
   }
 
@@ -50,18 +50,17 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
     return Center(
       child: Container(
         width: double.infinity,
-        height: 60.h, // Adjust height to accommodate card content
+        height: 60.h,
         padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 10.w),
         child: PageView.builder(
           controller: _pageController,
           itemCount: null, // Use null to allow infinite scrolling
           itemBuilder: (context, index) {
-            // Calculate the actual index for messages
             int actualIndex = index % _messages.length;
 
             return Card(
               color: Colors.white,
-              elevation: 5,
+              elevation: 2,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.r),
               ),
@@ -73,13 +72,16 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
                     Row(
                       children: [
                         Icon(
-                          Icons.chat, // Replace with desired icon
+                          Icons.chat,
                           color: Colors.yellow.shade700,
                           size: 24.sp,
                         ),
                         SizedBox(width: 10.w), // Space between icon and text
                         Text(
-                          _messages[actualIndex],
+                          trimSentence(
+                              (_messages[actualIndex].alertMessage ?? ""), 18),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15.sp,
@@ -90,7 +92,6 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Define the action for the button
                         print('Button Pressed');
                       },
                       style: ElevatedButton.styleFrom(
@@ -122,4 +123,18 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
       ),
     );
   }
+}
+
+String trimSentence(String sentence, int maxLength) {
+  if (sentence.length <= maxLength) return sentence;
+
+  String trimmed = sentence.substring(0, maxLength);
+
+  int lastSpace = trimmed.lastIndexOf(' ');
+
+  if (lastSpace != -1) {
+    trimmed = trimmed.substring(0, lastSpace);
+  }
+
+  return "$trimmed...";
 }

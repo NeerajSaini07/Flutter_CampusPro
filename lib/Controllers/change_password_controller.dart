@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campuspro/Repository/login_repository.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';

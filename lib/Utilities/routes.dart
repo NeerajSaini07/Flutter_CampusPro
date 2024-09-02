@@ -3,7 +3,7 @@
 
 class Routes {
   static const String splash = '/splash';
-  static const String webview = '/webview';
+  static const String Dashboardboard = '/webview';
   static const String login = '/login';
   static const String forgotpassword = '/forgotpassword';
   static const String userType = '/userType';
@@ -14,8 +14,8 @@ class Routes {
   static const String busTrackerScreen = '/busTrackerScreen';
   static const String helpAndSupportScreen = '/helpAndSupportScreen';
   static const String changePasswordScreen = '/changePasswordScreen';
+  static const String webviewpage = 'webviewpage';
 
   // ***********************************  student portal **************************************************
   static const String StudentDashboad = '/studentdashboard';
-  static const String transportDashboad = '/transportdashboard';
 }

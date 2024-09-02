@@ -6,6 +6,7 @@ import 'package:campuspro/Screens/Wedgets/common_button.dart';
 import 'package:campuspro/Screens/Wedgets/common_form_component.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
+import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final ForgotPasswordController forgotPasswordController =
       Get.find<ForgotPasswordController>();
+  final ConnectivityService connectivityService =
+      Get.find<ConnectivityService>();
 
   @override
   void initState() {
@@ -49,7 +52,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomeHeight(30.h),
+                  CustomeHeight(80.h),
                   Text(
                     "Forgot Password",
                     style: TextStyle(
@@ -70,7 +73,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: Card(
                         child: SizedBox(
                       width: double.infinity,
-                      height: 360.h,
+                      height: 270.h,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: Column(
@@ -93,41 +96,42 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   ? CustomeHeight(10.h)
                                   : SizedBox();
                             }),
-                            buildTextField(
-                              hintText: "Mobile",
-                              controller: forgotPasswordController
-                                  .mobileNumberController,
-                              maxLength: 10,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              // initialValue:
-                              //     forgotPasswordController.showDropDown.value
-                              //         ? forgotPasswordController
-                              //             .mobileForForgotPass.value
-                              //         : null,
-                              prefixIconData: Icons.call,
-                              onChanged: (value) {
-                                //  ********************************  for forget pass word filed empty and recalling the api ****************
-                                forgotPasswordController.showerrortext.value =
-                                    false;
-                                forgotPasswordController
-                                    .mobileForForgotPass.value = value;
-                                forgotPasswordController.items.clear();
-                                forgotPasswordController.showDropDown.value =
-                                    false;
-                                forgotPasswordController
-                                    .selectedDropDownId.value = '';
-                                forgotPasswordController.selectedvalue.value =
-                                    '';
-                                if (value.length == 10) {
-                                  forgotPasswordController.items.clear();
+                            Obx(
+                              () => buildTextField(
+                                hintText: "Mobile",
+                                maxLength: 10,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                initialValue:
+                                    forgotPasswordController.showDropDown.value
+                                        ? forgotPasswordController
+                                            .mobileForForgotPass.value
+                                        : null,
+                                prefixIconData: Icons.call,
+                                onChanged: (value) {
+                                  //  ********************************  for forget pass word filed empty and recalling the api ****************
+                                  forgotPasswordController.showerrortext.value =
+                                      false;
                                   forgotPasswordController
-                                      .forgotpassForFetchSchool();
-                                  FocusScope.of(context).unfocus();
-                                }
-                              },
+                                      .mobileForForgotPass.value = value;
+                                  forgotPasswordController.items.clear();
+                                  forgotPasswordController.showDropDown.value =
+                                      false;
+                                  forgotPasswordController
+                                      .selectedDropDownId.value = '';
+                                  forgotPasswordController.selectedvalue.value =
+                                      '';
+                                  if (value.length == 10) {
+                                    forgotPasswordController.errorText.value =
+                                        "";
+                                    forgotPasswordController.items.clear();
+                                    forgotPasswordController
+                                        .forgotpassForFetchSchool();
+                                    FocusScope.of(context).unfocus();
+                                  }
+                                },
+                              ),
                             ),
                             CustomeHeight(8.h),
                             Obx(() => (forgotPasswordController
@@ -182,56 +186,78 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   )
                                 : SizedBox()),
                             CustomeHeight(13.h),
-                            appCommonbutton(
-                                onpressed: () {
-                                  if (forgotPasswordController
-                                          .mobileForForgotPass.value.length <
-                                      10) {
-                                    forgotPasswordController
-                                        .showerrortext.value = true;
-                                    forgotPasswordController.errorText.value =
-                                        '';
-                                    forgotPasswordController.errorText.value =
-                                        'Please Enter A Valid Number';
-                                  } else {
-                                    forgotPasswordController
-                                        .forgetPasswordForSendotp();
-                                  }
-                                },
-                                text: "Send OTP"),
-                            CustomeHeight(8.h),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.offAllNamed(Routes.login);
+                            Obx(
+                              () => appCommonbutton(
+                                  onpressed: () {
+                                    if (connectivityService.isConnected.value) {
+                                      if (forgotPasswordController
+                                              .mobileForForgotPass
+                                              .value
+                                              .length <
+                                          10) {
+                                        forgotPasswordController
+                                            .showerrortext.value = true;
+                                        forgotPasswordController
+                                            .errorText.value = '';
+                                        forgotPasswordController
+                                                .errorText.value =
+                                            'Please Enter A Valid Number';
+                                      } else {
+                                        forgotPasswordController
+                                            .forgetPasswordForSendotp();
+                                      }
+                                    } else {
+                                      connectivityService
+                                          .showNoConnectionBottomSheet();
+                                    }
                                   },
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10.w, vertical: 12.h),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          " Login ",
-                                          style: TextStyle(
-                                              color: AppColors.primarytextcolor,
-                                              fontSize: 16.sp,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              decorationColor:
-                                                  AppColors.primarytextcolor,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                  disable: (forgotPasswordController
+                                              .mobileForForgotPass
+                                              .value
+                                              .length <
+                                          10 &&
+                                      forgotPasswordController
+                                          .selectedvalue.isEmpty),
+                                  text: "Send OTP"),
                             ),
+                            // appCommonbutton(
+                            //     onpressed: () {
+                            //       if (forgotPasswordController
+                            //               .mobileForForgotPass.value.length <
+                            //           10) {
+                            //         forgotPasswordController
+                            //             .showerrortext.value = true;
+                            //         forgotPasswordController.errorText.value =
+                            //             '';
+                            //         forgotPasswordController.errorText.value =
+                            //             'Please Enter A Valid Number';
+                            //       } else {
+                            //         forgotPasswordController
+                            //             .forgetPasswordForSendotp();
+                            //       }
+                            //     },
+                            //     text: "Send OTP"),
+                            CustomeHeight(8.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    forgotPasswordController
+                                        .forgotPassMobile.value = '';
+                                    Get.toNamed(Routes.login);
+                                  },
+                                  child: Text(
+                                    "Login",
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                        decoration: TextDecoration.underline,
+                                        color: AppColors.textfieldhintstycolor),
+                                  ),
+                                )
+                              ],
+                            )
                           ],
                         ),
                       ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget appCommonbutton({@required onpressed, text}) {
+Widget appCommonbutton({@required onpressed, text, disable = false}) {
   final LoginController loginController = Get.find();
   return Obx(
     () => SizedBox(
@@ -12,7 +12,8 @@ Widget appCommonbutton({@required onpressed, text}) {
       width: double.infinity,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.appbuttonColor,
+              backgroundColor:
+                  disable ? Colors.grey[400] : AppColors.appbuttonColor,
               alignment: Alignment.center,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.w))),

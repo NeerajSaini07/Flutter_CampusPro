@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/idproofwidget.dart';
 import 'package:campuspro/Utilities/colors.dart';

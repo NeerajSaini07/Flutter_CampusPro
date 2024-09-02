@@ -2,12 +2,14 @@
 
 import 'dart:developer';
 
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Modal/gatepass_history_model.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitordata_model.dart';
 import 'package:campuspro/Repository/getpass_respository.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/idProofuploadedDilog.dart';
+import 'package:campuspro/Screens/getpass/visitor_details_page.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,6 +62,14 @@ class GetPassController extends GetxController {
   RxString exitime = ''.obs;
 
   @override
+  void onInit() {
+    super.onInit();
+    toMeetdata();
+    getpassHistory();
+    getVisitorHistory();
+  }
+
+  @override
   void onClose() {
     // Clean up any resources or controllers here if necessary
     super.onClose();
@@ -69,6 +79,8 @@ class GetPassController extends GetxController {
 
   searchvistorByMobile() async {
     // ************************** when click on it then make it false ****************
+
+    final AppbarController appbarController = Get.find<AppbarController>();
     showErrorfield.value = false;
     showOTPwidget.value = false;
     if (mobileNo.value.isNotEmpty) {
@@ -128,8 +140,12 @@ class GetPassController extends GetxController {
                 'Y') {
               showOTPwidget.value = true;
             } else {
+              mobileNo.value = '';
+              mobilenumberController.clear();
+              appbarController.appBarName.value = 'Visitor Details';
+
+              Get.to(const VisitorDetialsPage());
               showOTPwidget.value = false;
-              showvisitorDetails.value = true;
             }
           }
 

@@ -1,6 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
 
-import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';

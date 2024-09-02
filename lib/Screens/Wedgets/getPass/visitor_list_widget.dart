@@ -1,6 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:campuspro/Controllers/getpassController.dart';
+import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';

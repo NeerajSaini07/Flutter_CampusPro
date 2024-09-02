@@ -8,9 +8,9 @@ class APIENDPOINT {
   static const changePasswordApi = baseUrl + "ChangeDefaultPasswordNew";
   // **********************************************
   static const sendOtpForgotPassword = baseUrl + "SendOtpForgetPassword";
-  static const apiCallStatus = "ApiCallStatus";
   static const userTypeApi = "GetOurSchools";
-  static const drawerApi = "GetAssignMenu_V1"; //"GetAssignMenu"; //
+  static const apiCallStatus = "ApiCallStatus";
+  static const drawerApi = "GetAssignMenu_V1"; //"Managemenu"; // //
   static const gotoWebApp = "GotoWebApp4Flutter";
   static const saveFcmToken = "UpdateFcmToken";
   static const removeFcmToken = "RemoveFcmToken";
@@ -26,12 +26,20 @@ class APIENDPOINT {
   static const markGatePassExitApi = "markGatePassExit";
   static const verifyIdGatePass = "updateVisitorIdProofV1";
   static const getGatePassHistoryApi = "getGatePasssListToday_V1";
+
+  // *******************  bus Location Tracking **************************
   static const checkBusAllotApi = "CheckBusAllot";
   static const schoolBusRouteApi = "MapRealData";
   static const schoolBusLiveLocationApi = "VehicleDetails";
+
+  //  *************************** Transport Module *******************************
   static const schoolBusDetailApi = "Stutansportreport";
   static const transportStudentdDetailsApi = "FillTransportStudentDetail_V1";
 
   // ************************ Help & Support *************************
   static const helpAndSupportDetailApi = "GetHelpAndSupportDetails";
+
+  // ************************ Student Module *************************
+  static const studentDetailApi = "GetStudentInfo_V1";
+  static const notificationApi = "Getalertnotifications_V1";
 }

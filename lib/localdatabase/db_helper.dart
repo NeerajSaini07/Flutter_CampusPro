@@ -1,30 +1,30 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:campuspro/localdatabase/dashboard_menu_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+import 'dbuprade.dart';
 import 'menu_model.dart';
 
 class DatabaseManager {
   Database? _database;
 
   Future<Database> get database async {
-    if (_database != null) {
-      return _database!;
-    }
     _database = await initWinDB();
     return _database!;
   }
 
   Future<Database> initWinDB() async {
     final directory = await getApplicationDocumentsDirectory();
-    final path = join(directory.path, 'database.db');
+    final path = join(directory.path, 'databases.db');
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 3,
       onCreate: _onCreate,
+      onUpgrade: onDbUpgrade,
     );
   }
 
@@ -40,11 +40,22 @@ class DatabaseManager {
             drawerData TEXT
           )
           ''');
+
+    await db.execute('''
+         CREATE TABLE dashboard_menu(
+              mobileNo TEXT,
+              userId TEXT,
+              updatedDate TEXT,
+              orgId TEXT,
+              schoolId TEXT,
+              userType TEXT,
+              dashboardmenu TEXT
+            )
+      ''');
   }
 
   Future<void> insertOrUpdateUserData(
       UserData userData, String usertype) async {
-    print("here");
     final db = await database;
 
     // ******************   Check if the usertype already exists ****************
@@ -61,8 +72,6 @@ class DatabaseManager {
         userData.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
-
-      print("menu insert successfully");
     } else {
       // ************************  If usertype exists, update the existing record ****************
       await db.update(
@@ -97,6 +106,51 @@ class DatabaseManager {
     final db = await database;
     List<Map<String, dynamic>> result = await db.query(
       'user_menu',
+      where: 'userType = ?',
+      whereArgs: [usertype],
+    );
+
+    if (result.isNotEmpty) {
+      return result;
+    } else {
+      return null; // or you could throw an exception or return a default value
+    }
+  }
+
+  Future<void> insertOrUpdateUserDataforDashboardMenu(
+      DashboardMenuModelLocalDb menudata, String usertype) async {
+    final db = await database;
+
+    // ******************   Check if the usertype already exists ****************
+    List<Map<String, dynamic>> existingUser = await db.query(
+      'dashboard_menu',
+      where: 'userType = ?',
+      whereArgs: [usertype],
+    );
+
+    if (existingUser.isEmpty) {
+      // ********************* If usertype does not exist, insert new data *************
+      await db.insert(
+        'dashboard_menu',
+        menudata.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } else {
+      // ************************  If usertype exists, update the existing record ****************
+      await db.update(
+        'dashboard_menu',
+        menudata.toMap(),
+        where: 'userType = ?',
+        whereArgs: [usertype],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+  }
+
+  Future<List<Map<String, dynamic>>?> getDashboardMenu(usertype) async {
+    final db = await database;
+    List<Map<String, dynamic>> result = await db.query(
+      'dashboard_menu',
       where: 'userType = ?',
       whereArgs: [usertype],
     );

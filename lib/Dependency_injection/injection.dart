@@ -1,3 +1,4 @@
+import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
@@ -5,15 +6,14 @@ import 'package:campuspro/Controllers/change_password_controller.dart';
 import 'package:campuspro/Controllers/exception_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/forgotpassword_controller.dart';
-import 'package:campuspro/Controllers/getpassController.dart';
 import 'package:campuspro/Controllers/help_and_support_controller.dart';
 
 import 'package:campuspro/Controllers/logout_controller.dart';
+import 'package:campuspro/Controllers/student_module_controller.dart';
 import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Controllers/splash_controller.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 
@@ -53,5 +53,7 @@ class DependencyInjection {
     Get.lazyPut<ChangePasswordController>(() => ChangePasswordController());
 
     Get.lazyPut<UserMenuController>(() => UserMenuController());
+
+    Get.lazyPut<StudentModuleController>(() => StudentModuleController());
   }
 }

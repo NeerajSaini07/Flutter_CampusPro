@@ -58,7 +58,7 @@ class LoginController extends GetxController {
   }
 
   void validatePhoneNumber(BuildContext context) {
-    // print("value not comming");
+    print("value not comming");
     // final InternetController internetController =
     //     Get.find<InternetController>();
     // if (internetController.internetChecker.value == true) {
@@ -147,7 +147,7 @@ class LoginController extends GetxController {
 
                 await userTypeController.getUsers();
 
-                Get.offAndToNamed(Routes.userType);
+                Get.offAllNamed(Routes.userType);
               }
 
               // *************************************** clear variable value of **********
