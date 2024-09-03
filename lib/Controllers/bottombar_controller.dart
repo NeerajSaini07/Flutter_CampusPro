@@ -129,9 +129,9 @@ class BottomBarController extends GetxController {
 
     // Add different screens based on the user type
     if (userType == 'S') {
-      screens.add(Obx(() => webController.showWebViewScreen.value
+      screens.add(webController.showWebViewScreen.value
           ? WebViewDashboardPage()
-          : StudentDashboad()));
+          : StudentDashboad());
     } else if (userType == 'G') {
       screens.add(GatePassDashboard());
     } else {

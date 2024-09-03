@@ -82,6 +82,7 @@ class UserTypeController extends GetxController {
     await fcmTokenController.getFCMToken();
     // *****************************************************************
 
+    //Navigation to Flutter or WebView
     if (UserTypeslist.userTypesDetails[index].dashboardType == 'W') {
       try {
         // ********************* finding menu from user *************************************

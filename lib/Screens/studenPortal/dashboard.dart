@@ -225,14 +225,19 @@ class StudentDashboad extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(24.r + 4),
                   onTap: () async {
-                    webController.showWebViewScreen.value = true;
-                    final AppRouting appRouting = AppRouting();
-                    await appRouting.navigate(
-                        DashboardMenulist
-                            .dashboardMenulistdetails[index].menuName,
-                        DashboardMenulist
-                            .dashboardMenulistdetails[index].menuURL,
-                        context);
+                    //Navigation to Flutter or WebView
+                    if (DashboardMenulist
+                            .dashboardMenulistdetails[index].flag ==
+                        "W") {
+                      webController.showWebViewScreen.value = true;
+                      final AppRouting appRouting = AppRouting();
+                      await appRouting.navigate(
+                          DashboardMenulist
+                              .dashboardMenulistdetails[index].menuName,
+                          DashboardMenulist
+                              .dashboardMenulistdetails[index].menuURL,
+                          context);
+                    } else {}
                   },
                   child: Container(
                       padding: EdgeInsets.all(8),
