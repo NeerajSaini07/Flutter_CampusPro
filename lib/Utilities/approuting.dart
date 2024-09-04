@@ -27,7 +27,6 @@ class AppRouting extends GetxService {
       case "G":
         Navigator.pushNamed(context, Routes.visitorHistory);
         break;
-
       case "Go to Site":
         UrlLuncher.launchUrls(pageurl);
         break;

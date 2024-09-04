@@ -9,6 +9,7 @@ class StudentModuleController extends GetxController {
   RxBool notificationStatus = false.obs;
 
   getStudentDetails() async {
+    print("calling");
     await StudentModuleRepository.studentDetailRepo().then((value) {
       log(value.toString());
       if (value['Status'] == "Cam-001") {

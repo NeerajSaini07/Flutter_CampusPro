@@ -36,7 +36,7 @@ void idProvebottom(BuildContext context) {
   );
 }
 
-void showimagepickerOption(BuildContext context, VoidCallback onTap) {
+showimagepickerOption(BuildContext context, VoidCallback onTap) {
   final GetPassController getPassController = Get.find<GetPassController>();
   showModalBottomSheet(
     context: context,

@@ -4,7 +4,6 @@ import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
-import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Utilities/constant.dart';
@@ -12,6 +11,7 @@ import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Screens/getpass/dashboard.dart';
 import '../Screens/help_and_support_screen.dart';
 import '../Screens/studenPortal/dashboard.dart';
 
@@ -21,6 +21,7 @@ class BottomBarController extends GetxController {
   final UserTypeController userTypeController = Get.find<UserTypeController>();
   RxInt selectedBottomNavIndex = 0.obs;
   RxBool showChat = false.obs;
+  RxBool webviewpage = false.obs;
 
   void checkToShowChatOption(int index) async {
     if (UserTypeslist.userTypesDetails[index].ouserType

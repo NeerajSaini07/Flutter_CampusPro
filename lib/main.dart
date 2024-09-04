@@ -42,7 +42,6 @@ void main() async {
   // **********************************  database initialize *****************************************************
   final databaseManager = DatabaseManager();
   databaseManager.initWinDB();
-
   //  *****************************************************************
 
   runApp(const MyApp());

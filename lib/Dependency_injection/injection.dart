@@ -1,3 +1,4 @@
+import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
@@ -53,6 +54,8 @@ class DependencyInjection {
     Get.lazyPut<ChangePasswordController>(() => ChangePasswordController());
 
     Get.lazyPut<UserMenuController>(() => UserMenuController());
+    Get.lazyPut<AllEmployeeProfileController>(
+        () => AllEmployeeProfileController());
 
     Get.lazyPut<StudentModuleController>(() => StudentModuleController());
   }

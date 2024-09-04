@@ -36,8 +36,8 @@ class WebViewDashboardPage extends StatelessWidget {
 
     print(UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
         .isPaymentPageOpenInChrome);
-
     return Obx(() {
+      print(webController.currentUrl.value);
       if (webController.currentUrl.isNotEmpty) {
         return InAppWebView(
             key: ValueKey(webController.currentUrl.value),
@@ -74,6 +74,9 @@ class WebViewDashboardPage extends StatelessWidget {
             onWebViewCreated: (InAppWebViewController controller) =>
                 webViewController = controller,
             onLoadStart: (InAppWebViewController controller, Uri? url) async {
+              print(UserTypeslist
+                  .userTypesDetails[userTypeController.usertypeIndex]
+                  .isPaymentPageOpenInChrome);
               if (url != null &&
                   (url.host.contains('meet.google.com') ||
                       url.toString().contains('tel:'))) {

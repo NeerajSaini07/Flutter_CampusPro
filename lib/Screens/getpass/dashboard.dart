@@ -1,16 +1,19 @@
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 
 import 'package:campuspro/Screens/Wedgets/common_form_component.dart';
-
-import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Screens/Wedgets/customeheight.dart';
+import 'package:campuspro/Screens/Wedgets/getPass/usertype_search.dart';
+import 'package:campuspro/Utilities/constant.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../Wedgets/getPass/dialogbox.dart';
+import '../Wedgets/common_userProfile_ondashboard.dart';
+import '../Wedgets/getPass/gatepass_dashboard_button.dart';
 
 class GatePassDashboard extends StatefulWidget {
   const GatePassDashboard({super.key});
@@ -34,194 +37,114 @@ class _GatePassDashboardState extends State<GatePassDashboard> {
   @override
   Widget build(BuildContext context) {
     final GetPassController getPassController = Get.find<GetPassController>();
-    final BottomBarController bottomBarController =
-        Get.find<BottomBarController>();
+    // final BottomBarController bottomBarController =
+    //     Get.find<BottomBarController>();
 
-    return SingleChildScrollView(
-        child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.w),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Card(
-                color: Colors.white,
-                margin: EdgeInsets.all(8.0.sp),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14.0.sp),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    // final AppbarController appbarController = Get.find<AppbarController>();
+
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          userProfileName(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.0.sp),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Visitor Entry',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(
-                                Icons.history,
-                                size: 18.sp,
-                              ),
-                              SizedBox(
-                                  width: 4.0
-                                      .sp), // Add space between the icon and text
-                              GestureDetector(
-                                onTap: () {
-                                  showGetpassDilaog(context);
-                                },
-                                child: Text(
-                                  'Show History',
-                                  style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppColors.blackcolor),
+                              Text(
+                                'Visitor Entry',
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              InkWell(
+                                  borderRadius: BorderRadius.circular(4),
+                                  onTap: () {
+                                    showBottomSheet(context);
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 4, bottom: 4, left: 8, right: 8),
+                                    child: ImageIcon(
+                                        AssetImage(Constant.filtericon)),
+                                  )),
                             ],
-                          )
+                          ),
+                          Obx(() => getPassController.showErrorfield.value
+                              ? Text(
+                                  getPassController.errorMessage.value,
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w600),
+                                )
+                              : const SizedBox()),
+                          const SizedBox(height: 10),
+                          buildTextField(
+                            hintText: "Phone Number",
+                            maxLength: 10,
+                            obscureText: false,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9]")),
+                            ],
+                            style: TextStyle(fontSize: 16.sp),
+                            controller:
+                                getPassController.mobilenumberController,
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              getPassController.showErrorfield.value = false;
+                              getPassController.mobileNo.value = value;
+                            },
+                            prefixIconData: Icons.call,
+                          ),
+                          const SizedBox(height: 16),
+
+                          //  **************** user search type ***********************************
+                          userType(),
                         ],
                       ),
-                      Obx(() => getPassController.showErrorfield.value
-                          ? Text(
-                              getPassController.errorMessage.value,
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w600),
-                            )
-                          : SizedBox()),
-                      const SizedBox(height: 10),
-                      buildTextField(
-                        hintText: "Phone Number",
-                        maxLength: 10,
-                        obscureText: false,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp("[0-9]")),
-                        ],
-                        controller: getPassController.mobilenumberController,
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          getPassController.showErrorfield.value = false;
-                          getPassController.mobileNo.value = value;
-                        },
-                        prefixIconData: Icons.call,
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                getPassController.visitorTyep.value = 'Father';
-                                getPassController.searchvistorByMobile();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(16.0),
-                                decoration: BoxDecoration(
-                                  color: AppColors.appbuttonColor,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                ),
-                                child: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: 5),
-                                    Text(
-                                      'Father',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                              width: 10), // Add space between containers
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                getPassController.visitorTyep.value = 'Mother';
-                                getPassController.searchvistorByMobile();
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(16.0),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.appbuttonColor,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                ),
-                                child: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: 5),
-                                    Text(
-                                      'Mother',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                              width: 8), // Add space between containers
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                getPassController.visitorTyep.value = 'Other';
-                                getPassController.searchvistorByMobile();
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(16.0),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.appbuttonColor,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(12),
-                                  ),
-                                ),
-                                child: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: 5),
-                                    Text(
-                                      'Other',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ))
-          ]),
-    ));
+                    )),
+              ],
+            ),
+          ),
+          CustomeHeight(16.h),
+        ]);
   }
+}
+
+void showBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+    ),
+    builder: (BuildContext context) {
+      return SizedBox(
+        width: double.infinity,
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 26.h),
+            child: dashboardButton(context)),
+      );
+    },
+  );
 }
 
 // ignore: non_constant_identifier_names

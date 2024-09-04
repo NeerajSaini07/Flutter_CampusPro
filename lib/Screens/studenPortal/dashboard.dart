@@ -15,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../Utilities/approuting.dart';
+import '../Wedgets/greeting_message.dart';
 import 'recent_notification.dart';
 
 class StudentDashboad extends StatelessWidget {
@@ -71,18 +72,18 @@ class StudentDashboad extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'Hi , ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.capitalizeFirst}',
+                            'Hi ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
                             style: TextStyle(
-                              fontSize: 20.sp,
+                              fontSize: 24.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
                           SizedBox(height: 6.h),
                           Text(
-                            '${_getGreetingMessage()},',
+                            '${getGreetingMessage()},',
                             style: TextStyle(
-                              fontSize: 14.sp,
+                              fontSize: 18.sp,
                               color: Colors.white,
                             ),
                           ),
@@ -91,14 +92,6 @@ class StudentDashboad extends StatelessWidget {
                     ),
 
                     // Right side: CircleAvatar
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: CircleAvatar(
-                    //     backgroundImage: AssetImage(
-                    //         'assets/images/person_icon.png'), // Replace with your image path
-                    //     radius: 30.r,
-                    //   ),
-                    // ),
 
                     SizedBox(height: 5.h),
                   ]),
@@ -136,18 +129,6 @@ class StudentDashboad extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getGreetingMessage() {
-    final hour = DateTime.now().hour;
-
-    if (hour < 12) {
-      return 'Good Morning';
-    } else if (hour < 17) {
-      return 'Good Afternoon';
-    } else {
-      return 'Good Evening';
-    }
   }
 
   Widget _buildActionCard(String title, String iconPath, Color color) {

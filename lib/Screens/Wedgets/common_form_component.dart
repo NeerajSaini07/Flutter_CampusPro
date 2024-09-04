@@ -14,6 +14,7 @@ Card buildTextField({
   int? maxLength,
   bool? suffixCustomIcon = false,
   Widget? customWidget,
+  int? maxLines = 1,
   String? hintText,
   bool readOnly = false,
   TextStyle? style = const TextStyle(
@@ -21,6 +22,7 @@ Card buildTextField({
     fontSize: 16,
     fontWeight: FontWeight.w500,
   ),
+  EdgeInsets? contentPadding = const EdgeInsets.symmetric(vertical: 20.0),
   FocusNode? focusNode,
   TextInputAction? textInputAction,
   TextInputType? keyboardType,
@@ -43,6 +45,7 @@ Card buildTextField({
       obscureText: obscureText,
       validator: validator,
       maxLength: maxLength,
+      maxLines: maxLines,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
       style: style,
@@ -63,6 +66,7 @@ Card buildTextField({
             ? Icon(
                 prefixIconData,
                 color: Color(0xff1f6089),
+                size: 16.sp,
               )
             : null,
         hintText: hintText,
@@ -73,8 +77,7 @@ Card buildTextField({
           fontWeight: FontWeight.w500,
         ),
         counterText: "",
-        contentPadding:
-            EdgeInsets.symmetric(vertical: 20.0), // Adjust vertical padding
+        contentPadding: contentPadding, // Adjust vertical padding
         suffixIcon: suffixIcon == true
             ? suffixCustomIcon == true
                 ? customWidget

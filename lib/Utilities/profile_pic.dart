@@ -1,6 +1,9 @@
+import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
+import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:get/get.dart';
 
 class ProfilePic extends StatelessWidget {
   final double radius;
@@ -14,12 +17,15 @@ class ProfilePic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserTypeController userTypeController =
+        Get.find<UserTypeController>();
     return ProfilePicture(
-      name: StudentDetaillist.studentdetails.first.stName ?? "",
+      name: UserTypeslist
+          .userTypesDetails[userTypeController.usertypeIndex].stuEmpName
+          .toString(),
       count: 1,
       radius: radius,
       fontsize: fontSize,
-      img: StudentDetaillist.studentdetails.first.imageUrl,
       tooltip: tooltip,
     );
   }

@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.2</string>
+	<string>1.5.3</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>4</string>
 	<key>FLTEnableImpeller</key>
 	<false/>
 	<key>FlutterImpeller</key>
@@ -38,11 +38,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need access to your location to provide services both when the app is active and in the background</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-<<<<<<< HEAD
     <string>We need access to your location to provide relevant services.</string>
-=======
-	<string>We need access to your location to provide relevant services.</string>
->>>>>>> origin/main
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to select images.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

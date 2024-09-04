@@ -1,3 +1,4 @@
+import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
@@ -55,6 +56,9 @@ class UserTypeController extends GetxController {
     bottomBarController.checkToShowChatOption(indexMap?.values.first ?? -1);
     final FcmTokenController fcmTokenController =
         Get.find<FcmTokenController>();
+
+    final AllEmployeeProfileController allEmployeeProfileController =
+        Get.find<AllEmployeeProfileController>();
 
     final WebController webController = Get.find<WebController>();
 

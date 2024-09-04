@@ -18,11 +18,11 @@ class DatabaseManager {
 
   Future<Database> initWinDB() async {
     final directory = await getApplicationDocumentsDirectory();
-    final path = join(directory.path, 'databases.db');
+    final path = join(directory.path, 'c2.db');
 
     return await openDatabase(
       path,
-      version: 3,
+      version: 1,
       onCreate: _onCreate,
       onUpgrade: onDbUpgrade,
     );

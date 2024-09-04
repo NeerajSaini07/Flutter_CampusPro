@@ -12,6 +12,12 @@ class AppColors {
   static const blacktextcolor = Color(0xFF212529);
   static const logoutBg = Color.fromRGBO(126, 190, 145, 0.5);
   static const logoutColor = Color(0xff00726d);
+
+  //  ******************  dashboard theam colors ***************
+
+  static const grediant1 = primarycolor;
+  static const grediant2 = Color.fromRGBO(100, 181, 246, 1);
+  static const titleAndsubtitleColor = Colors.white;
   static const successColor = Color(0xff81C784);
   static const warningColor = Color(0xffE57373);
   static const notificationbgColor = Color(0xff1c588c);
