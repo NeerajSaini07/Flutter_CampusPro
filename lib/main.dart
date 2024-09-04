@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
             Routes.userType: (context) => UserTypeScreen(),
             Routes.CreatePassword: (context) => CreatePassword(),
             Routes.opt: (context) => OTPScreen(),
-            Routes.Dashboardboard: (context) => WebViewScreen(),
+            Routes.Dashboardboard: (context) => MainDashboard(),
             Routes.noInternet: (context) => NoInternetScreen(),
             Routes.visitorHistory: (context) => GatePassDashboard(),
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),

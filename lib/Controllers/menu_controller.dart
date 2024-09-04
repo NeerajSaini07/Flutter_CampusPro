@@ -26,6 +26,7 @@ class UserMenuController extends GetxController {
 //  ************************** checking the  new menu update  ******************
 
     if (NewRefreshDateTime == updatedmenudate) {
+      print("yes");
       // ************************* if no new menu added for this user  then get the data from local database ************
       await db_helper
           .getmenudata(UserTypeslist.userTypesDetails[usertypeIndex].ouserType)
@@ -124,6 +125,7 @@ class UserMenuController extends GetxController {
         .getUpdatedDateByUserType(
             UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString())
         .then((value) {
+      print(value);
       if (value == null) {
         updatedmenudate = '0';
       } else {

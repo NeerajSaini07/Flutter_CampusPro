@@ -51,7 +51,6 @@ showimagepickerOption(BuildContext context, VoidCallback onTap) {
               Navigator.pop(context);
               getPassController.imagesource.value = 'Cemra';
               onTap();
-              // getPassController.idProofVerify(context);
             },
           ),
           ListTile(
@@ -61,7 +60,6 @@ showimagepickerOption(BuildContext context, VoidCallback onTap) {
               Navigator.pop(context);
               getPassController.imagesource.value = 'Gellery';
               onTap();
-              // getPassController.idProofVerify(context);
             },
           ),
         ],

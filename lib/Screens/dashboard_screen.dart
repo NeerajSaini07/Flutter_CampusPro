@@ -13,14 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 
-class WebViewScreen extends StatefulWidget {
-  const WebViewScreen({super.key});
+class MainDashboard extends StatefulWidget {
+  const MainDashboard({super.key});
 
   @override
-  State<WebViewScreen> createState() => _WebViewScreenState();
+  State<MainDashboard> createState() => _MainDashboardState();
 }
 
-class _WebViewScreenState extends State<WebViewScreen> {
+class _MainDashboardState extends State<MainDashboard> {
   final WebController webController = Get.find<WebController>();
   final AppbarController appbarController = Get.find<AppbarController>();
 

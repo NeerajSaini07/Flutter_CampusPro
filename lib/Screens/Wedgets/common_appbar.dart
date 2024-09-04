@@ -2,7 +2,7 @@
 import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
-import 'package:campuspro/Controllers/student_module_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
@@ -15,8 +15,8 @@ import 'package:get/get.dart';
 
 customAppBar(BuildContext context) {
   final AppbarController appbarController = Get.find<AppbarController>();
-  final StudentModuleController studentController =
-      Get.find<StudentModuleController>();
+  final StudentProfileController studentController =
+      Get.find<StudentProfileController>();
   final WebController webController = Get.find<WebController>();
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();

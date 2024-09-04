@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/student_module/notification_model.dart';
@@ -13,12 +13,12 @@ import 'package:get/get.dart';
 import '../Wedgets/greeting_message.dart';
 import '../Wedgets/recent_notification.dart';
 
-class StudentDashboad extends StatelessWidget {
-  StudentDashboad({super.key});
+class EmployeeDashboard extends StatelessWidget {
+  EmployeeDashboard({super.key});
+
+  final AppbarController appbarController = Get.find<AppbarController>();
 
   final UserTypeController userTypeController = Get.find<UserTypeController>();
-  final StudentProfileController studentController =
-      Get.find<StudentProfileController>();
 
   final NotificationController notificationController =
       Get.find<NotificationController>();
@@ -85,13 +85,13 @@ class StudentDashboad extends StatelessWidget {
                       ),
                     ),
 
-                    // Right side: CircleAvatar
-
                     SizedBox(height: 5.h),
                   ]),
                 ),
               ),
+
               SizedBox(height: 5.h),
+              // MarqueeWidget(),
               Obx(
                 () => notificationController.notificationStatus.value
                     ? SimpleSliderWidget()

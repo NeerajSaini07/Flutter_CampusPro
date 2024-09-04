@@ -1,70 +1,35 @@
+import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/dashboard_menu.dart';
 import 'package:campuspro/Modal/student_module/notification_model.dart';
+
 import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class SimpleSliderWidget extends StatefulWidget {
-  final List<NotificationModel> notifications;
-  const SimpleSliderWidget({super.key, required this.notifications});
-  @override
-  _SimpleSliderWidgetState createState() => _SimpleSliderWidgetState();
-}
-
-class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
-  final PageController _pageController = PageController();
-  int _currentIndex = 0;
-
-  List<NotificationModel> _messages = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _messages = widget.notifications;
-    _startAutoSlide();
-  }
-
-  void _startAutoSlide() {
-    Future.delayed(const Duration(seconds: 10), () {
-      if (_pageController.hasClients) {
-        _pageController.nextPage(
-          duration: const Duration(seconds: 1),
-          curve: Curves.easeInOut,
-        );
-        setState(() {
-          _currentIndex = (_currentIndex + 1) % _messages.length;
-        });
-      }
-      _startAutoSlide(); // Continue the auto-slide
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+class SimpleSliderWidget extends StatelessWidget {
+  const SimpleSliderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final WebController webController = Get.find<WebController>();
+    final NotificationController notificationController =
+        Get.find<NotificationController>();
     return Center(
       child: Container(
         width: double.infinity,
-        height: 60.h,
+        height: 80.h,
         padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 10.w),
         child: PageView.builder(
-          controller: _pageController,
+          controller: notificationController.pageController,
           itemCount: null, // Use null to allow infinite scrolling
           itemBuilder: (context, index) {
-            int actualIndex = index % _messages.length;
+            int actualIndex = index % notificationController.messages.length;
 
             return Card(
-              color: Colors.blue[300],
+              color: Colors.red[300],
               elevation: 2,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.r),
@@ -82,17 +47,54 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
                           size: 24.sp,
                         ),
                         SizedBox(width: 10.w), // Space between icon and text
-                        Text(
-                          trimSentence(
-                              (_messages[actualIndex].alertMessage ?? ""), 18),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              notificationController.trimSentence(
+                                  (notificationController
+                                          .messages[actualIndex].alertMessage ??
+                                      ""),
+                                  27),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.sp,
+                                letterSpacing: 2,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  NotificationList
+                                      .notificationList[actualIndex].smsType
+                                      .toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15.sp,
+                                    letterSpacing: 2,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  " ( ${NotificationList.notificationList[actualIndex].alertDate} )",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
                       ],
                     ),
                     ElevatedButton(
@@ -131,26 +133,11 @@ class _SimpleSliderWidgetState extends State<SimpleSliderWidget> {
             );
           },
           onPageChanged: (index) {
-            setState(() {
-              _currentIndex = index % _messages.length;
-            });
+            notificationController.currentIndex =
+                index % notificationController.messages.length;
           },
         ),
       ),
     );
   }
-}
-
-String trimSentence(String sentence, int maxLength) {
-  if (sentence.length <= maxLength) return sentence;
-
-  String trimmed = sentence.substring(0, maxLength);
-
-  int lastSpace = trimmed.lastIndexOf(' ');
-
-  if (lastSpace != -1) {
-    trimmed = trimmed.substring(0, lastSpace);
-  }
-
-  return "$trimmed...";
 }

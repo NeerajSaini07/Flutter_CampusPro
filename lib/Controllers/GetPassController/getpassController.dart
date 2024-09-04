@@ -189,7 +189,6 @@ class GetPassController extends GetxController {
       } else if (value['Status'] == 'Cam-002') {
         showErrorfield.value = false;
         errorMessage.value = 'Invalid OTP ';
-        //showvisitorDetails.value = true;
         otperrorfield.value = true;
       }
     });
@@ -230,7 +229,7 @@ class GetPassController extends GetxController {
     });
   }
 
-// **************************************************************
+// ************************************************************** *****
   idProofVerify(BuildContext context) async {
     XFile? pickedFile;
     if (imagesource.value == 'Cemra') {
