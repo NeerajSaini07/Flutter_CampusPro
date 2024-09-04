@@ -13,6 +13,7 @@ class GatePassHistoryModel {
   String? toTime;
   String? passType;
   String? studentEmployeeName;
+  String? imagePath;
 
   GatePassHistoryModel(
       {this.id,
@@ -24,7 +25,8 @@ class GatePassHistoryModel {
       this.time,
       this.toTime,
       this.passType,
-      this.studentEmployeeName});
+      this.studentEmployeeName,
+      this.imagePath});
 
   GatePassHistoryModel.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -37,6 +39,7 @@ class GatePassHistoryModel {
     toTime = json['ToTime'];
     passType = json['PassType'];
     studentEmployeeName = json['StudentEmployeeName'];
+    imagePath = json['ImagePath'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +54,7 @@ class GatePassHistoryModel {
     data['Status'] = toTime;
     data['PassType'] = passType;
     data['StudentEmployeeName'] = studentEmployeeName;
+    data['ImagePath'] = imagePath;
     return data;
   }
 }

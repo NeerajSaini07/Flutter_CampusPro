@@ -68,11 +68,12 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
     return GestureDetector(
       onTap: () {},
       child: Card(
+        color: Colors.white,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.r),
         ),
-        elevation: 4,
+        elevation: 2,
         child: Padding(
           padding: EdgeInsets.all(5.w),
           child: Column(
@@ -80,23 +81,27 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
               Row(
                 children: [
                   // Replacing CircleAvatar with Container for a rectangular image
-                  // Container(
-                  //   width: 100.w, // Adjust width to match desired size
-                  //   height: 100.w, // Adjust height to match desired size
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(6.0), // Adjust the radius as needed
-                  //     image:   gatePassData.visitorImagePath!.isEmpty
-                  //         ? null
-                  //         : DecorationImage(
-                  //             image: NetworkImage(  gatePassData.visitorImagePath.toString()),
-                  //             fit: BoxFit.fill,
-                  //           ),
-                  //     color:   gatePassData.visitorImagePath!.isEmpty ? Colors.grey : null,
-                  //   ),
-                  //   child:   gatePassData.visitorImagePath!.isEmpty
-                  //       ? Icon(Icons.person, size: 30.w) // Adjust icon size as needed
-                  //       : null,
-                  // ),
+                  Container(
+                    width: 100.w, // Adjust width to match desired size
+                    height: 100.w, // Adjust height to match desired size
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                          6.0), // Adjust the radius as needed
+                      image: gatePassData.imagePath!.isEmpty
+                          ? null
+                          : DecorationImage(
+                              image: NetworkImage(
+                                  gatePassData.imagePath.toString()),
+                              fit: BoxFit.fill,
+                            ),
+                      color:
+                          gatePassData.imagePath!.isEmpty ? Colors.grey : null,
+                    ),
+                    child: gatePassData.imagePath!.isEmpty
+                        ? Icon(Icons.person,
+                            size: 30.w) // Adjust icon size as needed
+                        : null,
+                  ),
                   SizedBox(width: 16.w),
                   Expanded(
                     child: Column(

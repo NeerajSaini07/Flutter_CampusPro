@@ -370,14 +370,16 @@ class GetPassController extends GetxController {
 
   //  CheckVistor Form *****************************
   bool checkVistorDetailForm() {
-    if (FullName.value.isEmpty) {
+    if (FullName.value.isEmpty &&
+        (VisitorData.visitorListDetails.first.name ?? "").isEmpty) {
       errorMessageVisitorName.value = "Please Enter your name.";
       errorMessageVisitorAddress.value = '';
       errorMessageVisitortooMeet.value = '';
       errorMessageVisitorPurpose.value = '';
       errorMessageVisitorPurposetxt.value = '';
       return false;
-    } else if (adress.value.isEmpty) {
+    } else if (adress.value.isEmpty &&
+        (VisitorData.visitorListDetails.first.name ?? "").isEmpty) {
       errorMessageVisitorName.value = '';
       errorMessageVisitorAddress.value = "Please Enter your address.";
       errorMessageVisitortooMeet.value = '';
