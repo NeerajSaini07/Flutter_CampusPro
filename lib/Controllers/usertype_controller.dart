@@ -27,8 +27,6 @@ class UserTypeController extends GetxController {
           List<dynamic> data = value['Data'];
           UserTypeslist.userTypesDetails =
               data.map((json) => UserTypeModel.fromJson(json)).toList();
-          // await Sharedprefdata.storeStringData(Sharedprefdata.userTypeData,
-          //     jsonEncode(UserTypeslist.userTypesDetails));
         }
       });
     } catch (e) {

@@ -37,14 +37,12 @@ class _MainDashboardState extends State<MainDashboard> {
     return WillPopScope(
       onWillPop: () async {
         if (appbarController.appBarName.value == Constant.schoolName) {
-          Get.back();
-
           return true;
         } else {
           appbarController.appBarName.value = Constant.schoolName;
           bottomBarController.selectedBottomNavIndex.value = 0;
           webController.showWebViewScreen.value = false;
-          return false;
+          return true;
         }
       },
       child: Scaffold(

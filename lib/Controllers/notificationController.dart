@@ -5,11 +5,8 @@ import 'package:get/get.dart';
 
 class NotificationController extends GetxController {
   RxBool notificationStatus = false.obs;
-
   final PageController pageController = PageController();
-
   int currentIndex = 0;
-
   List<NotificationModel> messages = [];
 
   startAutoSlide() {
@@ -28,6 +25,7 @@ class NotificationController extends GetxController {
   getNotification() async {
     await StudentProfileRepo.notificationRepo().then((value) {
       if (value['Status'] == "Cam-001") {
+        print(value);
         List<dynamic> notificationData = value['Data'];
         NotificationList.notificationList = notificationData
             .map((json) => NotificationModel.fromJson(json))

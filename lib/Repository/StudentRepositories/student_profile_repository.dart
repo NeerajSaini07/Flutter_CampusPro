@@ -72,6 +72,7 @@ class StudentProfileRepo {
         "OnLoad": "1"
       };
 
+      print(requestData);
       dynamic response = await apiServices
           .postApiRequest(requestData, baseUrl + APIENDPOINT.notificationApi)
           .onError((error, stackTrace) {

@@ -31,7 +31,7 @@ class BusTrackerController extends GetxController {
   @override
   void onClose() {
     timer?.cancel();
-
+    Get.delete<BusTrackerController>();
     super.onClose();
   }
 

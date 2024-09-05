@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
+import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
@@ -16,111 +17,97 @@ class BusTrackerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final BusTrackerController busTrackerController =
         Get.find<BusTrackerController>();
-
-    final AppbarController appbarController = Get.find<AppbarController>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       busTrackerController.getSchoolBusRoute(context);
     });
-    return WillPopScope(
-      onWillPop: () async {
-        Get.toNamed(Routes.Dashboardboard);
-        appbarController.appBarName.value = Constant.schoolName
-            .toString(); // Make sure to use the correct route for your WebView screen
-        return false;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.loginscafoldcoolr,
-          title: const Text("Bus Tracker"),
-          centerTitle: false,
-        ),
-        body: Obx(() {
-          if (busTrackerController.markers.isEmpty) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            return Stack(
-              children: [
-                GoogleMap(
-                  polylines: busTrackerController.polylines.toSet(),
-                  markers: busTrackerController.markers.toSet(),
-                  zoomControlsEnabled: false,
-                  onMapCreated: (GoogleMapController controller) {
-                    busTrackerController.mapController = controller;
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: busTrackerController.initialLocation,
-                    zoom: 17,
-                  ),
-                  buildingsEnabled: true,
-                  zoomGesturesEnabled: true,
-                  mapType: MapType.normal,
-                  myLocationEnabled: true,
-                  compassEnabled: true,
+    return Scaffold(
+      appBar: customAppBar(context),
+      body: Obx(() {
+        if (busTrackerController.markers.isEmpty) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          return Stack(
+            children: [
+              GoogleMap(
+                polylines: busTrackerController.polylines.toSet(),
+                markers: busTrackerController.markers.toSet(),
+                zoomControlsEnabled: false,
+                onMapCreated: (GoogleMapController controller) {
+                  busTrackerController.mapController = controller;
+                },
+                initialCameraPosition: CameraPosition(
+                  target: busTrackerController.initialLocation,
+                  zoom: 17,
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  child: Container(
-                    margin: const EdgeInsets.all(10.0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 5.0,
-                        ),
-                      ],
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              busTrackerController.busRegNo.value,
-                              textScaler: TextScaler.noScaling,
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.bold,
-                              ),
+                buildingsEnabled: true,
+                zoomGesturesEnabled: true,
+                mapType: MapType.normal,
+                myLocationEnabled: true,
+                compassEnabled: true,
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: Container(
+                  margin: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 5.0,
+                      ),
+                    ],
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            busTrackerController.busRegNo.value,
+                            textScaler: TextScaler.noScaling,
+                            style: GoogleFonts.quicksand(
+                              fontWeight: FontWeight.bold,
                             ),
-                            Shimmer.fromColors(
-                              baseColor: Colors.green,
-                              highlightColor: Colors.grey[100]!,
-                              enabled: true,
-                              child: Row(
-                                children: [
-                                  const CircleAvatar(
-                                    backgroundColor: Colors.green,
-                                    radius: 6.0,
+                          ),
+                          Shimmer.fromColors(
+                            baseColor: Colors.green,
+                            highlightColor: Colors.grey[100]!,
+                            enabled: true,
+                            child: Row(
+                              children: [
+                                const CircleAvatar(
+                                  backgroundColor: Colors.green,
+                                  radius: 6.0,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  "Live",
+                                  textScaler: TextScaler.noScaling,
+                                  style: GoogleFonts.quicksand(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
                                   ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    "Live",
-                                    textScaler: TextScaler.noScaling,
-                                    style: GoogleFonts.quicksand(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            );
-          }
-        }),
-      ),
+              ),
+            ],
+          );
+        }
+      }),
     );
   }
 }
