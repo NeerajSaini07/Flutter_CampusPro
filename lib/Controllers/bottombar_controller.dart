@@ -77,12 +77,6 @@ class BottomBarController extends GetxController {
     } else {
       switch (index) {
         case 0:
-
-          // if (Constant.dashBoardUrl
-          //     .toString()
-          //     .contains("Studentx/Index.aspx")) {
-          //   Get.offAndToNamed(Routes.StudentDashboad);
-          // } else {
           appbarController.appBarName.value = Constant.schoolName.toString();
           // if (webController.currentUrl.value == Constant.dashBoardUrl) {
           //   webController.currentUrl.value = '';
@@ -123,7 +117,7 @@ class BottomBarController extends GetxController {
     List<Widget> screens = [];
 
     // Add different screens based on the user type
-    if (userType == 'S' && webviewpage.value == false) {
+    if (userType == 'S') {
       screens.add(webController.showWebViewScreen.value
           ? WebViewDashboardPage()
           : StudentDashboad());

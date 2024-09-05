@@ -350,8 +350,8 @@ class GetPassRepository {
           UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString()
     };
 
-    // log(visitorlistRequest.toString());
-    // log(APIENDPOINT.getGatePassHistoryApi);
+    log(visitorlistRequest.toString());
+    log(APIENDPOINT.getGatePassHistoryApi);
 
     BaseApiServices apiServices = NetworkApiServices();
     try {

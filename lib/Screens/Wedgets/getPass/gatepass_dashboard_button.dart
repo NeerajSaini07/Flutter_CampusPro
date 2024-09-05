@@ -31,7 +31,7 @@ Widget dashboardButton(BuildContext context) {
             backgroundColor: Colors.green, // Use primary for background color
             padding: EdgeInsets.symmetric(
               horizontal: 20.w,
-              vertical: 16.h,
+              vertical: 12.h,
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
@@ -41,7 +41,7 @@ Widget dashboardButton(BuildContext context) {
             "Show Today's Gates Pass History",
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w500),
           ),
         ),
@@ -62,7 +62,7 @@ Widget dashboardButton(BuildContext context) {
             backgroundColor: Colors.blue, // Use primary for background color
             padding: EdgeInsets.symmetric(
               horizontal: 34.w,
-              vertical: 16.h,
+              vertical: 12.h,
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
@@ -71,7 +71,7 @@ Widget dashboardButton(BuildContext context) {
           child: Text("Show Today's Visitor History",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w500)),
         ),
       ],

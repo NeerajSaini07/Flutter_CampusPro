@@ -8,8 +8,8 @@ import 'package:campuspro/Modal/visitor_history_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitordata_model.dart';
 import 'package:campuspro/Repository/getpass_respository.dart';
-import 'package:campuspro/Screens/Wedgets/getPass/idProofuploadedDilog.dart';
 import 'package:campuspro/Screens/getpass/visitor_details_page.dart';
+import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,10 +23,16 @@ class GetPassController extends GetxController {
   RxBool showvisitorDetails = false.obs;
   RxBool showErrorfield = false.obs;
   RxBool otperrorfield = false.obs;
+  RxBool showPurposeTxtField = false.obs;
 
   final TextEditingController mobilenumberController = TextEditingController();
 
   RxString errorMessage = ''.obs;
+  RxString errorMessageVisitorName = ''.obs;
+  RxString errorMessageVisitorAddress = ''.obs;
+  RxString errorMessageVisitortooMeet = ''.obs;
+  RxString errorMessageVisitorPurpose = ''.obs;
+  RxString errorMessageVisitorPurposetxt = ''.obs;
   RxString visitorTyep = ''.obs;
   RxString mobileNo = ''.obs;
   RxString otpValue = ''.obs;
@@ -65,14 +71,29 @@ class GetPassController extends GetxController {
   void onInit() {
     super.onInit();
     toMeetdata();
-    getpassHistory();
-    getVisitorHistory();
+    // getpassHistory();
+    // getVisitorHistory();
   }
 
   @override
   void onClose() {
     // Clean up any resources or controllers here if necessary
     super.onClose();
+  }
+
+  clearFieldData() {
+    FullName.value = '';
+    adress.value = '';
+    otherMessage.value = '';
+    selectedPurpose.value = '';
+    selectedOption.value = '';
+    visitorImage.value = '';
+    showPurposeTxtField.value = false;
+    errorMessageVisitorName.value = '';
+    errorMessageVisitorAddress.value = '';
+    errorMessageVisitortooMeet.value = '';
+    errorMessageVisitorPurpose.value = '';
+    errorMessageVisitorPurposetxt.value = '';
   }
 
   // *********************************************** search visitor using mobiler number****************
@@ -83,8 +104,8 @@ class GetPassController extends GetxController {
     final AppbarController appbarController = Get.find<AppbarController>();
     showErrorfield.value = false;
     showOTPwidget.value = false;
-    if (mobileNo.value.isNotEmpty) {
-      if (mobileNo.value.length < 10) {
+    if (mobilenumberController.text.isNotEmpty) {
+      if (mobilenumberController.text.length < 10) {
         showErrorfield.value = true;
         errorMessage.value = "Please Enter Valid Number";
       } else {
@@ -92,7 +113,7 @@ class GetPassController extends GetxController {
         int usertypeIndex =
             await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
         await GetPassRepository.searchvistor().then((value) {
-          print(value);
+          // print(value);
           //  *******************  if data is empty ******************
           if (value['Status'] == 'Cam-006') {
             // ***********************  if visitor is mother or father ************
@@ -140,10 +161,9 @@ class GetPassController extends GetxController {
                 'Y') {
               showOTPwidget.value = true;
             } else {
-              mobileNo.value = '';
+              // mobileNo.value = '';
               mobilenumberController.clear();
               appbarController.appBarName.value = 'Visitor Details';
-
               Get.to(const VisitorDetialsPage());
               showOTPwidget.value = false;
             }
@@ -243,24 +263,27 @@ class GetPassController extends GetxController {
           pickedFile.path; // Use pickedFile.path to get the file path
     }
     try {
-      await GetPassRepository.updateIdProof().then((value) {
-        if (value['Status'] == 'Cam-001') {
-          showUploadDialog(context, true);
-          showErrorfield.value = false;
-          showOTPwidget.value = false;
-          Future.delayed(const Duration(microseconds: 10));
-          showvisitorDetails.value = true;
-        }
-      });
+      updateVisitorDetails(context);
+      // await GetPassRepository.updateIdProof().then((value) {
+      //   if (value['Status'] == 'Cam-001') {
+      //     showUploadDialog(context, true);
+      //     showErrorfield.value = false;
+      //     showOTPwidget.value = false;
+      //     Future.delayed(const Duration(microseconds: 10));
+      //     showvisitorDetails.value = true;
+      //   }
+      // });
     } catch (e) {
       rethrow;
     }
   }
 
   updateVisitorDetails(BuildContext context) async {
-    print("calling");
+    final AppbarController appbarController = Get.find<AppbarController>();
+    // print("calling");
+
     await GetPassRepository.saveVisitordata().then((value) {
-      print(value);
+      // print(value);
       if (value['Status'] == 'Cam-001') {
         getVisitorHistory();
 
@@ -283,7 +306,6 @@ class GetPassController extends GetxController {
             ),
           ),
         );
-
         visitorImage.value = '';
         selectedOption.value = '';
         selectedPurpose.value = '';
@@ -294,6 +316,8 @@ class GetPassController extends GetxController {
         otherMessage.value = '';
         showOTPwidget.value = false;
         showvisitorDetails.value = false;
+        appbarController.appBarName.value = Constant.schoolName;
+        Get.back();
       }
     });
   }
@@ -341,5 +365,51 @@ class GetPassController extends GetxController {
     GetPassRepository.exitGatePass(index).then((value) async {
       await getpassHistory();
     });
+  }
+
+  //  CheckVistor Form *****************************
+  bool checkVistorDetailForm() {
+    if (FullName.value.isEmpty &&
+        VisitorData.visitorListDetails.last.name!.isEmpty) {
+      errorMessageVisitorName.value = "Please Enter your name.";
+      errorMessageVisitorAddress.value = '';
+      errorMessageVisitortooMeet.value = '';
+      errorMessageVisitorPurpose.value = '';
+      errorMessageVisitorPurposetxt.value = '';
+      return false;
+    } else if (adress.value.isEmpty &&
+        VisitorData.visitorListDetails.last.address!.isEmpty) {
+      errorMessageVisitorName.value = '';
+      errorMessageVisitorAddress.value = "Please Enter your address.";
+      errorMessageVisitortooMeet.value = '';
+      errorMessageVisitorPurpose.value = '';
+      errorMessageVisitorPurposetxt.value = '';
+      return false;
+    } else if (selectedOption.value.isEmpty) {
+      errorMessageVisitorName.value = '';
+      errorMessageVisitorAddress.value = '';
+      errorMessageVisitortooMeet.value = 'Please select a person to meet.';
+      errorMessageVisitorPurpose.value = '';
+      errorMessageVisitorPurposetxt.value = '';
+      return false;
+    } else if (selectedPurpose.value.isEmpty) {
+      errorMessageVisitorName.value = '';
+      errorMessageVisitorAddress.value = '';
+      errorMessageVisitortooMeet.value = '';
+      errorMessageVisitorPurpose.value = 'Please select a purpose.';
+      errorMessageVisitorPurposetxt.value = '';
+      return false;
+    } else if (showPurposeTxtField.value == true &&
+        otherMessage.value.isEmpty) {
+      errorMessageVisitorName.value = '';
+      errorMessageVisitorAddress.value = '';
+      errorMessageVisitortooMeet.value = '';
+      errorMessageVisitorPurpose.value = '';
+      errorMessageVisitorPurposetxt.value =
+          'Please specify the purpose of visit.';
+      return false;
+    } else {
+      return true;
+    }
   }
 }

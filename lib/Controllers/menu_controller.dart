@@ -56,7 +56,7 @@ class UserMenuController extends GetxController {
       await UserTypeRepository.getDrawerData(index).then((value) async {
         List<dynamic> data = value['Data'];
         List<dynamic> dashboardmenudata = value['DashboardData'];
-        print(dashboardmenudata);
+        // print(dashboardmenudata);
 
         MenuItemList.menuItemDetails =
             data.map((json) => DrawerMenu.fromJson(json)).toList();

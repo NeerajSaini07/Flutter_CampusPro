@@ -78,6 +78,7 @@ Widget userType() {
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
             getPassController.visitorTyep.value = 'Other';
+            getPassController.clearFieldData();
             getPassController.searchvistorByMobile();
           },
           child: Container(

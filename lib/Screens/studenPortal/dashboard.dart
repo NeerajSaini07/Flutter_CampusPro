@@ -3,14 +3,14 @@
 import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
 import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
-import 'package:campuspro/Modal/student_module/notification_model.dart';
-import 'package:campuspro/Modal/usertype_model.dart';
+
 import 'package:campuspro/Screens/Wedgets/DashboardMenu/common_menu_card.dart';
-import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Screens/Wedgets/DashboardMenu/common_userProfile_ondashboard.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../Wedgets/greeting_message.dart';
+
 import '../Wedgets/recent_notification.dart';
 
 class StudentDashboad extends StatelessWidget {
@@ -38,59 +38,7 @@ class StudentDashboad extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      AppColors.primarycolor,
-                      Colors.blue[300]!,
-                    ],
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30.r),
-                    bottomRight: Radius.circular(30.r),
-                  ),
-                ),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                  // Add padding for spacing
-                  child: Stack(children: [
-                    // Left side: Text
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Hi ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
-                            style: TextStyle(
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(height: 6.h),
-                          Text(
-                            '${getGreetingMessage()},',
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Right side: CircleAvatar
-
-                    SizedBox(height: 5.h),
-                  ]),
-                ),
-              ),
+              userProfileName(),
               SizedBox(height: 5.h),
               Obx(
                 () => notificationController.notificationStatus.value

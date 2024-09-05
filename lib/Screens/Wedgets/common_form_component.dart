@@ -66,6 +66,7 @@ Card buildTextField({
             ? Icon(
                 prefixIconData,
                 color: Color(0xff1f6089),
+                size: 16.sp,
               )
             : null,
         hintText: hintText,

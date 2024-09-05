@@ -34,7 +34,7 @@ customAppBar(BuildContext context) {
         appbarController.appBarName.toString(),
         style: TextStyle(
           color: Colors.white, // Change to your desired title color
-          fontSize: 20, // Change to your desired font size
+          fontSize: 16.sp, // Change to your desired font size
           fontWeight: FontWeight.bold, // Change to your desired font weight
         ),
       ),
@@ -48,8 +48,8 @@ customAppBar(BuildContext context) {
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         icon: ProfilePic(
-          radius: 18,
-          fontSize: 14,
+          radius: 18.r,
+          fontSize: 14.sp,
         ),
         itemBuilder: (BuildContext context) {
           return [
@@ -70,8 +70,8 @@ customAppBar(BuildContext context) {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ProfilePic(
-                        radius: 26,
-                        fontSize: 22,
+                        radius: 26.r,
+                        fontSize: 22.sp,
                       ),
                       SizedBox(height: 10.h),
                       Text(
@@ -87,32 +87,40 @@ customAppBar(BuildContext context) {
                           ? studentProfiledetails()
                           : Container(),
                       SizedBox(height: 8.h),
-                      OutlinedButton(
-                        onPressed: () {
-                          bottomBarController.selectedBottomNavIndex.value = 0;
-                          appbarController.appBarName.value = 'Profile';
-                          webController.generateWebUrl(
-                              'Profile.aspx', 'Profile');
-                          webController.showWebViewScreen.value = true;
-                          Navigator.pop(context);
-                        },
-                        style: OutlinedButton.styleFrom(
-                            backgroundColor: AppColors.appbuttonColor,
-                            alignment: Alignment.center,
-                            elevation: 0,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.w, vertical: 1.h),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.w))),
-                        child: Text(
-                          'Manage Profile',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                      UserTypeslist
+                                  .userTypesDetails[
+                                      userTypeController.usertypeIndex]
+                                  .ouserType ==
+                              'G'
+                          ? SizedBox()
+                          : OutlinedButton(
+                              onPressed: () {
+                                bottomBarController
+                                    .selectedBottomNavIndex.value = 0;
+                                appbarController.appBarName.value = 'Profile';
+                                webController.generateWebUrl(
+                                    'Profile.aspx', 'Profile');
+                                webController.showWebViewScreen.value = true;
+                                Navigator.pop(context);
+                              },
+                              style: OutlinedButton.styleFrom(
+                                  backgroundColor: AppColors.appbuttonColor,
+                                  alignment: Alignment.center,
+                                  elevation: 0,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w, vertical: 1.h),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.w))),
+                              child: Text(
+                                'Manage Profile',
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                 ),

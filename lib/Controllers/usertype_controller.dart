@@ -137,7 +137,6 @@ class UserTypeController extends GetxController {
         }
       }
     }
-
     //webController.gotoWebview(url);
     webController.currentUrl.value = url;
   }

@@ -74,6 +74,9 @@ class WebViewDashboardPage extends StatelessWidget {
             onWebViewCreated: (InAppWebViewController controller) =>
                 webViewController = controller,
             onLoadStart: (InAppWebViewController controller, Uri? url) async {
+              print(UserTypeslist
+                  .userTypesDetails[userTypeController.usertypeIndex]
+                  .isPaymentPageOpenInChrome);
               if (url != null &&
                   (url.host.contains('meet.google.com') ||
                       url.toString().contains('tel:'))) {
@@ -93,6 +96,8 @@ class WebViewDashboardPage extends StatelessWidget {
                 appbarController.appBarName.value = Constant.schoolName;
                 webController.currentUrl.value = url.toString();
                 webController.generateWebUrl('Index.aspx', 'Dashboard');
+                bottomBarController.selectedBottomNavIndex.value = 0;
+                bottomBarController.webviewpage.value = false;
               } else if (url.toString().contains("Student/Account.aspx") &&
                   UserTypeslist
                           .userTypesDetails[userTypeController.usertypeIndex]

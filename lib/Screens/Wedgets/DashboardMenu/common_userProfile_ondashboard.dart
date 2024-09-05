@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'greeting_message.dart';
+import '../greeting_message.dart';
 
 Widget userProfileName() {
   final UserTypeController userTypeController = Get.find<UserTypeController>();
@@ -36,9 +36,9 @@ Widget userProfileName() {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                'Hi ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
+                'Hi, ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
                 style: TextStyle(
-                  fontSize: 24.sp,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                   color: AppColors.titleAndsubtitleColor,
                 ),
@@ -47,7 +47,7 @@ Widget userProfileName() {
               Text(
                 '${getGreetingMessage()},',
                 style: TextStyle(
-                    fontSize: 18.sp, color: AppColors.titleAndsubtitleColor),
+                    fontSize: 16.sp, color: AppColors.titleAndsubtitleColor),
               ),
             ],
           ),
