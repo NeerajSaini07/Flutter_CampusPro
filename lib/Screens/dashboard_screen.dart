@@ -41,6 +41,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           return true;
         } else {
           appbarController.appBarName.value = Constant.schoolName;
+          bottomBarController.selectedBottomNavIndex.value = 0;
           // webController.generateWebUrl('Index.aspx', 'Dashboard');
           webController.showWebViewScreen.value = false;
           return false;

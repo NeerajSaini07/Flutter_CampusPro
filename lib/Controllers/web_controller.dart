@@ -55,6 +55,7 @@ class WebController extends GetxController {
                 '1') {
           UrlLuncher.launchUrls(WebUrlList.urlListProperties[0].url.toString());
           appbarController.appBarName.value = Constant.schoolName;
+          webController.showWebViewScreen.value = false;
           webController.currentUrl.value =
               WebUrlList.urlListProperties[0].url.toString();
           webController.generateWebUrl('Index.aspx', 'Dashboard');

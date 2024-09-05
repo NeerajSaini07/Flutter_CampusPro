@@ -294,7 +294,12 @@ class VisitorDetialsPage extends StatelessWidget {
                   Obx(
                     () => (getPassController.showPurposeTxtField.value)
                         ? buildTextField(
-                            hintText: "Other Purposes",
+                            hintText: "Other Purpose",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                             onChanged: (value) {
                               if (value.trim().isNotEmpty) {
                                 getPassController.otherMessage.value = value;
