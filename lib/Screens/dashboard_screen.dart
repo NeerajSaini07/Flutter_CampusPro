@@ -2,6 +2,7 @@
 
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
+import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
@@ -13,14 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 
-class WebViewScreen extends StatefulWidget {
-  const WebViewScreen({super.key});
+class MainDashboard extends StatefulWidget {
+  const MainDashboard({super.key});
 
   @override
-  State<WebViewScreen> createState() => _WebViewScreenState();
+  State<MainDashboard> createState() => _MainDashboardState();
 }
 
-class _WebViewScreenState extends State<WebViewScreen> {
+class _MainDashboardState extends State<MainDashboard> {
   final WebController webController = Get.find<WebController>();
   final AppbarController appbarController = Get.find<AppbarController>();
 
@@ -38,6 +39,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       onWillPop: () async {
         if (appbarController.appBarName.value == Constant.schoolName) {
           Get.back();
+
           return true;
         } else {
           appbarController.appBarName.value = Constant.schoolName;
@@ -54,7 +56,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 bottomBarController.selectedBottomNavIndex.value,
                 bottomBarController.onItemTappedChangeBottomNavIndex),
           ),
-          drawer: AppDrawer(context),
+          drawer: UserTypeslist
+                      .userTypesDetails[userTypeController.usertypeIndex]
+                      .ouserType
+                      .toString() ==
+                  "G"
+              ? null
+              : AppDrawer(context),
           body: Obx(() => bottomBarController
               .getScreens()[bottomBarController.selectedBottomNavIndex.value])),
     );

@@ -72,7 +72,7 @@ Card buildTextField({
         hintText: hintText,
 
         hintStyle: TextStyle(
-          color: Colors.black,
+          color: Colors.grey[600],
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
         ),

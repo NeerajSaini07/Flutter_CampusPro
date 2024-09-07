@@ -10,7 +10,8 @@ import 'package:campuspro/Controllers/forgotpassword_controller.dart';
 import 'package:campuspro/Controllers/help_and_support_controller.dart';
 
 import 'package:campuspro/Controllers/logout_controller.dart';
-import 'package:campuspro/Controllers/student_module_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
+import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
@@ -57,6 +58,7 @@ class DependencyInjection {
     Get.lazyPut<AllEmployeeProfileController>(
         () => AllEmployeeProfileController());
 
-    Get.lazyPut<StudentModuleController>(() => StudentModuleController());
+    Get.lazyPut<StudentProfileController>(() => StudentProfileController());
+    Get.lazyPut<NotificationController>(() => NotificationController());
   }
 }

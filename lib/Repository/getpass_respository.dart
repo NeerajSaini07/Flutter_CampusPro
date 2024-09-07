@@ -112,8 +112,6 @@ class GetPassRepository {
       'UserType': UserTypeslist.userTypesDetails[usertypeIndex].ouserType,
     };
 
-    print(visitorSearchRequest);
-
     BaseApiServices apiServices = NetworkApiServices();
 
     try {

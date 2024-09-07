@@ -1,8 +1,7 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
-import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/constant.dart';
-import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,24 +15,19 @@ class BusTrackerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final BusTrackerController busTrackerController =
         Get.find<BusTrackerController>();
-
     final AppbarController appbarController = Get.find<AppbarController>();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       busTrackerController.getSchoolBusRoute(context);
     });
     return WillPopScope(
       onWillPop: () async {
-        Get.toNamed(Routes.Dashboardboard);
-        appbarController.appBarName.value = Constant.schoolName
-            .toString(); // Make sure to use the correct route for your WebView screen
+        appbarController.appBarName.value = Constant.schoolName;
+        Get.back();
         return false;
       },
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.loginscafoldcoolr,
-          title: const Text("Bus Tracker"),
-          centerTitle: false,
-        ),
+        appBar: customAppBar(context),
         body: Obx(() {
           if (busTrackerController.markers.isEmpty) {
             return const Center(

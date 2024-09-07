@@ -4,6 +4,7 @@ import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
+import 'package:campuspro/Screens/Employee/dashboard.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Utilities/constant.dart';
@@ -39,30 +40,23 @@ class BottomBarController extends GetxController {
     if (showChat.value) {
       switch (index) {
         case 0:
-          if (webController.currentUrl.value == Constant.dashBoardUrl) {
-            webController.currentUrl.value = '';
-            Future.delayed(Duration(milliseconds: 100), () {
-              webController.currentUrl.value = Constant.dashBoardUrl;
-              appbarController.appBarName.value =
-                  Constant.schoolName.toString();
-            });
-          } else {
-            // If the URL is different, set it normally
-            appbarController.appBarName.value = Constant.schoolName.toString();
-            webController.currentUrl.value = Constant.dashBoardUrl;
-          }
+          appbarController.appBarName.value = Constant.schoolName.toString();
+          webController.showWebViewScreen.value = false;
           selectedBottomNavIndex.value = 0;
+          // if (webController.currentUrl.value == Constant.dashBoardUrl) {
+          //   webController.currentUrl.value = '';
+          //   Future.delayed(Duration(milliseconds: 100), () {
+          //     webController.currentUrl.value = Constant.dashBoardUrl;
+          //     appbarController.appBarName.value =
+          //         Constant.schoolName.toString();
+          //   });
+          // } else {
+          //   // If the URL is different, set it normally
+          //   appbarController.appBarName.value = Constant.schoolName.toString();
+          //   webController.currentUrl.value = Constant.dashBoardUrl;
+          // }
+          // selectedBottomNavIndex.value = 0;
           break;
-        // if (Constant.dashBoardUrl
-        //     .toString()
-        //     .contains("Studentx/Index.aspx")) {
-        //   Get.offAndToNamed(Routes.StudentDashboad);
-        // } else {
-        //   appbarController.appBarName.value = Constant.schoolName.toString();
-        //   webController.currentUrl.value = '';
-        //   webController.currentUrl.value = Constant.dashBoardUrl;
-        //   selectedBottomNavIndex.value = 0;
-        // }
 
         case 1:
           Get.offAllNamed(Routes.userType);
@@ -83,12 +77,6 @@ class BottomBarController extends GetxController {
     } else {
       switch (index) {
         case 0:
-
-          // if (Constant.dashBoardUrl
-          //     .toString()
-          //     .contains("Studentx/Index.aspx")) {
-          //   Get.offAndToNamed(Routes.StudentDashboad);
-          // } else {
           appbarController.appBarName.value = Constant.schoolName.toString();
           // if (webController.currentUrl.value == Constant.dashBoardUrl) {
           //   webController.currentUrl.value = '';
@@ -133,8 +121,12 @@ class BottomBarController extends GetxController {
       screens.add(webController.showWebViewScreen.value
           ? WebViewDashboardPage()
           : StudentDashboad());
-    } else if (userType == 'G') {
+    } else if (userType == 'G' && webviewpage.value == false) {
       screens.add(GatePassDashboard());
+    } else if (userType == 'E') {
+      screens.add(webController.showWebViewScreen.value
+          ? WebViewDashboardPage()
+          : EmployeeDashboard());
     } else {
       screens.add(WebViewDashboardPage());
     }

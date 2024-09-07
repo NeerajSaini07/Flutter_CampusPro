@@ -16,6 +16,8 @@ class Constant {
   static const busIcon = 'assets/images/bus_icon.png';
   static const busStop = 'assets/images/bus_stop.png';
   static const filtericon = 'assets/icon/filter.png';
+  static const usericon = 'assets/icon/user.png';
+  static const entryicon = 'assets/icon/entry_time.png';
   static var dashBoardUrl = '';
   static const chatBoatUrl = '../ChatRoom.aspx';
   static const chatBoatName = 'Chat Room';

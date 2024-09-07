@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
-import 'package:campuspro/Controllers/student_module_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
@@ -15,16 +13,11 @@ import 'package:get/get.dart';
 
 customAppBar(BuildContext context) {
   final AppbarController appbarController = Get.find<AppbarController>();
-  final StudentModuleController studentController =
-      Get.find<StudentModuleController>();
   final WebController webController = Get.find<WebController>();
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();
 
   final UserTypeController userTypeController = Get.find<UserTypeController>();
-
-  final AllEmployeeProfileController employeeProfileController =
-      Get.find<AllEmployeeProfileController>();
 
   return AppBar(
     backgroundColor: AppColors.primarycolor,
@@ -40,88 +33,105 @@ customAppBar(BuildContext context) {
       ),
     ),
     iconTheme: const IconThemeData(color: Colors.white),
-    actions: [
-      PopupMenuButton(
-        offset: Offset(0, kToolbarHeight - 5),
-        elevation: 1,
-        color: Colors.white,
-        padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-        icon: ProfilePic(
-          radius: 18.r,
-          fontSize: 14.sp,
-        ),
-        itemBuilder: (BuildContext context) {
-          return [
-            PopupMenuItem(
-              value: 0,
-              enabled: false,
-              labelTextStyle:
-                  MaterialStatePropertyAll(TextStyle(color: Colors.black)),
-              padding: EdgeInsets.zero,
-              child: SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.6,
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    cardColor: Colors.white,
-                    shadowColor: Colors.transparent,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ProfilePic(
-                        radius: 26.r,
-                        fontSize: 22.sp,
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        "Hi, ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName}",
-                        style: TextStyle(fontSize: 14.sp),
-                      ),
-                      SizedBox(height: 8.h),
-                      UserTypeslist
-                                  .userTypesDetails[
-                                      userTypeController.usertypeIndex]
-                                  .ouserType ==
-                              'S'
-                          ? studentProfiledetails()
-                          : Container(),
-                      SizedBox(height: 8.h),
-                      OutlinedButton(
-                        onPressed: () {
-                          bottomBarController.selectedBottomNavIndex.value = 0;
-                          appbarController.appBarName.value = 'Profile';
-                          webController.generateWebUrl(
-                              'Profile.aspx', 'Profile');
-                          webController.showWebViewScreen.value = true;
-                          Navigator.pop(context);
-                        },
-                        style: OutlinedButton.styleFrom(
-                            backgroundColor: AppColors.appbuttonColor,
-                            alignment: Alignment.center,
-                            elevation: 0,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.w, vertical: 1.h),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.w))),
-                        child: Text(
-                          'Manage Profile',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+    actions: UserTypeslist
+                .userTypesDetails[userTypeController.usertypeIndex].ouserType
+                .toString() ==
+            "G"
+        ? null
+        : [
+            PopupMenuButton(
+              offset: Offset(0, kToolbarHeight - 5),
+              elevation: 1,
+              color: Colors.white,
+              padding: EdgeInsets.only(right: 10.w),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25)),
+              icon: ProfilePic(
+                radius: 18.r,
+                fontSize: 14.sp,
+              ),
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem(
+                    value: 0,
+                    enabled: false,
+                    labelTextStyle: MaterialStatePropertyAll(
+                        TextStyle(color: Colors.black)),
+                    padding: EdgeInsets.zero,
+                    child: SizedBox(
+                      width: MediaQuery.sizeOf(context).width * 0.6,
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          cardColor: Colors.white,
+                          shadowColor: Colors.transparent,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ProfilePic(
+                              radius: 26.r,
+                              fontSize: 22.sp,
+                            ),
+                            SizedBox(height: 10.h),
+                            Text(
+                              "Hi, ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName}",
+                              style: TextStyle(fontSize: 14.sp),
+                            ),
+                            SizedBox(height: 8.h),
+                            UserTypeslist
+                                        .userTypesDetails[
+                                            userTypeController.usertypeIndex]
+                                        .ouserType ==
+                                    'S'
+                                ? studentProfiledetails()
+                                : Container(),
+                            SizedBox(height: 8.h),
+                            UserTypeslist
+                                        .userTypesDetails[
+                                            userTypeController.usertypeIndex]
+                                        .ouserType ==
+                                    'G'
+                                ? SizedBox()
+                                : OutlinedButton(
+                                    onPressed: () {
+                                      bottomBarController
+                                          .selectedBottomNavIndex.value = 0;
+                                      appbarController.appBarName.value =
+                                          'Profile';
+                                      webController.generateWebUrl(
+                                          'Profile.aspx', 'Profile');
+                                      webController.showWebViewScreen.value =
+                                          true;
+                                      Navigator.pop(context);
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.appbuttonColor,
+                                        alignment: Alignment.center,
+                                        elevation: 0,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.w, vertical: 1.h),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.w))),
+                                    child: Text(
+                                      'Manage Profile',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                ];
+              },
             ),
-          ];
-        },
-      ),
-    ],
+          ],
   );
 }
 

@@ -1,3 +1,6 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/help_and_support_controller.dart';
 
 import 'package:flutter/material.dart';
@@ -50,6 +53,8 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final BottomBarController bottomBarController =
+        Get.find<BottomBarController>();
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[

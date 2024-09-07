@@ -1,24 +1,21 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
-
 import 'package:campuspro/Screens/Wedgets/DashboardMenu/common_menu_card.dart';
 import 'package:campuspro/Screens/Wedgets/DashboardMenu/common_userProfile_ondashboard.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../Wedgets/recent_notification.dart';
 
-class StudentDashboad extends StatelessWidget {
-  StudentDashboad({super.key});
+class EmployeeDashboard extends StatelessWidget {
+  EmployeeDashboard({super.key});
+
+  final AppbarController appbarController = Get.find<AppbarController>();
 
   final UserTypeController userTypeController = Get.find<UserTypeController>();
-  final StudentProfileController studentController =
-      Get.find<StudentProfileController>();
 
   final NotificationController notificationController =
       Get.find<NotificationController>();
@@ -38,8 +35,13 @@ class StudentDashboad extends StatelessWidget {
           ),
           child: Column(
             children: [
+              //  ******************  user profile *****************
+
               userProfileName(),
+
+              // ******************************
               SizedBox(height: 5.h),
+              // MarqueeWidget(),
               Obx(
                 () => notificationController.notificationStatus.value
                     ? SimpleSliderWidget()

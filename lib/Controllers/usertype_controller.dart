@@ -2,11 +2,11 @@ import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart'
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
-import 'package:campuspro/Controllers/student_module_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
+import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Repository/usertype_repo.dart';
-import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
@@ -64,8 +64,11 @@ class UserTypeController extends GetxController {
 
     final AppbarController appbarController = Get.find<AppbarController>();
     final UserMenuController menuController = Get.find<UserMenuController>();
-    final StudentModuleController studentController =
-        Get.find<StudentModuleController>();
+    final StudentProfileController studentController =
+        Get.find<StudentProfileController>();
+
+    final NotificationController notificationController =
+        Get.find<NotificationController>();
 
     //  Putting Company Name on
 
@@ -86,7 +89,20 @@ class UserTypeController extends GetxController {
     await fcmTokenController.getFCMToken();
     // *****************************************************************
 
-    //Navigation to Flutter or WebView
+//  ***********************    managening the dashboard type open  ****************
+
+    if (UserTypeslist.userTypesDetails[index].ouserType == 'S') {
+      webController.showWebViewScreen.value = false;
+      studentController.getStudentDetails();
+    } else if (UserTypeslist.userTypesDetails[index].ouserType == 'E') {
+      webController.showWebViewScreen.value = false;
+      allEmployeeProfileController.usergetProfile();
+    } else {
+      allEmployeeProfileController.usergetProfile();
+    }
+
+    //  *************************************
+
     if (UserTypeslist.userTypesDetails[index].dashboardType == 'W') {
       try {
         // ********************* finding menu from user *************************************
@@ -97,29 +113,13 @@ class UserTypeController extends GetxController {
         // Purpose: storing menu in local db and get pass module included
 
         await menuController.getmenuFromServer(index);
-        // if (UserTypeslist.userTypesDetails[index].ouserType == "G") {
-        //   Get.toNamed(Routes.Dashboardboard);
-        // } else {
-        if (UserTypeslist.userTypesDetails[index].ouserType == "S") {
-          webController.showWebViewScreen.value = false;
-          studentController.getStudentDetails();
-          studentController.getNotification();
-        }
+
+        await notificationController.getNotification();
+
         Get.toNamed(Routes.Dashboardboard);
-        // }
-        // } else if (url.contains("Student/Index")) {
-        //   Get.toNamed(Routes.StudentDashboad);
-        // } else {
-        //   Get.toNamed(Routes.Dashboardboard);
-        // }
 
         usertypeIndex =
             await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
-
-        // Get.toNamed(Routes.webview);
-        // if (url.contains("Student/Index")) {
-        //   Get.toNamed(Routes.StudentDashboad);
-        // }
 
         if (UserTypeslist.userTypesDetails[index].ouserType == 'E') {
           bottomBarController.showChat.value = true;
@@ -137,7 +137,6 @@ class UserTypeController extends GetxController {
         }
       }
     }
-
     //webController.gotoWebview(url);
     webController.currentUrl.value = url;
   }

@@ -27,7 +27,7 @@ Widget userType() {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   'Father',
                   style: TextStyle(

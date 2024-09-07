@@ -7,7 +7,7 @@ import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-class StudentModuleRepository {
+class StudentProfileRepo {
   static Future<dynamic> studentDetailRepo() async {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();

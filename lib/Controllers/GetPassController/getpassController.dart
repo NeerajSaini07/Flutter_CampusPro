@@ -78,6 +78,7 @@ class GetPassController extends GetxController {
   @override
   void onClose() {
     // Clean up any resources or controllers here if necessary
+    mobilenumberController.text = '';
     super.onClose();
   }
 
@@ -94,6 +95,7 @@ class GetPassController extends GetxController {
     errorMessageVisitortooMeet.value = '';
     errorMessageVisitorPurpose.value = '';
     errorMessageVisitorPurposetxt.value = '';
+    showOTPwidget.value = false;
   }
 
   // *********************************************** search visitor using mobiler number****************
@@ -104,8 +106,8 @@ class GetPassController extends GetxController {
     final AppbarController appbarController = Get.find<AppbarController>();
     showErrorfield.value = false;
     showOTPwidget.value = false;
-    if (mobileNo.value.isNotEmpty) {
-      if (mobileNo.value.length < 10) {
+    if (mobilenumberController.text.isNotEmpty) {
+      if (mobilenumberController.text.length < 10) {
         showErrorfield.value = true;
         errorMessage.value = "Please Enter Valid Number";
       } else {
@@ -135,12 +137,25 @@ class GetPassController extends GetxController {
               log(data.toString());
               VisitorData.visitorListDetails =
                   data.map((json) => VisitorDataModel.fromJson(json)).toList();
+              FullName.value = VisitorData.visitorListDetails.first.name ?? "";
+              adress.value = VisitorData.visitorListDetails.first.address ?? "";
 //   ***************** if otp is enable *********************************
 
               if (UserTypeslist
                       .userTypesDetails[usertypeIndex].sendOtpToVisitor ==
                   'Y') {
-                showOTPwidget.value = true;
+                if (VisitorData.visitorListDetails.first.isOtpSent == "Y") {
+                  showOTPwidget.value = true;
+                  showErrorfield.value = false;
+                  errorMessage.value = '';
+                } else {
+                  showOTPwidget.value = false;
+                  showErrorfield.value = false;
+                  errorMessage.value = '';
+                  mobilenumberController.clear();
+                  appbarController.appBarName.value = 'Visitor Details';
+                  Get.to(() => const VisitorDetialsPage());
+                }
                 //  show details page ***************************************
               } else {
                 showOTPwidget.value = false;
@@ -156,15 +171,29 @@ class GetPassController extends GetxController {
             List<dynamic> data = value['Data'];
             VisitorData.visitorListDetails =
                 data.map((json) => VisitorDataModel.fromJson(json)).toList();
+            FullName.value = VisitorData.visitorListDetails.first.name ?? "";
+            adress.value = VisitorData.visitorListDetails.first.address ?? "";
             if (UserTypeslist
                     .userTypesDetails[usertypeIndex].sendOtpToVisitor ==
                 'Y') {
-              showOTPwidget.value = true;
+              if (VisitorData.visitorListDetails.first.isOtpSent == "Y") {
+                showOTPwidget.value = true;
+                showErrorfield.value = false;
+                errorMessage.value = '';
+              } else {
+                showOTPwidget.value = false;
+                showErrorfield.value = false;
+                errorMessage.value = '';
+
+                mobilenumberController.clear();
+                appbarController.appBarName.value = 'Visitor Details';
+                Get.to(() => const VisitorDetialsPage());
+              }
             } else {
               // mobileNo.value = '';
               mobilenumberController.clear();
               appbarController.appBarName.value = 'Visitor Details';
-              Get.to(const VisitorDetialsPage());
+              Get.to(() => const VisitorDetialsPage());
               showOTPwidget.value = false;
             }
           }
@@ -206,10 +235,10 @@ class GetPassController extends GetxController {
         showOTPwidget.value = false;
         showvisitorDetails.value = true;
         showErrorfield.value = false;
+        Get.to(() => const VisitorDetialsPage());
       } else if (value['Status'] == 'Cam-002') {
         showErrorfield.value = false;
         errorMessage.value = 'Invalid OTP ';
-        //showvisitorDetails.value = true;
         otperrorfield.value = true;
       }
     });
@@ -250,30 +279,56 @@ class GetPassController extends GetxController {
     });
   }
 
-// **************************************************************
+// ************************************************************** *****
   idProofVerify(BuildContext context) async {
+    int usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     XFile? pickedFile;
-    if (imagesource.value == 'Cemra') {
-      pickedFile = await picker.pickImage(source: ImageSource.camera);
-    } else {
-      pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    }
+    // if (imagesource.value == 'Cemra') {
+    pickedFile = await picker.pickImage(source: ImageSource.camera);
+    // } else {
+    //   pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    // }
 
     if (pickedFile != null) {
-      imagePathForIdProof.value =
-          pickedFile.path; // Use pickedFile.path to get the file path
+      final String fileExtension =
+          pickedFile.path.split('.').last.toLowerCase();
+      if (fileExtension == 'jpg' ||
+          fileExtension == 'jpeg' ||
+          fileExtension == 'png') {
+        imagePathForIdProof.value = pickedFile.path;
+      } else {
+        Get.snackbar(
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            "Invalid File",
+            "Please select a valid image file.");
+      }
+    } else {
+      Get.snackbar(
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+          "No Image Selected",
+          "Please select an image.");
     }
+
     try {
-      updateVisitorDetails(context);
-      // await GetPassRepository.updateIdProof().then((value) {
-      //   if (value['Status'] == 'Cam-001') {
-      //     showUploadDialog(context, true);
-      //     showErrorfield.value = false;
-      //     showOTPwidget.value = false;
-      //     Future.delayed(const Duration(microseconds: 10));
-      //     showvisitorDetails.value = true;
-      //   }
-      // });
+      if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor ==
+          'Y') {
+        await GetPassRepository.updateIdProof().then((value) {
+          if (value['Status'] == 'Cam-001') {
+            Get.snackbar(
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.white,
+                "Success",
+                'ID Proof uploaded successfully!');
+            showErrorfield.value = false;
+            showOTPwidget.value = false;
+          }
+        });
+      } else {
+        updateVisitorDetails(context);
+      }
     } catch (e) {
       rethrow;
     }
@@ -336,15 +391,31 @@ class GetPassController extends GetxController {
 
   visitorImagepicker() async {
     XFile? pickedFile;
-    if (imagesource.value == 'Cemra') {
-      pickedFile = await picker.pickImage(source: ImageSource.camera);
-    } else {
-      pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    }
+    // if (imagesource.value == 'Cemra') {
+    pickedFile = await picker.pickImage(source: ImageSource.camera);
+    // } else {
+    //   pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    // }
     if (pickedFile != null) {
-      visitorImage.value = pickedFile.path;
-
-      // Use pickedFile.path to get the file path
+      final String fileExtension =
+          pickedFile.path.split('.').last.toLowerCase();
+      if (fileExtension == 'jpg' ||
+          fileExtension == 'jpeg' ||
+          fileExtension == 'png') {
+        visitorImage.value = pickedFile.path;
+      } else {
+        Get.snackbar(
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            "Invalid File",
+            "Please select a valid image file.");
+      }
+    } else {
+      Get.snackbar(
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+          "No Image Selected",
+          "Please select an image.");
     }
   }
 
@@ -370,16 +441,14 @@ class GetPassController extends GetxController {
 
   //  CheckVistor Form *****************************
   bool checkVistorDetailForm() {
-    if (FullName.value.isEmpty &&
-        (VisitorData.visitorListDetails.first.name ?? "").isEmpty) {
+    if (FullName.value.isEmpty) {
       errorMessageVisitorName.value = "Please Enter your name.";
       errorMessageVisitorAddress.value = '';
       errorMessageVisitortooMeet.value = '';
       errorMessageVisitorPurpose.value = '';
       errorMessageVisitorPurposetxt.value = '';
       return false;
-    } else if (adress.value.isEmpty &&
-        (VisitorData.visitorListDetails.first.name ?? "").isEmpty) {
+    } else if (adress.value.isEmpty) {
       errorMessageVisitorName.value = '';
       errorMessageVisitorAddress.value = "Please Enter your address.";
       errorMessageVisitortooMeet.value = '';

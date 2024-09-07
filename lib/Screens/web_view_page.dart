@@ -95,6 +95,8 @@ class WebViewDashboardPage extends StatelessWidget {
                 webController.currentUrl.value = url.toString();
                 webController.showWebViewScreen.value = false;
                 webController.generateWebUrl('Index.aspx', 'Dashboard');
+                bottomBarController.selectedBottomNavIndex.value = 0;
+                bottomBarController.webviewpage.value = false;
               } else if (url.toString().contains("Student/Account.aspx") &&
                   UserTypeslist
                           .userTypesDetails[userTypeController.usertypeIndex]
