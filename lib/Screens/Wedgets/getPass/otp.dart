@@ -13,7 +13,9 @@ Widget otpModule(BuildContext context) {
   final GetPassController getPassController = Get.find<GetPassController>();
   return Card(
     color: Colors.white,
-    elevation: 5,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(14.0.sp),
+    ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,8 +30,7 @@ Widget otpModule(BuildContext context) {
                 fontWeight: FontWeight.w600),
           ),
         ),
-
-        Obx(() => getPassController.showErrorfield.value
+        Obx(() => getPassController.otperrorfield.value
             ? Padding(
                 padding: EdgeInsets.only(left: 10.w),
                 child: Text(
@@ -84,7 +85,6 @@ Widget otpModule(BuildContext context) {
             cursorColor: Colors.black,
             onCompleted: (value) {
               getPassController.verifyvisitoryOTP();
-              // getPassController.showOTPwidget.value = false;
               // getPassController.showvisitoryHistory.value = true;
             },
             animationDuration: const Duration(milliseconds: 300),
@@ -123,7 +123,8 @@ Widget otpModule(BuildContext context) {
                       elevation: 1,
                       backgroundColor: AppColors.appbuttonColor),
                   onPressed: () {
-                    idProvebottom(context);
+                    getPassController.idProofVerify(context);
+                    // idProvebottom(context);
                   },
                   child: Text(
                     "Upload Id Proof",

@@ -5,6 +5,7 @@ import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 
 import 'package:campuspro/Modal/usertype_model.dart';
+import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/user_dashboard.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
@@ -120,7 +121,9 @@ class BottomBarController extends GetxController {
           : UserDashboard());
     }
     if (userType == 'G') {
-      screens.add(WebViewDashboardPage());
+      screens.add(webController.showWebViewScreen.value
+          ? WebViewDashboardPage()
+          : GatePassDashboard());
     } else {
       screens.add(WebViewDashboardPage());
     }

@@ -23,13 +23,13 @@ class VisitorDataModel {
       this.imageByte});
 
   VisitorDataModel.fromJson(Map<String, dynamic> json) {
-    name = json['Name'];
-    address = json['Address'];
-    imagePath = json['ImagePath'];
-    visitorId = json['VisitorId'];
-    visitorImage = json['VisitorImage'];
-    isOtpSent = json['IsOtpSent'];
-    imageByte = json['ImageByte'];
+    name = json['Name'] ?? "";
+    address = json['Address'] ?? "";
+    imagePath = json['ImagePath'] ?? "";
+    visitorId = json['VisitorId'] ?? "";
+    visitorImage = json['VisitorImage'] ?? "";
+    isOtpSent = json['IsOtpSent'] ?? "";
+    imageByte = json['ImageByte'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

@@ -2,6 +2,7 @@
 
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
+import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
@@ -41,6 +42,7 @@ class _MainDashboardState extends State<MainDashboard> {
         } else {
           appbarController.appBarName.value = Constant.schoolName;
           bottomBarController.selectedBottomNavIndex.value = 0;
+          // webController.generateWebUrl('Index.aspx', 'Dashboard');
           webController.showWebViewScreen.value = false;
           return true;
         }
@@ -52,7 +54,13 @@ class _MainDashboardState extends State<MainDashboard> {
                 bottomBarController.selectedBottomNavIndex.value,
                 bottomBarController.onItemTappedChangeBottomNavIndex),
           ),
-          drawer: AppDrawer(context),
+          drawer: UserTypeslist
+                      .userTypesDetails[userTypeController.usertypeIndex]
+                      .ouserType
+                      .toString() ==
+                  "G"
+              ? null
+              : AppDrawer(context),
           body: Obx(() => bottomBarController
               .getScreens()[bottomBarController.selectedBottomNavIndex.value])),
     );

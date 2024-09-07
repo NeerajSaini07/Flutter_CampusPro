@@ -16,7 +16,7 @@ class SimpleSliderWidget extends StatelessWidget {
     return Center(
       child: Container(
         width: double.infinity,
-        height: 80.h,
+        height: 90.h,
         padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 10.w),
         child: PageView.builder(
           controller: notificationController.pageController,

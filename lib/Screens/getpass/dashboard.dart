@@ -1,10 +1,10 @@
-import 'package:campuspro/Controllers/appbar_controller.dart';
-import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 
 import 'package:campuspro/Screens/Wedgets/common_form_component.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
+import 'package:campuspro/Screens/Wedgets/getPass/otp.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/usertype_search.dart';
+import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 
 import 'package:flutter/material.dart';
@@ -31,29 +31,27 @@ class _GatePassDashboardState extends State<GatePassDashboard> {
     getPassController.PursposedataGeting();
     getPassController.showvisitorDetails.value = false;
     getPassController.visitorImage.value = '';
+    getPassController.mobilenumberController.text = '';
+    getPassController.mobileNo.value = '';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final GetPassController getPassController = Get.find<GetPassController>();
-    // final BottomBarController bottomBarController =
-    //     Get.find<BottomBarController>();
-
-    // final AppbarController appbarController = Get.find<AppbarController>();
-
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          userProfileName(),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
+    return SingleChildScrollView(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            userProfileName(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14.0.sp),
@@ -97,23 +95,53 @@ class _GatePassDashboardState extends State<GatePassDashboard> {
                                 )
                               : const SizedBox()),
                           const SizedBox(height: 10),
-                          buildTextField(
-                            hintText: "Phone Number",
-                            maxLength: 10,
-                            obscureText: false,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9]")),
-                            ],
-                            style: TextStyle(fontSize: 16.sp),
-                            controller:
-                                getPassController.mobilenumberController,
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) {
-                              getPassController.showErrorfield.value = false;
-                              getPassController.mobileNo.value = value;
-                            },
-                            prefixIconData: Icons.call,
+                          Obx(
+                            () => buildTextField(
+                                hintText: "Phone Number",
+                                maxLength: 10,
+                                obscureText: false,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9]")),
+                                ],
+                                style: TextStyle(fontSize: 16.sp),
+                                controller:
+                                    getPassController.mobilenumberController,
+                                keyboardType: TextInputType.number,
+                                onChanged: (value) {
+                                  getPassController.showErrorfield.value =
+                                      false;
+                                  getPassController.mobileNo.value = value;
+                                  if (value.trim().length < 10) {
+                                    getPassController.showOTPwidget.value =
+                                        false;
+                                  } else {
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
+                                  }
+                                },
+                                prefixIconData: Icons.call,
+                                suffixIcon: true,
+                                suffixCustomIcon: true,
+                                customWidget: Padding(
+                                    padding: EdgeInsets.only(right: 2.w),
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            elevation: 1,
+                                            backgroundColor:
+                                                AppColors.appbuttonColor,
+                                            shape: const CircleBorder()),
+                                        onPressed: getPassController
+                                                    .mobileNo.value
+                                                    .trim()
+                                                    .length <
+                                                10
+                                            ? null
+                                            : () {},
+                                        child: const Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.white,
+                                        )))),
                           ),
                           const SizedBox(height: 16),
 
@@ -121,12 +149,20 @@ class _GatePassDashboardState extends State<GatePassDashboard> {
                           userType(),
                         ],
                       ),
-                    )),
-              ],
+                    ),
+                  ),
+                  Obx(() => (getPassController.showOTPwidget.value == true)
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [CustomeHeight(8.h), otpModule(context)],
+                        )
+                      : const SizedBox()),
+                ],
+              ),
             ),
-          ),
-          CustomeHeight(16.h),
-        ]);
+            CustomeHeight(16.h),
+          ]),
+    );
   }
 }
 

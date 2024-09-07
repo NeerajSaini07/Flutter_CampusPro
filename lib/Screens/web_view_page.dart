@@ -14,6 +14,7 @@ import '../Controllers/bottombar_controller.dart';
 import '../Controllers/web_controller.dart';
 
 class WebViewDashboardPage extends StatelessWidget {
+  const WebViewDashboardPage({super.key});
   @override
   Widget build(BuildContext context) {
     late InAppWebViewController webViewController;
@@ -34,10 +35,7 @@ class WebViewDashboardPage extends StatelessWidget {
       return match != null ? match.group(1) ?? '' : '';
     }
 
-    print(UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
-        .isPaymentPageOpenInChrome);
     return Obx(() {
-      print(webController.currentUrl.value);
       if (webController.currentUrl.isNotEmpty) {
         return InAppWebView(
             key: ValueKey(webController.currentUrl.value),
@@ -90,6 +88,7 @@ class WebViewDashboardPage extends StatelessWidget {
                 UrlLuncher.launchUrls(url.toString());
                 appbarController.appBarName.value = Constant.schoolName;
                 webController.currentUrl.value = url.toString();
+                webController.showWebViewScreen.value = false;
                 webController.generateWebUrl('Index.aspx', 'Dashboard');
                 bottomBarController.selectedBottomNavIndex.value = 0;
                 bottomBarController.webviewpage.value = false;
@@ -161,7 +160,7 @@ class WebViewDashboardPage extends StatelessWidget {
               return NavigationActionPolicy.ALLOW;
             });
       } else {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       }
     });
   }

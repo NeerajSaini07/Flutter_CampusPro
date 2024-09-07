@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, sized_box_for_whitespace
 
+import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenImage extends StatelessWidget {
@@ -24,18 +25,26 @@ class FullScreenImage extends StatelessWidget {
                   child: Image.network(
                     image,
                     fit: BoxFit.contain,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Image.asset(
+                        'assets/icon/person_icon.png',
+                        fit: BoxFit.fill,
+                      );
+                    },
                   ),
                 ),
               ),
             ),
           ),
           Positioned(
-            top: 10.0, // Position the cross icon at the top
-            right: 0.0, // Position the cross icon on the right
-            child: IconButton(
-              icon: const Icon(Icons.close, color: Colors.white, size: 30.0),
+            top: 40.0,
+            right: 10.0,
+            child: IconButton.outlined(
+              color: AppColors.appbuttonColor,
+              icon: const Icon(Icons.close, size: 30.0),
               onPressed: () {
-                Navigator.pop(context); // Navigate back to the previous page
+                Navigator.pop(context);
               },
             ),
           ),

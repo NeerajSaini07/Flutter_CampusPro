@@ -53,6 +53,7 @@ Widget dashboardButton(BuildContext context) {
             await Future.delayed(const Duration(microseconds: 10));
             getPassController.showvisitoryHistory.value = false;
             getPassController.showOTPwidget.value = false;
+            getPassController.getVisitorHistory();
             Get.back();
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return const VisitorHistoryPage();

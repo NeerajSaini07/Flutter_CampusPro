@@ -36,9 +36,14 @@ Widget userProfileName() {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                'Hi, ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
+                UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
+                            .ouserType
+                            .toString() ==
+                        "G"
+                    ? "Safety begins with teamwork."
+                    : 'Hi, ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
                 style: TextStyle(
-                  fontSize: 20.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: AppColors.titleAndsubtitleColor,
                 ),
@@ -47,7 +52,7 @@ Widget userProfileName() {
               Text(
                 '${getGreetingMessage()},',
                 style: TextStyle(
-                    fontSize: 16.sp, color: AppColors.titleAndsubtitleColor),
+                    fontSize: 14.sp, color: AppColors.titleAndsubtitleColor),
               ),
             ],
           ),
