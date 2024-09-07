@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, must_be_immutable
 
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/help_and_support_controller.dart';

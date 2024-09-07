@@ -74,9 +74,6 @@ class WebViewDashboardPage extends StatelessWidget {
             onWebViewCreated: (InAppWebViewController controller) =>
                 webViewController = controller,
             onLoadStart: (InAppWebViewController controller, Uri? url) async {
-              print(UserTypeslist
-                  .userTypesDetails[userTypeController.usertypeIndex]
-                  .isPaymentPageOpenInChrome);
               if (url != null &&
                   (url.host.contains('meet.google.com') ||
                       url.toString().contains('tel:'))) {
@@ -89,8 +86,6 @@ class WebViewDashboardPage extends StatelessWidget {
                 } else {
                   throw 'Could not launch ${url.toString()}';
                 }
-
-                ///Student/Account.aspx?
               } else if (url.toString().contains("/Student/OnlineTest.aspx")) {
                 UrlLuncher.launchUrls(url.toString());
                 appbarController.appBarName.value = Constant.schoolName;
@@ -107,7 +102,7 @@ class WebViewDashboardPage extends StatelessWidget {
                 appbarController.appBarName.value = Constant.schoolName;
                 webController.currentUrl.value = url.toString();
                 webController.generateWebUrl('Index.aspx', 'Dashboard');
-              }
+              } else {}
             },
             onLoadStop: (InAppWebViewController controller, Uri? url) async {
               await controller.evaluateJavascript(

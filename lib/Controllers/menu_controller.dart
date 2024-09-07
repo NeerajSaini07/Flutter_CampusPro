@@ -26,7 +26,6 @@ class UserMenuController extends GetxController {
 //  ************************** checking the  new menu update  ******************
 
     if (NewRefreshDateTime == updatedmenudate) {
-      print("yes");
       // ************************* if no new menu added for this user  then get the data from local database ************
       await db_helper
           .getmenudata(UserTypeslist.userTypesDetails[usertypeIndex].ouserType)
@@ -56,7 +55,6 @@ class UserMenuController extends GetxController {
       await UserTypeRepository.getDrawerData(index).then((value) async {
         List<dynamic> data = value['Data'];
         List<dynamic> dashboardmenudata = value['DashboardData'];
-        // print(dashboardmenudata);
 
         MenuItemList.menuItemDetails =
             data.map((json) => DrawerMenu.fromJson(json)).toList();

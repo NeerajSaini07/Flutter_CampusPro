@@ -26,7 +26,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'Dependency_injection/injection.dart';
 
 import 'Screens/splash_screen.dart';
-import 'Screens/studenPortal/dashboard.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -81,7 +80,6 @@ class MyApp extends StatelessWidget {
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
             Routes.changePasswordScreen: (context) => ChangePasswordScreen(),
-            Routes.StudentDashboad: (context) => StudentDashboad(),
             Routes.webviewpage: (context) => WebViewDashboardPage()
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },

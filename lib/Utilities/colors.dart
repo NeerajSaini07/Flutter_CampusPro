@@ -5,7 +5,7 @@ class AppColors {
   static const loginscafoldcoolr = Color(0xff1f6089);
   static const textfieldhintstycolor = Color(0xffA5A5A5);
   static const appbuttonColor = Color(0xff013e73);
-  static const primarycolor = Color(0xff4E74F9);
+  static const primarycolor = appbuttonColor;
   static const primarytextcolor = Color(0xff0000EE);
   static const employeeTextcolor = Color(0xff555555);
   static const blackcolor = Color(0xFF000000);
@@ -15,8 +15,8 @@ class AppColors {
 
   //  ******************  dashboard theam colors ***************
 
-  static const grediant1 = primarycolor;
-  static const grediant2 = Color.fromRGBO(100, 181, 246, 1);
+  static const grediant1 = appbuttonColor;
+  static const grediant2 = appbuttonColor;
   static const titleAndsubtitleColor = Colors.white;
   static const successColor = Color(0xff81C784);
   static const warningColor = Color(0xffE57373);

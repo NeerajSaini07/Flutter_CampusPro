@@ -19,7 +19,7 @@ class AppRouting extends GetxService {
   navigate(name, pageurl, BuildContext context) async {
     switch (name) {
       case "Student Bus Location":
-        appbarController.appBarName.value = 'Location';
+        appbarController.appBarName.value = 'Bus Location';
         await busTrackerController.getBusAllot(context);
         break;
       case "Visitor x New":

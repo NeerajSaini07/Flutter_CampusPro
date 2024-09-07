@@ -3,8 +3,9 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
+
 import 'package:campuspro/Modal/usertype_model.dart';
-import 'package:campuspro/Screens/Employee/dashboard.dart';
+import 'package:campuspro/Screens/user_dashboard.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Utilities/constant.dart';
@@ -12,9 +13,7 @@ import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../Screens/getpass/dashboard.dart';
 import '../Screens/help_and_support_screen.dart';
-import '../Screens/studenPortal/dashboard.dart';
 
 class BottomBarController extends GetxController {
   final AppbarController appbarController = Get.find<AppbarController>();
@@ -43,18 +42,18 @@ class BottomBarController extends GetxController {
           appbarController.appBarName.value = Constant.schoolName.toString();
           webController.showWebViewScreen.value = false;
           selectedBottomNavIndex.value = 0;
-          // if (webController.currentUrl.value == Constant.dashBoardUrl) {
-          //   webController.currentUrl.value = '';
-          //   Future.delayed(Duration(milliseconds: 100), () {
-          //     webController.currentUrl.value = Constant.dashBoardUrl;
-          //     appbarController.appBarName.value =
-          //         Constant.schoolName.toString();
-          //   });
-          // } else {
-          //   // If the URL is different, set it normally
-          //   appbarController.appBarName.value = Constant.schoolName.toString();
-          //   webController.currentUrl.value = Constant.dashBoardUrl;
-          // }
+          if (webController.currentUrl.value == Constant.dashBoardUrl) {
+            webController.currentUrl.value = '';
+            Future.delayed(Duration(milliseconds: 100), () {
+              webController.currentUrl.value = Constant.dashBoardUrl;
+              appbarController.appBarName.value =
+                  Constant.schoolName.toString();
+            });
+          } else {
+            // If the URL is different, set it normally
+            appbarController.appBarName.value = Constant.schoolName.toString();
+            webController.currentUrl.value = Constant.dashBoardUrl;
+          }
           // selectedBottomNavIndex.value = 0;
           break;
 
@@ -78,18 +77,17 @@ class BottomBarController extends GetxController {
       switch (index) {
         case 0:
           appbarController.appBarName.value = Constant.schoolName.toString();
-          // if (webController.currentUrl.value == Constant.dashBoardUrl) {
-          //   webController.currentUrl.value = '';
-          //   Future.delayed(Duration(milliseconds: 100), () {
-          //     appbarController.appBarName.value =
-          //         Constant.schoolName.toString();
-          //     webController.currentUrl.value = Constant.dashBoardUrl;
-          //   });
-          // } else {
-          //   // If the URL is different, set it normally
-          //   appbarController.appBarName.value = Constant.schoolName.toString();
-          //   webController.currentUrl.value = Constant.dashBoardUrl;
-          // }
+          if (webController.currentUrl.value == Constant.dashBoardUrl) {
+            webController.currentUrl.value = '';
+            Future.delayed(Duration(milliseconds: 100), () {
+              appbarController.appBarName.value =
+                  Constant.schoolName.toString();
+              webController.currentUrl.value = Constant.dashBoardUrl;
+            });
+          } else {
+            appbarController.appBarName.value = Constant.schoolName.toString();
+            webController.currentUrl.value = Constant.dashBoardUrl;
+          }
           webController.showWebViewScreen.value = false;
           selectedBottomNavIndex.value = 0;
           break;
@@ -116,17 +114,13 @@ class BottomBarController extends GetxController {
         .toString();
     List<Widget> screens = [];
 
-    // Add different screens based on the user type
-    if (userType == 'S') {
+    if (userType != 'L' && userType != 'W' && userType != 'G') {
       screens.add(webController.showWebViewScreen.value
           ? WebViewDashboardPage()
-          : StudentDashboad());
-    } else if (userType == 'G' && webviewpage.value == false) {
-      screens.add(GatePassDashboard());
-    } else if (userType == 'E') {
-      screens.add(webController.showWebViewScreen.value
-          ? WebViewDashboardPage()
-          : EmployeeDashboard());
+          : UserDashboard());
+    }
+    if (userType == 'G') {
+      screens.add(WebViewDashboardPage());
     } else {
       screens.add(WebViewDashboardPage());
     }
