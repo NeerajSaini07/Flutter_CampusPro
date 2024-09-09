@@ -12,27 +12,33 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double customHeight = ScreenUtil().screenHeight > 800 ? 550.h : 550.h;
 
-    return Scaffold(
-      backgroundColor: AppColors.loginscafoldcoolr,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height, // Adjust height as needed
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(horizontal: 20.w),
-                    height: customHeight,
-                    width: double.infinity,
-                    child: loginFormCard(context),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.loginscafoldcoolr,
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height:
+                MediaQuery.of(context).size.height, // Adjust height as needed
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 20.w),
+                      height: customHeight,
+                      width: double.infinity,
+                      child: loginFormCard(context),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

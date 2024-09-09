@@ -40,128 +40,145 @@ class _GatePassDashboardState extends State<GatePassDashboard> {
   Widget build(BuildContext context) {
     final GetPassController getPassController = Get.find<GetPassController>();
     return SingleChildScrollView(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            userProfileName(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Card(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14.0.sp),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Visitor Entry',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              InkWell(
-                                  borderRadius: BorderRadius.circular(4),
-                                  onTap: () {
-                                    showBottomSheet(context);
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 4, bottom: 4, left: 8, right: 8),
-                                    child: ImageIcon(
-                                        AssetImage(Constant.filtericon)),
-                                  )),
-                            ],
-                          ),
-                          Obx(() => getPassController.showErrorfield.value
-                              ? Text(
-                                  getPassController.errorMessage.value,
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              userProfileName(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14.0.sp),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Visitor Entry',
                                   style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              : const SizedBox()),
-                          const SizedBox(height: 10),
-                          Obx(
-                            () => buildTextField(
-                                hintText: "Phone Number",
-                                maxLength: 10,
-                                obscureText: false,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp("[0-9]")),
-                                ],
-                                style: TextStyle(fontSize: 16.sp),
-                                controller:
-                                    getPassController.mobilenumberController,
-                                keyboardType: TextInputType.number,
-                                onChanged: (value) {
-                                  getPassController.showErrorfield.value =
-                                      false;
-                                  getPassController.mobileNo.value = value;
-                                  if (value.trim().length < 10) {
-                                    getPassController.showOTPwidget.value =
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                InkWell(
+                                    borderRadius: BorderRadius.circular(4),
+                                    onTap: () {
+                                      showBottomSheet(context);
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 4, bottom: 4, left: 8, right: 8),
+                                      child: ImageIcon(
+                                          AssetImage(Constant.filtericon)),
+                                    )),
+                              ],
+                            ),
+                            Obx(() => getPassController.showErrorfield.value
+                                ? Text(
+                                    getPassController.errorMessage.value,
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                : const SizedBox()),
+                            const SizedBox(height: 10),
+                            Obx(
+                              () => buildTextField(
+                                  hintText: "Phone Number",
+                                  maxLength: 10,
+                                  obscureText: false,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp("[0-9]")),
+                                  ],
+                                  style: TextStyle(fontSize: 16.sp),
+                                  controller:
+                                      getPassController.mobilenumberController,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) {
+                                    getPassController.showErrorfield.value =
                                         false;
-                                  } else {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                  }
-                                },
-                                prefixIconData: Icons.call,
-                                suffixIcon: true,
-                                suffixCustomIcon: true,
-                                customWidget: Padding(
-                                    padding: EdgeInsets.only(right: 2.w),
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 1,
-                                            backgroundColor:
-                                                AppColors.appbuttonColor,
-                                            shape: const CircleBorder()),
-                                        onPressed: getPassController
-                                                    .mobileNo.value
-                                                    .trim()
-                                                    .length <
-                                                10
-                                            ? null
-                                            : () {},
-                                        child: const Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.white,
-                                        )))),
-                          ),
-                          const SizedBox(height: 16),
+                                    getPassController.mobileNo.value = value;
+                                    if (value.trim().length < 10) {
+                                      getPassController.showOTPwidget.value =
+                                          false;
+                                    } else {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                    }
+                                  },
+                                  prefixIconData: Icons.call,
+                                  suffixIcon: true,
+                                  suffixCustomIcon: true,
+                                  customWidget: Padding(
+                                      padding: EdgeInsets.only(right: 2.w)
+                                          .copyWith(top: 4.w, bottom: 4.w),
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 1,
+                                              backgroundColor:
+                                                  AppColors.appbuttonColor,
+                                              shape: const CircleBorder()),
+                                          onPressed: getPassController
+                                                      .mobileNo.value
+                                                      .trim()
+                                                      .length <
+                                                  10
+                                              ? null
+                                              : () {
+                                                  FocusManager
+                                                      .instance.primaryFocus
+                                                      ?.unfocus();
+                                                  getPassController.visitorTyep
+                                                      .value = 'Other';
+                                                  getPassController
+                                                      .clearFieldData();
+                                                  getPassController
+                                                      .searchvistorByMobile();
+                                                },
+                                          child: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
+                                            size: 16.sp,
+                                          )))),
+                            ),
+                            // const SizedBox(height: 16),
 
-                          //  **************** user search type ***********************************
-                          userType(),
-                        ],
+                            //  **************** user search type ***********************************
+                            // userType(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Obx(() => (getPassController.showOTPwidget.value == true)
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [CustomeHeight(8.h), otpModule(context)],
-                        )
-                      : const SizedBox()),
-                ],
+                    Obx(() => (getPassController.showOTPwidget.value == true)
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [CustomeHeight(8.h), otpModule(context)],
+                          )
+                        : const SizedBox()),
+                  ],
+                ),
               ),
-            ),
-            CustomeHeight(16.h),
-          ]),
+              CustomeHeight(16.h),
+            ]),
+      ),
     );
   }
 }
