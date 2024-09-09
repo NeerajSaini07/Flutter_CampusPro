@@ -36,8 +36,9 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CircleAvatar(
+                          backgroundColor: Colors.transparent,
                           radius: 16.r,
-                          child: Image.asset("assets/icon/fees.png"),
+                          child: Image.asset("assets/icon/notification.png"),
                         ),
                         SizedBox(width: 10.w),
                         Expanded(

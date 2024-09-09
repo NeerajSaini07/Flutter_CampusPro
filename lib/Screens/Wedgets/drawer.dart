@@ -20,6 +20,8 @@ import 'package:get/get.dart';
 Widget AppDrawer(BuildContext context) {
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();
+
+  final WebController webController = Get.find<WebController>();
   return Drawer(
     backgroundColor: AppColors.loginscafoldcoolr,
     child: Column(
@@ -39,6 +41,7 @@ Widget AppDrawer(BuildContext context) {
                   children: [
                     InkWell(
                       onTap: () {
+                        webController.showWebViewScreen.value = false;
                         bottomBarController.selectedBottomNavIndex.value = 0;
                         Get.offAllNamed(Routes.userType);
                       },

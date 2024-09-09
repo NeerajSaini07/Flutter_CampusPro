@@ -3,7 +3,6 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
-
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/user_dashboard.dart';
@@ -13,7 +12,6 @@ import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../Screens/help_and_support_screen.dart';
 
 class BottomBarController extends GetxController {
@@ -60,6 +58,7 @@ class BottomBarController extends GetxController {
 
         case 1:
           Get.offAllNamed(Routes.userType);
+          webController.showWebViewScreen.value = false;
           appbarController.appBarName.value = Constant.schoolName.toString();
           selectedBottomNavIndex.value = 0;
         case 2:
@@ -96,6 +95,7 @@ class BottomBarController extends GetxController {
         // }
         case 1:
           Get.offAllNamed(Routes.userType);
+          webController.showWebViewScreen.value = false;
           appbarController.appBarName.value = Constant.schoolName.toString();
           selectedBottomNavIndex.value = 0;
         case 2:
@@ -119,8 +119,7 @@ class BottomBarController extends GetxController {
       screens.add(webController.showWebViewScreen.value
           ? WebViewDashboardPage()
           : UserDashboard());
-    }
-    if (userType == 'G') {
+    } else if (userType == 'G') {
       screens.add(webController.showWebViewScreen.value
           ? WebViewDashboardPage()
           : GatePassDashboard());
