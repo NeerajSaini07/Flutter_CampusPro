@@ -51,7 +51,6 @@ Widget dashboardButton(BuildContext context) {
             appbarController.appBarName.value = 'Today Visitor';
             getPassController.showvisitorDetails.value = false;
             await Future.delayed(const Duration(microseconds: 10));
-            getPassController.showvisitoryHistory.value = false;
             getPassController.showOTPwidget.value = false;
             getPassController.getVisitorHistory();
             Get.back();

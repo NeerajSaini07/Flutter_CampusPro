@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
+import 'package:campuspro/Modal/gatepass_history_model.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/vistor_gatepass_card.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
@@ -20,9 +21,6 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
   Widget build(BuildContext context) {
     final GetPassController getPassController = Get.find<GetPassController>();
     final AppbarController appbarController = Get.find<AppbarController>();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getPassController.getpassHistory();
-    });
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primarycolor,
@@ -45,25 +43,34 @@ class _GatePassHistoryListScreenState extends State<GatePassHistoryListScreen> {
                 color: Colors.white,
               )),
         ),
-        body: Obx(
-          () => getPassController.gatePassHistoryData.value.isEmpty
-              ? const Center(child: Text('No data available'))
-              : ListView.separated(
+        body: Obx(() {
+          getPassController.refreshGatePassTrigger.value;
+          return FutureBuilder<List<GatePassHistoryModel>>(
+            future: getPassController.getpassHistory(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('An error occurred'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No data available'));
+              } else {
+                final gatePassHistoryData = snapshot.data!;
+                return ListView.builder(
                   padding: EdgeInsets.symmetric(vertical: 16.h),
-                  itemCount: getPassController.gatePassHistoryData.value.length,
+                  itemCount: gatePassHistoryData.length,
                   itemBuilder: (context, index) {
                     return vistorGatepassListCardWidget(
-                        context: context,
-                        getPassController: getPassController,
-                        index: index,
-                        type: "g");
+                      context: context,
+                      getPassController: getPassController,
+                      index: index,
+                      type: "g",
+                    );
                   },
-                  separatorBuilder: (BuildContext context, index) =>
-                      const Divider(
-                    height: 1,
-                    thickness: 1,
-                  ),
-                ),
-        ));
+                );
+              }
+            },
+          );
+        }));
   }
 }

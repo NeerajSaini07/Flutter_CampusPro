@@ -22,7 +22,7 @@ Card buildTextField({
     fontSize: 16,
     fontWeight: FontWeight.w500,
   ),
-  EdgeInsets? contentPadding = const EdgeInsets.symmetric(vertical: 20.0),
+  EdgeInsets? contentPadding = const EdgeInsets.symmetric(vertical: 14.0),
   FocusNode? focusNode,
   TextInputAction? textInputAction,
   TextInputType? keyboardType,

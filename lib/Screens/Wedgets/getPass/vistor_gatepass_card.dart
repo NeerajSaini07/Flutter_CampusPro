@@ -1,9 +1,10 @@
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Screens/getpass/fullscreenImage.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 Widget vistorGatepassListCardWidget(
     {required BuildContext context,
@@ -119,7 +120,15 @@ Widget vistorGatepassListCardWidget(
                     ),
                     InkWell(
                       borderRadius: BorderRadius.circular(2.r),
-                      onTap: () {},
+                      onTap: () {
+                        if (type == "v") {
+                          CommonFunctions.makePhoneCall(
+                              visitor.number.toString());
+                        } else {
+                          CommonFunctions.makePhoneCall(
+                              visitor.contactNo.toString());
+                        }
+                      },
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                                 horizontal: 10.w, vertical: 4.h)

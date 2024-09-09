@@ -9,6 +9,7 @@ import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Modal/visitordata_model.dart';
 import 'package:campuspro/Repository/getpass_respository.dart';
 import 'package:campuspro/Screens/getpass/visitor_details_page.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GetPassController extends GetxController {
   RxBool showOTPwidget = false.obs;
-  RxBool showvisitoryHistory = false.obs;
   RxBool showvisitorDetails = false.obs;
   RxBool showErrorfield = false.obs;
   RxBool otperrorfield = false.obs;
   RxBool showPurposeTxtField = false.obs;
+  var refreshVisitorTrigger = false.obs;
+  var refreshGatePassTrigger = false.obs;
 
   final TextEditingController mobilenumberController = TextEditingController();
 
@@ -297,40 +300,32 @@ class GetPassController extends GetxController {
           fileExtension == 'jpeg' ||
           fileExtension == 'png') {
         imagePathForIdProof.value = pickedFile.path;
+
+        try {
+          if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor ==
+              'Y') {
+            await GetPassRepository.updateIdProof().then((value) {
+              if (value['Status'] == 'Cam-001') {
+                CommonFunctions.showSuccessSnackbar(
+                    "Success", 'ID Proof uploaded successfully!');
+
+                showErrorfield.value = false;
+                showOTPwidget.value = false;
+              }
+            });
+          } else {
+            updateVisitorDetails(context);
+          }
+        } catch (e) {
+          rethrow;
+        }
       } else {
-        Get.snackbar(
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.white,
-            "Invalid File",
-            "Please select a valid image file.");
+        CommonFunctions.showErrorSnackbar(
+            "Invalid File", "Please select a valid image file.");
       }
     } else {
-      Get.snackbar(
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.white,
-          "No Image Selected",
-          "Please select an image.");
-    }
-
-    try {
-      if (UserTypeslist.userTypesDetails[usertypeIndex].sendOtpToVisitor ==
-          'Y') {
-        await GetPassRepository.updateIdProof().then((value) {
-          if (value['Status'] == 'Cam-001') {
-            Get.snackbar(
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.white,
-                "Success",
-                'ID Proof uploaded successfully!');
-            showErrorfield.value = false;
-            showOTPwidget.value = false;
-          }
-        });
-      } else {
-        updateVisitorDetails(context);
-      }
-    } catch (e) {
-      rethrow;
+      CommonFunctions.showErrorSnackbar(
+          "No Image Selected", "Please select an image.");
     }
   }
 
@@ -380,10 +375,8 @@ class GetPassController extends GetxController {
 
   markVisitorExitApi(index) async {
     GetPassRepository.exitVisitor(index).then((value) async {
-      await getVisitorHistory();
-      showvisitoryHistory.value = false;
-      await Future.delayed(const Duration(microseconds: 100));
-      showvisitoryHistory.value = true;
+      // await getVisitorHistory();
+      refreshVisitorTrigger.value = !refreshVisitorTrigger.value;
     });
   }
 
@@ -404,38 +397,34 @@ class GetPassController extends GetxController {
           fileExtension == 'png') {
         visitorImage.value = pickedFile.path;
       } else {
-        Get.snackbar(
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.white,
-            "Invalid File",
-            "Please select a valid image file.");
+        CommonFunctions.showErrorSnackbar(
+            "Invalid File", "Please select a valid image file.");
       }
     } else {
-      Get.snackbar(
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.white,
-          "No Image Selected",
-          "Please select an image.");
+      CommonFunctions.showErrorSnackbar(
+          "No Image Selected", "Please select an image.");
     }
   }
 
-  getpassHistory() {
+  Future<List<GatePassHistoryModel>> getpassHistory() async {
     gatePassHistoryData.value = [];
-    GetPassRepository.getPassHistory().then((value) {
-      if (value['Data'] != null) {
-        List<dynamic> data = value['Data'];
-        GatePassHistory.gatePassHistoryList =
-            data.map((json) => GatePassHistoryModel.fromJson(json)).toList();
-        gatePassHistoryData.value = GatePassHistory.gatePassHistoryList;
-      } else {
-        gatePassHistoryData.value = [];
-      }
-    });
+    final response = await GetPassRepository.getPassHistory();
+    if (response['Data'] != null) {
+      List<dynamic> data = response['Data'];
+      GatePassHistory.gatePassHistoryList =
+          data.map((json) => GatePassHistoryModel.fromJson(json)).toList();
+      gatePassHistoryData.value = GatePassHistory.gatePassHistoryList;
+      return GatePassHistory.gatePassHistoryList;
+    } else {
+      gatePassHistoryData.value = [];
+      return [];
+    }
   }
 
   markGatePassExitApi(index) async {
     GetPassRepository.exitGatePass(index).then((value) async {
-      await getpassHistory();
+      refreshGatePassTrigger.value = !refreshGatePassTrigger.value;
+      // await getpassHistory();
     });
   }
 

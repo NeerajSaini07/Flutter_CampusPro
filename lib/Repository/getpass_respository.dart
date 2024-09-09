@@ -108,7 +108,8 @@ class GetPassRepository {
       'OrgId': UserTypeslist.userTypesDetails[usertypeIndex].organizationId,
       'StuEmpId': UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId,
       'MobileNo': getPassController.mobileNo.value,
-      'VisitorType': getPassController.visitorTyep.value,
+      // 'VisitorType': getPassController.visitorTyep.value,
+      'VisitorType': "",
       'UserType': UserTypeslist.userTypesDetails[usertypeIndex].ouserType,
     };
 

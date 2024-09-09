@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
+import 'package:campuspro/Modal/visitor_history_model.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/vistor_gatepass_card.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:flutter/material.dart';
@@ -22,23 +23,36 @@ class VisitorHistoryPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar: customAppBar(context),
-        body: Obx(
-          () => getPassController.vistorData.value.isEmpty
-              ? const Center(child: Text('No data available'))
-              : ListView.builder(
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                  itemCount: getPassController.vistorData.value.length,
-                  itemBuilder: (context, index) {
-                    return vistorGatepassListCardWidget(
+          appBar: customAppBar(context),
+          body: Obx(() {
+            getPassController.refreshVisitorTrigger.value;
+            return FutureBuilder<List<VisitorHistoryModal>>(
+              future: getPassController.getVisitorHistory(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('An error occurred'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No data available'));
+                } else {
+                  final visitorData = snapshot.data!;
+                  return ListView.builder(
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                    itemCount: visitorData.length,
+                    itemBuilder: (context, index) {
+                      return vistorGatepassListCardWidget(
                         context: context,
                         getPassController: getPassController,
                         index: index,
-                        type: "v");
-                  },
-                ),
-        ),
-      ),
+                        type: "v",
+                      );
+                    },
+                  );
+                }
+              },
+            );
+          })),
     );
   }
 }
