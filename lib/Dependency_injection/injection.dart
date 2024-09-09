@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
+import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
@@ -64,5 +65,9 @@ class DependencyInjection {
 
     Get.lazyPut<NotificationCrouselController>(
         () => NotificationCrouselController());
+
+    // ***************  Student Controller  ***********************
+
+    Get.lazyPut<StudentHomeWorkController>(() => StudentHomeWorkController());
   }
 }

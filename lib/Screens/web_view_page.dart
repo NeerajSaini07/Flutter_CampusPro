@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, unnecessary_string_interpolations
+
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
@@ -37,128 +39,139 @@ class WebViewDashboardPage extends StatelessWidget {
 
     return Obx(() {
       if (webController.currentUrl.isNotEmpty) {
-        return InAppWebView(
-            key: ValueKey(webController.currentUrl.value),
-            initialUrlRequest:
-                URLRequest(url: WebUri("${webController.currentUrl.value}")),
-            // initialSettings: InAppWebViewSettings(
-            //     useHybridComposition: true, useOnDownloadStart: true),
-            initialOptions: InAppWebViewGroupOptions(
-              android: AndroidInAppWebViewOptions(
-                  domStorageEnabled: true,
-                  databaseEnabled: true,
-                  allowFileAccess: true,
-                  disableDefaultErrorPage: true,
-                  allowContentAccess: true,
-                  geolocationEnabled: true,
-                  thirdPartyCookiesEnabled: true,
-                  useHybridComposition: true,
-                  loadsImagesAutomatically: true),
-              crossPlatform: InAppWebViewOptions(
-                  javaScriptEnabled: true,
-                  cacheEnabled: true,
-                  useShouldOverrideUrlLoading: true,
-                  allowFileAccessFromFileURLs: true,
-                  allowUniversalAccessFromFileURLs: true,
-                  javaScriptCanOpenWindowsAutomatically: true,
-                  useOnDownloadStart: true),
-            ),
-            onReceivedError: (controller, request, error) {
-              if (request.url.host.contains('meet.google.com') ||
-                  request.url.toString().contains('tel:')) {
-                controller.goBack();
-              }
-            },
-            onWebViewCreated: (InAppWebViewController controller) =>
-                webViewController = controller,
-            onLoadStart: (InAppWebViewController controller, Uri? url) async {
-              if (url != null &&
-                  (url.host.contains('meet.google.com') ||
-                      url.toString().contains('tel:'))) {
-                final Uri launchUri = Uri(
-                  scheme: 'tel',
-                  path: extractPhoneNumber(url.toString()),
-                );
-                if (await canLaunchUrl(launchUri)) {
-                  await launchUrl(launchUri);
-                } else {
-                  throw 'Could not launch ${url.toString()}';
+        return WillPopScope(
+          onWillPop: () async {
+            appbarController.appBarName.value = Constant.schoolName;
+            webController.showWebViewScreen.value = false;
+            return true;
+          },
+          child: InAppWebView(
+              key: ValueKey(webController.currentUrl.value),
+              initialUrlRequest:
+                  URLRequest(url: WebUri("${webController.currentUrl.value}")),
+              // initialSettings: InAppWebViewSettings(
+              //     useHybridComposition: true, useOnDownloadStart: true),
+              initialOptions: InAppWebViewGroupOptions(
+                android: AndroidInAppWebViewOptions(
+                    domStorageEnabled: true,
+                    databaseEnabled: true,
+                    allowFileAccess: true,
+                    disableDefaultErrorPage: true,
+                    allowContentAccess: true,
+                    geolocationEnabled: true,
+                    thirdPartyCookiesEnabled: true,
+                    useHybridComposition: true,
+                    loadsImagesAutomatically: true),
+                crossPlatform: InAppWebViewOptions(
+                    javaScriptEnabled: true,
+                    cacheEnabled: true,
+                    useShouldOverrideUrlLoading: true,
+                    allowFileAccessFromFileURLs: true,
+                    allowUniversalAccessFromFileURLs: true,
+                    javaScriptCanOpenWindowsAutomatically: true,
+                    useOnDownloadStart: true),
+              ),
+              onReceivedError: (controller, request, error) {
+                if (request.url.host.contains('meet.google.com') ||
+                    request.url.toString().contains('tel:')) {
+                  controller.goBack();
                 }
-              } else if (url.toString().contains("/Student/OnlineTest.aspx")) {
-                UrlLuncher.launchUrls(url.toString());
-                appbarController.appBarName.value = Constant.schoolName;
-                webController.currentUrl.value = url.toString();
-                webController.showWebViewScreen.value = false;
-                webController.generateWebUrl('Index.aspx', 'Dashboard');
-                bottomBarController.selectedBottomNavIndex.value = 0;
-                bottomBarController.webviewpage.value = false;
-              } else if (url.toString().contains("Student/Account.aspx") &&
-                  UserTypeslist
-                          .userTypesDetails[userTypeController.usertypeIndex]
-                          .isPaymentPageOpenInChrome ==
-                      '1') {
-                UrlLuncher.launchUrls(url.toString());
-                appbarController.appBarName.value = Constant.schoolName;
-                webController.currentUrl.value = url.toString();
-                webController.generateWebUrl('Index.aspx', 'Dashboard');
-              } else {}
-            },
-            onLoadStop: (InAppWebViewController controller, Uri? url) async {
-              await controller.evaluateJavascript(
-                  source:
-                      "window.localStorage.setItem('key', 'localStorage value!')");
-              if (url
-                  .toString()
-                  .contains("https://app.campuspro.in/Login.aspx")) {
-                Get.offAllNamed(Routes.userType);
-              }
-              controller.addJavaScriptHandler(
-                  handlerName: 'downloadPDF',
-                  callback: (args) async {
-                    final pdfUrl = args[0];
-                    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
-                      await launchUrl(Uri.parse(pdfUrl),
-                          mode: LaunchMode.externalApplication);
-                    } else {
-                      throw 'Could not launch $pdfUrl';
-                    }
-                  });
-            },
-            onDownloadStartRequest: (
-              controller,
-              url,
-            ) async {
-              // await downloadFile(url.url.toString(), context);
-              final String _urlFiles = "${url.url}";
-              void _launchURLFiles() async => await canLaunchUrl(
-                    Uri.parse(_urlFiles),
-                  )
-                      ? await launchUrl(
-                          Uri.parse(_urlFiles),
-                          mode: LaunchMode.externalApplication,
-                        )
-                      : throw 'Could not launch $_urlFiles';
-              _launchURLFiles();
-            },
-            shouldOverrideUrlLoading: (controller, action) async {
-              if (action.request.url.toString().contains("phonepe://") ||
-                  action.request.url.toString().contains("tez://") ||
-                  action.request.url.toString().contains("paytmmp://")) {
-                return NavigationActionPolicy.CANCEL;
-              } else if (action.request.url != null &&
-                  (action.request.url!.host.contains('meet.google.com') ||
-                      action.request.url!.toString().contains('tel:'))) {
-                launchUrl(
-                  Uri.parse(action.request.url!.toString()),
-                  mode: LaunchMode.externalApplication,
-                );
-                return NavigationActionPolicy.CANCEL;
-              } else if (action.request.url.toString().contains("login.aspx")) {
-                logoutController.userlogOut();
-                return NavigationActionPolicy.CANCEL;
-              }
-              return NavigationActionPolicy.ALLOW;
-            });
+              },
+              onWebViewCreated: (InAppWebViewController controller) =>
+                  webViewController = controller,
+              onLoadStart: (InAppWebViewController controller, Uri? url) async {
+                if (url != null &&
+                    (url.host.contains('meet.google.com') ||
+                        url.toString().contains('tel:'))) {
+                  final Uri launchUri = Uri(
+                    scheme: 'tel',
+                    path: extractPhoneNumber(url.toString()),
+                  );
+                  if (await canLaunchUrl(launchUri)) {
+                    await launchUrl(launchUri);
+                  } else {
+                    throw 'Could not launch ${url.toString()}';
+                  }
+                } else if (url
+                    .toString()
+                    .contains("/Student/OnlineTest.aspx")) {
+                  UrlLuncher.launchUrls(url.toString());
+                  appbarController.appBarName.value = Constant.schoolName;
+                  webController.currentUrl.value = url.toString();
+                  webController.showWebViewScreen.value = false;
+                  webController.generateWebUrl('Index.aspx', 'Dashboard');
+                  bottomBarController.selectedBottomNavIndex.value = 0;
+                  bottomBarController.webviewpage.value = false;
+                } else if (url.toString().contains("Student/Account.aspx") &&
+                    UserTypeslist
+                            .userTypesDetails[userTypeController.usertypeIndex]
+                            .isPaymentPageOpenInChrome ==
+                        '1') {
+                  UrlLuncher.launchUrls(url.toString());
+                  appbarController.appBarName.value = Constant.schoolName;
+                  webController.currentUrl.value = url.toString();
+                  webController.generateWebUrl('Index.aspx', 'Dashboard');
+                } else {}
+              },
+              onLoadStop: (InAppWebViewController controller, Uri? url) async {
+                await controller.evaluateJavascript(
+                    source:
+                        "window.localStorage.setItem('key', 'localStorage value!')");
+                // if (url
+                //     .toString()
+                //     .contains("https://app.campuspro.in/Login.aspx")) {
+                //   logoutController.userlogOut();
+                // }
+                controller.addJavaScriptHandler(
+                    handlerName: 'downloadPDF',
+                    callback: (args) async {
+                      final pdfUrl = args[0];
+                      if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+                        await launchUrl(Uri.parse(pdfUrl),
+                            mode: LaunchMode.externalApplication);
+                      } else {
+                        throw 'Could not launch $pdfUrl';
+                      }
+                    });
+              },
+              onDownloadStartRequest: (
+                controller,
+                url,
+              ) async {
+                // await downloadFile(url.url.toString(), context);
+                final String _urlFiles = "${url.url}";
+                void _launchURLFiles() async => await canLaunchUrl(
+                      Uri.parse(_urlFiles),
+                    )
+                        ? await launchUrl(
+                            Uri.parse(_urlFiles),
+                            mode: LaunchMode.externalApplication,
+                          )
+                        : throw 'Could not launch $_urlFiles';
+                _launchURLFiles();
+              },
+              shouldOverrideUrlLoading: (controller, action) async {
+                if (action.request.url.toString().contains("phonepe://") ||
+                    action.request.url.toString().contains("tez://") ||
+                    action.request.url.toString().contains("paytmmp://")) {
+                  return NavigationActionPolicy.CANCEL;
+                } else if (action.request.url != null &&
+                    (action.request.url!.host.contains('meet.google.com') ||
+                        action.request.url!.toString().contains('tel:'))) {
+                  launchUrl(
+                    Uri.parse(action.request.url!.toString()),
+                    mode: LaunchMode.externalApplication,
+                  );
+                  return NavigationActionPolicy.CANCEL;
+                } else if (action.request.url
+                    .toString()
+                    .contains("login.aspx")) {
+                  logoutController.userlogOut();
+                  return NavigationActionPolicy.CANCEL;
+                }
+                return NavigationActionPolicy.ALLOW;
+              }),
+        );
       } else {
         return const Center(child: CircularProgressIndicator());
       }
