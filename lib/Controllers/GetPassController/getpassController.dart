@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, invalid_use_of_protected_member
 
 import 'dart:developer';
-
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Modal/gatepass_history_model.dart';
 import 'package:campuspro/Modal/visitor_history_model.dart';
@@ -14,10 +13,8 @@ import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class GetPassController extends GetxController {
   RxBool showOTPwidget = false.obs;
@@ -148,6 +145,7 @@ class GetPassController extends GetxController {
                       .userTypesDetails[usertypeIndex].sendOtpToVisitor ==
                   'Y') {
                 if (VisitorData.visitorListDetails.first.isOtpSent == "Y") {
+                  mobilenumberController.clear();
                   showOTPwidget.value = true;
                   showErrorfield.value = false;
                   errorMessage.value = '';
@@ -233,13 +231,27 @@ class GetPassController extends GetxController {
   // **********************************verify OTP *************************
 
   verifyvisitoryOTP() async {
+    final AppbarController appbarController = Get.find<AppbarController>();
     await GetPassRepository.verifyOtpGatePass().then((value) {
       if (value['Status'] == 'Cam-001') {
+        mobilenumberController.clear();
+        appbarController.appBarName.value = 'Visitor Details';
         showOTPwidget.value = false;
         showvisitorDetails.value = true;
         showErrorfield.value = false;
         Get.to(() => const VisitorDetialsPage());
       } else if (value['Status'] == 'Cam-002') {
+        mobilenumberController.clear();
+        appbarController.appBarName.value = 'Visitor Details';
+
+        // //  *******************************
+
+        // //  ************test **************
+        // showOTPwidget.value = false;
+        // showvisitorDetails.value = true;
+        // showErrorfield.value = false;
+        // Get.to(() => const VisitorDetialsPage());
+
         showErrorfield.value = false;
         errorMessage.value = 'Invalid OTP ';
         otperrorfield.value = true;

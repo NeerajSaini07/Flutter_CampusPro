@@ -1,0 +1,12 @@
+{
+    "data": [
+        {
+            "TeacherName": "Nazis",
+            "Date": "10-9-2024",
+            "homework": "Home work Text",
+            "subjcet": "Math",
+            "color": "red",
+            "file": "File url"
+        }
+    ]
+}

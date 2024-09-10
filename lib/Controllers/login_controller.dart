@@ -100,6 +100,7 @@ class LoginController extends GetxController {
       await LoginRepository.userLoginRepo().then((value) async {
         if (value != null) {
           if (loginvalue == true) {
+            print(value);
             // await Future.delayed(const Duration(seconds: 2));
             loginLoader.value = false;
 

@@ -2,6 +2,7 @@ import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
+import 'package:campuspro/Screens/studenPortal/class_room.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
 import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
 import 'package:campuspro/Utilities/constant.dart';
@@ -34,7 +35,14 @@ class AppRouting extends GetxService {
         break;
 
       case "Home Work":
-        Get.to(HomeworkScreen());
+        Get.to(() => const HomeworkScreen());
+
+        appbarController.appBarName.value = name;
+        webController.showWebViewScreen.value = false;
+        break;
+
+      case "Class Room":
+        Get.to(() => const StudentClassroom());
         appbarController.appBarName.value = name;
         webController.showWebViewScreen.value = false;
         break;

@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class APIENDPOINT {
-  static const baseUrl = 'https://fmobile.campuspro.in/api/';
+  static const baseUrl = 'https://fmobiledev.campuspro.in/api/';
   //-------LOGIN----------------------------------------------------------------
   static const getBaseUrl = baseUrl + 'GetBaseApiUrl';
   static const loginApi = baseUrl + "AutheticateLogin";
