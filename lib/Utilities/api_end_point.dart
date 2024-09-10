@@ -46,4 +46,5 @@ class APIENDPOINT {
   // ************************ Student Module *************************
   static const studentDetailApi = "GetStudentInfo_V1";
   static const notificationApi = "Getalertnotifications_V1";
+  static const circularApi = "getCircular_V1";
 }

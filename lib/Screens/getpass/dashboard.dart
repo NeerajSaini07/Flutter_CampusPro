@@ -33,6 +33,7 @@ class _GatePassDashboardState extends State<GatePassDashboard> {
     getPassController.visitorImage.value = '';
     getPassController.mobilenumberController.text = '';
     getPassController.mobileNo.value = '';
+    getPassController.showOTPwidget.value = false;
     super.initState();
   }
 

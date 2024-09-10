@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget recentnotificationOnDashboard(BuildContext context) {
   return SizedBox(
-    height: 60.h,
+    height: 64.h,
     width: MediaQuery.of(context).size.width,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,

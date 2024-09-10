@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:campuspro/Modal/student_module/notification_model.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/student_profile_repository.dart';
 import 'package:get/get.dart';

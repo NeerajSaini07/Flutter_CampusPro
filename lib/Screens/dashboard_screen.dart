@@ -44,7 +44,7 @@ class _MainDashboardState extends State<MainDashboard> {
           bottomBarController.selectedBottomNavIndex.value = 0;
           // webController.generateWebUrl('Index.aspx', 'Dashboard');
           webController.showWebViewScreen.value = false;
-          return true;
+          return false;
         }
       },
       child: Scaffold(

@@ -80,16 +80,31 @@ Widget vistorGatepassListCardWidget(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      type == "v"
-                          ? visitor.visitorName ?? "N/A"
-                          : visitor.name ?? "N/A",
+                    Text.rich(
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        height: 0,
-                        fontWeight: FontWeight.w400,
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: type == "v"
+                                ? visitor.visitorName ?? "N/A"
+                                : visitor.name ?? "N/A",
+                            style: TextStyle(
+                                fontSize: 14.sp, fontWeight: FontWeight.w400),
+                          ),
+                          TextSpan(
+                            text: type != "v"
+                                ? visitor.passType.toString().toLowerCase() ==
+                                        "student"
+                                    ? " (${visitor.studentEmployeeName.toString().capitalizeFirst})"
+                                    : ""
+                                : "",
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.appbuttonColor),
+                          ),
+                        ],
                       ),
                     ),
                     Text.rich(
@@ -214,10 +229,10 @@ Widget vistorGatepassListCardWidget(
                               )
                             : _entryExitTimeWidget(
                                 time: type == "v"
-                                    ? (visitor.entryTime ?? "N//A")
+                                    ? (visitor.exitTime ?? "N//A")
                                         .split(' ')
                                         .last
-                                    : visitor.exitTime ?? "N/A",
+                                    : visitor.toTime ?? "N/A",
                                 icon: Icons.arrow_back,
                                 color: Colors.red[200]!),
                       ],
