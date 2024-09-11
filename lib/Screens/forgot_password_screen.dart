@@ -155,8 +155,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                         hint: Text(
                                           'Select School Name',
                                           style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15.sp),
+                                            color: Colors.black,
+                                          ),
                                         ),
                                         items: forgotPasswordController.items
                                             .map((value) {

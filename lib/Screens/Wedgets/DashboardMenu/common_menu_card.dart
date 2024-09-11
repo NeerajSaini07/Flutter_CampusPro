@@ -35,21 +35,21 @@ Widget buildActionsCard() {
           },
           child: Container(
               decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  BoxDecoration(borderRadius: BorderRadius.circular(30.r)),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.network(
                     DashboardMenulist.dashboardMenulistdetails[index].imageUrl
                         .toString(),
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.fill,
                     height: 40.h,
                     width: 40.w,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r)),
+                            borderRadius: BorderRadius.circular(30.r)),
                         child: Image.network(
                           'https://picsum.photos/200', // Replace with the path to your dummy image
                           fit: BoxFit.fitHeight,

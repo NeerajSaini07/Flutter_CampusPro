@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_brace_in_string_interps
+// ignore_for_file: unnecessary_brace_in_string_interps, use_build_context_synchronously
 
 import 'dart:developer';
 import 'dart:io';
@@ -284,39 +284,34 @@ class VisitorDetialsPage extends StatelessWidget {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: () {
-                          if (getPassController.checkVistorDetailForm()) {
-                            if (getPassController
-                                    .visitorImage.value.isNotEmpty ||
-                                VisitorData.visitorListDetails.last.imagePath!
-                                    .isNotEmpty) {
-                              getPassController.updateVisitorDetails(context);
-                            } else {
-                              getPassController.visitorImagepicker();
-                            }
+                      onPressed: () async {
+                        if (getPassController.checkVistorDetailForm()) {
+                          if (getPassController.visitorImage.value.isNotEmpty ||
+                              VisitorData.visitorListDetails.last.imagePath!
+                                  .isNotEmpty) {
+                            getPassController.updateVisitorDetails(context);
+                          } else {
+                            await getPassController.visitorImagepicker();
+                            getPassController.updateVisitorDetails(context);
                           }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 10.h),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.w)),
-                            backgroundColor: AppColors.appbuttonColor),
-                        child:
-                            // Obx(() => (getPassController
-                            //             .visitorImage.value.isNotEmpty ||
-                            //         VisitorData
-                            //             .visitorListDetails.last.imagePath!.isNotEmpty)
-                            //     ?
-                            Text(
-                          'Save',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.sp),
-                        )
-                        // : const Icon(
-                        //     Icons.camera_enhance,
-                        //     color: Colors.white,
-                        //   )),
-                        ),
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.w)),
+                          backgroundColor: AppColors.appbuttonColor),
+                      child:
+                          Obx(() => (getPassController.visitorFormLoader.value)
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16.sp),
+                                )),
+                    ),
                   ),
                 ),
               ],

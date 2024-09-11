@@ -1,8 +1,12 @@
+import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
+import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
+import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/studenPortal/class_room.dart';
+import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
 import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
 import 'package:campuspro/Utilities/constant.dart';
@@ -18,6 +22,12 @@ class AppRouting extends GetxService {
   final AppbarController appbarController = Get.find<AppbarController>();
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();
+
+  final StudentClasssRoomController studentClasssRoomController =
+      Get.find<StudentClasssRoomController>();
+
+  final UserTypeController userTypeController = Get.find<UserTypeController>();
+
   navigate(name, pageurl, BuildContext context) async {
     switch (name) {
       case "Student Bus Location":
@@ -34,15 +44,26 @@ class AppRouting extends GetxService {
         UrlLuncher.launchUrls(pageurl);
         break;
 
-      case "Home Work":
+      case "Homesdfg Work":
         Get.to(() => const HomeworkScreen());
 
         appbarController.appBarName.value = name;
         webController.showWebViewScreen.value = false;
         break;
 
-      case "Class Room":
-        Get.to(() => const StudentClassroom());
+      case "ClassRoomsdfg":
+        if (UserTypeslist
+                .userTypesDetails[userTypeController.usertypeIndex].ouserType ==
+            'S') {
+          Get.to(() => const StudentClassroom());
+          appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = false;
+        } else {
+          webController.generateWebUrl(pageurl, name);
+        }
+        break;
+      case "Circularwdfg":
+        Get.to(() => const StudentCircularScreen());
         appbarController.appBarName.value = name;
         webController.showWebViewScreen.value = false;
         break;

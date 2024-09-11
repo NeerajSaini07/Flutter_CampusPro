@@ -2,9 +2,9 @@
 
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
-import 'package:campuspro/Screens/Wedgets/getPass/idproofwidget.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -42,19 +42,6 @@ Widget otpModule(BuildContext context) {
                 ),
               )
             : SizedBox()),
-        // Obx(() {
-        //   if (getPassController.showotpErrorfield.value) {
-        //     return Text(
-        //       getPassController.errorMessage.value,
-        //       style: TextStyle(
-        //           fontSize: 12.sp,
-        //           color: Colors.red,
-        //           fontWeight: FontWeight.w500),
-        //     );
-        //   } else {
-        //     return SizedBox();
-        //   }
-        // }),
         Obx(() => getPassController.showErrorfield.value
             ? CustomeHeight(10.h)
             : SizedBox()),
@@ -68,6 +55,9 @@ Widget otpModule(BuildContext context) {
             ),
             length: 6,
             animationType: AnimationType.fade,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+            ],
             pinTheme: PinTheme(
               shape: PinCodeFieldShape.box,
               activeColor: AppColors.appbuttonColor,
@@ -85,7 +75,6 @@ Widget otpModule(BuildContext context) {
             cursorColor: Colors.black,
             onCompleted: (value) {
               getPassController.verifyvisitoryOTP();
-              // getPassController.showvisitoryHistory.value = true;
             },
             animationDuration: const Duration(milliseconds: 300),
             keyboardType: TextInputType.number,

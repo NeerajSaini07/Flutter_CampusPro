@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, invalid_use_of_protected_member
+// ignore_for_file: non_constant_identifier_names, invalid_use_of_protected_member, use_build_context_synchronously
 
 import 'dart:developer';
 import 'package:campuspro/Controllers/appbar_controller.dart';
@@ -24,6 +24,7 @@ class GetPassController extends GetxController {
   RxBool showPurposeTxtField = false.obs;
   var refreshVisitorTrigger = false.obs;
   var refreshGatePassTrigger = false.obs;
+  RxBool visitorFormLoader = false.obs;
 
   final TextEditingController mobilenumberController = TextEditingController();
 
@@ -185,7 +186,6 @@ class GetPassController extends GetxController {
                 showOTPwidget.value = false;
                 showErrorfield.value = false;
                 errorMessage.value = '';
-
                 mobilenumberController.clear();
                 appbarController.appBarName.value = 'Visitor Details';
                 Get.to(() => const VisitorDetialsPage());
@@ -239,6 +239,8 @@ class GetPassController extends GetxController {
         showOTPwidget.value = false;
         showvisitorDetails.value = true;
         showErrorfield.value = false;
+        mobilenumberController.clear();
+        appbarController.appBarName.value = 'Visitor Details';
         Get.to(() => const VisitorDetialsPage());
       } else if (value['Status'] == 'Cam-002') {
         mobilenumberController.clear();
@@ -247,14 +249,14 @@ class GetPassController extends GetxController {
         // //  *******************************
 
         // //  ************test **************
-        // showOTPwidget.value = false;
-        // showvisitorDetails.value = true;
-        // showErrorfield.value = false;
-        // Get.to(() => const VisitorDetialsPage());
-
+        showOTPwidget.value = false;
+        showvisitorDetails.value = true;
         showErrorfield.value = false;
-        errorMessage.value = 'Invalid OTP ';
-        otperrorfield.value = true;
+        Get.to(() => const VisitorDetialsPage());
+
+        // showErrorfield.value = false;
+        // errorMessage.value = 'Invalid OTP ';
+        // otperrorfield.value = true;
       }
     });
   }
@@ -296,6 +298,7 @@ class GetPassController extends GetxController {
 
 // ************************************************************** *****
   idProofVerify(BuildContext context) async {
+    final AppbarController appbarController = Get.find<AppbarController>();
     int usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
     XFile? pickedFile;
@@ -318,11 +321,16 @@ class GetPassController extends GetxController {
               'Y') {
             await GetPassRepository.updateIdProof().then((value) {
               if (value['Status'] == 'Cam-001') {
-                CommonFunctions.showSuccessSnackbar(
-                    "Success", 'ID Proof uploaded successfully!');
-
                 showErrorfield.value = false;
                 showOTPwidget.value = false;
+                CommonFunctions.showSuccessSnackbar(
+                    "Success", 'ID Proof uploaded successfully!');
+                mobilenumberController.clear();
+                appbarController.appBarName.value = 'Visitor Details';
+                Get.to(() => const VisitorDetialsPage());
+              } else {
+                CommonFunctions.showErrorSnackbar(
+                    "Error", "Failed to upload ID Proof. Please try again.");
               }
             });
           } else {
@@ -343,13 +351,11 @@ class GetPassController extends GetxController {
 
   updateVisitorDetails(BuildContext context) async {
     final AppbarController appbarController = Get.find<AppbarController>();
-    // print("calling");
-
+    visitorFormLoader.value = true;
     await GetPassRepository.saveVisitordata().then((value) {
-      // print(value);
       if (value['Status'] == 'Cam-001') {
         getVisitorHistory();
-
+        visitorFormLoader.value = false;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.green,
@@ -383,6 +389,7 @@ class GetPassController extends GetxController {
         Get.back();
       }
     });
+    visitorFormLoader.value = false;
   }
 
   markVisitorExitApi(index) async {
@@ -394,7 +401,7 @@ class GetPassController extends GetxController {
 
   //  Select image for visitor *****************************
 
-  visitorImagepicker() async {
+  Future<void> visitorImagepicker() async {
     XFile? pickedFile;
     // if (imagesource.value == 'Cemra') {
     pickedFile = await picker.pickImage(source: ImageSource.camera);

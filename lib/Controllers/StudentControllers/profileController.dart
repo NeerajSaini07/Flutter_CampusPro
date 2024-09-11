@@ -13,6 +13,8 @@ class StudentProfileController extends GetxController {
             .map((json) => StudentDetailModel.fromJson(json))
             .toList();
         studentDetailsSet.value = true;
+
+        print("Student Profile: ${value}");
       } else {
         StudentDetaillist.studentdetails = [];
         studentDetailsSet.value = false;

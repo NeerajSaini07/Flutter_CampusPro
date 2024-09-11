@@ -1,40 +1,26 @@
 import 'dart:developer';
 import 'package:campuspro/Utilities/sharedpref.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:open_file/open_file.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class NotificationService {
-  Future initialize() async {
-    // Setting up background message handler and creating notification channel
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true, // Required to display a heads up notification
-      badge: true,
-      sound: true,
-    );
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>();
-  }
-}
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'high_importance_channel', // id of the channel
+  'High Importance Notifications', // channel name
+  description:
+      'This channel is used for important notifications.', // channel description
+  importance: Importance.max,
+);
 
-void prompt(String url) async {
-  // Launching URL if it's valid, otherwise throwing an error
-  if (await canLaunchUrlString(url)) {
-    await launchUrlString(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
   // Handling background messages and showing notifications
   log('Handling a background message ${message.data}');
   RemoteNotification? notification = message.notification;
@@ -65,16 +51,34 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   }
 }
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id of the channel
-  'High Importance Notifications', // channel name
-  description:
-      'This channel is used for important notifications.', // channel description
-  importance: Importance.max,
-);
+class NotificationService {
+  Future initialize() async {
+    await Firebase.initializeApp();
+    // Setting up background message handler and creating notification channel
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>();
+  }
+}
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+void prompt(String url) async {
+  // Launching URL if it's valid, otherwise throwing an error
+  if (await canLaunchUrlString(url)) {
+    await launchUrlString(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 initializeNotification() async {
   // Initializing Android notification settings
@@ -97,6 +101,7 @@ initializeNotification() async {
   );
 
   // Initializing the Flutter local notifications plugin
+  // Initialize the notification plugin
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
   );
@@ -190,4 +195,9 @@ Future instantNotification() async {
   await flutterLocalNotificationsPlugin.show(
       0, "Instant notification", "Tap to do something", platform,
       payload: "Welcome to app");
+}
+
+Future<void> openFile(String filePath) async {
+  final result = await OpenFile.open(filePath);
+  print(result.message);
 }

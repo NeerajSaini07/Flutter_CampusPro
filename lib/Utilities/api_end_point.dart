@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class APIENDPOINT {
-  static const baseUrl = 'https://fmobiledev.campuspro.in/api/';
+  static const baseUrl = 'https://fmobile.campuspro.in/api/';
   //-------LOGIN----------------------------------------------------------------
   static const getBaseUrl = baseUrl + 'GetBaseApiUrl';
   static const loginApi = baseUrl + "AutheticateLogin";
@@ -46,4 +46,7 @@ class APIENDPOINT {
   // ************************ Student Module *************************
   static const studentDetailApi = "GetStudentInfo_V1";
   static const notificationApi = "Getalertnotifications_V1";
+  static const circularApi = "getCircular_V1";
+  static const classroom = "getClassRoomSNew";
+  static const subjectTecherlits = "GetClassTeracherWithSubject_V2";
 }
