@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget recentnotificationOnDashboard(BuildContext context) {
+  double customHeight = ScreenUtil().screenHeight;
   return SizedBox(
-    height: 64.h,
+    height: customHeight > 700 ? 78.h : 60.h,
     width: MediaQuery.of(context).size.width,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -24,7 +25,8 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 5.0, vertical: 1),
                     padding:
                         EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
                     decoration: BoxDecoration(

@@ -36,8 +36,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   NotificationService notificationService = NotificationService();
-  await initializeNotification();
   await notificationService.initialize();
+  await initializeNotification();
 
   // **********************************  database initialize *****************************************************
   final databaseManager = DatabaseManager();

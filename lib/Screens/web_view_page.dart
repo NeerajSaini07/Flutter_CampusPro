@@ -117,11 +117,6 @@ class WebViewDashboardPage extends StatelessWidget {
                 await controller.evaluateJavascript(
                     source:
                         "window.localStorage.setItem('key', 'localStorage value!')");
-                // if (url
-                //     .toString()
-                //     .contains("https://app.campuspro.in/Login.aspx")) {
-                //   logoutController.userlogOut();
-                // }
                 controller.addJavaScriptHandler(
                     handlerName: 'downloadPDF',
                     callback: (args) async {
@@ -165,6 +160,7 @@ class WebViewDashboardPage extends StatelessWidget {
                   return NavigationActionPolicy.CANCEL;
                 } else if (action.request.url
                     .toString()
+                    .toLowerCase()
                     .contains("login.aspx")) {
                   logoutController.userlogOut();
                   return NavigationActionPolicy.CANCEL;

@@ -34,6 +34,17 @@ class NetworkApiServices extends BaseApiServices {
     dynamic responseJson;
     try {
       final file = File(filePath);
+      // dynamic fileBytes;
+      // final String fileExtension = filePath.split('.').last.toLowerCase();
+      // if (fileExtension == 'jpg'|| fileExtension == 'jpeg') {
+      //   final image = img.decodeImage(file.readAsBytesSync());
+      //   fileBytes = img.encodeJpg(image!, quality: 70);
+      // }else if(fileExtension == 'png'){
+      //   final image = img.decodeImage(file.readAsBytesSync());
+      //   fileBytes = img.encodePng(image);
+      // } else {
+      //   fileBytes = file.readAsBytesSync();
+      // }
       final fileBytes = file.readAsBytesSync();
       final fileName = file.uri.pathSegments.last;
 

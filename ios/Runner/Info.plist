@@ -41,6 +41,8 @@
     <string>We need access to your location to provide relevant services.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to select images.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>We need access to your documents to upload and download files.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
