@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_brace_in_string_interps
+// ignore_for_file: unnecessary_brace_in_string_interps, use_build_context_synchronously
 
 import 'dart:developer';
 import 'dart:io';

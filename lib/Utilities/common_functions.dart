@@ -63,12 +63,7 @@ class CommonFunctions {
         scheme: 'tel',
         path: number,
       );
-      if (await canLaunchUrl(launchUri)) {
-        await launchUrl(launchUri);
-      } else {
-        showErrorSnackbar("Invalid Phone Number",
-            "Ensure your phone number is 10 digits long.");
-      }
+      await launchUrl(launchUri);
     } else {
       showErrorSnackbar("Invalid Phone Number",
           "Ensure your phone number is 10 digits long.");

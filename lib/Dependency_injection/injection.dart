@@ -1,17 +1,15 @@
 import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
-import 'package:campuspro/Controllers/StudentControllers/circular_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/change_password_controller.dart';
-import 'package:campuspro/Controllers/crousel_controller.dart';
 import 'package:campuspro/Controllers/exception_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/forgotpassword_controller.dart';
 import 'package:campuspro/Controllers/help_and_support_controller.dart';
-
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
 import 'package:campuspro/Controllers/notificationController.dart';
@@ -21,7 +19,6 @@ import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Controllers/splash_controller.dart';
 import 'package:get/get.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
-
 import '../Controllers/menu_controller.dart';
 
 class DependencyInjection {
@@ -63,15 +60,12 @@ class DependencyInjection {
 
     Get.lazyPut<StudentProfileController>(() => StudentProfileController());
     Get.lazyPut<NotificationController>(() => NotificationController());
-
-    Get.lazyPut<NotificationCrouselController>(
-        () => NotificationCrouselController());
-
     // ***************  Student Controller  ***********************
-
     Get.lazyPut<StudentHomeWorkController>(() => StudentHomeWorkController(),
         fenix: true);
 
-    Get.lazyPut<CircularController>(() => CircularController(), fenix: true);
+    Get.lazyPut<StudentClasssRoomController>(
+        () => StudentClasssRoomController(),
+        fenix: true);
   }
 }

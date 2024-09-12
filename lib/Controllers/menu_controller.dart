@@ -26,6 +26,7 @@ class UserMenuController extends GetxController {
 //  ************************** checking the  new menu update  ******************
 
     if (NewRefreshDateTime == updatedmenudate) {
+      print("same date");
       // ************************* if no new menu added for this user  then get the data from local database ************
       await db_helper
           .getmenudata(UserTypeslist.userTypesDetails[usertypeIndex].ouserType)
@@ -109,6 +110,7 @@ class UserMenuController extends GetxController {
   checkmenuchanges() async {
     await CheckmenuchangesRepo.getApiCallStatusRepo().then((value) {
       if (value['Status'] == 'Cam-001') {
+        print(value);
         NewRefreshDateTime = value['Data'][0]['NewRefreshDateTime'];
       }
     });
@@ -123,7 +125,6 @@ class UserMenuController extends GetxController {
         .getUpdatedDateByUserType(
             UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString())
         .then((value) {
-      print(value);
       if (value == null) {
         updatedmenudate = '0';
       } else {

@@ -74,8 +74,9 @@ class UserTypeRepository {
         "UserType": UserTypeslist.userTypesDetails[index].ouserType,
       };
 
-      log(drawerData.toString());
-      log(url);
+      print("drawer");
+
+      print(drawerData.toString());
 
       dynamic response = apiServices
           .postApiRequest(drawerData, baseUrl + url)

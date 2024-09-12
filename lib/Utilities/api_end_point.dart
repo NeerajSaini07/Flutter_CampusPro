@@ -47,4 +47,6 @@ class APIENDPOINT {
   static const studentDetailApi = "GetStudentInfo_V1";
   static const notificationApi = "Getalertnotifications_V1";
   static const circularApi = "getCircular_V1";
+  static const classroom = "getClassRoomSNew";
+  static const subjectTecherlits = "GetClassTeracherWithSubject_V2";
 }

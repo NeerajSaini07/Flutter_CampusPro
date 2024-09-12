@@ -76,8 +76,8 @@ class NetworkApiServices extends BaseApiServices {
   Future<dynamic> postApiRequest(var data, String url) async {
     dynamic responseJson;
     try {
-      // print(data);
-      // print(url);
+      print(data);
+      print(url);
       final response = await http
           .post(Uri.parse(url), body: data)
           .timeout(const Duration(seconds: 10));

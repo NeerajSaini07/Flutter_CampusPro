@@ -15,11 +15,9 @@ import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
 import 'package:campuspro/Services/notificationService/notification_service.dart';
 import 'package:campuspro/Utilities/routes.dart';
-import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:campuspro/firebase_options.dart';
 import 'package:campuspro/localdatabase/db_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

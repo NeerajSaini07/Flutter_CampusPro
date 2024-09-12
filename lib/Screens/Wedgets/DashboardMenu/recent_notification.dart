@@ -1,14 +1,27 @@
 // ignore_for_file: sort_child_properties_last
 
+import 'dart:io';
+
+import 'package:campuspro/Controllers/appbar_controller.dart';
+import 'package:campuspro/Controllers/bottombar_controller.dart';
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/student_module/notification_model.dart';
+import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/constant.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 Widget recentnotificationOnDashboard(BuildContext context) {
+  final BottomBarController bottomBarController =
+      Get.find<BottomBarController>();
+  final WebController webController = Get.find<WebController>();
+
   double customHeight = ScreenUtil().screenHeight;
+
   return SizedBox(
     height: customHeight > 700 ? 78.h : 60.h,
     width: MediaQuery.of(context).size.width,
@@ -19,11 +32,12 @@ Widget recentnotificationOnDashboard(BuildContext context) {
         Expanded(
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 3,
+            itemCount: NotificationList.notificationList.length,
             itemBuilder: (context, index) {
               return Row(
                 children: [
                   Container(
+                    alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 5.0, vertical: 1),
@@ -46,6 +60,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               RichText(
                                 text: TextSpan(children: [
@@ -88,7 +103,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                       ],
                     ),
                   ),
-                  index == 2
+                  index == NotificationList.notificationList.length - 1
                       ? Container(
                           margin: EdgeInsets.only(right: 10.w),
                           decoration: BoxDecoration(
@@ -102,7 +117,14 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(10.r))),
-                              onPressed: () {},
+                              onPressed: () async {
+                                bottomBarController
+                                    .selectedBottomNavIndex.value = 0;
+                                webController.showWebViewScreen.value = true;
+                                webController.generateWebUrl(
+                                    ' ../Common/AlertAndNotifications.aspx',
+                                    'Alert & Notification');
+                              },
                               child: Text(
                                 "View All",
                                 style: TextStyle(

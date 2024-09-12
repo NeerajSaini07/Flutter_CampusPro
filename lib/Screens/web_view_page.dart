@@ -6,12 +6,11 @@ import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
 import 'package:campuspro/Utilities/constant.dart';
-import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/bottombar_controller.dart';
 import '../Controllers/web_controller.dart';
 

@@ -1,7 +1,5 @@
 // ignore_for_file: unnecessary_null_in_if_null_operators, prefer_const_constructors, avoid_unnecessary_containers
 
-import 'dart:ffi';
-
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +36,7 @@ Card buildTextField({
     elevation: 0.6,
     color: Colors.white,
     child: TextFormField(
-      textInputAction: textInputAction,
+      textInputAction: TextInputAction.search,
       initialValue: initialValue,
       focusNode: focusNode,
       controller: controller,
@@ -76,6 +74,7 @@ Card buildTextField({
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
         ),
+
         counterText: "",
         contentPadding: contentPadding, // Adjust vertical padding
         suffixIcon: suffixIcon == true
