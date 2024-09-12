@@ -33,17 +33,16 @@ class AppRouting extends GetxService {
       case "Go to Site":
         UrlLuncher.launchUrls(pageurl);
         break;
-
-      case "Home Work":
-        Get.to(HomeworkScreen());
-        appbarController.appBarName.value = name;
-        webController.showWebViewScreen.value = false;
-        break;
-      case "Circular":
-        Get.to(() => const StudentCircularScreen());
-        appbarController.appBarName.value = name;
-        webController.showWebViewScreen.value = false;
-        break;
+      // case "Home Work":
+      //   Get.to(HomeworkScreen());
+      //   appbarController.appBarName.value = name;
+      //   webController.showWebViewScreen.value = false;
+      //   break;
+      // case "Circular":
+      //   Get.to(() => const StudentCircularScreen());
+      //   appbarController.appBarName.value = name;
+      //   webController.showWebViewScreen.value = false;
+      //   break;
       default:
         if (pageurl == '') {
           pageurl = 'Index.aspx';
