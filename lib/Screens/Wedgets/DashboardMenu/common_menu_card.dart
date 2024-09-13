@@ -19,9 +19,7 @@ Widget buildActionsCard() {
       crossAxisCount: 3,
       childAspectRatio: 1.0.w,
     ),
-
-    itemCount: DashboardMenulist
-        .dashboardMenulistdetails.length, // total number of items
+    itemCount: DashboardMenulist.dashboardMenulistdetails.length,
     itemBuilder: (context, index) {
       return InkWell(
           onTap: () async {
@@ -31,7 +29,8 @@ Widget buildActionsCard() {
             await appRouting.navigate(
                 DashboardMenulist.dashboardMenulistdetails[index].menuName,
                 DashboardMenulist.dashboardMenulistdetails[index].menuURL,
-                context);
+                context,
+                DashboardMenulist.dashboardMenulistdetails[index].flag);
           },
           child: Container(
               decoration:

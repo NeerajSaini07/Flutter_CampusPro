@@ -41,7 +41,7 @@ Widget userProfileName() {
                             .toString() ==
                         "G"
                     ? "Safety begins with teamwork."
-                    : 'Hi, ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.toLowerCase()}',
+                    : 'Hi, ${UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName!.capitalizeFirst}',
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,

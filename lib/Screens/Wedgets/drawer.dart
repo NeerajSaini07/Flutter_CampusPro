@@ -144,8 +144,8 @@ List<Widget> buildMenuItems(BuildContext context) {
               webController.currentUrl.value = '';
               final AppRouting appRouting = AppRouting();
               if (subMenuItem.subMenuName == "Fee Payment") {}
-              appRouting.navigate(
-                  subMenuItem.subMenuName, subMenuItem.nevigateUrl, context);
+              appRouting.navigate(subMenuItem.subMenuName,
+                  subMenuItem.nevigateUrl, context, subMenuItem.subMenuFlag);
               Navigator.pop(context);
 
               appbarController.appBarName.value =
@@ -189,7 +189,8 @@ List<Widget> buildMenuItems(BuildContext context) {
             if (menuItem.menuName != "Go to Site") {
               appbarController.appBarName.value = menuItem.menuName.toString();
             }
-            appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context);
+            appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context,
+                menuItem.menuFlag);
             Navigator.pop(context);
             if (context.mounted) {
               // if (menuItem.menuName.toString().toLowerCase() == "dashboard" &&

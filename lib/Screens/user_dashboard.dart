@@ -30,7 +30,7 @@ class UserDashboard extends StatelessWidget {
           // ******************************
           SizedBox(height: 20.h),
           Obx(
-            () => notificationController.notificationStatus.value
+            () => notificationController.dashboardnotification.isNotEmpty
                 ? recentnotificationOnDashboard(context)
                 : SizedBox(),
           ),

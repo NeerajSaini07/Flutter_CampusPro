@@ -4,7 +4,7 @@ const SOMETHING_WENT_WRONG = "Something went wrong!";
 const NO_RECORD_FOUND = "No Record Found!";
 
 class Constant {
-  static const schoolName = 'CampusPro Edtech';
+  static const schoolName = 'CampusPro';
   static const applogoImage = 'assets/images/logo.png';
   static const termAndCondition =
       "https://campuspro.app/Terms.html?Type=Terms/search?q";

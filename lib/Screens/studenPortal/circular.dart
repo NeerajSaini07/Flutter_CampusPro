@@ -1,10 +1,13 @@
 import 'package:campuspro/Controllers/StudentControllers/circular_controller.dart';
 import 'package:campuspro/Modal/student_module/student_circular_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
+import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
 import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -250,107 +253,143 @@ void _showFilterOptions(
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
+    isScrollControlled: true,
     builder: (BuildContext context) {
       return Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.only(
+          left: 16.w,
+          right: 16.w,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 16.w,
+        ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Center(
-              child: Container(
-                width: 25.w,
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 16.h),
             Text(
-              'Filter',
-              style: AppTextStyles.filterTextStyle.copyWith(
+              'Filter Circular',
+              style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 16.h),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Date',
-                  style: AppTextStyles.filterOptionTextStyle,
-                ),
-                const Spacer(),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white70,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 8.h), // Better padding for buttons
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    circularController.selectDate(context, "from");
-                  },
-                  icon: Icon(
-                    Icons.date_range,
-                    size: 14.sp,
-                    color: AppColors.blackcolor,
-                  ),
-                  label: Obx(
-                    () => Text(
-                        circularController.fromDate.value != null
-                            ? DateFormat('dd-MMM-yyyy')
-                                .format(circularController.fromDate.value!)
-                            : 'From',
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "From:",
                         style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.blackcolor)),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.textfieldhintstycolor),
+                      ),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(8.r),
+                        onTap: () {
+                          circularController.selectDate(context, "from");
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.w, vertical: 5.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              border: Border.all(
+                                color: AppColors.textfieldhintstycolor,
+                              )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Obx(
+                                () => Text(
+                                    circularController.fromDate.value != null
+                                        ? DateFormat('dd-MMM-yyyy').format(
+                                            circularController.fromDate.value!)
+                                        : 'Select Date From',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: circularController
+                                                    .fromDate.value !=
+                                                null
+                                            ? AppColors.blackcolor
+                                            : AppColors.textfieldhintstycolor)),
+                              ),
+                              const Icon(Icons.date_range)
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(width: 8.w),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white70,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 8.h), // Consistent button padding
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    if (circularController.fromDate.value == null) {
-                      circularController.filtererrormsg.value =
-                          "Please pick a 'from date' before picking a 'to date'.";
-                    } else {
-                      circularController.selectDate(context, "to");
-                    }
-                  },
-                  icon: Icon(
-                    Icons.date_range,
-                    size: 14.sp,
-                    color: AppColors.blackcolor,
-                  ),
-                  label: Obx(
-                    () => Text(
-                        circularController.toDate.value != null
-                            ? DateFormat('dd-MMM-yyyy')
-                                .format(circularController.toDate.value!)
-                            : 'To',
+                SizedBox(
+                  width: 8.w,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "To:",
                         style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.blackcolor)),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.textfieldhintstycolor),
+                      ),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(8.r),
+                        onTap: () {
+                          if (circularController.fromDate.value == null) {
+                            circularController.filtererrormsg.value =
+                                "Please pick a 'from date' before picking a 'to date'.";
+                          } else {
+                            circularController.selectDate(context, "to");
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.w, vertical: 5.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              border: Border.all(
+                                color: AppColors.textfieldhintstycolor,
+                              )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Obx(
+                                () => Text(
+                                    circularController.toDate.value != null
+                                        ? DateFormat('dd-MMM-yyyy').format(
+                                            circularController.toDate.value!)
+                                        : 'Select Date To',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: circularController
+                                                    .toDate.value !=
+                                                null
+                                            ? AppColors.blackcolor
+                                            : AppColors.textfieldhintstycolor)),
+                              ),
+                              const Icon(Icons.date_range)
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
             SizedBox(height: 4.h),
@@ -361,33 +400,30 @@ void _showFilterOptions(
                       errorText: circularController.filtererrormsg)
                   : const SizedBox();
             }),
-            SizedBox(height: 20.h),
+            CustomeHeight(20.h),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Spacer(),
                 ElevatedButton(
-                  onPressed: () {
-                    if (circularController.fromDate.value != null &&
-                        circularController.toDate.value != null) {
-                      Get.back();
-                      circularController.filterCircular.value = 0;
-                      circularController.getStudentCircular();
-                    } else {
-                      circularController.filtererrormsg.value =
-                          "Please select from date and to date";
-                    }
-                  },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.appbuttonColor,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                  ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.r)),
+                      elevation: 0,
+                      backgroundColor: AppColors.appbuttonColor),
+                  onPressed: (circularController.fromDate.value != null &&
+                          circularController.toDate.value != null)
+                      ? () {
+                          Get.back();
+                          circularController.filterCircular.value = 0;
+                          circularController.getStudentCircular();
+                        }
+                      : null,
                   child: Text(
-                    'Apply',
-                    style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                    'Apply Filter',
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.whitetextcolor),
                   ),
                 ),
                 if (circularController.filterCircular.value == 0) ...{
@@ -395,30 +431,31 @@ void _showFilterOptions(
                     width: 8.w,
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.r)),
+                        elevation: 0,
+                        backgroundColor: AppColors.appbuttonColor),
                     onPressed: () {
                       Get.back();
                       circularController.filterCircular.value = 1;
                       circularController.getStudentCircular();
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.appbuttonColor,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    ),
                     child: Text(
                       'Remove Filter',
-                      style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.whitetextcolor),
                     ),
                   ),
                 }
               ],
             ),
+            SizedBox(height: 16.h),
           ],
         ),
       );
     },
-  );
+  ).whenComplete(() {});
 }

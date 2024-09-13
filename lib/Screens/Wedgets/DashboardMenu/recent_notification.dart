@@ -1,19 +1,14 @@
 // ignore_for_file: sort_child_properties_last
-
-import 'package:campuspro/Controllers/bottombar_controller.dart';
-import 'package:campuspro/Controllers/web_controller.dart';
-import 'package:campuspro/Modal/student_module/notification_model.dart';
+import 'package:campuspro/Controllers/notificationController.dart';
+import 'package:campuspro/Screens/notification_screen.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget recentnotificationOnDashboard(BuildContext context) {
-  final BottomBarController bottomBarController =
-      Get.find<BottomBarController>();
-  final WebController webController = Get.find<WebController>();
-
+  final NotificationController notificationController =
+      Get.find<NotificationController>();
   double customHeight = ScreenUtil().screenHeight;
 
   return SizedBox(
@@ -26,7 +21,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
         Expanded(
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: NotificationList.notificationList.length,
+            itemCount: notificationController.dashboardnotification.length,
             itemBuilder: (context, index) {
               return Row(
                 children: [
@@ -60,7 +55,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                                 text: TextSpan(children: [
                                   TextSpan(
                                     text:
-                                        "${NotificationList.notificationList[index].smsType}",
+                                        "${notificationController.dashboardnotification[index].smsType}",
                                     style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 15.sp,
@@ -70,7 +65,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                                   ),
                                   TextSpan(
                                     text:
-                                        " (${NotificationList.notificationList[index].alertDate})",
+                                        " (${notificationController.dashboardnotification[index].alertDate})",
                                     style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       fontSize: 15.sp,
@@ -82,7 +77,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                "${NotificationList.notificationList[index].alertMessage}",
+                                "${notificationController.dashboardnotification[index].alertMessage}",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(
@@ -97,7 +92,9 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                       ],
                     ),
                   ),
-                  index == NotificationList.notificationList.length - 1
+                  index ==
+                          notificationController.dashboardnotification.length -
+                              1
                       ? Container(
                           margin: EdgeInsets.only(right: 10.w),
                           decoration: BoxDecoration(
@@ -112,12 +109,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                                       borderRadius:
                                           BorderRadius.circular(10.r))),
                               onPressed: () async {
-                                bottomBarController
-                                    .selectedBottomNavIndex.value = 0;
-                                webController.showWebViewScreen.value = true;
-                                webController.generateWebUrl(
-                                    ' ../Common/AlertAndNotifications.aspx',
-                                    'Alert & Notification');
+                                Get.to(const NotificationScreen());
                               },
                               child: Text(
                                 "View All",

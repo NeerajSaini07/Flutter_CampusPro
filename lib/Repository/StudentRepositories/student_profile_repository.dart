@@ -1,3 +1,4 @@
+import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Services/ApiService/Data/Network/base_api_services.dart';
@@ -5,6 +6,7 @@ import 'package:campuspro/Services/ApiService/Data/Network/network_api_service.d
 import 'package:campuspro/Utilities/api_end_point.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class StudentProfileRepo {
@@ -46,10 +48,13 @@ class StudentProfileRepo {
     }
   }
 
-  static Future<dynamic> notificationRepo() async {
+  static Future<dynamic> notificationRepo(onload) async {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+
+    final NotificationController notificationController =
+        Get.find<NotificationController>();
 
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
@@ -66,10 +71,14 @@ class StudentProfileRepo {
             UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
         "UserType":
             UserTypeslist.userTypesDetails[usertypeIndex].ouserType ?? "",
-        "FromDate": DateFormat('dd-MMM-yyyy').format(DateTime.now()).toString(),
-        "ToDate": DateFormat('dd-MMM-yyyy').format(DateTime.now()).toString(),
+        "FromDate": onload == 0
+            ? notificationController.fromdate.value
+            : DateFormat('dd-MMM-yyyy').format(DateTime.now()).toString(),
+        "ToDate": onload == 0
+            ? notificationController.todate.value
+            : DateFormat('dd-MMM-yyyy').format(DateTime.now()).toString(),
         "EmpId": UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
-        "OnLoad": "1"
+        "OnLoad": onload.toString()
       };
 
       print("Notification data: ${requestData}");
