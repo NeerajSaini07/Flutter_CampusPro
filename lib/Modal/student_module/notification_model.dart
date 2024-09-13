@@ -8,13 +8,16 @@ class NotificationModel {
   String? alertDate = "";
   String? alertMessage = "";
   String? sortDate = "";
+  late bool isSeen;
 
-  NotificationModel(
-      {this.smsId,
-      this.smsType,
-      this.alertDate,
-      this.alertMessage,
-      this.sortDate});
+  NotificationModel({
+    this.smsId,
+    this.smsType,
+    this.alertDate,
+    this.alertMessage,
+    this.sortDate,
+    this.isSeen = false,
+  });
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     smsId = json['SmsId'];
@@ -22,6 +25,7 @@ class NotificationModel {
     alertDate = json['AlertDate'] ?? "";
     alertMessage = json['AlertMessage'] ?? "";
     sortDate = json['SortDate'] ?? "";
+    isSeen = false;
   }
 
   Map<String, dynamic> toJson() {

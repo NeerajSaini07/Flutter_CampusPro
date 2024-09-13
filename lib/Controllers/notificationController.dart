@@ -1,56 +1,92 @@
 import 'package:campuspro/Modal/student_module/notification_model.dart';
+
 import 'package:campuspro/Repository/StudentRepositories/student_profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NotificationController extends GetxController {
-  RxBool notificationStatus = false.obs;
   final PageController pageController = PageController();
   int currentIndex = 0;
-  List<NotificationModel> messages = [];
+  var fromdate = ''.obs;
+  var todate = ''.obs;
+  var notificationloader = false.obs;
+  final TextEditingController fromDateController = TextEditingController();
+  final TextEditingController toDatecontroller = TextEditingController();
 
-  startAutoSlide() {
-    Future.delayed(const Duration(seconds: 10), () {
-      if (pageController.hasClients) {
-        pageController.nextPage(
-          duration: const Duration(seconds: 1),
-          curve: Curves.easeInOut,
-        );
-        currentIndex = (currentIndex + 1) % messages.length;
-      }
-    });
-    startAutoSlide();
-  }
+  var notificationList = <NotificationModel>[].obs;
+  var dashboardnotification = <NotificationModel>[].obs;
+
+  //  **************** calling the api for finding the notification for notification screen
 
   getNotification() async {
-    await StudentProfileRepo.notificationRepo().then((value) {
+    notificationloader.value = true;
+    await StudentProfileRepo.notificationRepo(1).then((value) {
       if (value['Status'] == "Cam-001") {
-        print(value);
         List<dynamic> notificationData = value['Data'];
-        NotificationList.notificationList = notificationData
+        // **************  for storing the data for showing notification on dshboiard *********
+        notificationList.value = notificationData
             .map((json) => NotificationModel.fromJson(json))
             .toList();
 
-        messages = NotificationList.notificationList;
-        notificationStatus.value = true;
+        //  ************************************************************
+
+        dashboardnotification.value = notificationData
+            .map((json) => NotificationModel.fromJson(json))
+            .toList();
+
+        notificationloader.value = false;
       } else {
-        NotificationList.notificationList = [];
-        notificationStatus.value = false;
+        notificationloader.value = false;
+        notificationList.clear();
+        dashboardnotification.clear();
       }
     });
   }
 
-  String trimSentence(String sentence, int maxLength) {
-    if (sentence.length <= maxLength) return sentence;
+  //  ***********************  get date rage from input field *******************
 
-    String trimmed = sentence.substring(0, maxLength);
-
-    int lastSpace = trimmed.lastIndexOf(' ');
-
-    if (lastSpace != -1) {
-      trimmed = trimmed.substring(0, lastSpace);
+  getdateRage(datename, BuildContext contex) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: contex,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      if (datename == 'fromDate') {
+        fromDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+        fromdate.value = "${pickedDate.toLocal()}".split(' ')[0];
+      } else {
+        toDatecontroller.text = "${pickedDate.toLocal()}".split(' ')[0];
+        todate.value = "${pickedDate.toLocal()}".split(' ')[0];
+      }
     }
+  }
 
-    return "$trimmed...";
+  //  ********************  filter notification ******************************
+
+  filternotificationdata() async {
+    notificationloader.value = true;
+    await StudentProfileRepo.notificationRepo(0).then((value) async {
+      if (value['Status'] == "Cam-001") {
+        List<dynamic> notificationData = value['Data'];
+        notificationList.value = notificationData
+            .map((json) => NotificationModel.fromJson(json))
+            .toList();
+
+        notificationloader.value = false;
+        clearDateFields();
+      } else {
+        notificationList.clear();
+        notificationloader.value = false;
+      }
+    });
+  }
+
+  //  ************************************ clear the data ********************
+
+  clearDateFields() {
+    toDatecontroller.clear();
+    fromDateController.clear();
   }
 }

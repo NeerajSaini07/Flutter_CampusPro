@@ -27,7 +27,7 @@ class GenerateUrlRepository {
       "Flag": "F",
       "PageName": pageName,
     };
-    print(data);
+    print("got to web app : $data");
     String url = baseUrl + APIENDPOINT.gotoWebApp;
     BaseApiServices apiServices = NetworkApiServices();
     try {

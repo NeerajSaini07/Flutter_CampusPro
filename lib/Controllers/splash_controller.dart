@@ -23,9 +23,10 @@ class SplashScreenController extends GetxController {
     await Future.delayed(const Duration(seconds: 3), () async {
       if (value == true) {
         await loginController.userLogin();
-        connectivityService.isConnected.value
-            ? Get.offNamed(Routes.userType)
-            : Get.offAllNamed(Routes.noInternet);
+        Get.offNamed(Routes.userType);
+        // connectivityService.isConnected.value
+        //     ? Get.offNamed(Routes.userType)
+        //     : Get.offAllNamed(Routes.noInternet);
       } else {
         Get.offNamed(Routes.login);
       }

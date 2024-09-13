@@ -2,9 +2,11 @@ import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dar
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
+import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
+import 'package:campuspro/Screens/notification_screen.dart';
 import 'package:campuspro/Screens/studenPortal/class_room.dart';
 import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
@@ -28,6 +30,9 @@ class AppRouting extends GetxService {
 
   final UserTypeController userTypeController = Get.find<UserTypeController>();
 
+  final NotificationController notificationController =
+      Get.find<NotificationController>();
+
   navigate(name, pageurl, BuildContext context) async {
     switch (name) {
       case "Student Bus Location":
@@ -40,18 +45,27 @@ class AppRouting extends GetxService {
       case "G":
         Navigator.pushNamed(context, Routes.visitorHistory);
         break;
+
       case "Go to Site":
         UrlLuncher.launchUrls(pageurl);
         break;
 
+      case "Alert & Notification":
+      case "Notification":
+        Get.to(() => const NotificationScreen());
+        notificationController.getNotification();
+        appbarController.appBarName.value = name;
+        webController.showWebViewScreen.value = false;
+
+        break;
+
       case "Homesdfg Work":
         Get.to(() => const HomeworkScreen());
-
         appbarController.appBarName.value = name;
         webController.showWebViewScreen.value = false;
         break;
 
-      case "ClassRoomsdfg":
+      case "ClassRoom":
         if (UserTypeslist
                 .userTypesDetails[userTypeController.usertypeIndex].ouserType ==
             'S') {
