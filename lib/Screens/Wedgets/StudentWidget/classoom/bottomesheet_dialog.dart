@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void showFilterOptions(BuildContext context) {
-  String sortBy = 'Teacher';
-
   showModalBottomSheet(
     backgroundColor: Colors.white,
     context: context,
@@ -12,7 +10,11 @@ void showFilterOptions(BuildContext context) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Padding(
-              padding: EdgeInsets.all(10.r),
+              padding: EdgeInsets.only(
+                left: 16.w,
+                right: 16.w,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 16.w,
+              ),
               child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
