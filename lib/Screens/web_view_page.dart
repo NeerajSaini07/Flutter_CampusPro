@@ -112,6 +112,7 @@ class WebViewDashboardPage extends StatelessWidget {
                   webController.generateWebUrl('Index.aspx', 'Dashboard');
                 } else {}
               },
+              onPageCommitVisible: (controller, url) {},
               onLoadStop: (InAppWebViewController controller, Uri? url) async {
                 await controller.evaluateJavascript(
                     source:

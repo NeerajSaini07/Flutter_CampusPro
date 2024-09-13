@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/exception_controller.dart';
 import 'package:campuspro/Modal/school_bus_detail_model.dart';
 import 'package:campuspro/Modal/school_bus_live_location_model.dart';
@@ -54,6 +55,9 @@ class BusTrackerController extends GetxController {
                 UserTypeslist.userTypesDetails[usertypeIndex].ouserType!
                         .toLowerCase() ==
                     "f") {
+              final AppbarController appbarController =
+                  Get.find<AppbarController>();
+              appbarController.appBarName.value = Constant.schoolName;
               //Alert : "Bus is not running at this time"
               Get.dialog(
                 const CustomDialog(

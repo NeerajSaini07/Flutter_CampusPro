@@ -38,7 +38,6 @@ class UserMenuController extends GetxController {
       });
 
       // *******************************  for dashboard Menu ***************************
-
       await db_helper
           .getDashboardMenu(
               UserTypeslist.userTypesDetails[usertypeIndex].ouserType)

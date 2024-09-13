@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-customAppBar(BuildContext context) {
+AppBar customAppBar(BuildContext context, {bool tabView = false}) {
   final AppbarController appbarController = Get.find<AppbarController>();
   final WebController webController = Get.find<WebController>();
   final BottomBarController bottomBarController =
@@ -22,6 +22,32 @@ customAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: AppColors.primarycolor,
     centerTitle: false,
+    bottom: tabView
+        ? TabBar(
+            labelStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+            ),
+            indicatorColor: Colors.white,
+            unselectedLabelStyle: TextStyle(
+              color: Colors.white.withOpacity(0.7),
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+            ),
+            tabs: const [
+              Tab(
+                text: "My Class",
+              ),
+              Tab(
+                text: "My School",
+              ),
+              Tab(
+                text: "Me Only",
+              ),
+            ],
+          )
+        : null,
     title: Obx(
       () => Text(
         appbarController.appBarName.toString(),

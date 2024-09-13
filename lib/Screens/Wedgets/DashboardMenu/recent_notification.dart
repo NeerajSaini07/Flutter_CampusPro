@@ -1,15 +1,9 @@
 // ignore_for_file: sort_child_properties_last
 
-import 'dart:io';
-
-import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/student_module/notification_model.dart';
-import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:campuspro/Utilities/constant.dart';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';

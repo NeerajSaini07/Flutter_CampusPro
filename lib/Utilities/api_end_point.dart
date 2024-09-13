@@ -1,13 +1,19 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class APIENDPOINT {
-  static const baseUrl = 'https://fmobile.campuspro.in/api/';
+  // static const baseUrl = 'https://fmobile.campuspro.in/api/';
+  static late String baseUrl;
+
+  static void configure(String url) {
+    baseUrl = url;
+  }
+
   //-------LOGIN----------------------------------------------------------------
-  static const getBaseUrl = baseUrl + 'GetBaseApiUrl';
-  static const loginApi = baseUrl + "AutheticateLogin";
-  static const changePasswordApi = baseUrl + "ChangeDefaultPasswordNew";
+  static String get getBaseUrl => baseUrl + 'GetBaseApiUrl';
+  static String get loginApi => baseUrl + "AutheticateLogin";
+  static String get changePasswordApi => baseUrl + "ChangeDefaultPasswordNew";
   // **********************************************
-  static const sendOtpForgotPassword = baseUrl + "SendOtpForgetPassword";
+  static String get sendOtpForgotPassword => baseUrl + "SendOtpForgetPassword";
   static const userTypeApi = "GetOurSchools";
   static const apiCallStatus = "ApiCallStatus";
   static const drawerApi = "GetAssignMenu_V1"; //"Managemenu"; // //
@@ -49,4 +55,5 @@ class APIENDPOINT {
   static const circularApi = "getCircular_V1";
   static const classroom = "getClassRoomSNew";
   static const subjectTecherlits = "GetClassTeracherWithSubject_V2";
+  static const studentActivityApi = "getActivityHtmlContent_V1";
 }

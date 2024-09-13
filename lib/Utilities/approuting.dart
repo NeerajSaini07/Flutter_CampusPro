@@ -5,6 +5,7 @@ import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
+import 'package:campuspro/Screens/studenPortal/activity.dart';
 import 'package:campuspro/Screens/studenPortal/class_room.dart';
 import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
@@ -62,8 +63,13 @@ class AppRouting extends GetxService {
           webController.generateWebUrl(pageurl, name);
         }
         break;
-      case "Circularwdfg":
+      case "Circular":
         Get.to(() => const StudentCircularScreen());
+        appbarController.appBarName.value = name;
+        webController.showWebViewScreen.value = false;
+        break;
+      case "Activity":
+        Get.to(() => const StudentActivityScreen());
         appbarController.appBarName.value = name;
         webController.showWebViewScreen.value = false;
         break;

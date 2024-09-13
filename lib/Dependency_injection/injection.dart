@@ -1,5 +1,7 @@
 import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
+import 'package:campuspro/Controllers/StudentControllers/activity_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/circular_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
@@ -63,9 +65,12 @@ class DependencyInjection {
     // ***************  Student Controller  ***********************
     Get.lazyPut<StudentHomeWorkController>(() => StudentHomeWorkController(),
         fenix: true);
+    Get.lazyPut<CircularController>(() => CircularController(), fenix: true);
 
     Get.lazyPut<StudentClasssRoomController>(
         () => StudentClasssRoomController(),
+        fenix: true);
+    Get.lazyPut<StudentActivityController>(() => StudentActivityController(),
         fenix: true);
   }
 }

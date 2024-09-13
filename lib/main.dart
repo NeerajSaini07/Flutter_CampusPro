@@ -13,12 +13,13 @@ import 'package:campuspro/Screens/otp_screen.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
-import 'package:campuspro/Services/notificationService/notification_service.dart';
 import 'package:campuspro/Utilities/routes.dart';
-import 'package:campuspro/firebase_options.dart';
-import 'package:campuspro/localdatabase/db_helper.dart';
+import 'package:campuspro/Services/notificationService/notification_service.dart';
+import 'package:campuspro/Utilities/api_end_point.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:campuspro/firebase_options.dart';
+import 'package:campuspro/localdatabase/db_helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,6 +31,9 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // const baseUrl = 'https://fmobiledev.campuspro.in/api/';
+  const baseUrl = 'https://fmobile.campuspro.in/api/';
+  APIENDPOINT.configure(baseUrl);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
