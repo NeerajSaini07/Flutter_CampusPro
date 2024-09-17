@@ -10,6 +10,7 @@ import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/help_and_support_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
+import 'package:campuspro/Screens/studenPortal/profile.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
@@ -31,8 +32,8 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  const baseUrl = 'https://fmobiledev.campuspro.in/api/';
-  // const baseUrl = 'https://fmobile.campuspro.in/api/';
+  // const baseUrl = 'https://fmobiledev.campuspro.in/api/';
+  const baseUrl = 'https://fmobile.campuspro.in/api/';
   APIENDPOINT.configure(baseUrl);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -82,8 +83,13 @@ class MyApp extends StatelessWidget {
             Routes.visitorHistory: (context) => GatePassDashboard(),
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
-            Routes.changePasswordScreen: (context) => ChangePasswordScreen(),
-            Routes.webviewpage: (context) => WebViewDashboardPage()
+            Routes.changePasswordScreen: (context) {
+              final args = Get.arguments as Map<String, dynamic>?;
+              return ChangePasswordScreen(
+                  isdefaultChangePass: args?['isdefaultChangePass'] ?? true);
+            },
+            Routes.webviewpage: (context) => WebViewDashboardPage(),
+            Routes.studentProfileScreen: (context) => StudentProfileScreen()
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially

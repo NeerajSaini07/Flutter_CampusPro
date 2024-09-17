@@ -19,6 +19,7 @@ import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Controllers/splash_controller.dart';
+import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:get/get.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import '../Controllers/menu_controller.dart';
@@ -72,5 +73,6 @@ class DependencyInjection {
         fenix: true);
     Get.lazyPut<StudentActivityController>(() => StudentActivityController(),
         fenix: true);
+    Get.put(DownloadService());
   }
 }

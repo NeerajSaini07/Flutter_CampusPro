@@ -1,3 +1,5 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
 class StudentActivityModel {
   int? srNo;
   int? id;
@@ -5,6 +7,8 @@ class StudentActivityModel {
   String? dateAdded;
   String? htmlContent;
   String? fileurl;
+  //to show downloading status
+  RxBool? isDownloaded = false.obs;
 
   StudentActivityModel(
       {this.srNo,
@@ -12,16 +16,19 @@ class StudentActivityModel {
       this.title,
       this.dateAdded,
       this.htmlContent,
-      this.fileurl});
+      this.fileurl,
+      this.isDownloaded});
 
   factory StudentActivityModel.fromJson(Map<String, dynamic> json) {
     return StudentActivityModel(
-        srNo: json['SrNo'] ?? 0,
-        id: json['Id'] ?? 0,
-        title: json['Title'] ?? "",
-        dateAdded: json['DateAdded'] ?? "",
-        htmlContent: json['HtmlContent'] ?? "",
-        fileurl: json['CircularFileUrl'] ?? "");
+      srNo: json['SrNo'] ?? 0,
+      id: json['Id'] ?? 0,
+      title: json['Title'] ?? "",
+      dateAdded: json['DateAdded'] ?? "",
+      htmlContent: json['HtmlContent'] ?? "",
+      fileurl: json['CircularFileUrl'] ?? "",
+      isDownloaded: false.obs,
+    );
   }
 
   Map<String, dynamic> toJson() {

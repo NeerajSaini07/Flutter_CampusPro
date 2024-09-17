@@ -8,7 +8,7 @@ import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 
 class StudentActivityRepo {
-  static Future<dynamic> getStudentActivity() async {
+  static Future<dynamic> getStudentActivityRepo({required int filter}) async {
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
@@ -35,7 +35,7 @@ class StudentActivityRepo {
                 "",
         "Classid":
             (StudentDetaillist.studentdetails.first.classId ?? "").toString(),
-        "Filter": "2", //1--> My School , 2--> My Class , 3--> Me Only
+        "Filter": filter.toString(),
       };
 
       dynamic response = await apiServices

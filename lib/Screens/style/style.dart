@@ -10,7 +10,7 @@ class AppTextStyles {
   );
 
   static TextStyle cardTitle = TextStyle(
-    fontSize: 20.sp,
+    fontSize: 16.sp,
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );

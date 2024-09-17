@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -13,7 +15,9 @@ Future<void> onDidReceiveNotificationResponse(
   // Handle notification tap
   final payload = response.payload;
   if (payload != null) {
-    await openFile(payload);
+    await openFile(payload).then((value) {
+      Get.offAllNamed(Routes.userType);
+    });
   }
 }
 
@@ -23,7 +27,9 @@ Future<void> onDidReceiveBackgroundNotificationResponse(
   // Handle background notification tap
   final payload = response.payload;
   if (payload != null) {
-    await openFile(payload);
+    await openFile(payload).then((value) {
+      Get.offAllNamed(Routes.userType);
+    });
   }
 }
 

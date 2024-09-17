@@ -18,4 +18,5 @@ class Routes {
 
   // ***********************************  student portal **************************************************
   static const String StudentDashboad = '/studentdashboard';
+  static const String studentProfileScreen = '/studentProfileScreen';
 }

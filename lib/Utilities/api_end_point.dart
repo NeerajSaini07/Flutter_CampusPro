@@ -12,6 +12,7 @@ class APIENDPOINT {
   static String get getBaseUrl => baseUrl + 'GetBaseApiUrl';
   static String get loginApi => baseUrl + "AutheticateLogin";
   static String get changePasswordApi => baseUrl + "ChangeDefaultPasswordNew";
+  static const changeSpecificUserPasswordApi = "ChangePassword_V1";
   // **********************************************
   static String get sendOtpForgotPassword => baseUrl + "SendOtpForgetPassword";
   static const userTypeApi = "GetOurSchools";
@@ -56,4 +57,6 @@ class APIENDPOINT {
   static const classroom = "getClassRoomSNew";
   static const subjectTecherlits = "GetClassTeracherWithSubject_V2";
   static const studentActivityApi = "getActivityHtmlContent_V1";
+  static const studentProfileApi = "getStuProfile_V1";
+  static const studentRemarkApi = "getStudentRemarks_V1";
 }

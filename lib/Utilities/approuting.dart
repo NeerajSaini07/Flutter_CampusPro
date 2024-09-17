@@ -37,7 +37,7 @@ class AppRouting extends GetxService {
       Get.find<NotificationController>();
 
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
-    if (whereToOpenFlag == "W") {
+    if (whereToOpenFlag != "W") {
       if (pageurl == '') {
         pageurl = 'Index.aspx';
         appbarController.appBarName.value = Constant.schoolName;
@@ -101,8 +101,17 @@ class AppRouting extends GetxService {
 
         case "Activity":
           Get.to(() => const StudentActivityScreen());
+          break;
+
+        case "Change Password":
+          Get.toNamed(Routes.changePasswordScreen,
+              arguments: {'isdefaultChangePass': false});
           appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
+          break;
+
+        case "Profile":
+          Get.toNamed(Routes.studentProfileScreen);
           break;
 
         default:

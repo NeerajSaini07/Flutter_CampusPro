@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
+import 'package:campuspro/Modal/school_bus_live_location_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 
 import 'package:campuspro/Utilities/constant.dart';
@@ -37,23 +38,40 @@ class BusTrackerScreen extends StatelessWidget {
           } else {
             return Stack(
               children: [
-                GoogleMap(
-                  polylines: busTrackerController.polylines.toSet(),
-                  markers: busTrackerController.markers.toSet(),
-                  zoomControlsEnabled: false,
-                  onMapCreated: (GoogleMapController controller) {
-                    busTrackerController.mapController = controller;
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: busTrackerController.initialLocation,
-                    zoom: 17,
-                  ),
-                  buildingsEnabled: true,
-                  zoomGesturesEnabled: true,
-                  mapType: MapType.normal,
-                  myLocationEnabled: true,
-                  compassEnabled: true,
-                ),
+                StreamBuilder<LatLng>(
+                    stream: busTrackerController.locationStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        LatLng newLocation = snapshot.data!;
+                        // Update the marker position based on the new location
+                        busTrackerController.updateMarkerAndCircle(
+                          context,
+                          newLocation.latitude,
+                          newLocation.longitude,
+                          SchoolBusLiveLocationModel.orientation!,
+                          // busTrackerController
+                          //     .schoolBusLiveLocationModel.imageData!,
+                          SchoolBusLiveLocationModel.otherBuses,
+                        );
+                      }
+                      return GoogleMap(
+                        polylines: busTrackerController.polylines.toSet(),
+                        markers: busTrackerController.markers.toSet(),
+                        zoomControlsEnabled: false,
+                        onMapCreated: (GoogleMapController controller) {
+                          busTrackerController.mapController = controller;
+                        },
+                        initialCameraPosition: CameraPosition(
+                          target: busTrackerController.initialLocation,
+                          zoom: 17,
+                        ),
+                        buildingsEnabled: true,
+                        zoomGesturesEnabled: true,
+                        mapType: MapType.normal,
+                        myLocationEnabled: true,
+                        compassEnabled: true,
+                      );
+                    }),
                 Positioned(
                   bottom: 0,
                   right: 0,

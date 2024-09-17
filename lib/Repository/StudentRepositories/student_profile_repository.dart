@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campuspro/Controllers/notificationController.dart';
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
@@ -84,6 +86,92 @@ class StudentProfileRepo {
       print("Notification data: ${requestData}");
       dynamic response = await apiServices
           .postApiRequest(requestData, baseUrl + APIENDPOINT.notificationApi)
+          .onError((error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //Get Student Profile
+  static Future<dynamic> getStudentProfileRepo() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    BaseApiServices apiServices = NetworkApiServices();
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+
+    final usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
+    try {
+      Map<String, dynamic> requestData = {
+        "OUserId": uid,
+        "Token": FcmTokenList.tokenlist.first.token,
+        "EmpStuId":
+            UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
+        "OrgId":
+            UserTypeslist.userTypesDetails[usertypeIndex].organizationId ?? "",
+        "Schoolid":
+            UserTypeslist.userTypesDetails[usertypeIndex].schoolId ?? "",
+        "UserType":
+            UserTypeslist.userTypesDetails[usertypeIndex].ouserType ?? "",
+        "SessionId":
+            UserTypeslist.userTypesDetails[usertypeIndex].currentSessionid ??
+                "",
+        "StudentID":
+            UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
+      };
+
+      log(requestData.toString());
+
+      dynamic response = await apiServices
+          .postApiRequest(requestData, baseUrl + APIENDPOINT.studentProfileApi)
+          .onError((error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //Get Student Remark
+  static Future<dynamic> getStudentRemarkRepo() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    BaseApiServices apiServices = NetworkApiServices();
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+
+    final usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
+    try {
+      Map<String, dynamic> requestData = {
+        "OUserId": uid,
+        "Token": FcmTokenList.tokenlist.first.token,
+        "EmpStuId":
+            UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
+        "OrgId":
+            UserTypeslist.userTypesDetails[usertypeIndex].organizationId ?? "",
+        "Schoolid":
+            UserTypeslist.userTypesDetails[usertypeIndex].schoolId ?? "",
+        "UserType":
+            UserTypeslist.userTypesDetails[usertypeIndex].ouserType ?? "",
+        "SessionId":
+            UserTypeslist.userTypesDetails[usertypeIndex].currentSessionid ??
+                "",
+        "StudentID":
+            UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
+      };
+
+      log(requestData.toString());
+
+      dynamic response = await apiServices
+          .postApiRequest(requestData, baseUrl + APIENDPOINT.studentRemarkApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);
