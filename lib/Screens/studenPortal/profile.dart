@@ -5,10 +5,7 @@ import 'package:campuspro/Modal/student_module/student_remark_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:campuspro/Utilities/constant.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +18,6 @@ class StudentProfileScreen extends StatelessWidget {
         Get.find<StudentProfileController>();
     final UserTypeController userTypeController =
         Get.find<UserTypeController>();
-    // profileController.getStudentProfileData();
     return DefaultTabController(
       length: 2,
       child: Scaffold(

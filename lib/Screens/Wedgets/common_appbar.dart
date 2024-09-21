@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:campuspro/Controllers/StudentControllers/activity_controller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';

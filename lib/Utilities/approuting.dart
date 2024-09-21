@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
@@ -13,6 +11,8 @@ import 'package:campuspro/Screens/studenPortal/activity.dart';
 import 'package:campuspro/Screens/studenPortal/class_room.dart';
 import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
+import 'package:campuspro/Screens/studenPortal/leave_details.dart';
+import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
 import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
@@ -37,7 +37,7 @@ class AppRouting extends GetxService {
       Get.find<NotificationController>();
 
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
-    if (whereToOpenFlag != "W") {
+    if (whereToOpenFlag == "W") {
       if (pageurl == '') {
         pageurl = 'Index.aspx';
         appbarController.appBarName.value = Constant.schoolName;
@@ -72,6 +72,17 @@ class AppRouting extends GetxService {
           Get.to(() => const NotificationScreen());
           notificationController.getNotification();
           appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = false;
+          break;
+
+        case "Leave Detail":
+        case "Leave Request":
+          Get.to(() => const StudentLeaveDetailScreen());
+          webController.showWebViewScreen.value = false;
+          break;
+
+        case "Request Edit Detail":
+          Get.to(() => const StudentEditProfileScreen());
           webController.showWebViewScreen.value = false;
           break;
 

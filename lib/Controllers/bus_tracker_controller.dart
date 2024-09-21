@@ -24,12 +24,6 @@ class BusTrackerController extends GetxController {
   late GoogleMapController mapController;
   Timer? timer;
 
-  // Adding Stream
-  StreamController<LatLng> _locationStreamController =
-      StreamController<LatLng>();
-  Stream<LatLng> get locationStream => _locationStreamController.stream;
-  // Adding Stream
-
   //Variables Defined//
   final LatLng initialLocation =
       const LatLng(22.665785423912535, 78.292848203125);
@@ -39,9 +33,6 @@ class BusTrackerController extends GetxController {
   void onClose() {
     timer?.cancel();
     Get.delete<BusTrackerController>();
-    // Adding Stream
-    _locationStreamController.close();
-    // Adding Stream
     super.onClose();
   }
 
@@ -164,8 +155,8 @@ class BusTrackerController extends GetxController {
       Uint8List imageData = await getMarker(context, Constant.busIcon);
       var location = const LatLng(28.7041, 77.1025);
       if (context.mounted) {
-        // updateMarkerAndCircle(context, location.latitude, location.longitude,
-        //     "192", imageData, []);
+        updateMarkerAndCircle(context, location.latitude, location.longitude,
+            "192", imageData, []);
         fetchSchoolBusLiveLocation(
             context, vehicleNumber, trackingDeviceIMEI, imageData);
       }
@@ -189,14 +180,11 @@ class BusTrackerController extends GetxController {
       double latitude,
       double longitude,
       String? direction,
-      // Uint8List? imageData,
+      Uint8List imageData,
       List<OtherBusesModel>? otherBuses) async {
     LatLng latlng = LatLng(latitude, longitude);
-    //Change for Straming
-    _locationStreamController.add(latlng);
-    //Change for Straming
     Uint8List imageDataNew = await getMarker(context, Constant.busMarker);
-    Uint8List imageData = await getMarker(context, Constant.busIcon);
+
     markers.clear();
     markers.add(Marker(
       markerId: const MarkerId("live_location"),
@@ -208,7 +196,6 @@ class BusTrackerController extends GetxController {
       flat: true,
       anchor: const Offset(0.5, 0.5),
       icon: BitmapDescriptor.fromBytes(imageData),
-      // icon: BitmapDescriptor.fromBytes(imageDataNew),
     ));
 
     if (otherBuses != null && otherBuses.isNotEmpty) {
@@ -258,13 +245,6 @@ class BusTrackerController extends GetxController {
           List<dynamic> otherBuses = value["Data"][0]["OtherBuses"];
           SchoolBusLiveLocationModel.otherBuses =
               otherBuses.map((json) => OtherBusesModel.fromJson(json)).toList();
-
-          // Push the new location to the stream
-          _locationStreamController.add(LatLng(
-              double.parse(SchoolBusLiveLocationModel.latitude!),
-              double.parse(SchoolBusLiveLocationModel.longitude!)));
-          // Push the new location to the stream
-
           try {
             mapController
                 .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -273,20 +253,20 @@ class BusTrackerController extends GetxController {
                   double.parse(SchoolBusLiveLocationModel.latitude ?? "0"),
                   double.parse(SchoolBusLiveLocationModel.longitude ?? "0")),
               tilt: 0,
-              zoom: 18.0,
+              zoom: 17.0,
             )));
-            // updateMarkerAndCircle(
-            //     context,
-            //     double.parse(SchoolBusLiveLocationModel.latitude ?? "0"),
-            //     double.parse(SchoolBusLiveLocationModel.longitude ?? "0"),
-            //     SchoolBusLiveLocationModel.orientation!,
-            //     imageData,
-            //     SchoolBusLiveLocationModel.otherBuses);
+            updateMarkerAndCircle(
+                context,
+                double.parse(SchoolBusLiveLocationModel.latitude ?? "0"),
+                double.parse(SchoolBusLiveLocationModel.longitude ?? "0"),
+                SchoolBusLiveLocationModel.orientation!,
+                imageData,
+                SchoolBusLiveLocationModel.otherBuses);
 
-            // busRegNo.value = SchoolBusLiveLocationModel.vehicleNumber!
-            //     .replaceAll(' ', '')
-            //     .toUpperCase();
-            // currentAddress.value = SchoolBusLiveLocationModel.address ?? "";
+            busRegNo.value = SchoolBusLiveLocationModel.vehicleNumber!
+                .replaceAll(' ', '')
+                .toUpperCase();
+            currentAddress.value = SchoolBusLiveLocationModel.address ?? "";
           } catch (error) {
             busRegNo.value = "fetching...";
             currentAddress.value = SchoolBusLiveLocationModel.address ?? "";

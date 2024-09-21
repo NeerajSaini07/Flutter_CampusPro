@@ -90,6 +90,7 @@ class UserTypeController extends GetxController {
 //  ***********************    managening the dashboard type open  ****************
 
     if (UserTypeslist.userTypesDetails[index].ouserType == 'S') {
+      // webController.showWebViewScreen.value = true;
       webController.showWebViewScreen.value = false;
       studentController.getStudentDetails();
     } else if (UserTypeslist.userTypesDetails[index].ouserType == 'E') {
