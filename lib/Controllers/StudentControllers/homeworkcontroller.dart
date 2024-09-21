@@ -11,11 +11,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:path/path.dart' as path;
 
 class StudentHomeWorkController extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   var calendarFormat = CalendarFormat.week.obs;
   var focuseddate = DateTime.now().obs;
   RxBool tableRefresh = false.obs;

@@ -66,6 +66,7 @@ class AppRouting extends GetxService {
         }
       }
     } else {
+      webController.showWebViewScreen.value = false;
       switch (name) {
         case "Student Bus Location":
           appbarController.appBarName.value = 'Bus Tracker';
@@ -91,12 +92,10 @@ class AppRouting extends GetxService {
         case "Leave Detail":
         case "Leave Request":
           Get.to(() => const StudentLeaveDetailScreen());
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Request Edit Detail":
           Get.to(() => const StudentEditProfileScreen());
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Home Work":
@@ -124,8 +123,6 @@ class AppRouting extends GetxService {
 
         case "Circular":
           Get.to(() => const StudentCircularScreen());
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Activity":
@@ -135,8 +132,6 @@ class AppRouting extends GetxService {
         case "Change Password":
           Get.toNamed(Routes.changePasswordScreen,
               arguments: {'isdefaultChangePass': false});
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
         case "Exam Analysis":
           await exameAnalysisController.getExamData();

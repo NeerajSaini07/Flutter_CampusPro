@@ -59,16 +59,20 @@ class APIENDPOINT {
   static const classroom = "getClassRoomSNew";
   static const subjectTecherlits = "GetClassTeracherWithSubject_V2";
   static const studentActivityApi = "getActivityHtmlContent_V1";
-  static const studentProfileApi = "getStuProfile_V1";
-  static const requestToEditStudentProfileApi = "requestStudentDataUpdate_V1";
   static const studentRemarkApi = "getStudentRemarks_V1";
   static const studentAttendanceApi = "GetStuAttendance_V1";
   static const studentLeaveRequestStatusApi = "getRequestedLeaveStatuses_V1";
   static const studentRequestForLeaveApi = "RequestForLeave_V1";
   static const studentClassTeacherApi = "getClassTeacher_V1";
+  //************profile************************* */
+  static const studentProfileApi = "getStuProfile_V1";
   static const reqProfileDropDownApi = "GetParam";
   static const getBloodGroupDropDownApi = "GetBloodGroup";
   static const uploadStudentRequestImageApi = "StudentRequestImage";
+  static const requestToEditStudentProfileApi = "requestStudentDataUpdate_V1";
+  static const getUploadDocumentTypeListApi = "GetDocumentType_V1";
+  static const uploadStudentDocumentApi = "StudentDocumentUpdate";
+  //*********************** */
   static const studenthomeworkDate = "GetHomeworkDetailsForCal_V1";
   static const getstudenthomeworkbydate = "GetStudentHomeworkCurrentDate_V1";
   static const homeworkereply = "GetReplys";

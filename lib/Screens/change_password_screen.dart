@@ -45,7 +45,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-          appBar: customAppBar(context),
+          appBar: customAppBar(context, title: "Change Password"),
           backgroundColor:
               (widget.isdefaultChangePass) ? AppColors.loginscafoldcoolr : null,
           body: SingleChildScrollView(

@@ -1,10 +1,14 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
+import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Modal/student_module/student_profile_model.dart';
+import 'package:campuspro/Modal/student_module/upload_document_type.dart';
 import 'package:campuspro/Repository/StudentRepositories/student_profile_repository.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -270,6 +274,62 @@ class StudentEditProfileController extends GetxController
         return "MOTHER";
       case UploadDocumentType.cperson:
         return "CONTACTPERSON";
+    }
+  }
+
+  //Update Document Section
+  Future<List<UploadDocumentTypeModel>> getUploadDocumentTypeList() async {
+    if (StudentDetaillist.studentdetails.isEmpty) {
+      final StudentProfileController studentController =
+          Get.find<StudentProfileController>();
+      await studentController.getStudentDetails();
+    }
+    final uploadDocumentListResponse =
+        await StudentProfileRepo.getUploadDocumentTypeListRepo(
+            classId: (StudentDetaillist.studentdetails.first.classId ?? "")
+                .toString());
+    log(uploadDocumentListResponse.toString());
+    if (uploadDocumentListResponse != null &&
+        uploadDocumentListResponse['Status'] == "Cam-001") {
+      List<dynamic> studentData = uploadDocumentListResponse['Data'];
+      UploadDocumentTypeList.uploadDocumentTypeList = studentData
+          .map((json) => UploadDocumentTypeModel.fromJson(json))
+          .toList();
+      return UploadDocumentTypeList.uploadDocumentTypeList;
+    }
+    return [];
+  }
+
+  uploadStudentDocuments({required String documentId}) async {
+    FilePickerResult? pickedPdf;
+
+    pickedPdf = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'jpg', 'jpeg'],
+    );
+    // XFile? pickedFile;
+    // pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedPdf != null) {
+      // final String fileExtension =
+      //     pickedPdf.files.single.path!.split('.').last.toLowerCase();
+      // if (fileExtension == 'jpg' || fileExtension == 'pdf') {
+      final response = await StudentProfileRepo.uploadStudentDocumentRepo(
+          documentId: documentId, imagePath: pickedPdf.files.single.path!);
+      log(response.toString());
+      if (response != null && response['Status'] == "Cam-001") {
+        CommonFunctions.showSuccessSnackbar("Request Submitted Successfully",
+            "Your request for updating document has been successfully submitted.");
+      } else {
+        CommonFunctions.showErrorSnackbar("Request Failed",
+            "We were unable to submit your document change request. Please try again later.");
+      }
+      // } else {
+      //   CommonFunctions.showErrorSnackbar(
+      //       "Invalid File", "Please select a valid image file: jpg, pdf.");
+      // }
+    } else {
+      CommonFunctions.showErrorSnackbar(
+          "No Image Selected", "Please select an image.");
     }
   }
 }

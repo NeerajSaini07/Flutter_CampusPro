@@ -388,7 +388,7 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
                     (() {
                       if (requestData.fromDate!.isNotEmpty &&
                           requestData.toDate!.isNotEmpty) {
-                        if (requestData.fromDate == requestData.fromDate) {
+                        if (requestData.fromDate == requestData.toDate) {
                           return "${requestData.fromDate}";
                         }
                         return "${requestData.fromDate} - ${requestData.toDate}";
@@ -408,7 +408,7 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
                     (() {
                       if (requestData.fromDate!.isNotEmpty &&
                           requestData.toDate!.isNotEmpty) {
-                        if (requestData.fromDate == requestData.fromDate) {
+                        if (requestData.fromDate == requestData.toDate) {
                           return "1 Day";
                         }
                         return "${CommonFunctions.calculateDaysBetween(startDateStr: requestData.fromDate!, endDateStr: requestData.toDate!) + 1} Days";

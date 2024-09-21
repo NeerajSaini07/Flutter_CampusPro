@@ -338,4 +338,76 @@ class StudentProfileRepo {
       rethrow;
     }
   }
+
+  //Update Document Section
+  static Future<dynamic> getUploadDocumentTypeListRepo(
+      {required String classId}) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    BaseApiServices apiServices = NetworkApiServices();
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+
+    final usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
+    try {
+      Map<String, dynamic> requestData = {
+        "OUserId": uid,
+        "Token": FcmTokenList.tokenlist.first.token,
+        "OrgId":
+            UserTypeslist.userTypesDetails[usertypeIndex].organizationId ?? "",
+        "Schoolid":
+            UserTypeslist.userTypesDetails[usertypeIndex].schoolId ?? "",
+        "UserType":
+            UserTypeslist.userTypesDetails[usertypeIndex].ouserType ?? "",
+        "ClassID": classId,
+        "EmpStuId": UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? ""
+      };
+
+      log(requestData.toString());
+
+      dynamic response = await apiServices
+          .postApiRequest(
+              requestData, baseUrl + APIENDPOINT.getUploadDocumentTypeListApi)
+          .onError((error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //Upload Document
+  static Future<dynamic> uploadStudentDocumentRepo(
+      {required String documentId, required String imagePath}) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    int usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+
+    Map<String, String> requestdata = {
+      "OUserId": uid,
+      "OrgId":
+          UserTypeslist.userTypesDetails[usertypeIndex].organizationId ?? "",
+      "SchoolId": UserTypeslist.userTypesDetails[usertypeIndex].schoolId ?? "",
+      "Token": FcmTokenList.tokenlist.first.token ?? "",
+      "UserType": UserTypeslist.userTypesDetails[usertypeIndex].ouserType ?? "",
+      "EmpStuId": UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
+      "DocID": documentId
+    };
+    log(requestdata.toString());
+    log(baseUrl + APIENDPOINT.uploadStudentDocumentApi);
+
+    BaseApiServices apiServices = NetworkApiServices();
+    try {
+      final response = apiServices.postFileRequest(requestdata, "Files",
+          imagePath, baseUrl + APIENDPOINT.uploadStudentDocumentApi);
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

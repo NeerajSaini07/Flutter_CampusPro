@@ -9,7 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:campuspro/Services/notificationService/notification_service.dart';
 
-class DownloadService extends GetxService {
+class FileDownloadService extends GetxService {
   //Download File
   Future<void> downloadFile(
     String url,

@@ -4,11 +4,14 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:campuspro/Controllers/StudentControllers/edit_profile_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/student_module/student_profile_model.dart';
+import 'package:campuspro/Modal/student_module/upload_document_type.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +24,7 @@ class StudentEditProfileScreen extends StatelessWidget {
         Get.find<StudentEditProfileController>();
     final UserTypeController userTypeController =
         Get.find<UserTypeController>();
+    editProfileController.getUploadDocumentTypeList();
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -127,13 +131,105 @@ class StudentEditProfileScreen extends StatelessWidget {
             controller: editProfileController.tabController,
             children: [
               updateProfileSection(context, editProfileController),
-              Text("Update Document")
-              // _studentProfileView(context, profileController),
-              // _studentRemarkView(context, profileController)
+              updateDocumentSection(context, editProfileController),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget updateDocumentSection(BuildContext context,
+      StudentEditProfileController editProfileController) {
+    return FutureBuilder<List<UploadDocumentTypeModel>>(
+      future: editProfileController.getUploadDocumentTypeList(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('An error occurred'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No data available'));
+        } else {
+          final listData = snapshot.data!;
+          return ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: 16.h),
+            itemCount: listData.length,
+            itemBuilder: (context, index) {
+              return uploadDocumentListCardView(
+                  listData[index], editProfileController);
+            },
+          );
+        }
+      },
+    );
+  }
+
+  Widget uploadDocumentListCardView(UploadDocumentTypeModel listData,
+      StudentEditProfileController editProfileController) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: EdgeInsets.all(2.w).copyWith(left: 6.w),
+          margin: EdgeInsets.symmetric(horizontal: 8.w).copyWith(bottom: 10.h),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.r),
+              border: Border.all(color: AppColors.appbuttonColor, width: 1)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      listData.docName ?? "",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.appbuttonColor),
+                    ),
+                    // SizedBox(
+                    //   height: 1.h,
+                    // ),
+                    // Text(
+                    //   "Lgvjhklghjklghjkl",
+                    //   maxLines: 1,
+                    //   overflow: TextOverflow.ellipsis,
+                    //   style: TextStyle(
+                    //       fontSize: 10.sp,
+                    //       fontWeight: FontWeight.bold,
+                    //       color: AppColors.textfieldhintstycolor),
+                    // ),
+                  ],
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(4.r),
+                onTap: () {
+                  editProfileController.uploadStudentDocuments(
+                      documentId: listData.docId.toString());
+                },
+                child: Container(
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                      color: AppColors.appbuttonColor,
+                      borderRadius: BorderRadius.circular(4.r)),
+                  child: Icon(
+                    Icons.file_upload_sharp,
+                    color: AppColors.whitetextcolor,
+                    size: 25.w,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 

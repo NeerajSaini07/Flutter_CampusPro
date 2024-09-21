@@ -38,7 +38,7 @@ Widget homeWorkCard(index, BuildContext context) {
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
 
-  final DownloadService downloadService = Get.find<DownloadService>();
+  final FileDownloadService downloadService = Get.find<FileDownloadService>();
   return Card(
     color: AppColors.whitetextcolor,
     margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 8.h),

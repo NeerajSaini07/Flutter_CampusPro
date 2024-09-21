@@ -15,7 +15,7 @@ void studenthomeworkCommentsdialog(BuildContext context, int index) {
 
   final UserTypeController userTypeController = Get.find<UserTypeController>();
 
-  final DownloadService downloadService = Get.find<DownloadService>();
+  final FileDownloadService downloadService = Get.find<FileDownloadService>();
 
   showDialog(
     barrierDismissible: false,
