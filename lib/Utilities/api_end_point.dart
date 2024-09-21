@@ -66,4 +66,5 @@ class APIENDPOINT {
   static const studentClassTeacherApi = "getClassTeacher_V1";
   static const reqProfileDropDownApi = "GetParam";
   static const getBloodGroupDropDownApi = "GetBloodGroup";
+  static const uploadStudentRequestImageApi = "StudentRequestImage";
 }

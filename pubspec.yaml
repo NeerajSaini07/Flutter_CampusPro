@@ -72,6 +72,7 @@ dependencies:
   open_file: ^3.5.3
   filter_list: ^1.0.3
   fl_chart: ^0.69.0
+  image_cropper: ^8.0.1
 dependency_overrides:
   webview_flutter_android: 3.16.1
 

@@ -306,4 +306,36 @@ class StudentProfileRepo {
       rethrow;
     }
   }
+
+  //Upload Image
+  static Future<dynamic> uploadProfileImageRepo(
+      {required String imagePath, required String imageFor}) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    int usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+
+    Map<String, String> requestdata = {
+      "OUserId": uid,
+      "OrgId":
+          UserTypeslist.userTypesDetails[usertypeIndex].organizationId ?? "",
+      "SchoolId": UserTypeslist.userTypesDetails[usertypeIndex].schoolId ?? "",
+      "Token": FcmTokenList.tokenlist.first.token ?? "",
+      "UserType": UserTypeslist.userTypesDetails[usertypeIndex].ouserType ?? "",
+      "EmpStuId": UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
+      "ImageFor": imageFor
+    };
+    log(requestdata.toString());
+    log(baseUrl + APIENDPOINT.uploadStudentRequestImageApi);
+
+    BaseApiServices apiServices = NetworkApiServices();
+    try {
+      final response = apiServices.postFileRequest(requestdata, "Files",
+          imagePath, baseUrl + APIENDPOINT.uploadStudentRequestImageApi);
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
 import 'package:campuspro/Modal/student_module/student_profile_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/student_profile_repository.dart';
+import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 enum UploadDocumentType { student, father, mother, cperson }
@@ -201,20 +203,73 @@ class StudentEditProfileController extends GetxController
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
     }
     if (pickedFile != null) {
-      final String fileExtension =
-          pickedFile.path.split('.').last.toLowerCase();
-      if (fileExtension == 'jpg' ||
-          fileExtension == 'jpeg' ||
-          fileExtension == 'png') {
-        // save image
-        // pickedFile.path
+      // Crop the image
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: AppColors.primarycolor,
+            toolbarWidgetColor: Colors.white,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.square,
+            ],
+          ),
+          IOSUiSettings(
+            title: 'Cropper',
+            aspectRatioPresets: [
+              CropAspectRatioPreset.original,
+              CropAspectRatioPreset.square,
+            ],
+          )
+        ],
+      );
+
+      if (croppedFile != null) {
+        final String fileExtension =
+            croppedFile.path.split('.').last.toLowerCase();
+        if (fileExtension == 'jpg' ||
+            fileExtension == 'jpeg' ||
+            fileExtension == 'png') {
+          String pickedImagePath = croppedFile.path;
+          String imageFor = getImageForType(saveTo: saveTo);
+
+          final response = await StudentProfileRepo.uploadProfileImageRepo(
+              imageFor: imageFor, imagePath: pickedImagePath);
+          // log(response.toString());
+          if (response != null && response['Status'] == "Cam-001") {
+            CommonFunctions.showSuccessSnackbar(
+                "Request Submitted Successfully",
+                "Your request for updating profile Image has been successfully submitted.");
+          } else {
+            CommonFunctions.showErrorSnackbar("Request Failed",
+                "We were unable to submit your profile Image change request. Please try again later.");
+          }
+        } else {
+          CommonFunctions.showErrorSnackbar(
+              "Invalid File", "Please select a valid image file.");
+        }
       } else {
         CommonFunctions.showErrorSnackbar(
-            "Invalid File", "Please select a valid image file.");
+            "Cropping Failed", "Please crop the image before uploading.");
       }
     } else {
       CommonFunctions.showErrorSnackbar(
           "No Image Selected", "Please select an image.");
+    }
+  }
+
+  String getImageForType({required UploadDocumentType saveTo}) {
+    switch (saveTo) {
+      case UploadDocumentType.student:
+        return "STUDENT";
+      case UploadDocumentType.father:
+        return "FATHER";
+      case UploadDocumentType.mother:
+        return "MOTHER";
+      case UploadDocumentType.cperson:
+        return "CONTACTPERSON";
     }
   }
 }
