@@ -14,13 +14,21 @@ class AppColors {
   static const logoutColor = Color(0xff00726d);
   static const whitetextcolor = Colors.white;
   static const leavecolor = Color(0xFFffc107);
+  static const headingcolor = Color(0xff013e73);
 
   //  ******************  dashboard theam colors ***************
 
   static const grediant1 = appbuttonColor;
   static const grediant2 = appbuttonColor;
   static const titleAndsubtitleColor = Colors.white;
+
+  //  **************** snak bar
   static const successColor = Color(0xff81C784);
   static const warningColor = Color(0xffE57373);
   static const notificationbgColor = Color(0xff1c588c);
+
+//   ****************annalysis ****************
+  static const highestmarkscolor = Color(0xff81C784);
+  static const selfcolor = Color(0xFFffc107);
+  static const avgmarks = Color(0xff1c588c);
 }

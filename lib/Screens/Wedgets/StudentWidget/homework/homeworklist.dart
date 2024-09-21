@@ -1,85 +1,97 @@
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
-import 'package:campuspro/Modal/student_module/home_work.dart';
+
 import 'package:campuspro/Screens/Wedgets/StudentWidget/common_text_style.dart';
+import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'reply_dialog.dart';
+import 'package:get/get.dart';
+import '../classoom/reply_dialog.dart';
+import 'comment.dart';
 
 Widget homeWorkListdata(StudentHomeWorkController studentHomeWorkController) {
   return Obx(
     () {
-      final focusedDate = studentHomeWorkController.focuseddate.value;
-
-      final selectedDateEvents = HomeworkList.homeworkDetails.where((event) {
-        return event.date != null &&
-            event.date!.year == focusedDate.year &&
-            event.date!.month == focusedDate.month &&
-            event.date!.day == focusedDate.day;
-      }).toList();
-
-      if (selectedDateEvents.isEmpty) {
+      if (studentHomeWorkController.homeworkbydate.isEmpty) {
         return const Center(
-          child: Text("Homework Not Found"),
+          child: Text("Homework Not Available"),
+        );
+      } else {
+        // Display list of events
+        return ListView.builder(
+          itemCount: studentHomeWorkController.homeworkbydate.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: homeWorkCard(index, context),
+            );
+          },
         );
       }
-
-      return ListView.builder(
-        itemCount: selectedDateEvents.length,
-        itemBuilder: (context, index) {
-          final event = selectedDateEvents[index];
-          return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: homeWorkCard(event, context));
-        },
-      );
     },
   );
 }
 
 //  *************************************  card for showing the list of data
 
-Widget homeWorkCard(event, BuildContext context) {
+Widget homeWorkCard(index, BuildContext context) {
+  final StudentHomeWorkController studentHomeWorkController =
+      Get.find<StudentHomeWorkController>();
+
+  final DownloadService downloadService = Get.find<DownloadService>();
   return Card(
     color: AppColors.whitetextcolor,
     margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 8.h),
     child: Padding(
-      padding: EdgeInsets.all(10.w),
+      padding: EdgeInsets.all(6.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                (event.teacherName.toString()),
-                style: AppTextStyles.cardTitle,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                      (studentHomeWorkController.homeworkbydate[index].name
+                          .toString()),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18.sp,
+                        color: AppColors.blackcolor,
+                      )),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Text(
+                      (studentHomeWorkController
+                          .homeworkbydate[index].subjectName
+                          .toString()),
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 16.sp)),
+                ],
               ),
-              // SizedBox(width:100.w),
-              Text((event.subject.toString()),
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal, fontSize: 16.sp)),
-
-              SizedBox(width: 120.w),
               GestureDetector(
-                  onTap: () {
-                    showChatScreenDialog(context);
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.reply,
-                      color: AppColors.appbuttonColor,
-                    ),
-                  ))
+                onTap: () async {
+                  // await studentClasssRoomController
+                  //     .getclassRommComments(index);
+                  await studentHomeWorkController.studenthomeworkReply(index);
+                  studenthomeworkCommentsdialog(context, index);
+                },
+                child: Image.asset(
+                  "assets/icon/show_message.png",
+                  height: 20.h,
+                  width: 20.w,
+                  fit: BoxFit.contain,
+                ),
+              )
             ],
           ),
           SizedBox(height: 12.h),
           Text(
-            event.description.toString(),
+            studentHomeWorkController.homeworkbydate[index].homeworkMsg
+                .toString(),
             style: AppTextStyles.cardContent,
           ),
           SizedBox(height: 12.h),
@@ -87,31 +99,43 @@ Widget homeWorkCard(event, BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                event.date.toString(),
+                studentHomeWorkController.homeworkbydate[index].attDate
+                    .toString(),
                 style: AppTextStyles.cardDate,
               ),
-              Container(
-                padding: EdgeInsets.all(5.r),
-                decoration: BoxDecoration(
-                  color: AppColors.appbuttonColor,
-                  borderRadius: BorderRadius.circular(14.r),
-                  shape: BoxShape.rectangle,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.download,
-                      size: 16.r,
-                      color: AppColors.whitetextcolor,
-                    ),
-                    Text(
-                      'Download',
-                      style: TextStyle(fontSize: 12.sp, color: Colors.white),
-                    ),
-                  ],
-                ),
-              )
+              studentHomeWorkController
+                      .homeworkbydate[index].homeworkURL!.isNotEmpty
+                  ? GestureDetector(
+                      onTap: () {
+                        downloadService.downloadFile(studentHomeWorkController
+                            .homeworkbydate[index].homeworkURL
+                            .toString());
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(5.r),
+                        decoration: BoxDecoration(
+                          color: AppColors.appbuttonColor,
+                          borderRadius: BorderRadius.circular(14.r),
+                          shape: BoxShape.rectangle,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.download,
+                              size: 16.r,
+                              color: AppColors.whitetextcolor,
+                            ),
+                            Text(
+                              'Download',
+                              style: TextStyle(
+                                  fontSize: 12.sp, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
             ],
           ),
         ],

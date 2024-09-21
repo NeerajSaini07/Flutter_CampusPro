@@ -140,6 +140,7 @@ List<Widget> buildMenuItems(BuildContext context) {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () async {
+              Navigator.pop(context);
               bottomBarController.selectedBottomNavIndex.value = 0;
               webController.currentUrl.value = '';
               final AppRouting appRouting = AppRouting();
@@ -147,7 +148,6 @@ List<Widget> buildMenuItems(BuildContext context) {
               Navigator.pop(context);
               appRouting.navigate(subMenuItem.subMenuName,
                   subMenuItem.nevigateUrl, context, subMenuItem.subMenuFlag);
-
               // appbarController.appBarName.value =
               //     subMenuItem.subMenuName.toString();
               // final AppRouting appRouting = AppRouting();
@@ -183,6 +183,7 @@ List<Widget> buildMenuItems(BuildContext context) {
           onTap: () async {
             // final usertypeIndex = await Sharedprefdata.getIntegerData(
             //     Sharedprefdata.userTypeIndex);
+            Navigator.pop(context);
             bottomBarController.selectedBottomNavIndex.value = 0;
             webController.currentUrl.value = '';
             final AppRouting appRouting = AppRouting();

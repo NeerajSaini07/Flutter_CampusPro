@@ -4,6 +4,8 @@ import 'package:campuspro/Controllers/StudentControllers/activity_controller.dar
 import 'package:campuspro/Controllers/StudentControllers/circular_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/edit_profile_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/leave_controller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
@@ -75,7 +77,16 @@ class DependencyInjection {
         fenix: true);
     Get.lazyPut<StudentActivityController>(() => StudentActivityController(),
         fenix: true);
-    Get.put(DownloadService());
+
+    Get.lazyPut<DownloadService>(() => DownloadService(), fenix: true);
+
+    Get.lazyPut<ExameAnalysisController>(() => ExameAnalysisController(),
+        fenix: true);
+
+    Get.lazyPut<ExamTestExamResultController>(
+        () => ExamTestExamResultController(),
+        fenix: true);
+
     Get.lazyPut<StudentLeaveController>(() => StudentLeaveController(),
         fenix: true);
     Get.lazyPut<StudentEditProfileController>(

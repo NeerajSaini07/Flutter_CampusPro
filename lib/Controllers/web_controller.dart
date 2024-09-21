@@ -39,7 +39,6 @@ class WebController extends GetxController {
     currentUrl.value = '';
     await fcmTokenController.getFCMToken();
     await GenerateUrlRepository.getGenerateUrl(pageurl, pageName).then((value) {
-      print("response: $value");
       if (value != null) {
         WebUrlModel webUrlModel = WebUrlModel.fromJson(value);
         WebUrlList.urlListProperties = [webUrlModel];

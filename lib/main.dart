@@ -10,6 +10,8 @@ import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/help_and_support_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
+import 'package:campuspro/Screens/studenPortal/class_room.dart';
+import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
 import 'package:campuspro/Screens/studenPortal/profile.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
@@ -89,7 +91,9 @@ class MyApp extends StatelessWidget {
                   isdefaultChangePass: args?['isdefaultChangePass'] ?? true);
             },
             Routes.webviewpage: (context) => WebViewDashboardPage(),
-            Routes.studentProfileScreen: (context) => StudentProfileScreen()
+            Routes.studentProfileScreen: (context) => StudentProfileScreen(),
+            Routes.studentClassRomm: (context) => StudentClassroom(),
+            Routes.studentexamAnalysis: (context) => ExameAnalysis(),
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially

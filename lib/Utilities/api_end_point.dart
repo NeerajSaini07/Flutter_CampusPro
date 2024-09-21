@@ -23,6 +23,7 @@ class APIENDPOINT {
   static const removeFcmToken = "RemoveFcmToken";
 
   // ************************ Gate Pass *************************
+
   static const searchRequest = "searchNoDetails_V1";
   static const gatePassMeetToApi = "getVisitorMeetTo_v1";
   static const gatePassPurposeApi = "getVisitorPurpose_v1";
@@ -51,6 +52,7 @@ class APIENDPOINT {
   static const employeeProfile = "GetEmpProfilenew_V1";
 
   // ************************ Student Module *************************
+
   static const studentDetailApi = "GetStudentInfo_V1";
   static const notificationApi = "Getalertnotifications_V1";
   static const circularApi = "getCircular_V1";
@@ -67,4 +69,20 @@ class APIENDPOINT {
   static const reqProfileDropDownApi = "GetParam";
   static const getBloodGroupDropDownApi = "GetBloodGroup";
   static const uploadStudentRequestImageApi = "StudentRequestImage";
+  static const studenthomeworkDate = "GetHomeworkDetailsForCal_V1";
+  static const getstudenthomeworkbydate = "GetStudentHomeworkCurrentDate_V1";
+  static const homeworkereply = "GetReplys";
+  static const classroomcomment = "AddClassRoomComments";
+  static const getclassroomcomment = "GetComments_V1";
+  static const addhomeworkcomment = "AddHomeworkComments_V1";
+
+  //  *************************  exam analysis  ***********************
+  static const examanalysisSession = "getSession_V1";
+  static const examanalysisExamName = "GetClassExams_V1";
+  static const examanalysisreport = "GetSingleClassMarksData_V1";
+
+  //  **************************  exam Test Result****************************************
+  static const testexamresultsingleExam = "GetStuMarks4SingleExam_V1";
+//
+  //  ****************************
 }

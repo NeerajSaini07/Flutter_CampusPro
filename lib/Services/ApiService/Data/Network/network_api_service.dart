@@ -29,34 +29,35 @@ class NetworkApiServices extends BaseApiServices {
   }
 
 // for file data
-  Future<dynamic> postFileRequest(Map<String, String> fields, String key,
-      String filePath, String url) async {
+
+  @override
+  Future<dynamic> postFileRequest(
+      Map<String, String> fields,
+      String key,
+      String? filePath, // Making filePath nullable
+      String url) async {
     dynamic responseJson;
+
     try {
-      final file = File(filePath);
-      // dynamic fileBytes;
-      // final String fileExtension = filePath.split('.').last.toLowerCase();
-      // if (fileExtension == 'jpg'|| fileExtension == 'jpeg') {
-      //   final image = img.decodeImage(file.readAsBytesSync());
-      //   fileBytes = img.encodeJpg(image!, quality: 70);
-      // }else if(fileExtension == 'png'){
-      //   final image = img.decodeImage(file.readAsBytesSync());
-      //   fileBytes = img.encodePng(image);
-      // } else {
-      //   fileBytes = file.readAsBytesSync();
-      // }
-      final fileBytes = file.readAsBytesSync();
-      final fileName = file.uri.pathSegments.last;
-
-      final multipartFile = http.MultipartFile.fromBytes(
-        key,
-        fileBytes,
-        filename: fileName,
-      );
-
       final request = http.MultipartRequest('POST', Uri.parse(url));
+
       request.fields.addAll(fields);
-      request.files.add(multipartFile);
+
+      if (filePath != null && filePath.isNotEmpty) {
+        final file = File(filePath);
+        if (await file.exists()) {
+          final fileBytes = await file.readAsBytes();
+          final fileName = file.uri.pathSegments.last;
+
+          final multipartFile = http.MultipartFile.fromBytes(
+            key,
+            fileBytes,
+            filename: fileName,
+          );
+
+          request.files.add(multipartFile);
+        }
+      }
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
@@ -69,6 +70,7 @@ class NetworkApiServices extends BaseApiServices {
     } catch (e) {
       throw FetchDataException('An error occurred: $e');
     }
+
     return responseJson;
   }
 

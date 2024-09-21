@@ -1,4 +1,7 @@
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
@@ -8,8 +11,9 @@ import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/notification_screen.dart';
 import 'package:campuspro/Screens/studenPortal/activity.dart';
-import 'package:campuspro/Screens/studenPortal/class_room.dart';
 import 'package:campuspro/Screens/studenPortal/circular.dart';
+import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
+import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
 import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
@@ -31,10 +35,19 @@ class AppRouting extends GetxService {
   final StudentClasssRoomController studentClasssRoomController =
       Get.find<StudentClasssRoomController>();
 
+  final ExameAnalysisController exameAnalysisController =
+      Get.find<ExameAnalysisController>();
+
   final UserTypeController userTypeController = Get.find<UserTypeController>();
 
   final NotificationController notificationController =
       Get.find<NotificationController>();
+
+  final StudentHomeWorkController studentHomeWorkController =
+      Get.find<StudentHomeWorkController>();
+
+  final ExamTestExamResultController examResultController =
+      Get.find<ExamTestExamResultController>();
 
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
     if (whereToOpenFlag == "W") {
@@ -87,7 +100,10 @@ class AppRouting extends GetxService {
           break;
 
         case "Home Work":
+          await studentHomeWorkController.markgreenhomedate();
+          studentHomeWorkController.gethomeworkbydate();
           Get.to(() => const HomeworkScreen());
+
           appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
           break;
@@ -96,7 +112,9 @@ class AppRouting extends GetxService {
           if (UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
                   .ouserType ==
               'S') {
-            Get.to(() => const StudentClassroom());
+            await studentClasssRoomController.filterBysubjectTecher();
+
+            Get.toNamed(Routes.studentClassRomm);
             appbarController.appBarName.value = name;
             webController.showWebViewScreen.value = false;
           } else {
@@ -117,6 +135,24 @@ class AppRouting extends GetxService {
         case "Change Password":
           Get.toNamed(Routes.changePasswordScreen,
               arguments: {'isdefaultChangePass': false});
+          appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = false;
+          break;
+        case "Exam Analysis":
+          await exameAnalysisController.getExamData();
+          await exameAnalysisController.getclasssession();
+          await exameAnalysisController.analysisdata();
+          await Get.to(() => const ExameAnalysis());
+
+          appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = false;
+          break;
+
+        case "Exam/Test Result":
+          await exameAnalysisController.getExamData();
+          examResultController.testExamResult();
+          Get.to(() => const ExamTestResult());
+
           appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
           break;
