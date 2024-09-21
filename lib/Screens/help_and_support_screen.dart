@@ -44,11 +44,7 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
       path: helpAndSupportController.email.value,
       query: 'subject=Support Request',
     );
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
-      throw 'Could not launch email client';
-    }
+    await launchUrl(emailUri);
   }
 
   @override

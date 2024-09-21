@@ -1,3 +1,6 @@
+import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+
 class StudentCircularList {
   static List<StudentCircularModel> studentCircularList = [];
 }
@@ -14,6 +17,10 @@ class StudentCircularModel {
   String? empName;
   String? forStuEmp;
   String? createdTimestamp;
+
+  // New properties for download state
+  RxBool isDownloaded = false.obs;
+  RxInt value = 0.obs;
 
   StudentCircularModel({
     this.circularId,
@@ -41,6 +48,7 @@ class StudentCircularModel {
     empName = json['empname'] ?? "";
     forStuEmp = json['ForStuEmp'] ?? "";
     createdTimestamp = json['CreatedTimestamp'] ?? "";
+    isDownloaded.value = false;
   }
 
   Map<String, dynamic> toJson() {

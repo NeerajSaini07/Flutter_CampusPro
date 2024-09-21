@@ -34,6 +34,7 @@ class AppTextStyles {
   );
 
   static TextStyle filterOptionTextStyle = TextStyle(
+    fontSize: 16.sp,
     color: Colors.black,
     fontWeight: FontWeight.w600,
   );

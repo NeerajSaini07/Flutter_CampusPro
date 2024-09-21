@@ -1,10 +1,5 @@
-// ignore_for_file: sort_child_properties_last, unused_local_variable
-
-import 'package:campuspro/Controllers/appbar_controller.dart';
-import 'package:campuspro/Controllers/bottombar_controller.dart';
+// ignore_for_file: sort_child_properties_last
 import 'package:campuspro/Controllers/notificationController.dart';
-import 'package:campuspro/Controllers/web_controller.dart';
-
 import 'package:campuspro/Screens/notification_screen.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget recentnotificationOnDashboard(BuildContext context) {
-  final BottomBarController bottomBarController =
-      Get.find<BottomBarController>();
-
-  final AppbarController appbarController = Get.find<AppbarController>();
-  final WebController webController = Get.find<WebController>();
-
   final NotificationController notificationController =
       Get.find<NotificationController>();
-  double customHeight = ScreenUtil().scaleHeight;
+  double customHeight = ScreenUtil().screenHeight;
 
   return SizedBox(
     height: customHeight > 700 ? 78.h : 60.h,
@@ -39,7 +28,8 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                   Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 5.0, vertical: 1),
                     padding:
                         EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
                     decoration: BoxDecoration(

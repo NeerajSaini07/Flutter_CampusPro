@@ -3,7 +3,6 @@ import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Screens/Wedgets/common_form_component.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/getPass/otp.dart';
-import 'package:campuspro/Screens/Wedgets/getPass/usertype_search.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 
@@ -34,7 +33,22 @@ class _GatePassDashboardState extends State<GatePassDashboard> {
     getPassController.mobilenumberController.text = '';
     getPassController.mobileNo.value = '';
     getPassController.showOTPwidget.value = false;
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 
   @override
@@ -192,7 +206,7 @@ void showBottomSheet(BuildContext context) {
     ),
     builder: (BuildContext context) {
       return SizedBox(
-        width: double.infinity,
+        width: MediaQuery.sizeOf(context).width,
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 26.h),
             child: dashboardButton(context)),

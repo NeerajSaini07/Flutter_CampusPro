@@ -7,6 +7,26 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_file/open_file.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+@pragma('vm:entry-point')
+Future<void> onDidReceiveNotificationResponse(
+    NotificationResponse response) async {
+  // Handle notification tap
+  final payload = response.payload;
+  if (payload != null) {
+    await openFile(payload);
+  }
+}
+
+@pragma('vm:entry-point')
+Future<void> onDidReceiveBackgroundNotificationResponse(
+    NotificationResponse response) async {
+  // Handle background notification tap
+  final payload = response.payload;
+  if (payload != null) {
+    await openFile(payload);
+  }
+}
+
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id of the channel
   'High Importance Notifications', // channel name
@@ -100,12 +120,6 @@ initializeNotification() async {
     iOS: iosInitializationSettings,
   );
 
-  // Initializing the Flutter local notifications plugin
-  // Initialize the notification plugin
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-  );
-
   // Listening to foreground messages (when app is open) and showing notifications
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
@@ -134,6 +148,15 @@ initializeNotification() async {
           ));
     }
   });
+
+  // Initializing the Flutter local notifications plugin
+  // Initialize the notification plugin
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+    onDidReceiveBackgroundNotificationResponse:
+        onDidReceiveBackgroundNotificationResponse,
+  );
 
   // Requesting permission to show notifications and getting the FCM token
   await requestNotificationPermission();

@@ -1,72 +1,154 @@
-import 'package:campuspro/Modal/student_module/home_work.dart';
+import 'package:campuspro/Controllers/fcm_token_controller.dart';
+import 'package:campuspro/Modal/student_module/classromm_comment_model.dart';
+import 'package:campuspro/Modal/student_module/homeworkdatamodel.dart';
+import 'package:campuspro/Modal/student_module/homeworkbydate.dart';
+import 'package:campuspro/Repository/StudentRepositories/homeworkRepo.dart';
+import 'package:campuspro/Utilities/colors.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:path/path.dart' as path;
 
 class StudentHomeWorkController extends GetxController {
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
   var calendarFormat = CalendarFormat.week.obs;
   var focuseddate = DateTime.now().obs;
   RxBool tableRefresh = false.obs;
   var selectedDay = DateTime.now().obs;
+  var homeworkloader = false.obs;
+  var commentfile = ''.obs;
+  var filename = ''.obs;
+  var showfileoncomment = false.obs;
 
-  List<Map<String, dynamic>> homeworkJsonList = [];
+  var homeworkdatelist = <HomeworkModel>[].obs;
+  var homeworkbydate = <HomeWorkByDateModel>[].obs;
+  var homeworkcomments = <ClassRoomCommentModel>[].obs;
+  final TextEditingController commentcontroller = TextEditingController();
 
-  Map<DateTime, List<String>> homeworkEvents = {
-    DateTime.utc(2024, 9, 9): ['Math Homework'],
-    DateTime.utc(2024, 9, 10): ['Science Project'],
-    DateTime.utc(2024, 9, 11): ['History Essay'],
-  };
+  final FcmTokenController fcmTokenController = Get.find<FcmTokenController>();
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadHomeworkDataForCurrentDay();
-    homeworkdata();
+  markgreenhomedate() async {
+    final FcmTokenController fcmTokenController =
+        Get.find<FcmTokenController>();
+    await HomeWorkRepository.gethomedate().then((value) {
+      if (value != null) {
+        if (value['Status'] == "Cam-001") {
+          List<dynamic> homeworklistdata = value['Data1'];
+          // **************  for storing the data for showing notification on dshboiard *********
+          homeworkdatelist.value = homeworklistdata
+              .map((json) => HomeworkModel.fromJson(json))
+              .toList();
+
+          //  ************************  if token expire **************************
+        } else if (value['Status'] == "Cam-003") {
+          fcmTokenController.getFCMToken();
+          markgreenhomedate();
+        } else {
+          homeworkdatelist.clear();
+        }
+      } else {
+        homeworkdatelist.clear();
+      }
+    });
   }
 
-  void loadHomeworkDataForCurrentDay() {}
+  //  *******************  current date homework ********************
 
-  DateTime getDateOnly(DateTime dateTime) {
-    return DateTime(dateTime.year, dateTime.month, dateTime.day);
+  gethomeworkbydate() async {
+    final FcmTokenController fcmTokenController =
+        Get.find<FcmTokenController>();
+    homeworkloader.value = true;
+    await HomeWorkRepository.gethomeworkdatabydatesheet().then((value) {
+      print(value);
+      if (value != null) {
+        if (value['Status'] == "Cam-001") {
+          List<dynamic> currenthomework = value['Data'];
+          // **************  for storing the data for showing notification on dshboiard *********
+          homeworkbydate.value = currenthomework
+              .map((json) => HomeWorkByDateModel.fromJson(json))
+              .toList();
+
+          homeworkloader.value = false;
+
+          //  ************************  if token expire **************************
+        } else if (value['Status'] == "Cam-003") {
+          fcmTokenController.getFCMToken();
+          markgreenhomedate();
+        } else {
+          homeworkbydate.clear();
+          homeworkloader.value = false;
+        }
+      }
+    });
   }
 
-  void homeworkdata() {
-    HomeworkList.homeworkDetails = [
-      HomeworkModel(
-        subject: "Math",
-        teacherName: "Jay",
-        title: 'Math Homework',
-        description: 'Complete exercises 1-10 on page 32.',
-        date: DateTime(
-          2024,
-          9,
-          9,
-        ),
-      ),
-      HomeworkModel(
-        subject: "English",
-        title: 'English Essay',
-        description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        teacherName: "Nazish",
-        date: DateTime(
-          2024,
-          9,
-          9,
-        ),
-      ),
-      HomeworkModel(
-        subject: "physics",
-        title: 'Science Project',
-        description: 'Prepare a model of the solar system.',
-        date: DateTime(
-          2024,
-          9,
-          10,
-        ),
-      ),
-    ];
+  getfiles() async {
+    FilePickerResult? pickedPdf;
 
-    homeworkJsonList =
-        HomeworkList.homeworkDetails.map((hw) => hw.toJson()).toList();
+    pickedPdf = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'jpg', 'jpeg'],
+    );
+
+    if (pickedPdf != null) {
+      showfileoncomment.value = true;
+      String filepath = pickedPdf.files.single.path!;
+      commentfile.value = filepath;
+      filename.value = path.basename(filepath);
+    } else {
+      showfileoncomment.value = false;
+    }
+  }
+
+  //  *************************************************  student home work Comment *******************************
+
+  studenthomeworkReply(index) async {
+    await HomeWorkRepository.gethomeworkComment(index).then((value) {
+      if (value != null) {
+        if (value['Status'] == "Cam-001") {
+          List<dynamic> commentdata = value['Data'];
+
+          homeworkcomments.value = commentdata
+              .map((json) => ClassRoomCommentModel.fromJson(json))
+              .toList();
+        } else if (value['Status'] == 'Cam-003') {
+          fcmTokenController.getFCMToken();
+          studenthomeworkReply(index);
+        }
+      }
+    });
+  }
+
+  //  ********************************************  add comment ************************
+
+  addcommentsonHomeWork(index) async {
+    await HomeWorkRepository.addcommentsonHomeWork(index).then((value) {
+      if (value != null) {
+        if (value['Status'] == 'Cam-001') {
+          showfileoncomment.value = false;
+          commentcontroller.clear();
+          Get.back();
+          Get.snackbar(
+              backgroundColor: Colors.green,
+              colorText: AppColors.blackcolor,
+              "Homework Reply",
+              "Your Reply has been succesfully Submitted");
+        } else {
+          Get.back();
+          showfileoncomment.value = false;
+          commentcontroller.clear();
+          Get.snackbar(
+              backgroundColor: Colors.green,
+              colorText: AppColors.blackcolor,
+              "Homework Reply",
+              "Something Went Wrong Try Again");
+        }
+      }
+    });
   }
 }

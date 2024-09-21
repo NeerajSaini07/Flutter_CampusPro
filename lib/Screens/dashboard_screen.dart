@@ -38,9 +38,9 @@ class _MainDashboardState extends State<MainDashboard> {
     return WillPopScope(
       onWillPop: () async {
         if (appbarController.appBarName.value == Constant.schoolName) {
+          appbarController.appBarName.value = Constant.schoolName;
           return true;
         } else {
-          appbarController.appBarName.value = Constant.schoolName;
           bottomBarController.selectedBottomNavIndex.value = 0;
           // webController.generateWebUrl('Index.aspx', 'Dashboard');
           webController.showWebViewScreen.value = false;

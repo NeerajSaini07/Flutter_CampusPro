@@ -245,7 +245,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   onTap: () {
                                     forgotPasswordController
                                         .forgotPassMobile.value = '';
-                                    Get.toNamed(Routes.login);
+                                    Get.offAllNamed(Routes.login);
                                   },
                                   child: Text(
                                     "Login",

@@ -112,13 +112,11 @@ class WebViewDashboardPage extends StatelessWidget {
                   webController.generateWebUrl('Index.aspx', 'Dashboard');
                 } else {}
               },
+              onPageCommitVisible: (controller, url) {},
               onLoadStop: (InAppWebViewController controller, Uri? url) async {
                 await controller.evaluateJavascript(
                     source:
                         "window.localStorage.setItem('key', 'localStorage value!')");
-                if (url.toString().toLowerCase().contains("Login.aspx")) {
-                  logoutController.userlogOut();
-                }
                 controller.addJavaScriptHandler(
                     handlerName: 'downloadPDF',
                     callback: (args) async {

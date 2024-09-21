@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 class ForgotPasswordRepository {
   static Future<dynamic> checkschool() async {
-    const url = APIENDPOINT.sendOtpForgotPassword;
+    final url = APIENDPOINT.sendOtpForgotPassword;
 
     final ForgotPasswordController forgotPasswordController =
         Get.find<ForgotPasswordController>();
@@ -42,7 +42,7 @@ class ForgotPasswordRepository {
   }
 
   static Future<dynamic> sendForOTP() async {
-    const url = APIENDPOINT.sendOtpForgotPassword;
+    final url = APIENDPOINT.sendOtpForgotPassword;
 
     final ForgotPasswordController forgotPasswordController =
         Get.find<ForgotPasswordController>();
@@ -74,7 +74,7 @@ class ForgotPasswordRepository {
   }
 
   static Future<dynamic> otpVerification() async {
-    const url = APIENDPOINT.sendOtpForgotPassword;
+    final url = APIENDPOINT.sendOtpForgotPassword;
 
     final ForgotPasswordController forgotPasswordController =
         Get.find<ForgotPasswordController>();
@@ -110,7 +110,7 @@ class ForgotPasswordRepository {
   }
 
   static Future<dynamic> changesPassword() async {
-    const url = APIENDPOINT.sendOtpForgotPassword;
+    final url = APIENDPOINT.sendOtpForgotPassword;
 
     final ForgotPasswordController forgotPasswordController =
         Get.find<ForgotPasswordController>();

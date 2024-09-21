@@ -111,10 +111,12 @@ class UserTypeController extends GetxController {
         // Purpose: storing menu in local db and get pass module included
 
         await menuController.getmenuFromServer(index);
-
         await notificationController.getNotification();
 
         Get.toNamed(Routes.Dashboardboard);
+
+        bottomBarController.selectedBottomNavIndex.value = 0;
+        webController.showWebViewScreen.value = false;
 
         usertypeIndex =
             await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
@@ -126,7 +128,6 @@ class UserTypeController extends GetxController {
           bottomBarController.showChat.value = false;
           // bottomIndexvalueForhelpAndSupport.value = 2;
         }
-        bottomBarController.selectedBottomNavIndex.value = 0;
 
 // ************************************************************************
       } catch (e) {
@@ -134,6 +135,24 @@ class UserTypeController extends GetxController {
           print(e);
         }
       }
+    } else {
+      await menuController.getmenuFromServer(index);
+      await notificationController.getNotification();
+      // webController.showWebViewScreen.value = true;
+
+      Get.toNamed(Routes.Dashboardboard);
+
+      usertypeIndex =
+          await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
+      if (UserTypeslist.userTypesDetails[index].ouserType == 'E') {
+        bottomBarController.showChat.value = true;
+        //bottomIndexvalueForhelpAndSupport.value = 2;
+      } else {
+        bottomBarController.showChat.value = false;
+        // bottomIndexvalueForhelpAndSupport.value = 2;
+      }
+      bottomBarController.selectedBottomNavIndex.value = 0;
     }
     //webController.gotoWebview(url);
     webController.currentUrl.value = url;

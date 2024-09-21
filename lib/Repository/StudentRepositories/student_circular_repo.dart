@@ -1,3 +1,4 @@
+import 'package:campuspro/Controllers/StudentControllers/circular_controller.dart';
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Services/ApiService/Data/Network/base_api_services.dart';
@@ -5,9 +6,12 @@ import 'package:campuspro/Services/ApiService/Data/Network/network_api_service.d
 import 'package:campuspro/Utilities/api_end_point.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class StudentCircularRepo {
   static Future<dynamic> getStudentCircular() async {
+    CircularController circularController = Get.find<CircularController>();
     String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
     BaseApiServices apiServices = NetworkApiServices();
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
@@ -31,9 +35,14 @@ class StudentCircularRepo {
         "SessionId":
             UserTypeslist.userTypesDetails[usertypeIndex].currentSessionid ??
                 "",
-        "FromDate": "06-Sep-2024",
-        "ToDate": "06-Sep-2024",
-        "Onload": "1",
+        "FromDate": circularController.fromDate.value != null
+            ? DateFormat('dd-MMM-yyyy')
+                .format(circularController.fromDate.value!)
+            : "12-Sep-2024",
+        "ToDate": circularController.toDate.value != null
+            ? DateFormat('dd-MMM-yyyy').format(circularController.toDate.value!)
+            : "12-Sep-2024",
+        "Onload": circularController.filterCircular.value.toString(),
       };
 
       dynamic response = await apiServices

@@ -1,6 +1,10 @@
 import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
+import 'package:campuspro/Controllers/StudentControllers/activity_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/circular_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
@@ -17,6 +21,8 @@ import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Controllers/splash_controller.dart';
+import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
+import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:get/get.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import '../Controllers/menu_controller.dart';
@@ -63,9 +69,21 @@ class DependencyInjection {
     // ***************  Student Controller  ***********************
     Get.lazyPut<StudentHomeWorkController>(() => StudentHomeWorkController(),
         fenix: true);
+    Get.lazyPut<CircularController>(() => CircularController(), fenix: true);
 
     Get.lazyPut<StudentClasssRoomController>(
         () => StudentClasssRoomController(),
+        fenix: true);
+    Get.lazyPut<StudentActivityController>(() => StudentActivityController(),
+        fenix: true);
+
+    Get.lazyPut<DownloadService>(() => DownloadService(), fenix: true);
+
+    Get.lazyPut<ExameAnalysisController>(() => ExameAnalysisController(),
+        fenix: true);
+
+    Get.lazyPut<ExamTestExamResultController>(
+        () => ExamTestExamResultController(),
         fenix: true);
   }
 }
