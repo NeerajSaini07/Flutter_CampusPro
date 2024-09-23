@@ -13,8 +13,8 @@ AxisTitles bottom_list_for_barchart() {
   return AxisTitles(
     sideTitles: SideTitles(
       showTitles: true,
-      reservedSize: 34.h,
-      interval: 1,
+      reservedSize: 40.h,
+      interval: 0.5,
       getTitlesWidget: (value, meta) {
         int index = value.toInt();
         if (index >= 0 &&

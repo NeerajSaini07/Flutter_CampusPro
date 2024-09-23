@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Repository/StudentRepositories/test_exam_result_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,20 +12,38 @@ class ExamTestExamResultController extends GetxController {
 
   ScrollController scrollController = ScrollController();
   var showloader = false.obs;
+  var bottomshitopenforExamResult = false.obs;
+
+  final ExameAnalysisController exameAnalysisController =
+      Get.find<ExameAnalysisController>();
 
   //  *******************************  method for getting single exam result data ***************
   testExamResult() async {
     showloader.value = true;
     await TestExamResultRepository.getSingleExamMarksRepo().then((value) {
       if (value != null) {
-        print(value);
         if (value['Status'] == 'Cam-001') {
+          testMarksResultList.clear();
           List<dynamic> resultdata = value['Data'];
           testMarksResultList.value = resultdata
               .map((json) => ExamTestResultModel.fromJson(json))
               .toList();
-          showloader.value = false;
+
+          if (bottomshitopenforExamResult.value == true) {
+            Get.back();
+          }
+          bottomshitopenforExamResult.value = false;
           log("loader value $showloader");
+          showloader.value = false;
+        } else {
+          if (bottomshitopenforExamResult.value == true) {
+            Get.back();
+          }
+          testMarksResultList.clear();
+          showloader.value = false;
+          exameAnalysisController.session.value = '';
+          exameAnalysisController.examName.value = '';
+          bottomshitopenforExamResult.value = false;
         }
       }
     });

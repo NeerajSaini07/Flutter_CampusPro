@@ -31,14 +31,16 @@ class TestExamResultRepository {
           UserTypeslist.userTypesDetails[usertypeIndex].schoolId.toString(),
       "UserType":
           UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
-      "SessionId": UserTypeslist
-          .userTypesDetails[usertypeIndex].currentSessionid
-          .toString(),
+      "SessionId": exameAnalysisController.session.value.isNotEmpty
+          ? exameAnalysisController.session.value
+          : UserTypeslist.userTypesDetails[usertypeIndex].currentSessionid
+              .toString(),
       "StudentID":
           UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
-      "ExamId": exameAnalysisController.examnameList.first.examId.toString(),
+      "ExamId": exameAnalysisController.examName.isNotEmpty
+          ? exameAnalysisController.examName.value
+          : exameAnalysisController.examnameList.first.examId.toString(),
     };
-    print("request data: $getexamRequestdata");
 
     try {
       dynamic response = await apiServices

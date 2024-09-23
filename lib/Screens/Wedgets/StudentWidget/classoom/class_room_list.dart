@@ -2,11 +2,15 @@
 
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
 import 'package:campuspro/Modal/student_module/student_class_room_model.dart';
+import 'package:campuspro/Screens/Wedgets/StudentWidget/classoom/class_room_comment_page.dart.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/common_text_style.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/classoom/reply_dialog.dart';
+import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -43,25 +47,74 @@ Widget classRoomDataList() {
                           "${classRoomList[index].subjectName} ",
                           style: AppTextStyles.cardTitle,
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            await studentClasssRoomController
-                                .getclassRommComments(index);
-                            showChatScreenDialog(context, index);
-                          },
-                          child: Image.asset(
-                            "assets/icon/show_message.png",
-                            height: 20.h,
-                            width: 20.w,
-                            fit: BoxFit.contain,
-                          ),
+                        Row(
+                          children: [
+                            Obx(() => studentClasssRoomController
+                                    .classRoomdatalist[index]
+                                    .circularFileUrl!
+                                    .isNotEmpty
+                                ? CircleAvatar(
+                                    backgroundColor: AppColors.appbuttonColor,
+                                    radius: 12.r,
+                                    child: Icon(
+                                      Icons.download,
+                                      color: AppColors.whitetextcolor,
+                                    ),
+                                  )
+                                : SizedBox()),
+                            customWidth(25.w),
+                            GestureDetector(
+                              onTap: () async {
+                                await studentClasssRoomController
+                                    .getclassRommComments(index);
+
+                                Get.to(ClassRoomComments(
+                                  index: index,
+                                ));
+                              },
+                              child: Image.asset(
+                                "assets/icon/show_message.png",
+                                height: 20.h,
+                                width: 20.w,
+                                fit: BoxFit.contain,
+                              ),
+                            )
+                          ],
                         )
                       ],
                     ),
                     SizedBox(height: 12.h),
-                    Text(
-                      classRoomList[index].cirContent.toString(),
-                      style: AppTextStyles.cardContent,
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                          text: classRoomList[index]
+                                      .cirContent
+                                      .toString()
+                                      .length >
+                                  100
+                              ? classRoomList[index]
+                                  .cirContent!
+                                  .substring(0, 100)
+                              : classRoomList[index].cirContent,
+                          style: AppTextStyles.cardContent,
+                        ),
+                        classRoomList[index].cirContent.toString().length > 100
+                            ? TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    await studentClasssRoomController
+                                        .getclassRommComments(index);
+                                    Get.to(ClassRoomComments(
+                                      index: index,
+                                    ));
+                                  },
+                                text: "  ...View More",
+                                style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blueAccent))
+                            : TextSpan(),
+                      ]),
                     ),
                     SizedBox(height: 12.h),
                     Row(
@@ -71,43 +124,6 @@ Widget classRoomDataList() {
                           classRoomList[index].circularDateFormatted.toString(),
                           style: AppTextStyles.cardDate,
                         ),
-                        (classRoomList[index].circularFileUrl != null &&
-                                classRoomList[index]
-                                    .circularFileUrl!
-                                    .isNotEmpty)
-                            ? Container(
-                                padding: EdgeInsets.all(5.r),
-                                decoration: BoxDecoration(
-                                  color: AppColors.appbuttonColor,
-                                  borderRadius: BorderRadius.circular(14.r),
-                                  shape: BoxShape.rectangle,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    downloadService.downloadFile(
-                                        classRoomList[index]
-                                            .circularFileUrl
-                                            .toString());
-                                  },
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.download,
-                                        size: 16.r,
-                                        color: AppColors.whitetextcolor,
-                                      ),
-                                      Text(
-                                        'Download',
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
                       ],
                     ),
                   ],
@@ -126,6 +142,5 @@ Future<List<StudentClassRoomModel>> fetchClassRoomData() async {
       Get.find<StudentClasssRoomController>();
   studentClasssRoomController.classRoomData();
   await Future.delayed(Duration(seconds: 1));
-
   return studentClasssRoomController.classRoomdatalist;
 }

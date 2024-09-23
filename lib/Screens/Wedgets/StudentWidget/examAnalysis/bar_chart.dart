@@ -88,11 +88,11 @@ Widget barchartForSingleExam(BuildContext context) {
                       height: 350.h,
                       width:
                           exameAnalysisController.singleExamDataList.length <= 3
-                              ? MediaQuery.of(context).size.width * 1
+                              ? MediaQuery.of(context).size.width * 0.9
                               : MediaQuery.of(context).size.width *
                                   (exameAnalysisController
                                       .singleExamDataList.length) *
-                                  0.334,
+                                  0.23,
                       child: AspectRatio(
                         aspectRatio: 1.4,
                         child: BarChart(

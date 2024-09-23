@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Modal/fcmtoken_model.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
@@ -52,6 +54,8 @@ class ExamanalysisRepository {
     final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
     final usertypeIndex =
         await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    final ExameAnalysisController exameAnalysisController =
+        Get.find<ExameAnalysisController>();
 
     var analysisRequest = {
       "OUserId": uid,
@@ -64,9 +68,10 @@ class ExamanalysisRepository {
           UserTypeslist.userTypesDetails[usertypeIndex].schoolId.toString(),
       "UserType":
           UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
-      "SessionId": UserTypeslist
-          .userTypesDetails[usertypeIndex].currentSessionid
-          .toString(),
+      "SessionId": exameAnalysisController.session.value.isNotEmpty
+          ? exameAnalysisController.session.value
+          : UserTypeslist.userTypesDetails[usertypeIndex].currentSessionid
+              .toString(),
       "ClassId": StudentDetaillist.studentdetails.last.classId.toString()
     };
 
@@ -111,9 +116,10 @@ class ExamanalysisRepository {
           UserTypeslist.userTypesDetails[usertypeIndex].schoolId.toString(),
       "UserType":
           UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
-      "SessionId": UserTypeslist
-          .userTypesDetails[usertypeIndex].currentSessionid
-          .toString(),
+      "SessionId": exameAnalysisController.session.value.isNotEmpty
+          ? exameAnalysisController.session.value
+          : UserTypeslist.userTypesDetails[usertypeIndex].currentSessionid
+              .toString(),
       "ExamId": exameAnalysisController.examName.isNotEmpty
           ? exameAnalysisController.examName.value
           : "0",

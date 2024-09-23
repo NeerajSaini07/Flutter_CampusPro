@@ -19,6 +19,8 @@ class ExameAnalysisController extends GetxController {
   ScrollController scrollController = ScrollController();
 
   var sessionList = <SessionModel>[].obs;
+
+  var exannameforAllexamAnalysis = <ExamnameModel>[].obs;
   var examnameList = <ExamnameModel>[].obs; // exam name list
   var studentReport = <ExamanalysisDataModel>[].obs; //  all eaxma analysis list
   var subjectlist = [];
@@ -29,6 +31,7 @@ class ExameAnalysisController extends GetxController {
   var examName = ''.obs;
   var showloader = false.obs;
   var removefilter = false.obs;
+  var startfilter = false.obs;
   var showSingleExamGhraph = false.obs;
   var singleExamDataList = <SingleExamAnalysisModel>[].obs;
 
@@ -48,17 +51,23 @@ class ExameAnalysisController extends GetxController {
 
   getExamData() async {
     await ExamanalysisRepository.getExamname().then((value) {
-      print(value);
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
+          examnameList.clear();
           List<dynamic> examname = value['Data'];
           examnameList.value =
               examname.map((json) => ExamnameModel.fromJson(json)).toList();
+          if (startfilter.value == false) {
+            print(value);
+            exannameforAllexamAnalysis.value =
+                examname.map((json) => ExamnameModel.fromJson(json)).toList();
+          }
+        } else if (value['Status'] == 'Cam-006') {
+          examnameList.clear();
+          exannameforAllexamAnalysis();
         }
       }
     });
-
-    print(examnameList);
   }
 
   analysisdata() async {
@@ -67,20 +76,27 @@ class ExameAnalysisController extends GetxController {
     if (response != null) {
       List<dynamic> reportdata = response['Data'];
 
-      log(reportdata.toString());
       if (response['Status'] == 'Cam-001') {
         studentReport.value = reportdata
             .map((json) => ExamanalysisDataModel.fromJson(json))
             .toList();
 
+        print("Student resposrt $studentReport");
         for (var i = 0; i < studentReport.length; i++) {
           if (!subjectlist.contains(studentReport[i].subjectName)) {
             subjectlist.add(studentReport[i].subjectName);
           }
         }
+
         showloader.value = false;
 
         datatransforming();
+      } else if (response['Status'] == 'Cam-006') {
+        studentReport.clear();
+        showloader.value = false;
+      } else {
+        studentReport.clear();
+        showloader.value = false;
       }
     }
   }
@@ -147,8 +163,8 @@ class ExameAnalysisController extends GetxController {
     showloader.value = true;
     Get.back();
     await ExamanalysisRepository.examAnalysisReportData().then((value) async {
+      print(value);
       if (value != null) {
-        log(value['Status']);
         if (value['Status'] == 'Cam-001') {
           List<dynamic> exmadata = value['Data'];
           singleExamDataList.value = exmadata
@@ -161,6 +177,14 @@ class ExameAnalysisController extends GetxController {
         } else if (value['Status'] == 'Camp-003') {
           await loginController.userLogin();
           filterExamDataBySessionAndExam();
+          await Future.delayed(const Duration(microseconds: 1000));
+          showloader.value = false;
+        } else if (value['Status'] == 'Cam-006') {
+          singleExamDataList.clear();
+          await Future.delayed(const Duration(microseconds: 1000));
+          showloader.value = false;
+        } else {
+          singleExamDataList.clear();
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         }

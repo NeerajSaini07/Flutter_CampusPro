@@ -10,6 +10,7 @@ import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
 import 'package:campuspro/Controllers/change_password_controller.dart';
+import 'package:campuspro/Controllers/datesheet_controller.dart';
 import 'package:campuspro/Controllers/exception_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/forgotpassword_controller.dart';
@@ -17,14 +18,16 @@ import 'package:campuspro/Controllers/help_and_support_controller.dart';
 import 'package:campuspro/Controllers/logout_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
 import 'package:campuspro/Controllers/notificationController.dart';
+import 'package:campuspro/Controllers/student_timetable_controller.dart';
 import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Controllers/splash_controller.dart';
-import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
 import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:get/get.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
+import '../Controllers/StudentControllers/transportdetail_controller.dart';
+import '../Controllers/feedback_controller.dart';
 import '../Controllers/menu_controller.dart';
 
 class DependencyInjection {
@@ -84,6 +87,15 @@ class DependencyInjection {
 
     Get.lazyPut<ExamTestExamResultController>(
         () => ExamTestExamResultController(),
+        fenix: true);
+
+    Get.lazyPut<StudentFeedbackController>(() => StudentFeedbackController(),
+        fenix: true);
+    Get.lazyPut<StudenttimetableController>(() => StudenttimetableController(),
+        fenix: true);
+    Get.lazyPut<TransportdetailController>(() => TransportdetailController(),
+        fenix: true);
+    Get.lazyPut<StudentDatesheetController>(() => StudentDatesheetController(),
         fenix: true);
   }
 }

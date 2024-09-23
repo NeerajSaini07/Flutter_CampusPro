@@ -27,8 +27,8 @@ class StudentActivityScreen extends StatelessWidget {
                 return circularListCard(context);
               },
             ),
-            Icon(Icons.directions_transit),
-            Icon(Icons.directions_bike),
+            const Icon(Icons.directions_transit),
+            const Icon(Icons.directions_bike),
           ],
         ),
       ),

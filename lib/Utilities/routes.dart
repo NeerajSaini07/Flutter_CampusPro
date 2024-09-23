@@ -20,4 +20,8 @@ class Routes {
   static const String StudentDashboad = '/studentdashboard';
   static const String studentClassRomm = '/studentClassRoom';
   static const String studentexamAnalysis = '/studentexamAnalysis';
+  static const String transportScreen = '/transposrtScreen';
+  static const String studenttimeTable = '/studentTimeTable';
+  static const String feedback = '/feedback';
+  static const String studentdatesheet = '/studentDatesheet';
 }

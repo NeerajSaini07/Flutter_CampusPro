@@ -139,6 +139,32 @@ class AppRouting extends GetxService {
           webController.showWebViewScreen.value = false;
           break;
 
+        case "Transport":
+          // await exameAnalysisController.getExamData();
+          // examResultController.testExamResult();
+          Get.toNamed(Routes.transportScreen);
+
+          appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = false;
+          break;
+
+        case "Time Table":
+          Get.toNamed(Routes.studenttimeTable);
+          appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = false;
+          break;
+        case "Feedback":
+          Get.toNamed(Routes.feedback);
+          appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = false;
+          break;
+
+        case "Date Sheet":
+          Get.toNamed(Routes.studentdatesheet);
+          appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = false;
+          break;
+
         default:
           if (pageurl == '') {
             pageurl = 'Index.aspx';

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
 import 'package:campuspro/Modal/student_module/exam_analysis_session_model.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
@@ -8,9 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+//  ***************** this modal bottom sheet will work for exam analysis and test exam result opage ***************
+
 modalBottomSheetMenu(BuildContext context) {
   final ExameAnalysisController exameAnalysisController =
       Get.find<ExameAnalysisController>();
+
+  final ExamTestExamResultController examResultController =
+      Get.find<ExamTestExamResultController>();
+
   showModalBottomSheet(
       context: context,
       builder: (builder) {
@@ -49,34 +56,40 @@ modalBottomSheetMenu(BuildContext context) {
                             value: classsession,
                             child: Text(classsession.sessionFrom));
                       }).toList(),
-                      onChanged: (SessionModel? sessionModel) {
+                      onChanged: (SessionModel? sessionModel) async {
                         if (sessionModel != null) {
                           exameAnalysisController.session.value =
                               sessionModel.id.toString();
+                          await exameAnalysisController.getExamData();
                         }
                       },
                     ),
                   ),
                   SizedBox(width: 10), // Add spacing between the dropdowns
                   Expanded(
-                    child: DropdownButtonFormField(
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(
-                              top: 10.h, bottom: 10.h, left: 10.w, right: 10.w),
-                          hintText: "Select Exam Name",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r))),
-                      items: exameAnalysisController.examnameList
-                          .map((ExamnameModel examname) {
-                        return DropdownMenuItem<ExamnameModel>(
-                            value: examname, child: Text(examname.exam));
-                      }).toList(),
-                      onChanged: (ExamnameModel? examnameModel) {
-                        if (examnameModel != null) {
-                          exameAnalysisController.examName.value =
-                              examnameModel.examId.toString();
-                        }
-                      },
+                    child: Obx(
+                      () => DropdownButtonFormField(
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(
+                                top: 10.h,
+                                bottom: 10.h,
+                                left: 10.w,
+                                right: 10.w),
+                            hintText: "Select Exam Name",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.r))),
+                        items: exameAnalysisController.examnameList
+                            .map((ExamnameModel examname) {
+                          return DropdownMenuItem<ExamnameModel>(
+                              value: examname, child: Text(examname.exam));
+                        }).toList(),
+                        onChanged: (ExamnameModel? examnameModel) {
+                          if (examnameModel != null) {
+                            exameAnalysisController.examName.value =
+                                examnameModel.examId.toString();
+                          }
+                        },
+                      ),
                     ),
                   )
                 ],
@@ -85,24 +98,34 @@ modalBottomSheetMenu(BuildContext context) {
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Obx(
                   () => ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: AppColors.appbuttonColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r))),
-                      onPressed: (exameAnalysisController
-                                  .session.value.isEmpty ||
-                              exameAnalysisController.examName.value.isEmpty)
-                          ? null
-                          : exameAnalysisController
-                              .filterExamDataBySessionAndExam,
-                      child: Text(
-                        "Apply Filter",
-                        style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.whitetextcolor),
-                      )),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: AppColors.appbuttonColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
+                    onPressed: (exameAnalysisController.session.value.isEmpty ||
+                            exameAnalysisController.examName.value.isEmpty)
+                        ? null
+                        : () {
+                            if (examResultController
+                                .bottomshitopenforExamResult.value) {
+                              examResultController.testExamResult();
+                            } else {
+                              exameAnalysisController
+                                  .filterExamDataBySessionAndExam();
+                            }
+                          },
+                    child: Text(
+                      "Apply Filter",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.whitetextcolor,
+                      ),
+                    ),
+                  ),
                 ),
                 Obx(() => exameAnalysisController.removefilter.value
                     ? SizedBox(
@@ -140,3 +163,6 @@ modalBottomSheetMenu(BuildContext context) {
     }
   });
 }
+
+// exameAnalysisController
+//                               .filterExamDataBySessionAndExam

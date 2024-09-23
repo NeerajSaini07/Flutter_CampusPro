@@ -3,6 +3,7 @@ import 'package:campuspro/Modal/student_module/classromm_comment_model.dart';
 import 'package:campuspro/Modal/student_module/student_class_room_model.dart';
 import 'package:campuspro/Modal/student_module/class_room_teacher_filter.dart';
 import 'package:campuspro/Repository/StudentRepositories/classroom_repo.dart';
+import 'package:campuspro/Utilities/colors.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +31,9 @@ class StudentClasssRoomController extends GetxController {
   var fileName = ''.obs;
   final picker = ImagePicker();
   final FcmTokenController fcmTokenController = Get.find<FcmTokenController>();
+
+  var successcommentloader = false.obs;
+  final FocusNode commentFocusNode = FocusNode();
 
   classRoomData() async {
     await StudentClassRoomRepo.getClassRoomdata().then((value) async {
@@ -68,7 +72,6 @@ class StudentClasssRoomController extends GetxController {
 
   getfiles() async {
     FilePickerResult? pickedPdf;
-
     pickedPdf = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'jpg', 'jpeg'],
@@ -84,10 +87,27 @@ class StudentClasssRoomController extends GetxController {
 //  *****************************   add comment on  homehomehork ************
 
   addCommentOnClassRoom(index) async {
-    await StudentClassRoomRepo.addcomments(index).then((value) {
+    commentFocusNode.unfocus();
+    await StudentClassRoomRepo.addcomments(index).then((value) async {
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
-          Get.back();
+          successcommentloader.value = true;
+          Get.snackbar("Comments", "Your Comments Successfully Post");
+          comment.clear();
+
+          filesource.value = '';
+          fileName.value = '';
+          await getclassRommComments(index);
+        } else if (value['Status'] == 'Cam-006') {
+          filesource.value = '';
+          fileName.value = '';
+          comment.clear();
+          await getclassRommComments(index);
+          successcommentloader.value = false;
+          Get.snackbar("Comments", "Your Comments Successfully Post");
+        } else {
+          successcommentloader.value = false;
+          Get.snackbar("Comments", "Your Comments is Faild ");
         }
       }
     });
@@ -100,14 +120,12 @@ class StudentClasssRoomController extends GetxController {
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
           List<dynamic> commentdata = value['Data'];
-
           commentlist.value = commentdata
               .map((json) => ClassRoomCommentModel.fromJson(json))
               .toList();
-        } else if (value['Status'] == 'Cam-003') {
-          fcmTokenController.getFCMToken();
-          getclassRommComments(index);
-        }
+
+          successcommentloader.value = false;
+        } else if (value['Status'] == 'Cam-003') {}
       }
     });
   }

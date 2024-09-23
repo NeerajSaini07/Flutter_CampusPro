@@ -37,6 +37,8 @@ class ExamTestResult extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      examResultController.bottomshitopenforExamResult.value =
+                          true;
                       modalBottomSheetMenu(context);
                     },
                     child: Image.asset(
@@ -49,16 +51,33 @@ class ExamTestResult extends StatelessWidget {
                 ],
               ),
               CustomeHeight(16.h),
-              Obx(
-                () => examResultController.showloader.value
-                    ? CircularProgressIndicator.adaptive()
-                    : studentMarksdetails(),
-              ),
-              CustomeHeight(16.h),
-              SizedBox(
-                height: 300.h, // Adjust this height as per your needs
-                child: resultGraph(context),
-              )
+              Obx(() {
+                if (examResultController.showloader.value) {
+                  return Center(child: CircularProgressIndicator.adaptive());
+                } else if (examResultController.testMarksResultList.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "No Data Available",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.blacktextcolor,
+                      ),
+                    ),
+                  );
+                } else {
+                  return Column(
+                    children: [
+                      studentMarksdetails(),
+                      CustomeHeight(16.h),
+                      SizedBox(
+                        height: 300.h,
+                        child: resultGraph(context),
+                      ),
+                    ],
+                  );
+                }
+              }),
             ],
           ),
         ),
