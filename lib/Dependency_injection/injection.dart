@@ -6,6 +6,7 @@ import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dar
 import 'package:campuspro/Controllers/StudentControllers/edit_profile_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/holiday_calender_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/leave_controller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
@@ -94,6 +95,9 @@ class DependencyInjection {
         fenix: true);
     Get.lazyPut<StudentEditProfileController>(
         () => StudentEditProfileController(),
+        fenix: true);
+    Get.lazyPut<StudentHolidayAndCalendarController>(
+        () => StudentHolidayAndCalendarController(),
         fenix: true);
   }
 }

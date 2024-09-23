@@ -45,7 +45,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-          appBar: customAppBar(context, title: "Change Password"),
+          appBar: (widget.isdefaultChangePass)
+              ? null
+              : customAppBar(context, title: "Change Password"),
           backgroundColor:
               (widget.isdefaultChangePass) ? AppColors.loginscafoldcoolr : null,
           body: SingleChildScrollView(
@@ -125,44 +127,46 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
         CustomeHeight(4.h),
         //Old Password
-        Obx(
-          () => buildTextField(
-              hintText: "Old Password",
-              controller: changePasswordController.oldPasswordController,
-              focusNode: changePasswordController.oldPassNode,
-              suffixIcon: true,
-              suffixCustomIcon: true,
-              customWidget: IconButton(
-                icon: changePasswordController.oldPassHide.value
-                    ? Icon(Icons.visibility_off)
-                    : Icon(Icons.visibility),
-                onPressed: () {
-                  changePasswordController.oldPassHide.value =
-                      !changePasswordController.oldPassHide.value;
-                },
-              ),
-              style: TextStyle(
-                color: changePasswordController.isOldPassFocused.value
-                    ? Colors.black
-                    : Colors.grey,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              obscureText: changePasswordController.oldPassHide.value,
-              prefixIconData: Icons.lock,
-              onChanged: (value) {
-                if (value.isNotEmpty) {
-                  changePasswordController.showOldPassError.value = '';
-                }
-              }),
-        ),
-        Obx(() {
-          return changePasswordController.showOldPassError.value.isNotEmpty
-              ? errocommponent(
-                  fontsize: 10.sp,
-                  errorText: changePasswordController.showOldPassError)
-              : SizedBox();
-        }),
+        if (!widget.isdefaultChangePass) ...{
+          Obx(
+            () => buildTextField(
+                hintText: "Old Password",
+                controller: changePasswordController.oldPasswordController,
+                focusNode: changePasswordController.oldPassNode,
+                suffixIcon: true,
+                suffixCustomIcon: true,
+                customWidget: IconButton(
+                  icon: changePasswordController.oldPassHide.value
+                      ? Icon(Icons.visibility_off)
+                      : Icon(Icons.visibility),
+                  onPressed: () {
+                    changePasswordController.oldPassHide.value =
+                        !changePasswordController.oldPassHide.value;
+                  },
+                ),
+                style: TextStyle(
+                  color: changePasswordController.isOldPassFocused.value
+                      ? Colors.black
+                      : Colors.grey,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                obscureText: changePasswordController.oldPassHide.value,
+                prefixIconData: Icons.lock,
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    changePasswordController.showOldPassError.value = '';
+                  }
+                }),
+          ),
+          Obx(() {
+            return changePasswordController.showOldPassError.value.isNotEmpty
+                ? errocommponent(
+                    fontsize: 10.sp,
+                    errorText: changePasswordController.showOldPassError)
+                : SizedBox();
+          }),
+        },
         //New Password
         Obx(
           () => buildTextField(

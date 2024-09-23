@@ -37,7 +37,7 @@ class _StudentCircularScreenState extends State<StudentCircularScreen> {
       },
       child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: customAppBar(context),
+          appBar: customAppBar(context, title: "Circular"),
           body: Column(
             children: [
               Padding(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -97,6 +99,30 @@ class CommonFunctions {
         return "assets/dashboard_icon/Fee.png";
       default:
         return "assets/dashboard_icon/${menuname}.png";
+    }
+  }
+
+  //Get Date and Year
+  static List formatDateString(String input) {
+    List<String> parts = input.split(' to ');
+    if (parts.length == 2) {
+      DateTime startDate =
+          DateFormat('dd-MMM-yyyy').parse(parts[0].toString().trim());
+      DateTime endDate =
+          DateFormat('dd-MMM-yyyy').parse(parts[1].toString().trim());
+      return [
+        "${startDate.day}-${endDate.day} ${DateFormat.MMM().format(endDate)}",
+        "${endDate.year}",
+        "${DateFormat('EEE').format(startDate)}-${DateFormat('EEE').format(endDate)}"
+      ];
+    } else {
+      DateTime date =
+          DateFormat('dd-MMM-yyyy').parse(parts[0].toString().trim());
+      return [
+        "${date.day} ${DateFormat.MMM().format(date)}",
+        "${date.year}",
+        DateFormat('EEEE').format(date)
+      ];
     }
   }
 }

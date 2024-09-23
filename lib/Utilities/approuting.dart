@@ -14,6 +14,7 @@ import 'package:campuspro/Screens/studenPortal/activity.dart';
 import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
 import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
+import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
 import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
@@ -96,6 +97,10 @@ class AppRouting extends GetxService {
 
         case "Request Edit Detail":
           Get.to(() => const StudentEditProfileScreen());
+          break;
+
+        case "Holiday List":
+          Get.to(() => const HolidayListScreen());
           break;
 
         case "Home Work":
