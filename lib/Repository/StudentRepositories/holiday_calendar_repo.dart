@@ -8,7 +8,7 @@ import 'package:campuspro/Utilities/api_end_point.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/foundation.dart';
 
-class StudentHolidayRepo {
+class StudentHolidayCalendarRepo {
   //Get Student Holiday List
   static Future<dynamic> getStudentHolidayListRepo(
       {required String classId}) async {
@@ -42,6 +42,51 @@ class StudentHolidayRepo {
       dynamic response = await apiServices
           .postApiRequest(
               requestData, baseUrl + APIENDPOINT.studentHolidayListApi)
+          .onError((error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //Get Student Calendar Data
+  static Future<dynamic> getStudentCalendarDataRepo() async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    BaseApiServices apiServices = NetworkApiServices();
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+
+    final usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+
+    try {
+      Map<String, dynamic> requestData = {
+        "OUserId": uid,
+        "Token": FcmTokenList.tokenlist.first.token,
+        "OrgId":
+            UserTypeslist.userTypesDetails[usertypeIndex].organizationId ?? "",
+        "Schoolid":
+            UserTypeslist.userTypesDetails[usertypeIndex].schoolId ?? "",
+        "Flag": "GetStuDetails",
+        "StuEmpId":
+            UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
+        "Year": DateTime.now().year.toString(),
+        "Month": DateTime.now().month.toString(),
+        "UserType":
+            UserTypeslist.userTypesDetails[usertypeIndex].ouserType ?? "",
+        "SessionId":
+            UserTypeslist.userTypesDetails[usertypeIndex].currentSessionid ??
+                "",
+      };
+
+      log(baseUrl + APIENDPOINT.studentCalendarDataApi);
+
+      dynamic response = await apiServices
+          .postApiRequest(
+              requestData, baseUrl + APIENDPOINT.studentCalendarDataApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);

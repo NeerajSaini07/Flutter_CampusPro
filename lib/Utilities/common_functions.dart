@@ -94,9 +94,16 @@ class CommonFunctions {
   static String fetchDahboardIcon({required String menuname}) {
     switch (menuname.toLowerCase()) {
       case "alert & notification":
+      case "notification":
         return "assets/dashboard_icon/notification.png";
+      case "leave detail":
+      case "leave request":
+        return "assets/dashboard_icon/leave.png";
       case "fee payment":
         return "assets/dashboard_icon/Fee.png";
+      case "classroom":
+      case "class room":
+        return "assets/dashboard_icon/classroom.png";
       default:
         return "assets/dashboard_icon/${menuname}.png";
     }

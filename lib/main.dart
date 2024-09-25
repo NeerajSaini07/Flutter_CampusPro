@@ -10,9 +10,14 @@ import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/help_and_support_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
+import 'package:campuspro/Screens/studenPortal/activity.dart';
+import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/class_room.dart';
 import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
+import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
+import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile.dart';
+import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
@@ -94,6 +99,13 @@ class MyApp extends StatelessWidget {
             Routes.studentProfileScreen: (context) => StudentProfileScreen(),
             Routes.studentClassRomm: (context) => StudentClassroom(),
             Routes.studentexamAnalysis: (context) => ExameAnalysis(),
+            Routes.holidayScreen: (context) => HolidayListScreen(),
+            Routes.studentEditProfileScreen: (context) =>
+                StudentEditProfileScreen(),
+            Routes.studentLeaveDetailScreen: (context) =>
+                StudentLeaveDetailScreen(),
+            Routes.studentCircularScreen: (context) => StudentCircularScreen(),
+            Routes.studentActivityScreen: (context) => StudentActivityScreen(),
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially

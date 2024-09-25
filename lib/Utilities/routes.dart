@@ -21,4 +21,9 @@ class Routes {
   static const String studentProfileScreen = '/studentProfileScreen';
   static const String studentClassRomm = '/studentClassRoom';
   static const String studentexamAnalysis = '/studentexamAnalysis';
+  static const String holidayScreen = '/holidayScreen';
+  static const String studentEditProfileScreen = '/studentEditProfileScreen';
+  static const String studentLeaveDetailScreen = '/studentLeaveDetailScreen';
+  static const String studentCircularScreen = '/studentCircularScreen';
+  static const String studentActivityScreen = '/studentActivityScreen';
 }

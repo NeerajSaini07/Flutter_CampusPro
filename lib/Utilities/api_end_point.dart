@@ -65,6 +65,7 @@ class APIENDPOINT {
   static const studentRequestForLeaveApi = "RequestForLeave_V1";
   static const studentHolidayListApi = "BindStuHolidays";
   static const studentClassTeacherApi = "getClassTeacher_V1";
+  static const studentCalendarDataApi = "GetStudentDetailsForCal";
   //************profile************************* */
   static const studentProfileApi = "getStuProfile_V1";
   static const reqProfileDropDownApi = "GetParam";

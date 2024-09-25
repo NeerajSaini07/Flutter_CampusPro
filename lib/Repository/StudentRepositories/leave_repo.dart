@@ -181,7 +181,7 @@ class StudentLeaveRepo {
         "DestinationId": destinationId,
         "txtdescription": leaveController.descriptionController.text,
         "RequestorPhone": mobile,
-        "Leavetype": leaveController.selectedLeaveType.value,
+        "Leavetype": leaveController.selectedLeaveType.value.toString(),
         "FromDate": leaveController.fromDate.value != null
             ? DateFormat('dd-MMM-yyyy').format(leaveController.fromDate.value!)
             : "",

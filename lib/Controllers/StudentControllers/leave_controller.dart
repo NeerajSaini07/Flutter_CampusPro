@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Modal/student_module/leave_request_model.dart';
 import 'package:campuspro/Modal/student_module/student_attendance_model.dart';
@@ -17,7 +18,7 @@ class StudentLeaveController extends GetxController {
   RxInt touchedGroupIndex = (-1).obs;
   var touchedValue = ''.obs;
   //Ask for Leave
-  List<String> leaveType = ["Sick Leave", "Urgent Leave"];
+  RxList<String> leaveType = ["Sick Leave", "Urgent Leave"].obs;
   var toDate = Rx<DateTime?>(null);
   var fromDate = Rx<DateTime?>(null);
   RxString selectedLeaveType = "".obs;
@@ -201,7 +202,7 @@ class StudentLeaveController extends GetxController {
                   classTeacherResponse['Data'].first['EmpId'].toString());
           log(response.toString());
           if (response != null && response['Status'] == "Cam-001") {
-            CommonFunctions.showSuccessSnackbar("Leave Request Successful",
+            CommonFunctions.showSuccessSnackbar("Leave Request Submitted",
                 "Your leave request has been successfully processed.");
             getStudentLeaveRequestList();
           } else if (response != null && response['Status'] == "Cam-003") {

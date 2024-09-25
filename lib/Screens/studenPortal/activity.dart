@@ -241,7 +241,7 @@ Widget circularListCard(BuildContext context, StudentActivityModel activityData,
             Row(
               children: [
                 Text(
-                  activityData.dateAdded ?? " ",
+                  (activityData.dateAdded ?? " "),
                   style: AppTextStyles.cardDate,
                 ),
                 const Spacer(),
@@ -253,8 +253,12 @@ Widget circularListCard(BuildContext context, StudentActivityModel activityData,
                   InkWell(
                     borderRadius: BorderRadius.circular(14.r),
                     onTap: () {
+                      // 'https://jsoncompare.org/LearningContainer/SampleFiles/PDF/sample-pdf-download-10-mb.pdf'
+
                       activityController.downloadFile(
-                          'https://jsoncompare.org/LearningContainer/SampleFiles/PDF/sample-pdf-download-10-mb.pdf',
+                          activityData.fileurl.toString().replaceAll(
+                              "fmobiledev.campuspro.in/api/",
+                              "mobiledev.campuspro.in/"),
                           activityData.isDownloaded);
                     },
                     child: Container(

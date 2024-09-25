@@ -18,6 +18,7 @@ import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
 import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
+import 'package:campuspro/Screens/studenPortal/student_calendar.dart';
 import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
@@ -92,15 +93,19 @@ class AppRouting extends GetxService {
 
         case "Leave Detail":
         case "Leave Request":
-          Get.to(() => const StudentLeaveDetailScreen());
+          Get.toNamed(Routes.studentLeaveDetailScreen);
           break;
 
         case "Request Edit Detail":
-          Get.to(() => const StudentEditProfileScreen());
+          Get.toNamed(Routes.studentEditProfileScreen);
           break;
 
         case "Holiday List":
-          Get.to(() => const HolidayListScreen());
+          Get.toNamed(Routes.holidayScreen);
+          break;
+
+        case "Calendar":
+          Get.to(() => const StudentCalendarScreen());
           break;
 
         case "Home Work":
@@ -127,11 +132,11 @@ class AppRouting extends GetxService {
           break;
 
         case "Circular":
-          Get.to(() => const StudentCircularScreen());
+          Get.toNamed(Routes.studentCircularScreen);
           break;
 
         case "Activity":
-          Get.to(() => const StudentActivityScreen());
+          Get.toNamed(Routes.studentActivityScreen);
           break;
 
         case "Change Password":
