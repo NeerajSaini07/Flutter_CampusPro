@@ -11,11 +11,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:path/path.dart' as path;
 
 class StudentHomeWorkController extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   var calendarFormat = CalendarFormat.week.obs;
   var focuseddate = DateTime.now().obs;
   RxBool tableRefresh = false.obs;
@@ -111,6 +106,7 @@ class StudentHomeWorkController extends GetxController {
   //  *************************************************  student home work Comment *******************************
 
   studenthomeworkReply(index) async {
+    successcommentloader.value = true;
     await HomeWorkRepository.gethomeworkComment(index).then((value) {
       if (value != null) {
         if (value['Status'] == "Cam-001") {
@@ -118,9 +114,15 @@ class StudentHomeWorkController extends GetxController {
           homeworkcomments.value = commentdata
               .map((json) => ClassRoomCommentModel.fromJson(json))
               .toList();
+
+          successcommentloader.value = false;
         } else if (value['Status'] == 'Cam-003') {
           // fcmTokenController.getFCMToken();
           studenthomeworkReply(index);
+          successcommentloader.value = false;
+        } else {
+          homeworkcomments.clear();
+          successcommentloader.value = false;
         }
       }
     });
@@ -134,17 +136,17 @@ class StudentHomeWorkController extends GetxController {
         if (value['Status'] == 'Cam-001') {
           showfileoncomment.value = false;
           commentcontroller.clear();
-
           Get.snackbar(
               backgroundColor: Colors.green,
               colorText: AppColors.blackcolor,
               "Homework Reply",
               "Your Reply has been succesfully Submitted");
-        } else if (value['Status'] == 'Cam-001') {
+          studenthomeworkReply(index);
+        } else if (value['Status'] == 'Cam-006') {
           commentcontroller.clear();
           showfileoncomment.value = false;
           commentcontroller.clear();
-
+          studenthomeworkReply(index);
           Get.snackbar(
               backgroundColor: Colors.green,
               colorText: AppColors.blackcolor,

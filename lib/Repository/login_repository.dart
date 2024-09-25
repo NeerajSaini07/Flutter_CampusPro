@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:campuspro/Controllers/login_controller.dart';
+import 'package:campuspro/Modal/fcmtoken_model.dart';
+import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Services/ApiService/Data/Network/base_api_services.dart';
 import 'package:campuspro/Utilities/api_end_point.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
@@ -56,6 +60,42 @@ class LoginRepository {
       // log(requestData.toString());
       dynamic response = await apiServices
           .postApiRequest(requestData, APIENDPOINT.changePasswordApi)
+          .onError((error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+      });
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<dynamic> changeSpecificUserPasswordRepo(
+      String newPassword, String oldPassword) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+    final number = await Sharedprefdata.getStrigData(Sharedprefdata.mobile);
+    final usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    dynamic requestData = {
+      "OrgId":
+          UserTypeslist.userTypesDetails[usertypeIndex].organizationId ?? "",
+      "OUserId": uid ?? "",
+      "Schoolid": UserTypeslist.userTypesDetails[usertypeIndex].schoolId ?? "",
+      "Token": FcmTokenList.tokenlist[0].token ?? "",
+      "OldPass": oldPassword,
+      "NewPass": newPassword,
+      "StuEmp": UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId ?? "",
+      "UserType": UserTypeslist.userTypesDetails[usertypeIndex].ouserType ?? "",
+      "MobileNo": number.toString(),
+    };
+    // log(requestData.toString());
+    BaseApiServices apiServices = NetworkApiServices();
+    try {
+      dynamic response = await apiServices
+          .postApiRequest(
+              requestData, baseUrl + APIENDPOINT.changeSpecificUserPasswordApi)
           .onError((error, stackTrace) {
         if (kDebugMode) {
           print(error);

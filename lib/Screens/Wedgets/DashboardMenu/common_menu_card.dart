@@ -4,6 +4,7 @@ import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/dashboard_menu.dart';
 import 'package:campuspro/Utilities/approuting.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -39,9 +40,13 @@ Widget buildActionsCard() {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(
-                    DashboardMenulist.dashboardMenulistdetails[index].imageUrl
-                        .toString(),
+                  Image.asset(
+                    CommonFunctions.fetchDahboardIcon(
+                        menuname: DashboardMenulist
+                            .dashboardMenulistdetails[index].menuName
+                            .toString()),
+                    // DashboardMenulist.dashboardMenulistdetails[index].imageUrl
+                    //     .toString(),
                     fit: BoxFit.fill,
                     height: 40.h,
                     width: 40.w,
@@ -57,6 +62,9 @@ Widget buildActionsCard() {
                         ),
                       );
                     },
+                  ),
+                  SizedBox(
+                    height: 2.h,
                   ),
                   Text(
                     DashboardMenulist.dashboardMenulistdetails[index].menuName

@@ -4,6 +4,7 @@ import 'package:campuspro/Screens/Wedgets/StudentWidget/common_text_style.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/homework/homework_comment_page.dart';
 import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -39,7 +40,7 @@ Widget homeWorkCard(index, BuildContext context) {
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
 
-  final DownloadService downloadService = Get.find<DownloadService>();
+  final FileDownloadService downloadService = Get.find<FileDownloadService>();
   return Card(
     color: AppColors.whitetextcolor,
     margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 8.h),
@@ -112,10 +113,41 @@ Widget homeWorkCard(index, BuildContext context) {
             ],
           ),
           SizedBox(height: 12.h),
-          Text(
-            studentHomeWorkController.homeworkbydate[index].homeworkMsg
-                .toString(),
-            style: AppTextStyles.cardContent,
+          RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                text: studentHomeWorkController
+                            .homeworkbydate[index].homeworkMsg
+                            .toString()
+                            .length >
+                        100
+                    ? studentHomeWorkController
+                        .homeworkbydate[index].homeworkMsg!
+                        .substring(0, 100)
+                    : studentHomeWorkController
+                        .homeworkbydate[index].homeworkMsg,
+                style: AppTextStyles.cardContent,
+              ),
+              studentHomeWorkController.homeworkbydate[index].homeworkMsg
+                          .toString()
+                          .length >
+                      100
+                  ? TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          await studentHomeWorkController
+                              .studenthomeworkReply(index);
+                          Get.to(HomeworkCommets(
+                            index: index,
+                          ));
+                        },
+                      text: "  ...View More",
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueAccent))
+                  : TextSpan(),
+            ]),
           ),
           SizedBox(height: 12.h),
           Row(

@@ -140,14 +140,13 @@ List<Widget> buildMenuItems(BuildContext context) {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () async {
-              Navigator.pop(context);
               bottomBarController.selectedBottomNavIndex.value = 0;
               webController.currentUrl.value = '';
               final AppRouting appRouting = AppRouting();
               if (subMenuItem.subMenuName == "Fee Payment") {}
+              Navigator.pop(context);
               appRouting.navigate(subMenuItem.subMenuName,
                   subMenuItem.nevigateUrl, context, subMenuItem.subMenuFlag);
-              // Navigator.pop(context);
               // appbarController.appBarName.value =
               //     subMenuItem.subMenuName.toString();
               // final AppRouting appRouting = AppRouting();
@@ -183,16 +182,15 @@ List<Widget> buildMenuItems(BuildContext context) {
           onTap: () async {
             // final usertypeIndex = await Sharedprefdata.getIntegerData(
             //     Sharedprefdata.userTypeIndex);
-            Navigator.pop(context);
             bottomBarController.selectedBottomNavIndex.value = 0;
             webController.currentUrl.value = '';
             final AppRouting appRouting = AppRouting();
             if (menuItem.menuName != "Go to Site") {
               appbarController.appBarName.value = menuItem.menuName.toString();
             }
+            Navigator.pop(context);
             appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context,
                 menuItem.menuFlag);
-
             if (context.mounted) {
               // if (menuItem.menuName.toString().toLowerCase() == "dashboard" &&
               //     UserTypeslist.userTypesDetails[usertypeIndex].ouserType

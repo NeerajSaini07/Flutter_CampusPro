@@ -5,9 +5,7 @@ import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
 import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -39,7 +37,7 @@ class _StudentCircularScreenState extends State<StudentCircularScreen> {
       },
       child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: customAppBar(context),
+          appBar: customAppBar(context, title: "Circular"),
           body: Column(
             children: [
               Padding(
@@ -203,7 +201,9 @@ Widget circularListCard(StudentCircularModel circularData, BuildContext context,
                   InkWell(
                     borderRadius: BorderRadius.circular(14.r),
                     onTap: () {
-                      circularController.downloadFile(circularData);
+                      circularController.downloadFile(
+                          circularData.circularFileurl ?? "",
+                          circularData.isDownloaded);
                     },
                     child: Container(
                       padding:
@@ -404,26 +404,28 @@ void _showFilterOptions(
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.r)),
-                      elevation: 0,
-                      backgroundColor: AppColors.appbuttonColor),
-                  onPressed: (circularController.fromDate.value != null &&
-                          circularController.toDate.value != null)
-                      ? () {
-                          Get.back();
-                          circularController.filterCircular.value = 0;
-                          circularController.getStudentCircular();
-                        }
-                      : null,
-                  child: Text(
-                    'Apply Filter',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.whitetextcolor),
+                Obx(
+                  () => ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.r)),
+                        elevation: 0,
+                        backgroundColor: AppColors.appbuttonColor),
+                    onPressed: (circularController.fromDate.value != null &&
+                            circularController.toDate.value != null)
+                        ? () {
+                            Get.back();
+                            circularController.filterCircular.value = 0;
+                            circularController.getStudentCircular();
+                          }
+                        : null,
+                    child: Text(
+                      'Apply Filter',
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.whitetextcolor),
+                    ),
                   ),
                 ),
                 if (circularController.filterCircular.value == 0) ...{

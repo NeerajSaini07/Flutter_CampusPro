@@ -18,6 +18,7 @@ class Routes {
 
   // ***********************************  student portal **************************************************
   static const String StudentDashboad = '/studentdashboard';
+  static const String studentProfileScreen = '/studentProfileScreen';
   static const String studentClassRomm = '/studentClassRoom';
   static const String studentexamAnalysis = '/studentexamAnalysis';
   static const String transportScreen = '/transposrtScreen';

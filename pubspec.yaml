@@ -71,8 +71,9 @@ dependencies:
   flutter_widget_from_html: ^0.15.2
   open_file: ^3.5.3
   filter_list: ^1.0.3
-  file_picker: ^8.0.5
   fl_chart: ^0.69.0
+  image_cropper: ^8.0.1
+  file_picker: ^8.0.5
 dependency_overrides:
   webview_flutter_android: 3.16.1
 
@@ -101,6 +102,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/images/
+     - assets/dashboard_icon/
      - assets/drawer/
      - assets/lottie_json/
      - assets/icon/

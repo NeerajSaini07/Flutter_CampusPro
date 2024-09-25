@@ -14,7 +14,10 @@ import 'package:campuspro/Screens/studenPortal/activity.dart';
 import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
 import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
+import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
+import 'package:campuspro/Screens/studenPortal/leave_details.dart';
+import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
 import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
@@ -64,6 +67,7 @@ class AppRouting extends GetxService {
         }
       }
     } else {
+      webController.showWebViewScreen.value = false;
       switch (name) {
         case "Student Bus Location":
           appbarController.appBarName.value = 'Bus Tracker';
@@ -84,6 +88,19 @@ class AppRouting extends GetxService {
           notificationController.getNotification();
           appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
+          break;
+
+        case "Leave Detail":
+        case "Leave Request":
+          Get.to(() => const StudentLeaveDetailScreen());
+          break;
+
+        case "Request Edit Detail":
+          Get.to(() => const StudentEditProfileScreen());
+          break;
+
+        case "Holiday List":
+          Get.to(() => const HolidayListScreen());
           break;
 
         case "Home Work":
@@ -111,14 +128,15 @@ class AppRouting extends GetxService {
 
         case "Circular":
           Get.to(() => const StudentCircularScreen());
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Activity":
           Get.to(() => const StudentActivityScreen());
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
+          break;
+
+        case "Change Password":
+          Get.toNamed(Routes.changePasswordScreen,
+              arguments: {'isdefaultChangePass': false});
           break;
         case "Exam Analysis":
           await exameAnalysisController.getExamData();
@@ -163,6 +181,8 @@ class AppRouting extends GetxService {
           Get.toNamed(Routes.studentdatesheet);
           appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
+        case "Profile":
+          Get.toNamed(Routes.studentProfileScreen);
           break;
 
         default:

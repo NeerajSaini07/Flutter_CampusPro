@@ -8,6 +8,7 @@ import 'package:campuspro/Repository/StudentRepositories/exam_analysis_repositor
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 
 class ExameAnalysisController extends GetxController {
   @override
@@ -27,6 +28,12 @@ class ExameAnalysisController extends GetxController {
   Map<String, List<double>> subjectScoreMap =
       {}; // mapping subject and there score
 
+  var showtooltiponbarchart = false.obs;
+  RxInt touchedIndex = (-1).obs;
+  RxInt touchedRodIndex = (-1).obs;
+  var subjectnameOnTooltip = ''.obs;
+  Color tooltipColor = Colors.transparent;
+
   var session = ''.obs;
   var examName = ''.obs;
   var showloader = false.obs;
@@ -36,6 +43,10 @@ class ExameAnalysisController extends GetxController {
   var singleExamDataList = <SingleExamAnalysisModel>[].obs;
 
   final LoginController loginController = Get.find<LoginController>();
+
+  void updateTouchedGroupIndex(int index) {
+    touchedIndex.value = index;
+  }
 
   getclasssession() async {
     ExamanalysisRepository.getClasssessiondata().then((value) {

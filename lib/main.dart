@@ -14,6 +14,7 @@ import 'package:campuspro/Screens/studenPortal/class_room.dart';
 import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
 import 'package:campuspro/Screens/studenPortal/feedback.dart';
 import 'package:campuspro/Screens/studenPortal/transport_detail.dart';
+import 'package:campuspro/Screens/studenPortal/profile.dart';
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
@@ -88,8 +89,13 @@ class MyApp extends StatelessWidget {
             Routes.visitorHistory: (context) => GatePassDashboard(),
             Routes.busTrackerScreen: (context) => BusTrackerScreen(),
             Routes.helpAndSupportScreen: (context) => HelpAndSupportScreen(),
-            Routes.changePasswordScreen: (context) => ChangePasswordScreen(),
+            Routes.changePasswordScreen: (context) {
+              final args = Get.arguments as Map<String, dynamic>?;
+              return ChangePasswordScreen(
+                  isdefaultChangePass: args?['isdefaultChangePass'] ?? true);
+            },
             Routes.webviewpage: (context) => WebViewDashboardPage(),
+            Routes.studentProfileScreen: (context) => StudentProfileScreen(),
             Routes.studentClassRomm: (context) => StudentClassroom(),
             Routes.studentexamAnalysis: (context) => ExameAnalysis(),
             Routes.transportScreen: (context) => TransportdetailScreen(),

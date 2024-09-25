@@ -3,9 +3,12 @@ import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Controllers/StudentControllers/activity_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/circular_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/edit_profile_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/holiday_calender_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/leave_controller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
@@ -23,6 +26,7 @@ import 'package:campuspro/Controllers/transport_studentlist_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Controllers/splash_controller.dart';
+import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:get/get.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
@@ -80,7 +84,9 @@ class DependencyInjection {
     Get.lazyPut<StudentActivityController>(() => StudentActivityController(),
         fenix: true);
 
-    Get.lazyPut<DownloadService>(() => DownloadService(), fenix: true);
+    Get.put(DownloadService());
+
+    Get.lazyPut<FileDownloadService>(() => FileDownloadService(), fenix: true);
 
     Get.lazyPut<ExameAnalysisController>(() => ExameAnalysisController(),
         fenix: true);
@@ -95,7 +101,16 @@ class DependencyInjection {
         fenix: true);
     Get.lazyPut<TransportdetailController>(() => TransportdetailController(),
         fenix: true);
+
     Get.lazyPut<StudentDatesheetController>(() => StudentDatesheetController(),
+        fenix: true);
+    Get.lazyPut<StudentLeaveController>(() => StudentLeaveController(),
+        fenix: true);
+    Get.lazyPut<StudentEditProfileController>(
+        () => StudentEditProfileController(),
+        fenix: true);
+    Get.lazyPut<StudentHolidayAndCalendarController>(
+        () => StudentHolidayAndCalendarController(),
         fenix: true);
   }
 }

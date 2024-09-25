@@ -13,6 +13,7 @@ class AppColors {
   static const logoutBg = Color.fromRGBO(126, 190, 145, 0.5);
   static const logoutColor = Color(0xff00726d);
   static const whitetextcolor = Colors.white;
+  static const leavecolor = Color(0xFFffc107);
   static const headingcolor = Color(0xff013e73);
 
   //  ******************  dashboard theam colors ***************

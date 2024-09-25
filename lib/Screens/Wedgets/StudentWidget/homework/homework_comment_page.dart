@@ -6,6 +6,7 @@ import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 import '../../common_appbar.dart';
 
@@ -38,7 +39,18 @@ class HomeworkCommets extends StatelessWidget {
                             children: [
                               Homeworkdata(index),
                               const Divider(thickness: 0.4),
-                              homeworkComments(),
+                              Obx(() => studentHomeWorkController
+                                      .homeworkcomments.isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        "No Comments Found",
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey),
+                                      ),
+                                    )
+                                  : homeworkComments()),
                             ],
                           ),
                         ),

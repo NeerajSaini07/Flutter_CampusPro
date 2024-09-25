@@ -8,6 +8,7 @@ import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 
 class ClassRoomComments extends StatelessWidget {
@@ -39,7 +40,17 @@ class ClassRoomComments extends StatelessWidget {
                             children: [
                               classRoomdata(index),
                               const Divider(thickness: 0.4),
-                              commentarea(),
+                              studentClasssRoomController.commentlist.isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        "No Comments Found",
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey),
+                                      ),
+                                    )
+                                  : commentarea(),
                             ],
                           ),
                         ),
@@ -171,10 +182,10 @@ Widget classRoomdata(index) {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
+              HtmlWidget(
                 studentClasssRoomController.classRoomdatalist[index].subjectName
                     .toString(),
-                style: AppTextStyles.cardTitle,
+                textStyle: AppTextStyles.cardTitle,
               ),
             ],
           ),

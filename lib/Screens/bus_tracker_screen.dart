@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 
 import 'package:campuspro/Utilities/constant.dart';
@@ -9,21 +10,33 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
-class BusTrackerScreen extends StatelessWidget {
+class BusTrackerScreen extends StatefulWidget {
   const BusTrackerScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final BusTrackerController busTrackerController =
-        Get.find<BusTrackerController>();
+  State<BusTrackerScreen> createState() => _BusTrackerScreenState();
+}
 
-    final AppbarController appbarController = Get.find<AppbarController>();
+class _BusTrackerScreenState extends State<BusTrackerScreen> {
+  final BusTrackerController busTrackerController =
+      Get.find<BusTrackerController>();
+  final AppbarController appbarController = Get.find<AppbarController>();
+  final WebController webController = Get.find<WebController>();
+
+  @override
+  void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       busTrackerController.getSchoolBusRoute(context);
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         appbarController.appBarName.value = Constant.schoolName;
+        webController.currentUrl.value = Constant.dashBoardUrl;
         Get.back();
         return false;
       },
