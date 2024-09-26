@@ -10,14 +10,15 @@ class StudentActivityModel {
   //to show downloading status
   RxBool? isDownloaded = false.obs;
 
-  StudentActivityModel(
-      {this.srNo,
-      this.id,
-      this.title,
-      this.dateAdded,
-      this.htmlContent,
-      this.fileurl,
-      this.isDownloaded});
+  StudentActivityModel({
+    this.srNo,
+    this.id,
+    this.title,
+    this.dateAdded,
+    this.htmlContent,
+    this.fileurl,
+    this.isDownloaded,
+  });
 
   factory StudentActivityModel.fromJson(Map<String, dynamic> json) {
     return StudentActivityModel(

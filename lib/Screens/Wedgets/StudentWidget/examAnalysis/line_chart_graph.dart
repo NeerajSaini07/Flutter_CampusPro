@@ -1,4 +1,5 @@
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
+import 'package:campuspro/Modal/student_module/exam_analysis_session_model.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -25,7 +26,7 @@ Widget lineCartGraphWidget(BuildContext context) {
               ? MediaQuery.of(context).size.width * 0.4
               : MediaQuery.of(context).size.width *
                   (exameAnalysisController.exannameforAllexamAnalysis.length) *
-                  0.20,
+                  0.25,
           height: 350.h,
           child: Row(
             children: [
@@ -51,8 +52,13 @@ Widget lineCartGraphWidget(BuildContext context) {
                         String subject = exameAnalysisController
                             .subjectScoreMap.keys
                             .elementAt(index);
+
+                        print(subject);
+
                         List<double> scores =
                             exameAnalysisController.subjectScoreMap[subject]!;
+
+                        print(scores);
                         return chartbardata(scores, index, subject);
                       }),
                       titlesData: FlTitlesData(

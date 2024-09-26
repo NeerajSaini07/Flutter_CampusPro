@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Modal/student_module/student_profile_model.dart';
@@ -11,6 +9,7 @@ import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 

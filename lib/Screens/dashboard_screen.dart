@@ -48,7 +48,7 @@ class _MainDashboardState extends State<MainDashboard> {
         }
       },
       child: Scaffold(
-          appBar: customAppBar(context),
+          appBar: customAppBar(context, title: Constant.schoolName),
           bottomNavigationBar: Obx(
             () => customBottomNavBar(
                 bottomBarController.selectedBottomNavIndex.value,

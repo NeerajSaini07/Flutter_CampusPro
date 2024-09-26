@@ -45,6 +45,10 @@
 	<string>We need access to your documents to upload and download files.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need access to add files to your photo library.</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>We need access to your media library to manage media files.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

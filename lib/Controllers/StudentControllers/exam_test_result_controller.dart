@@ -17,6 +17,15 @@ class ExamTestExamResultController extends GetxController {
   final ExameAnalysisController exameAnalysisController =
       Get.find<ExameAnalysisController>();
 
+  RxInt touchedIndex = (-1).obs;
+  RxInt touchedRodIndex = (-1).obs;
+  var subjectnameOnTooltip = ''.obs;
+  Color tooltipColor = Colors.transparent;
+
+  void updateTouchedGroupIndex(int index) {
+    touchedIndex.value = index;
+  }
+
   //  *******************************  method for getting single exam result data ***************
   testExamResult() async {
     showloader.value = true;

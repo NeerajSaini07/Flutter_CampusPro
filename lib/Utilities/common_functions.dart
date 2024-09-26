@@ -1,11 +1,17 @@
-import 'dart:math';
+// ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path/path.dart' as path;
 
 class CommonFunctions {
   // Function to show error
@@ -94,7 +100,6 @@ class CommonFunctions {
   static String fetchDahboardIcon({required String menuname}) {
     switch (menuname.toLowerCase()) {
       case "alert & notification":
-        return "assets/icon/notification.png";
       case "notification":
         return "assets/icon/notification.png";
       case "leave detail":
@@ -102,38 +107,12 @@ class CommonFunctions {
       case "leave request":
         return "assets/icon/leave.png";
       case "fee payment":
-        return "assets/icon/fees.png";
-      case "classroom":
-        return "assets/icon/classroom.png";
-      case "class room":
-        return "assets/icon/classroom.png";
-      case "home work":
-        return "assets/icon/homework.png";
-      case "homework":
-        return "assets/icon/homework.png";
-      case "online test":
-        return "assets/dashboard_icon/online-test status.png";
+        return "assets/dashboard_icon/Fee.png";
       case "exam/test result":
-        return "assets/icon/results.png";
-      case "activity":
-        return "assets/icon/activity.png";
-      case "exam":
-        return "assets/icon/exam.png";
-      case "student list":
-        return "assets/icon/students.png";
-      case "student":
-        return "assets/icon/students.png";
-      case "item requirment":
-        return "assets/icon/Item Requirement.png";
-      case "attendance":
-        return "assets/icon/attendance.png";
-      case "exam mark entry":
-        return "assets/icon/Test Marks Entry.png";
-      case "calendar":
-        return "assets/icon/Calendar.png";
-      case "calender":
-        return "assets/icon/Calendar.png";
+        return "assets/dashboard_icon/Test Result.png";
+
       default:
+        print(menuname);
         return "assets/dashboard_icon/$menuname.png";
     }
   }
@@ -158,6 +137,80 @@ class CommonFunctions {
         "${date.year}",
         DateFormat('EEEE').format(date)
       ];
+    }
+  }
+
+  static getfiles() async {
+    final StudentClasssRoomController classsRoomController =
+        Get.find<StudentClasssRoomController>();
+
+    final StudentHomeWorkController studentHomeWorkController =
+        Get.find<StudentHomeWorkController>();
+
+    if (Platform.isAndroid) {
+      PermissionStatus permissionStatus =
+          await Permission.manageExternalStorage.request();
+
+      if (!permissionStatus.isGranted) {
+        Get.snackbar(
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.selfcolor,
+          "File",
+          "Please Allow File Permission",
+        );
+        return;
+      }
+    }
+
+    XTypeGroup typeGroup;
+    if (Platform.isIOS) {
+      typeGroup = XTypeGroup(
+        label: 'documents',
+        uniformTypeIdentifiers: const [
+          'com.adobe.pdf',
+          'public.jpeg',
+          'public.jpg'
+        ],
+      );
+    } else {
+      typeGroup = XTypeGroup(
+        label: 'documents',
+        extensions: const ['pdf', 'jpg', 'jpeg'],
+      );
+    }
+
+    final XFile? file = await openFile(acceptedTypeGroups: [typeGroup]);
+
+    if (file != null) {
+      String filePath = file.path;
+      final File selectedFile = File(filePath);
+      int fileSizeInBytes = await selectedFile.length();
+      double fileSizeInKB = fileSizeInBytes / 1024;
+      double filesize = fileSizeInKB / 1024;
+
+      if (filesize < 4) {
+        if (classsRoomController.filepicforClassRoom.value) {
+          classsRoomController.filesource.value = filePath;
+          classsRoomController.fileName.value = path.basename(filePath);
+        } else {
+          studentHomeWorkController.commentfile.value = filePath;
+          studentHomeWorkController.filename.value = path.basename(filePath);
+        }
+      } else {
+        Get.snackbar(
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.selfcolor,
+          "File",
+          "File size Too Large, upload within 4 MB",
+        );
+      }
+    } else {
+      Get.snackbar(
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.selfcolor,
+        "File",
+        "Please Select File",
+      );
     }
   }
 }

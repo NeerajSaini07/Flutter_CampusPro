@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-AxisTitles bottombarlist(List<ExamnameModel> exannameforAllexamAnalysis) {
+AxisTitles bottombarlist(exannameforAllexamAnalysis) {
   return AxisTitles(
     sideTitles: SideTitles(
       showTitles: true,
@@ -15,8 +15,7 @@ AxisTitles bottombarlist(List<ExamnameModel> exannameforAllexamAnalysis) {
           return Padding(
             padding: EdgeInsets.only(left: 10.w),
             child: Text(
-              exannameforAllexamAnalysis[index]
-                  .exam, // Assuming 'exam' is the field that contains the exam name
+              exannameforAllexamAnalysis[index],
               style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
@@ -24,7 +23,7 @@ AxisTitles bottombarlist(List<ExamnameModel> exannameforAllexamAnalysis) {
             ),
           );
         }
-        return Text('');
+        return const Text('');
       },
     ),
   );

@@ -10,11 +10,14 @@ import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/help_and_support_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
+import 'package:campuspro/Screens/studenPortal/activity.dart';
+import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/class_room.dart';
-import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
-import 'package:campuspro/Screens/studenPortal/feedback.dart';
-import 'package:campuspro/Screens/studenPortal/transport_detail.dart';
+import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
+
+import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile.dart';
+
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
@@ -32,6 +35,7 @@ import 'Dependency_injection/injection.dart';
 
 import 'Screens/splash_screen.dart';
 import 'Screens/studenPortal/Datesheet.dart';
+import 'Screens/studenPortal/exam_analysis.dart';
 import 'Screens/studenPortal/student_timetable.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -97,11 +101,15 @@ class MyApp extends StatelessWidget {
             Routes.webviewpage: (context) => WebViewDashboardPage(),
             Routes.studentProfileScreen: (context) => StudentProfileScreen(),
             Routes.studentClassRomm: (context) => StudentClassroom(),
-            Routes.studentexamAnalysis: (context) => ExameAnalysis(),
-            Routes.transportScreen: (context) => TransportdetailScreen(),
-            Routes.studenttimeTable: (context) => StudentTimetableScreen(),
-            Routes.feedback: (context) => FeedbackScreen(),
-            Routes.studentdatesheet: (context) => Datesheet(),
+            Routes.studentexamAnalysis: (context) =>
+                StudentExamAnalysisScreen(),
+            Routes.studentActivityScreen: (context) => StudentActivityScreen(),
+            Routes.studentCircularScreen: (contex) => StudentCircularScreen(),
+            Routes.studentLeaveDetailScreen: (contex) =>
+                StudentLeaveDetailScreen(),
+
+            Routes.studentexamTestResultScreen: (context) =>
+                StudentExamTestResultScreen(),
 
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },

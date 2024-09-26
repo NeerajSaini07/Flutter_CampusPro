@@ -9,7 +9,7 @@ LineChartBarData chartbardata(List<double> scores, index, String subject) {
   return LineChartBarData(
     spots: scores.asMap().entries.map((entry) {
       int index = entry.key;
-      double value = entry.value * 100;
+      double value = entry.value;
       return FlSpot(index.toDouble(), value);
     }).toList(),
     isCurved: true,

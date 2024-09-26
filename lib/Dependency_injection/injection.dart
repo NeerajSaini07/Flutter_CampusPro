@@ -1,6 +1,7 @@
 import 'package:campuspro/Controllers/EmployeeController/ProfileController.dart';
 import 'package:campuspro/Controllers/GetPassController/getpassController.dart';
 import 'package:campuspro/Controllers/StudentControllers/activity_controller.dart';
+import 'package:campuspro/Controllers/StudentControllers/calendar_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/circular_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/edit_profile_controller.dart';
@@ -86,7 +87,7 @@ class DependencyInjection {
 
     Get.put(DownloadService());
 
-    Get.lazyPut<FileDownloadService>(() => FileDownloadService(), fenix: true);
+    // Get.lazyPut<FileDownloadService>(() => FileDownloadService(), fenix: true);
 
     Get.lazyPut<ExameAnalysisController>(() => ExameAnalysisController(),
         fenix: true);
@@ -111,6 +112,8 @@ class DependencyInjection {
         fenix: true);
     Get.lazyPut<StudentHolidayAndCalendarController>(
         () => StudentHolidayAndCalendarController(),
+        fenix: true);
+    Get.lazyPut<StudentCalendarController>(() => StudentCalendarController(),
         fenix: true);
   }
 }

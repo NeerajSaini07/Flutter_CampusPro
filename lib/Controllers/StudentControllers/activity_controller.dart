@@ -5,6 +5,7 @@ import 'package:campuspro/Repository/StudentRepositories/student_activity_repo.d
 import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 
 enum StudentActivityApiStatus { initial, loading, success, error }
 

@@ -1,16 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
-import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/examAnalysis/bottom_sheet_subject_name_in_barchart.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'dart:math' as math;
-
 import 'bar_chart_graph.dart';
 
 Widget barchartForSingleExam(BuildContext context) {
@@ -90,9 +88,11 @@ Widget barchartForSingleExam(BuildContext context) {
                           exameAnalysisController.singleExamDataList.length <= 3
                               ? MediaQuery.of(context).size.width * 0.9
                               : MediaQuery.of(context).size.width *
-                                  (exameAnalysisController
-                                      .singleExamDataList.length) *
-                                  0.23,
+                                  exameAnalysisController
+                                      .singleExamDataList.length *
+                                  (MediaQuery.of(context).size.width < 380
+                                      ? 0.24.w
+                                      : 0.21.w),
                       child: AspectRatio(
                         aspectRatio: 1.4,
                         child: BarChart(BarChartData(
@@ -235,7 +235,18 @@ Widget barchartForSingleExam(BuildContext context) {
 
                                 exameAnalysisController.tooltipColor =
                                     rod.color!;
-                              } else {}
+
+                                Timer(Duration(seconds: 1), () {
+                                  exameAnalysisController.touchedIndex.value =
+                                      -1;
+                                  exameAnalysisController
+                                      .touchedRodIndex.value = -1;
+                                });
+                              } else {
+                                exameAnalysisController.touchedIndex.value = -1;
+                                exameAnalysisController.touchedRodIndex.value =
+                                    -1;
+                              }
                             },
                           ),
                         )),

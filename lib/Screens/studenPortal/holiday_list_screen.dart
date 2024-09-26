@@ -3,9 +3,7 @@ import 'package:campuspro/Modal/student_module/holiday_list_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -41,7 +39,7 @@ class HolidayListScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Enjoy your 15 holidays this academic year!",
+                            "Enjoy your ${holidayData.length} holidays this academic year!",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(

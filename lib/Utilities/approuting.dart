@@ -10,14 +10,8 @@ import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/notification_screen.dart';
-import 'package:campuspro/Screens/studenPortal/activity.dart';
-import 'package:campuspro/Screens/studenPortal/circular.dart';
-import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
-import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
-import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
 import 'package:campuspro/Screens/studenPortal/homework.dart';
-import 'package:campuspro/Screens/studenPortal/leave_details.dart';
-import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
+import 'package:campuspro/Screens/studenPortal/student_calendar.dart';
 import 'package:campuspro/Services/urlLuncher/web_url_luncher.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/routes.dart';
@@ -84,31 +78,29 @@ class AppRouting extends GetxService {
 
         case "Alert & Notification":
         case "Notification":
-          Get.to(() => const NotificationScreen());
           notificationController.getNotification();
-          appbarController.appBarName.value = name;
+          notificationController.removeFilter.value = false;
+          Get.to(() => const NotificationScreen());
           webController.showWebViewScreen.value = false;
           break;
-
         case "Leave Detail":
         case "Leave Request":
-          Get.to(() => const StudentLeaveDetailScreen());
+          Get.toNamed(Routes.studentLeaveDetailScreen);
           break;
-
         case "Request Edit Detail":
-          Get.to(() => const StudentEditProfileScreen());
+          Get.toNamed(Routes.studentEditProfileScreen);
           break;
-
         case "Holiday List":
-          Get.to(() => const HolidayListScreen());
+          Get.toNamed(Routes.holidayScreen);
           break;
 
+        case "Calendar":
+          Get.to(() => const StudentCalendarScreen());
+          break;
         case "Home Work":
           await studentHomeWorkController.markgreenhomedate();
           studentHomeWorkController.gethomeworkbydate();
           Get.to(() => const HomeworkScreen());
-
-          appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
           break;
 
@@ -117,9 +109,8 @@ class AppRouting extends GetxService {
                   .ouserType ==
               'S') {
             await studentClasssRoomController.filterBysubjectTecher();
-
             Get.toNamed(Routes.studentClassRomm);
-            appbarController.appBarName.value = name;
+
             webController.showWebViewScreen.value = false;
           } else {
             webController.generateWebUrl(pageurl, name);
@@ -127,33 +118,28 @@ class AppRouting extends GetxService {
           break;
 
         case "Circular":
-          Get.to(() => const StudentCircularScreen());
+          Get.toNamed(Routes.studentCircularScreen);
           break;
 
         case "Activity":
-          Get.to(() => const StudentActivityScreen());
+          Get.toNamed(Routes.studentActivityScreen);
           break;
-
         case "Change Password":
           Get.toNamed(Routes.changePasswordScreen,
               arguments: {'isdefaultChangePass': false});
           break;
         case "Exam Analysis":
-          await exameAnalysisController.getExamData();
-          await exameAnalysisController.getclasssession();
-          await exameAnalysisController.analysisdata();
-          await Get.to(() => const ExameAnalysis());
-
-          appbarController.appBarName.value = name;
+          exameAnalysisController.showSingleExamGhraph.value = false;
+          examResultController.bottomshitopenforExamResult.value = false;
+          exameAnalysisController.removefilter.value = false;
+          Get.toNamed(Routes.studentexamAnalysis);
           webController.showWebViewScreen.value = false;
           break;
 
         case "Exam/Test Result":
           await exameAnalysisController.getExamData();
           examResultController.testExamResult();
-          Get.to(() => const ExamTestResult());
-
-          appbarController.appBarName.value = name;
+          Get.toNamed(Routes.studentexamTestResultScreen);
           webController.showWebViewScreen.value = false;
           break;
 

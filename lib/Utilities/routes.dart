@@ -15,7 +15,6 @@ class Routes {
   static const String helpAndSupportScreen = '/helpAndSupportScreen';
   static const String changePasswordScreen = '/changePasswordScreen';
   static const String webviewpage = 'webviewpage';
-
   // ***********************************  student portal **************************************************
   static const String StudentDashboad = '/studentdashboard';
   static const String studentProfileScreen = '/studentProfileScreen';
@@ -25,4 +24,11 @@ class Routes {
   static const String studenttimeTable = '/studentTimeTable';
   static const String feedback = '/feedback';
   static const String studentdatesheet = '/studentDatesheet';
+  static const String holidayScreen = '/holidayScreen';
+  static const String studentEditProfileScreen = '/studentEditProfileScreen';
+  static const String studentLeaveDetailScreen = '/studentLeaveDetailScreen';
+  static const String studentCircularScreen = '/studentCircularScreen';
+  static const String studentActivityScreen = '/studentActivityScreen';
+  static const String studentexamTestResultScreen =
+      '/StudentExamTestResultScreen';
 }

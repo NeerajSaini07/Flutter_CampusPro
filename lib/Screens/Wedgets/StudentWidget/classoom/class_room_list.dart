@@ -19,7 +19,7 @@ Widget classRoomDataList() {
   final StudentClasssRoomController studentClasssRoomController =
       Get.find<StudentClasssRoomController>();
 
-  final FileDownloadService downloadService = Get.find<FileDownloadService>();
+  // final FileDownloadService downloadService = Get.find<FileDownloadService>();
   return FutureBuilder<List<StudentClassRoomModel>>(
     future: fetchClassRoomData(),
     builder: (context, snapshot) {

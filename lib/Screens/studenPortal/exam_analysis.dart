@@ -2,25 +2,36 @@
 
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
-// import 'package:campuspro/Modal/student_module/exam_analysis_session_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/examAnalysis/bar_chart.dart';
-import 'package:campuspro/Screens/Wedgets/StudentWidget/examAnalysis/bottom_list.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/examAnalysis/filter_diloag.dart';
-import 'package:campuspro/Screens/Wedgets/StudentWidget/examAnalysis/chart_scrore_data_color_widget.dart';
-import 'package:campuspro/Screens/Wedgets/StudentWidget/examAnalysis/subject.dart';
 import 'package:campuspro/Utilities/constant.dart';
-import 'package:fl_chart/fl_chart.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../Wedgets/StudentWidget/examAnalysis/line_chart_graph.dart';
 
-class ExameAnalysis extends StatelessWidget {
-  const ExameAnalysis({super.key});
+class StudentExamAnalysisScreen extends StatefulWidget {
+  const StudentExamAnalysisScreen({super.key});
+
+  @override
+  State<StudentExamAnalysisScreen> createState() =>
+      _StudentExamAnalysisScreenState();
+}
+
+class _StudentExamAnalysisScreenState extends State<StudentExamAnalysisScreen> {
+  final ExameAnalysisController exameAnalysisController = Get.find();
+  @override
+  void initState() {
+    super.initState();
+    exameAnalysisController.getExamData();
+    exameAnalysisController.getclasssession();
+    exameAnalysisController.analysisdata();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +41,8 @@ class ExameAnalysis extends StatelessWidget {
     final ExamTestExamResultController examResultController =
         Get.find<ExamTestExamResultController>();
 
-    print(
-        "student reposrt  in page :  ${exameAnalysisController.studentReport}");
-
     return Scaffold(
-      appBar: customAppBar(context),
+      appBar: customAppBar(context, title: "Exam Analysis"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),

@@ -19,7 +19,8 @@ class AppTextStyles {
   );
 
   static TextStyle cardContent = TextStyle(
-    fontSize: 16.sp,
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w300,
     color: AppColors.blacktextcolor,
   );
 

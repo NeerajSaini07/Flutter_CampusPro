@@ -1,25 +1,27 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:io';
+
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Modal/student_module/classromm_comment_model.dart';
 import 'package:campuspro/Modal/student_module/student_class_room_model.dart';
 import 'package:campuspro/Modal/student_module/class_room_teacher_filter.dart';
 import 'package:campuspro/Repository/StudentRepositories/classroom_repo.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:permission_handler/permission_handler.dart';
 
 class StudentClasssRoomController extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   RxBool showbottomsheet = false.obs;
   var classRoomdatalist = <StudentClassRoomModel>[].obs;
   var commentlist = <ClassRoomCommentModel>[].obs;
   var filterList = <ClassRoomFilterDataListModel>[].obs;
+
+  var filepicforClassRoom = false.obs;
 
   var refreshpage = false.obs;
   var empid = '';
@@ -71,17 +73,67 @@ class StudentClasssRoomController extends GetxController {
   //  *****************************  pick file ********************
 
   getfiles() async {
-    FilePickerResult? pickedPdf;
-    pickedPdf = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'jpg', 'jpeg'],
-    );
+    if (Platform.isAndroid) {
+      PermissionStatus permissionStatus =
+          await Permission.manageExternalStorage.request();
 
-    if (pickedPdf != null) {
-      String filepath = pickedPdf.files.single.path!;
-      filesource.value = filepath;
-      fileName.value = path.basename(filepath);
-    } else {}
+      if (!permissionStatus.isGranted) {
+        Get.snackbar(
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.selfcolor,
+          "File",
+          "Please Allow File Permission",
+        );
+        return;
+      }
+    }
+
+    XTypeGroup typeGroup;
+    if (Platform.isIOS) {
+      typeGroup = XTypeGroup(
+        label: 'documents',
+        uniformTypeIdentifiers: const [
+          'com.adobe.pdf',
+          'public.jpeg',
+          'public.jpg'
+        ],
+      );
+    } else {
+      typeGroup = XTypeGroup(
+        label: 'documents',
+        extensions: const ['pdf', 'jpg', 'jpeg'],
+      );
+    }
+
+    final XFile? file = await openFile(acceptedTypeGroups: [typeGroup]);
+
+    if (file != null) {
+      String filePath = file.path;
+      final File selectedFile = File(filePath);
+
+      int fileSizeInBytes = await selectedFile.length();
+      double fileSizeInKB = fileSizeInBytes / 1024;
+      double filesize = fileSizeInKB / 1024;
+
+      if (filesize <= 3) {
+        filesource.value = filePath;
+        fileName.value = path.basename(filePath);
+      } else {
+        Get.snackbar(
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.selfcolor,
+          "File",
+          "File size Too Large, upload within 5MB",
+        );
+      }
+    } else {
+      Get.snackbar(
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.selfcolor,
+        "File",
+        "Please Select File",
+      );
+    }
   }
 
 //  *****************************   add comment on  homehomehork ************
@@ -92,7 +144,11 @@ class StudentClasssRoomController extends GetxController {
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
           successcommentloader.value = true;
-          Get.snackbar("Comments", "Your Comments Successfully Post");
+          Get.snackbar(
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.green,
+              "Comments",
+              "Your Comments Successfully Post");
           comment.clear();
 
           filesource.value = '';
@@ -104,7 +160,11 @@ class StudentClasssRoomController extends GetxController {
           comment.clear();
           await getclassRommComments(index);
           successcommentloader.value = false;
-          Get.snackbar("Comments", "Your Comments Successfully Post");
+          Get.snackbar(
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.green,
+              "Comments",
+              "Your Comments Successfully Post");
         } else {
           successcommentloader.value = false;
           Get.snackbar("Comments", "Your Comments is Faild ");

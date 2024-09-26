@@ -546,10 +546,13 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
             },
             child: Obx(
               () => leaveController.circularProgress.value
-                  ? SizedBox(
-                      height: 14.sp,
-                      width: 14.sp,
-                      child: const CircularProgressIndicator())
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: SizedBox(
+                          height: 14.sp,
+                          width: 14.sp,
+                          child: const CircularProgressIndicator()),
+                    )
                   : Text(
                       'Apply Leave',
                       style: TextStyle(
@@ -700,43 +703,47 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
   }
 
   Widget dropDownTextField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        labelTextForTextField("Leave Type :", topSpacing: 10.h),
-        CustomDropdown<String>(
-          hintText: 'Select Leave Type',
-          items: leaveController.leaveType,
-          excludeSelected: false,
-          closedHeaderPadding:
-              EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-          decoration: CustomDropdownDecoration(
-              hintStyle: TextStyle(
-                  fontSize: 14.sp, color: AppColors.textfieldhintstycolor),
-              closedBorderRadius: BorderRadius.circular(8.r),
-              closedBorder:
-                  Border.all(width: 0.5, color: AppColors.primarycolor)),
-          onChanged: (saveData) {
-            log('changing value to: $saveData');
-            if (saveData.toString().toLowerCase() == "sick leave") {
-              leaveController.selectedLeaveType.value = "S";
-            } else {
-              leaveController.selectedLeaveType.value = "U";
-            }
-            leaveController.leaveTypeErrormsg.value = "";
-          },
-        ),
-        Obx(() {
-          return leaveController.leaveTypeErrormsg.value.isNotEmpty
-              ? Padding(
-                  padding: EdgeInsets.only(top: 2.h),
-                  child: errocommponent(
-                      fontsize: 12.sp,
-                      errorText: leaveController.leaveTypeErrormsg),
-                )
-              : const SizedBox();
-        }),
-      ],
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          labelTextForTextField("Leave Type :", topSpacing: 10.h),
+          CustomDropdown<String>(
+            hintText: 'Select Leave Type',
+            items: leaveController.leaveType.value,
+            initialItem: leaveController.selectedLeaveType.value.isEmpty
+                ? null
+                : (leaveController.selectedLeaveType.value == "S"
+                    ? leaveController.leaveType.value[0]
+                    : leaveController.leaveType.value[1]),
+            excludeSelected: false,
+            closedHeaderPadding:
+                EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+            decoration: CustomDropdownDecoration(
+                hintStyle: TextStyle(
+                    fontSize: 14.sp, color: AppColors.textfieldhintstycolor),
+                closedBorderRadius: BorderRadius.circular(8.r),
+                closedBorder:
+                    Border.all(width: 0.5, color: AppColors.primarycolor)),
+            onChanged: (saveData) {
+              log('changing value to: $saveData');
+              if (saveData.toString().toLowerCase() == "sick leave") {
+                leaveController.selectedLeaveType.value = "S";
+              } else {
+                leaveController.selectedLeaveType.value = "U";
+              }
+              leaveController.leaveTypeErrormsg.value = "";
+            },
+          ),
+          if (leaveController.leaveTypeErrormsg.value.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.only(top: 2.h),
+              child: errocommponent(
+                  fontsize: 12.sp,
+                  errorText: leaveController.leaveTypeErrormsg),
+            )
+        ],
+      ),
     );
   }
 
