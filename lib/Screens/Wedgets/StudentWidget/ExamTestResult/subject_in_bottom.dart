@@ -10,7 +10,7 @@ AxisTitles bottomListForResultGraph(List<ExamTestResultModel> subject) {
   return AxisTitles(
     sideTitles: SideTitles(
       showTitles: true,
-      reservedSize: 30.h,
+      reservedSize: 40.h,
       interval: 1,
       getTitlesWidget: (value, meta) {
         int index = value.toInt();

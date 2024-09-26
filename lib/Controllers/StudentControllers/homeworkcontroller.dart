@@ -20,11 +20,14 @@ class StudentHomeWorkController extends GetxController {
   var filename = ''.obs;
   var showfileoncomment = false.obs;
 
+  var successcommentloader = false.obs;
+  final FocusNode commentFocusNode = FocusNode();
+
   var homeworkdatelist = <HomeworkModel>[].obs;
   var homeworkbydate = <HomeWorkByDateModel>[].obs;
   var homeworkcomments = <ClassRoomCommentModel>[].obs;
-  final TextEditingController commentcontroller = TextEditingController();
 
+  final TextEditingController commentcontroller = TextEditingController();
   final FcmTokenController fcmTokenController = Get.find<FcmTokenController>();
 
   markgreenhomedate() async {
@@ -103,17 +106,23 @@ class StudentHomeWorkController extends GetxController {
   //  *************************************************  student home work Comment *******************************
 
   studenthomeworkReply(index) async {
+    successcommentloader.value = true;
     await HomeWorkRepository.gethomeworkComment(index).then((value) {
       if (value != null) {
         if (value['Status'] == "Cam-001") {
           List<dynamic> commentdata = value['Data'];
-
           homeworkcomments.value = commentdata
               .map((json) => ClassRoomCommentModel.fromJson(json))
               .toList();
+
+          successcommentloader.value = false;
         } else if (value['Status'] == 'Cam-003') {
-          fcmTokenController.getFCMToken();
+          // fcmTokenController.getFCMToken();
           studenthomeworkReply(index);
+          successcommentloader.value = false;
+        } else {
+          homeworkcomments.clear();
+          successcommentloader.value = false;
         }
       }
     });
@@ -127,21 +136,29 @@ class StudentHomeWorkController extends GetxController {
         if (value['Status'] == 'Cam-001') {
           showfileoncomment.value = false;
           commentcontroller.clear();
-          Get.back();
+          Get.snackbar(
+              backgroundColor: Colors.green,
+              colorText: AppColors.blackcolor,
+              "Homework Reply",
+              "Your Reply has been succesfully Submitted");
+          studenthomeworkReply(index);
+        } else if (value['Status'] == 'Cam-006') {
+          commentcontroller.clear();
+          showfileoncomment.value = false;
+          commentcontroller.clear();
+          studenthomeworkReply(index);
           Get.snackbar(
               backgroundColor: Colors.green,
               colorText: AppColors.blackcolor,
               "Homework Reply",
               "Your Reply has been succesfully Submitted");
         } else {
-          Get.back();
-          showfileoncomment.value = false;
           commentcontroller.clear();
           Get.snackbar(
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.red,
               colorText: AppColors.blackcolor,
               "Homework Reply",
-              "Something Went Wrong Try Again");
+              "Your Reply  Not Submitted");
         }
       }
     });

@@ -1,8 +1,10 @@
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 
 import 'package:campuspro/Screens/Wedgets/StudentWidget/common_text_style.dart';
+import 'package:campuspro/Screens/Wedgets/StudentWidget/homework/homework_comment_page.dart';
 import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -72,70 +74,90 @@ Widget homeWorkCard(index, BuildContext context) {
                           fontWeight: FontWeight.normal, fontSize: 16.sp)),
                 ],
               ),
-              GestureDetector(
-                onTap: () async {
-                  // await studentClasssRoomController
-                  //     .getclassRommComments(index);
-                  await studentHomeWorkController.studenthomeworkReply(index);
-                  studenthomeworkCommentsdialog(context, index);
-                },
-                child: Image.asset(
-                  "assets/icon/show_message.png",
-                  height: 20.h,
-                  width: 20.w,
-                  fit: BoxFit.contain,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Obx(() => studentHomeWorkController
+                          .homeworkbydate[index].homeworkURL!.isNotEmpty
+                      ? CircleAvatar(
+                          backgroundColor: AppColors.appbuttonColor,
+                          radius: 13.r,
+                          child: const Icon(
+                            Icons.download,
+                            color: AppColors.whitetextcolor,
+                          ),
+                        )
+                      : const SizedBox()),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      // await studentClasssRoomController
+                      //     .getclassRommComments(index);
+                      await studentHomeWorkController
+                          .studenthomeworkReply(index);
+
+                      Get.to(HomeworkCommets(index: index));
+                      //studenthomeworkCommentsdialog(context, index);
+                    },
+                    child: Image.asset(
+                      "assets/icon/show_message.png",
+                      height: 22.h,
+                      width: 22.w,
+                      fit: BoxFit.contain,
+                    ),
+                  )
+                ],
               )
             ],
           ),
           SizedBox(height: 12.h),
-          Text(
-            studentHomeWorkController.homeworkbydate[index].homeworkMsg
-                .toString(),
-            style: AppTextStyles.cardContent,
+          RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                text: studentHomeWorkController
+                            .homeworkbydate[index].homeworkMsg
+                            .toString()
+                            .length >
+                        100
+                    ? studentHomeWorkController
+                        .homeworkbydate[index].homeworkMsg!
+                        .substring(0, 100)
+                    : studentHomeWorkController
+                        .homeworkbydate[index].homeworkMsg,
+                style: AppTextStyles.cardContent,
+              ),
+              studentHomeWorkController.homeworkbydate[index].homeworkMsg
+                          .toString()
+                          .length >
+                      100
+                  ? TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          await studentHomeWorkController
+                              .studenthomeworkReply(index);
+                          Get.to(HomeworkCommets(
+                            index: index,
+                          ));
+                        },
+                      text: "  ...View More",
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueAccent))
+                  : TextSpan(),
+            ]),
           ),
           SizedBox(height: 12.h),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 studentHomeWorkController.homeworkbydate[index].attDate
                     .toString(),
                 style: AppTextStyles.cardDate,
               ),
-              studentHomeWorkController
-                      .homeworkbydate[index].homeworkURL!.isNotEmpty
-                  ? GestureDetector(
-                      onTap: () {
-                        downloadService.downloadFile(studentHomeWorkController
-                            .homeworkbydate[index].homeworkURL
-                            .toString());
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(5.r),
-                        decoration: BoxDecoration(
-                          color: AppColors.appbuttonColor,
-                          borderRadius: BorderRadius.circular(14.r),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.download,
-                              size: 16.r,
-                              color: AppColors.whitetextcolor,
-                            ),
-                            Text(
-                              'Download',
-                              style: TextStyle(
-                                  fontSize: 12.sp, color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
             ],
           ),
         ],

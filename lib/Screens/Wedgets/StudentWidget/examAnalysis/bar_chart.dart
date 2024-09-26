@@ -88,125 +88,157 @@ Widget barchartForSingleExam(BuildContext context) {
                       height: 350.h,
                       width:
                           exameAnalysisController.singleExamDataList.length <= 3
-                              ? MediaQuery.of(context).size.width * 1
+                              ? MediaQuery.of(context).size.width * 0.9
                               : MediaQuery.of(context).size.width *
                                   (exameAnalysisController
                                       .singleExamDataList.length) *
-                                  0.334,
+                                  0.23,
                       child: AspectRatio(
                         aspectRatio: 1.4,
-                        child: BarChart(
-                          BarChartData(
-                              alignment: BarChartAlignment.spaceBetween,
-                              borderData: FlBorderData(
-                                border: Border.all(width: 0.1),
-                                show: true,
-                              ),
-                              titlesData: FlTitlesData(
-                                show: true,
-                                rightTitles: const AxisTitles(
-                                    sideTitles: SideTitles(showTitles: false)),
-                                leftTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    reservedSize: 30.w,
-                                    showTitles: true,
-                                    getTitlesWidget: (value, meta) {
-                                      return Text(
-                                        value.toInt().toString(),
-                                        textAlign: TextAlign.left,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                bottomTitles: bottom_list_for_barchart(),
-                                topTitles: const AxisTitles(
-                                    sideTitles: SideTitles(showTitles: false)),
-                              ),
-                              gridData: FlGridData(
-                                show: true,
-                                drawVerticalLine: false,
-                                drawHorizontalLine: true,
-                                getDrawingHorizontalLine: (value) {
-                                  return FlLine(
-                                      color: AppColors.appbuttonColor,
-                                      strokeWidth: 0.2.w);
+                        child: BarChart(BarChartData(
+                          alignment: BarChartAlignment.spaceBetween,
+                          borderData: FlBorderData(
+                            border: Border.all(width: 0.1),
+                            show: true,
+                          ),
+                          titlesData: FlTitlesData(
+                            show: true,
+                            rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false)),
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                reservedSize: 30.w,
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  return Text(
+                                    value.toInt().toString(),
+                                    textAlign: TextAlign.left,
+                                  );
                                 },
                               ),
-                              barGroups: exameAnalysisController
-                                  .singleExamDataList
-                                  .asMap()
-                                  .entries
-                                  .map((e) {
-                                final index = e.key;
-                                final data = e.value;
-                                final double maxMarks =
-                                    double.tryParse(data.maxMarks) ?? 0.0;
+                            ),
+                            bottomTitles: bottom_list_for_barchart(),
+                            topTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false)),
+                          ),
+                          gridData: FlGridData(
+                            show: true,
+                            drawVerticalLine: false,
+                            drawHorizontalLine: true,
+                            getDrawingHorizontalLine: (value) {
+                              return FlLine(
+                                  color: AppColors.appbuttonColor,
+                                  strokeWidth: 0.2.w);
+                            },
+                          ),
+                          barGroups: exameAnalysisController.singleExamDataList
+                              .asMap()
+                              .entries
+                              .map((e) {
+                            final index = e.key;
+                            final data = e.value;
+                            final double maxMarks =
+                                double.tryParse(data.maxMarks) ?? 0.0;
 
-                                final double marksObtainPercentage =
-                                    maxMarks > 0
-                                        ? (double.tryParse(data.marksObtain) ??
-                                                0.0) /
-                                            maxMarks *
-                                            100
-                                        : 0.0;
+                            final double marksObtainPercentage = maxMarks > 0
+                                ? (double.tryParse(data.marksObtain) ?? 0.0) /
+                                    maxMarks *
+                                    100
+                                : 0.0;
 
-                                final double aveMarksObtainPercentage =
-                                    maxMarks > 0
-                                        ? (double.tryParse(
-                                                    data.aveMarksObtain) ??
-                                                0.0) /
-                                            maxMarks *
-                                            100
-                                        : 0.0;
-                                final double obtainmaxmarks = maxMarks > 0
-                                    ? (double.tryParse(data.maxMarksObtain) ??
-                                            0.0) /
-                                        maxMarks *
-                                        100
-                                    : 0.0;
+                            final double aveMarksObtainPercentage = maxMarks > 0
+                                ? (double.tryParse(data.aveMarksObtain) ??
+                                        0.0) /
+                                    maxMarks *
+                                    100
+                                : 0.0;
+                            final double obtainmaxmarks = maxMarks > 0
+                                ? (double.tryParse(data.maxMarksObtain) ??
+                                        0.0) /
+                                    maxMarks *
+                                    100
+                                : 0.0;
 
-                                final double marksObtain = double.parse(
-                                    marksObtainPercentage.toStringAsFixed(1));
-                                final double avgmarksobtain = double.parse(
-                                    aveMarksObtainPercentage
-                                        .toStringAsFixed(1));
-                                aveMarksObtainPercentage.toStringAsFixed(1);
-                                final double maxmarksobtain = double.parse(
-                                    obtainmaxmarks.toStringAsFixed(1));
+                            final double marksObtain = double.parse(
+                                marksObtainPercentage.toStringAsFixed(1));
+                            final double avgmarksobtain = double.parse(
+                                aveMarksObtainPercentage.toStringAsFixed(1));
+                            aveMarksObtainPercentage.toStringAsFixed(1);
+                            final double maxmarksobtain =
+                                double.parse(obtainmaxmarks.toStringAsFixed(1));
 
-                                return displaydata(
-                                  index,
-                                  marksObtain,
-                                  avgmarksobtain,
-                                  maxmarksobtain,
-                                );
-                              }).toList(),
-                              maxY: 100,
-                              barTouchData: BarTouchData(
-                                enabled: true,
-                                handleBuiltInTouches: false,
-                                touchTooltipData: BarTouchTooltipData(
-                                  getTooltipColor: (group) =>
-                                      Colors.transparent,
-                                  tooltipMargin: 0,
-                                  getTooltipItem: (
-                                    BarChartGroupData group,
-                                    int groupIndex,
-                                    BarChartRodData rod,
-                                    int rodIndex,
-                                  ) {
-                                    return BarTooltipItem(
-                                      rod.toY.toString(),
-                                      TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: rod.color,
-                                        fontSize: 8.sp,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              )),
-                        ),
+                            return displaydata(
+                              index,
+                              marksObtain,
+                              avgmarksobtain,
+                              maxmarksobtain,
+                            );
+                          }).toList(),
+                          maxY: 100,
+                          barTouchData: BarTouchData(
+                            enabled: true,
+                            handleBuiltInTouches: true,
+                            touchTooltipData: BarTouchTooltipData(
+                              tooltipPadding: EdgeInsets.all(8),
+                              tooltipMargin: 8,
+                              tooltipRoundedRadius: 8,
+                              fitInsideHorizontally: true,
+                              fitInsideVertically: true,
+                              getTooltipColor: (group) =>
+                                  exameAnalysisController.tooltipColor,
+                              getTooltipItem: (
+                                BarChartGroupData group,
+                                int groupIndex,
+                                BarChartRodData rod,
+                                int rodIndex,
+                              ) {
+                                if (groupIndex ==
+                                        exameAnalysisController
+                                            .touchedIndex.value &&
+                                    rodIndex ==
+                                        exameAnalysisController
+                                            .touchedRodIndex.value) {
+                                  return BarTooltipItem(
+                                    'Name: ${exameAnalysisController.subjectnameOnTooltip} \nValue: ${rod.toY.toString()}',
+                                    TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                    ),
+                                  );
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            touchCallback: (FlTouchEvent event,
+                                BarTouchResponse? response) {
+                              if (response != null &&
+                                  response.spot != null &&
+                                  !event.isInterestedForInteractions) {
+                                final touchedIndex =
+                                    response.spot!.touchedBarGroupIndex;
+                                final rodIndex =
+                                    response.spot!.touchedRodDataIndex;
+                                exameAnalysisController
+                                    .updateTouchedGroupIndex(touchedIndex);
+                                exameAnalysisController.touchedRodIndex.value =
+                                    rodIndex;
+                                exameAnalysisController
+                                        .subjectnameOnTooltip.value =
+                                    exameAnalysisController
+                                        .subjectlist[touchedIndex];
+
+                                final barGroup = response.spot!.touchedBarGroup;
+
+                                final rod = barGroup.barRods[rodIndex];
+
+                                exameAnalysisController.tooltipColor =
+                                    rod.color!;
+                              } else {}
+                            },
+                          ),
+                        )),
                       ),
                     ),
                   ],

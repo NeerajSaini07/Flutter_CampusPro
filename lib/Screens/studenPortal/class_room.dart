@@ -18,37 +18,52 @@ class StudentClassroom extends StatelessWidget {
     final StudentClasssRoomController classsRoomController =
         Get.find<StudentClasssRoomController>();
     return Scaffold(
-      appBar: customAppBar(context),
+      appBar: customAppBar(context, title: "Class Room"),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            DropdownButtonFormField(
+            DropdownButtonFormField<ClassRoomFilterDataListModel>(
               decoration: InputDecoration(
-                  hintText: "Select Teacher OR Subject",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.r))),
-              items: classsRoomController.filterList
-                  .map((ClassRoomFilterDataListModel subject) {
-                return DropdownMenuItem<ClassRoomFilterDataListModel>(
-                  value: subject,
-                  child: Text(subject.empSub.toString()),
-                );
-              }).toList(),
+                hintText: "Select Teacher OR Subject",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+              ),
+              items: [
+                DropdownMenuItem<ClassRoomFilterDataListModel>(
+                  value: null,
+                  child: Text("All"),
+                ),
+                ...classsRoomController.filterList
+                    .map((ClassRoomFilterDataListModel subject) {
+                  return DropdownMenuItem<ClassRoomFilterDataListModel>(
+                    value: subject,
+                    child: Text(subject.empSub.toString()),
+                  );
+                }),
+              ],
               onChanged: (value) {
-                classsRoomController.empid = value!.empId.toString();
-                classsRoomController.subjectid = value.subjectId.toString();
-                classsRoomController.refreshpage.value =
-                    !classsRoomController.refreshpage.value;
-                classsRoomController.classRoomData();
+                if (value == null) {
+                  classsRoomController.empid = '';
+                  classsRoomController.subjectid = '';
+                  classsRoomController.refreshpage.value =
+                      !classsRoomController.refreshpage.value;
+                  classsRoomController.classRoomData();
+                } else {
+                  classsRoomController.empid = value.empId.toString();
+                  classsRoomController.subjectid = value.subjectId.toString();
+                  classsRoomController.refreshpage.value =
+                      !classsRoomController.refreshpage.value;
+                  classsRoomController.classRoomData();
+                }
               },
             ),
             CustomeHeight(10.h),
             Expanded(child: Obx(
               () {
                 classsRoomController.refreshpage.value;
-
                 return classRoomDataList();
               },
             )),

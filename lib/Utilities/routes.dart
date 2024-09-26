@@ -26,4 +26,11 @@ class Routes {
   static const String studentLeaveDetailScreen = '/studentLeaveDetailScreen';
   static const String studentCircularScreen = '/studentCircularScreen';
   static const String studentActivityScreen = '/studentActivityScreen';
+  static const String transportScreen = '/transposrtScreen';
+  static const String studenttimeTable = '/studentTimeTable';
+  static const String feedback = '/feedback';
+  static const String studentdatesheet = '/studentDatesheet';
+  static const String studentHomeworkScreen = '/studenthomeworkScreen';
+  static const String studentNotificationScreen = '/studentNotificationScreen';
+  static const String studentCalendarScreen = '/studentCalendarScreen';
 }

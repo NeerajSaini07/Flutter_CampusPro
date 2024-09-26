@@ -6,6 +6,7 @@ import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
 import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -158,9 +159,41 @@ Widget circularListCard(StudentCircularModel circularData, BuildContext context,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 4.h),
-            Text(
-              circularData.cirSubject ?? "",
-              style: AppTextStyles.cardTitle,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Text(
+                    circularData.cirSubject ?? "",
+                    style: AppTextStyles.cardTitle,
+                  ),
+                ),
+                if (circularData.circularFileurl != null &&
+                    circularData.circularFileurl!.isNotEmpty)
+                  InkWell(
+                    onTap: () {
+                      circularController.downloadFile(
+                          circularData.circularFileurl ?? "",
+                          circularData.isDownloaded);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(4.w),
+                      decoration: BoxDecoration(
+                        color: circularData.isDownloaded.value
+                            ? Colors.green
+                            : AppColors.appbuttonColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        circularData.isDownloaded.value
+                            ? Icons.check
+                            : Icons.download,
+                        size: 16.r,
+                        color: AppColors.whitetextcolor,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             SizedBox(height: 8.h),
             HtmlWidget(

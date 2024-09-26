@@ -24,7 +24,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         Get.find<NotificationController>();
 
     return Scaffold(
-      appBar: customAppBar(context),
+      appBar: customAppBar(context, title: "Alert & Notification"),
       backgroundColor: AppColors.whitetextcolor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),

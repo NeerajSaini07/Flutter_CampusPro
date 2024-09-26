@@ -89,6 +89,11 @@ class APIENDPOINT {
 
   //  **************************  exam Test Result****************************************
   static const testexamresultsingleExam = "GetStuMarks4SingleExam_V1";
+  static const transportdetail = "GetTransportDetail_V1";
+  static const studenttimetable = "FillClassesAndPeriods_V1";
+  static const datesheetApi = "GetDateSheet_V1";
+  static const feedbackApi = "OnlineCompliantSuggestion_V1";
+
 //
   //  ****************************
 }

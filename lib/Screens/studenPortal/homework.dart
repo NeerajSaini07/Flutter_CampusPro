@@ -15,32 +15,23 @@ class HomeworkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppbarController appbarController = Get.find<AppbarController>();
-    BottomBarController bottomBarController = Get.find<BottomBarController>();
     final StudentHomeWorkController studentHomeWorkController =
         Get.find<StudentHomeWorkController>();
-    return WillPopScope(
-      onWillPop: () async {
-        bottomBarController.selectedBottomNavIndex.value = 0;
-        appbarController.appBarName.value = Constant.schoolName;
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: customAppBar(context),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              buildCalendar(studentHomeWorkController),
-              Expanded(
-                child: Obx(() {
-                  studentHomeWorkController.tableRefresh.value;
-                  return homeWorkListdata(studentHomeWorkController);
-                }),
-              )
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customAppBar(context, title: "Home Work"),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            buildCalendar(studentHomeWorkController),
+            Expanded(
+              child: Obx(() {
+                studentHomeWorkController.tableRefresh.value;
+                return homeWorkListdata(studentHomeWorkController);
+              }),
+            )
+          ],
         ),
       ),
     );

@@ -21,11 +21,11 @@ Widget lineCartGraphWidget(BuildContext context) {
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SizedBox(
-          width: exameAnalysisController.examnameList.length <= 3
-              ? MediaQuery.of(context).size.width * 0.9
+          width: exameAnalysisController.exannameforAllexamAnalysis.length <= 3
+              ? MediaQuery.of(context).size.width * 0.4
               : MediaQuery.of(context).size.width *
-                  (exameAnalysisController.examnameList.length) *
-                  0.190,
+                  (exameAnalysisController.exannameforAllexamAnalysis.length) *
+                  0.20,
           height: 350.h,
           child: Row(
             children: [
@@ -72,14 +72,14 @@ Widget lineCartGraphWidget(BuildContext context) {
                             },
                           ),
                         ),
-                        bottomTitles:
-                            bottombarlist(exameAnalysisController.examnameList),
+                        bottomTitles: bottombarlist(
+                            exameAnalysisController.exannameforAllexamAnalysis),
                         topTitles: const AxisTitles(
                             sideTitles: SideTitles(showTitles: false)),
                         rightTitles: AxisTitles(
                             sideTitles: SideTitles(
                                 getTitlesWidget: (value, meta) {
-                                  return Text(" ");
+                                  return const Text(" ");
                                 },
                                 reservedSize: 40.w,
                                 showTitles: true)),
@@ -94,7 +94,8 @@ Widget lineCartGraphWidget(BuildContext context) {
                           drawHorizontalLine: true),
                       lineTouchData: const LineTouchData(enabled: true),
                       minX: 0,
-                      maxX: exameAnalysisController.examnameList.length
+                      maxX: exameAnalysisController
+                              .exannameforAllexamAnalysis.length
                               .toDouble() -
                           1,
                       minY: 0,
