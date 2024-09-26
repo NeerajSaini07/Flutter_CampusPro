@@ -21,44 +21,47 @@ class DownloadService extends GetxService {
         // **********Get the document directory path
         final directory = await getDownloadDirectory();
         final filePath = path.join(directory.path, fileName);
-        if (await File(filePath).exists()) {
-          openFile(filePath);
-          downloadedStatus.value = true;
-        } else {
-          // **********Show a notification when download starts
-          await showNotification(
-              'Download Started', 'Downloading $fileName', filePath,
-              progress: 0, playSound: true);
+        // if (await File(filePath).exists()) {
+        //   openFile(filePath);
+        //   downloadedStatus.value = true;
+        // } else {
+        // **********Show a notification when download starts
+        await showNotification(
+            'Download Started', 'Downloading $fileName', filePath,
+            progress: 0, playSound: true);
 
-          // **********Fetch the file from the network
-          final response =
-              await http.Client().send(http.Request('GET', Uri.parse(url)));
-          final totalBytes = response.contentLength ?? 0;
-          int receivedBytes = 0;
+        // **********Fetch the file from the network
+        final response =
+            await http.Client().send(http.Request('GET', Uri.parse(url)));
+        final totalBytes = response.contentLength ?? 0;
+        int receivedBytes = 0;
 
-          final file = File(filePath);
-          final sink = file.openWrite();
-          response.stream.listen(
-            (List<int> chunk) {
-              receivedBytes += chunk.length;
-              sink.add(chunk);
-              final progress = ((receivedBytes / totalBytes) * 100).toInt();
-              showNotification('Downloading...', fileName, filePath,
-                  progress: progress, playSound: false);
-            },
-            onDone: () async {
-              await sink.close();
-              await showNotification('Download Completed', fileName, filePath,
-                  progress: 100, playSound: true);
-              downloadedStatus.value = true;
-              // print('File downloaded: $filePath');
-            },
-            onError: (error) {
-              // print('Error: $error');
-            },
-            cancelOnError: true,
-          );
-        }
+        final file = File(filePath);
+        final sink = file.openWrite();
+        response.stream.listen(
+          (List<int> chunk) {
+            receivedBytes += chunk.length;
+            sink.add(chunk);
+            final progress = ((receivedBytes / totalBytes) * 100).toInt();
+            showNotification('Downloading...', fileName, filePath,
+                progress: progress, playSound: false);
+          },
+          onDone: () async {
+            await sink.close();
+            await showNotification('Download Completed', fileName, filePath,
+                progress: 100, playSound: true);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              openFile(filePath);
+            });
+            // downloadedStatus.value = true;
+            // print('File downloaded: $filePath');
+          },
+          onError: (error) {
+            // print('Error: $error');
+          },
+          cancelOnError: true,
+        );
+        // }
       } else {
         CommonFunctions.showErrorSnackbar("Permission Denied",
             'Storage permission is required to download files.');

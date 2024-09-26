@@ -2,6 +2,7 @@ import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dar
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
+import 'package:campuspro/Controllers/StudentControllers/student_timetable_controller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/bus_tracker_controller.dart';
@@ -127,6 +128,7 @@ class AppRouting extends GetxService {
           Get.toNamed(Routes.changePasswordScreen,
               arguments: {'isdefaultChangePass': false});
           break;
+
         case "Exam Analysis":
           await exameAnalysisController.getExamData();
           await exameAnalysisController.getclasssession();
@@ -138,7 +140,6 @@ class AppRouting extends GetxService {
           await exameAnalysisController.getExamData();
           examResultController.testExamResult();
           Get.to(() => const ExamTestResult());
-
           appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
           break;
@@ -154,8 +155,12 @@ class AppRouting extends GetxService {
 
         case "Time Table":
         case "Student Time Table":
+          final StudenttimetableController timeTableController =
+              Get.find<StudenttimetableController>();
+          timeTableController.expandedStates.value = {};
           Get.toNamed(Routes.studenttimeTable);
           break;
+
         case "Feedback":
           Get.toNamed(Routes.feedback);
           break;
@@ -164,6 +169,8 @@ class AppRouting extends GetxService {
           Get.toNamed(Routes.studentdatesheet);
           appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
+          break;
+
         case "Profile":
           Get.toNamed(Routes.studentProfileScreen);
           break;
