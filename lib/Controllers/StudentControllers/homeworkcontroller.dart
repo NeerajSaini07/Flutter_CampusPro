@@ -118,6 +118,7 @@ class StudentHomeWorkController extends GetxController {
           commentcontroller.clear();
           filename.value = '';
           Get.snackbar(
+              snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
               colorText: AppColors.blackcolor,
               "Homework Reply",
@@ -130,6 +131,7 @@ class StudentHomeWorkController extends GetxController {
           commentcontroller.clear();
           studenthomeworkReply(index);
           Get.snackbar(
+              snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
               colorText: AppColors.blackcolor,
               "Homework Reply",
@@ -137,6 +139,7 @@ class StudentHomeWorkController extends GetxController {
         } else {
           commentcontroller.clear();
           Get.snackbar(
+              snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.red,
               colorText: AppColors.blackcolor,
               "Homework Reply",

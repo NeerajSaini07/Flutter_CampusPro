@@ -11,8 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:get/get.dart';
 
-class Datesheet extends StatelessWidget {
-  const Datesheet({super.key});
+class StudentDateSheetScreen extends StatelessWidget {
+  const StudentDateSheetScreen({super.key});
   @override
   Widget build(BuildContext context) {
     AppbarController appbarController = Get.find<AppbarController>();

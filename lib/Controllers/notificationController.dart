@@ -78,7 +78,6 @@ class NotificationController extends GetxController {
         notificationList.value = notificationData
             .map((json) => NotificationModel.fromJson(json))
             .toList();
-
         notificationloader.value = false;
         clearDateFields();
       } else {

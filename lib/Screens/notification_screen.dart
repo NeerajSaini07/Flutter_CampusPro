@@ -3,7 +3,9 @@ import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -167,15 +169,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Filter Notifications',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,6 +193,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             fontWeight: FontWeight.w300,
                             color: AppColors.textfieldhintstycolor),
                       ),
+
+                      // notificationController.getdateRage(
+                      //       "fromDate", context);
                       Container(
                         height: 30.h,
                         width: 150.w,
@@ -200,6 +205,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               color: AppColors.textfieldhintstycolor,
                             )),
                         child: TextFormField(
+                          onTap: () {
+                            notificationController.getdateRage(
+                                "fromDate", context);
+                          },
                           textAlign: TextAlign.center,
                           readOnly: true,
                           controller: notificationController.fromDateController,
@@ -207,11 +216,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 6.w, vertical: 6.h),
                             suffixIcon: InkWell(
-                                onTap: () {
-                                  notificationController.getdateRage(
-                                      "fromDate", context);
-                                },
-                                child: Icon(Icons.date_range)),
+                                onTap: () {}, child: Icon(Icons.date_range)),
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Select Date From",
@@ -240,16 +245,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               color: AppColors.textfieldhintstycolor,
                             )),
                         child: TextFormField(
+                          onTap: () {
+                            notificationController.getdateRage(
+                                "todate", context);
+                          },
                           controller: notificationController.toDatecontroller,
                           textAlign: TextAlign.center,
                           readOnly: true,
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 6.w, vertical: 6.w),
                             suffixIcon: InkWell(
-                                onTap: () {
-                                  notificationController.getdateRage(
-                                      "todate", context);
-                                },
-                                child: Icon(Icons.date_range)),
+                                onTap: () {},
+                                child: const Icon(Icons.date_range)),
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Select Date To",
@@ -328,7 +336,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         );
       },
     ).whenComplete(() {
-      if (notificationController.removeFilter.value == true) {
+      if (notificationController.removeFilter.value == false) {
         notificationController.clearDateFields();
       }
     });

@@ -96,7 +96,10 @@ Widget classRoomDataList() {
                                   .cirContent!
                                   .substring(0, 100)
                               : classRoomList[index].cirContent,
-                          style: AppTextStyles.cardContent,
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blackcolor),
                         ),
                         classRoomList[index].cirContent.toString().length > 100
                             ? TextSpan(

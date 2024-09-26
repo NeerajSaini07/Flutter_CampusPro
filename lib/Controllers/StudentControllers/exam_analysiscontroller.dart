@@ -179,6 +179,7 @@ class ExameAnalysisController extends GetxController {
               .toList();
           session.value = '';
           examName.value = '';
+
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         } else if (value['Status'] == 'Camp-003') {
@@ -187,10 +188,14 @@ class ExameAnalysisController extends GetxController {
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         } else if (value['Status'] == 'Cam-006') {
+          session.value = '';
+          examName.value = '';
           singleExamDataList.clear();
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         } else {
+          session.value = '';
+          examName.value = '';
           singleExamDataList.clear();
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
