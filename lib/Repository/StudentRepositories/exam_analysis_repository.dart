@@ -75,7 +75,7 @@ class ExamanalysisRepository {
       "ClassId": StudentDetaillist.studentdetails.last.classId.toString()
     };
 
-    print(analysisRequest);
+    print("get exam data : $analysisRequest");
 
     try {
       dynamic response = await apiServices
