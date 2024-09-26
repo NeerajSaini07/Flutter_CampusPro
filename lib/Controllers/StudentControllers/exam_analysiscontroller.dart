@@ -144,10 +144,10 @@ class ExameAnalysisController extends GetxController {
     for (int i = 0; i < studentReport.length; i++) {
       String subjectName = studentReport[i].subjectName;
       double marksObtain = studentReport[i].marksObtain;
-
       if (!exannameforAllexamAnalysis.contains(studentReport[i].exam)) {
         exannameforAllexamAnalysis.add(studentReport[i].exam);
       }
+
       if (subjectScoreMap.containsKey(subjectName)) {
         subjectScoreMap[subjectName]!.add(marksObtain);
       } else {

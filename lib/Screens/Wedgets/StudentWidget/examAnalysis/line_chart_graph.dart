@@ -23,11 +23,11 @@ Widget lineCartGraphWidget(BuildContext context) {
         scrollDirection: Axis.horizontal,
         child: SizedBox(
           width: exameAnalysisController.exannameforAllexamAnalysis.length <= 3
-              ? MediaQuery.of(context).size.width * 0.4
+              ? MediaQuery.of(context).size.width * 0.9
               : MediaQuery.of(context).size.width *
                   (exameAnalysisController.exannameforAllexamAnalysis.length) *
-                  0.25,
-          height: 350.h,
+                  0.16.w,
+          height: 400.h,
           child: Row(
             children: [
               RotatedBox(
@@ -52,13 +52,8 @@ Widget lineCartGraphWidget(BuildContext context) {
                         String subject = exameAnalysisController
                             .subjectScoreMap.keys
                             .elementAt(index);
-
-                        print(subject);
-
                         List<double> scores =
                             exameAnalysisController.subjectScoreMap[subject]!;
-
-                        print(scores);
                         return chartbardata(scores, index, subject);
                       }),
                       titlesData: FlTitlesData(
@@ -97,12 +92,13 @@ Widget lineCartGraphWidget(BuildContext context) {
                       gridData: const FlGridData(
                           show: true,
                           drawVerticalLine: true,
+                          verticalInterval: 1,
                           drawHorizontalLine: true),
                       lineTouchData: const LineTouchData(enabled: true),
                       minX: 0,
                       maxX: exameAnalysisController
                               .exannameforAllexamAnalysis.length
-                              .toDouble() -
+                              .toDouble() +
                           1,
                       minY: 0,
                       maxY: 100,
