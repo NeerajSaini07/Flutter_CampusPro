@@ -1,10 +1,7 @@
 import 'package:campuspro/Controllers/StudentControllers/calendar_controller.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -34,9 +31,9 @@ class StudentCalendarScreen extends StatelessWidget {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 7,
-                                offset: const Offset(0, 3),
+                                // spreadRadius: 1,
+                                blurRadius: 4,
+                                offset: const Offset(0, 1),
                               ),
                             ],
                             borderRadius: BorderRadius.circular(10.r)),
@@ -331,9 +328,9 @@ class StudentCalendarScreen extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
+              // spreadRadius: 1,
+              blurRadius: 4,
+              offset: const Offset(0, 1),
             ),
           ],
           border: Border(
