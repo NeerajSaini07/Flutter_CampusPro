@@ -716,7 +716,7 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
                 : (leaveController.selectedLeaveType.value == "S"
                     ? leaveController.leaveType.value[0]
                     : leaveController.leaveType.value[1]),
-            excludeSelected: false,
+            excludeSelected: true,
             closedHeaderPadding:
                 EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
             decoration: CustomDropdownDecoration(

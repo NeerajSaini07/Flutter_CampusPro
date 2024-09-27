@@ -39,7 +39,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'Dependency_injection/injection.dart';
 
 import 'Screens/splash_screen.dart';
-import 'Screens/studenPortal/Datesheet.dart';
+import 'Screens/studenPortal/datesheet.dart';
 import 'Screens/studenPortal/exam_analysis.dart';
 import 'Screens/studenPortal/feedback.dart';
 

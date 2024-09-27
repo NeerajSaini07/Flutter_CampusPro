@@ -1,148 +1,161 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, deprecated_member_use
-
-import 'package:campuspro/Controllers/appbar_controller.dart';
-import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/datesheet_controller.dart';
 import 'package:campuspro/Modal/student_module/student_datesheet_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
-import 'package:campuspro/Utilities/constant.dart';
+import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:get/get.dart';
 
 class StudentDateSheetScreen extends StatelessWidget {
-  const StudentDateSheetScreen({super.key});
+  StudentDateSheetScreen({super.key});
+  final StudentDatesheetController studentDatesheetController =
+      Get.find<StudentDatesheetController>();
   @override
   Widget build(BuildContext context) {
-    AppbarController appbarController = Get.find<AppbarController>();
-    BottomBarController bottomBarController = Get.find<BottomBarController>();
-
-    return WillPopScope(
-        onWillPop: () async {
-          bottomBarController.selectedBottomNavIndex.value = 0;
-          appbarController.appBarName.value = Constant.schoolName;
-          return true;
-        },
-        // final StudentClasssRoomController classsRoomController =
-        //     Get.find<StudentClasssRoomController>();
-        child: Scaffold(
-          appBar: customAppBar(context),
-          body: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CustomeHeight(20.h),
-                Expanded(child: DatesheetList()),
-              ],
-            ),
-          ),
-        ));
+    return Scaffold(
+      appBar: customAppBar(context, title: "Date Sheet"),
+      body: Obx(() {
+        if (studentDatesheetController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return ListView(
+          padding: EdgeInsets.only(top: 12.h),
+          children:
+              studentDatesheetController.filteredDateSheet.keys.map((examDay) {
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 14.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+                    child: Text(
+                      "Exam ($examDay)",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  if (studentDatesheetController.filteredDateSheet[examDay] !=
+                          null &&
+                      studentDatesheetController
+                          .filteredDateSheet[examDay]!.isNotEmpty) ...{
+                    ListView.separated(
+                      padding: EdgeInsets.symmetric(horizontal: 14.w)
+                          .copyWith(bottom: 12.h),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: studentDatesheetController
+                          .filteredDateSheet[examDay]!.length,
+                      separatorBuilder: (context, index) => Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
+                        child: Divider(
+                          height: 1.h,
+                          thickness: 1.h,
+                        ),
+                      ),
+                      itemBuilder: (context, index) {
+                        return _dateSheetListView(studentDatesheetController
+                            .filteredDateSheet[examDay]![index]);
+                      },
+                    )
+                  }
+                ],
+              ),
+            );
+          }).toList(),
+        );
+      }),
+    );
   }
 }
 
-@override
-Widget DatesheetList() {
-  return FutureBuilder<List<Datesheetmodel>>(
-      future: fetchdatesheetData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No data available.'));
-        } else {
-          List<Datesheetmodel> datesheetlist = snapshot.data!;
-          return ListView.builder(
-              itemCount: datesheetlist.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  color: Colors.white,
-                  margin: EdgeInsets.all(5.0),
-                  child: Padding(
-                    padding: EdgeInsets.all(10.r),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    datesheetlist[index].timing.toString(),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14.sp,
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        datesheetlist[index].shift.toString(),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14.sp,
-                                        ),
-                                      ),
-                                      Text(
-                                        datesheetlist[index].exam.toString(),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                datesheetlist[index].subjectHead.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                              SizedBox(height: 3.h),
-                              Text(
-                                datesheetlist[index].syllabus.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                              SizedBox(height: 3.h),
-                              Text(
-                                datesheetlist[index].examDate.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+Widget _dateSheetListView(Datesheetmodel datesheetData) {
+  return Row(
+    children: [
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            (datesheetData.examDate ?? "").toString().split("-").first,
+            style: TextStyle(
+              height: 0,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            (datesheetData.examDate ?? "").toString().split("-")[1],
+            style: TextStyle(
+              height: 0,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      SizedBox(
+        width: 10.w,
+      ),
+      Expanded(
+          child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                (datesheetData.subjectHead ?? ""),
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.access_time,
+                    size: 14.sp,
+                    color: AppColors.textfieldhintstycolor,
+                  ),
+                  Text(
+                    (datesheetData.timing ?? "--"),
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: AppColors.textfieldhintstycolor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                );
-              });
-        }
-      });
-}
-
-Future<List<Datesheetmodel>> fetchdatesheetData() async {
-  final StudentDatesheetController studentDatesheetController =
-      Get.find<StudentDatesheetController>();
-  studentDatesheetController.datesheetsData();
-
-  await Future.delayed(Duration(seconds: 1));
-
-  // Simulate a delay
-  return Datesheetl.datesheetlist;
+                ],
+              ),
+            ],
+          ),
+          Text(
+            (datesheetData.syllabus ?? "--"),
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: AppColors.textfieldhintstycolor,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ))
+    ],
+  );
 }
