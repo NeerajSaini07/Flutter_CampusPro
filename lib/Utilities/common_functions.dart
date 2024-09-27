@@ -100,11 +100,9 @@ class CommonFunctions {
   static String fetchDahboardIcon({required String menuname}) {
     switch (menuname.toLowerCase()) {
       case "alert & notification":
-        return "assets/icon/notification.png";
       case "notification":
         return "assets/icon/notification.png";
       case "leave detail":
-        return "assets/icon/leave.png";
       case "leave request":
         return "assets/icon/leave.png";
       case "fee payment":
@@ -113,7 +111,6 @@ class CommonFunctions {
       case "class room":
         return "assets/icon/classroom.png";
       case "home work":
-        return "assets/icon/homework.png";
       case "homework":
         return "assets/icon/homework.png";
       case "online test":
@@ -125,19 +122,18 @@ class CommonFunctions {
       case "exam":
         return "assets/icon/exam.png";
       case "student list":
-        return "assets/icon/students.png";
+        return "assets/icon/student.png";
       case "student":
-        return "assets/icon/students.png";
+        return "assets/icon/student.png";
       case "item requirment":
-        return "assets/icon/Item Requirement.png";
+        return "assets/dashboard_icon/Item Requirement.png";
       case "attendance":
         return "assets/icon/attendance.png";
       case "exam mark entry":
-        return "assets/icon/Test Marks Entry.png";
+        return "assets/dashboard_icon/Test Marks Entry.png";
       case "calendar":
-        return "assets/icon/Calendar.png";
       case "calender":
-        return "assets/icon/Calendar.png";
+        return "assets/dashboard_icon/calendar.png";
       default:
         return "assets/dashboard_icon/$menuname.png";
     }
