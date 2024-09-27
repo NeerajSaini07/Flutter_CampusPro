@@ -1,20 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
+import 'package:campuspro/Screens/Wedgets/StudentWidget/ExamTestResult/filter_dialog_for_examResult.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/ExamTestResult/result_graph.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../Wedgets/StudentWidget/ExamTestResult/subject_marks.dart';
-import '../Wedgets/StudentWidget/examAnalysis/filter_diloag.dart';
 
 class StudentExamTestResultScreen extends StatelessWidget {
   const StudentExamTestResultScreen({super.key});
@@ -39,7 +35,7 @@ class StudentExamTestResultScreen extends StatelessWidget {
                     onTap: () {
                       examResultController.bottomshitopenforExamResult.value =
                           true;
-                      modalBottomSheetMenu(context);
+                      modalBottomSheetMenuFroTestResult(context);
                     },
                     child: Image.asset(
                       Constant.filtericon,

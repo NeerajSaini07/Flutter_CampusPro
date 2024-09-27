@@ -9,25 +9,25 @@ class TransportdetailController extends GetxController {
   var pickinfo = <Pickupinfo>[].obs;
   var dropinfoo = <Dropinfo>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchtransportData();
-  }
-
   Future<void> fetchtransportData() async {
-    isLoading(true); // Set loading to true while data is being fetched
+    isLoading(true);
     try {
       var response = await TransportDetailRepo.gettransportdetail();
       if (response != null) {
-        // Assuming you have a fromJson method to parse response into models
-        TransportDetailModel data =
-            TransportDetailModel.fromJson(response['Data']);
+        List<dynamic> infoData = response['Data1'] ?? [];
+        List<dynamic> pickinfoData = response['Data2'] ?? [];
+        List<dynamic> dropinfoData = response['Data3'] ?? [];
+        // TransportDetailModel data = TransportDetailModel.fromJson(response['Data']);
+        TransportDetailModel.infoDataList =
+            infoData.map((json) => Studentinfo.fromJson(json)).toList();
+        TransportDetailModel.pickinfoDataList =
+            pickinfoData.map((json) => Pickupinfo.fromJson(json)).toList();
+        TransportDetailModel.dropinfooDataList =
+            dropinfoData.map((json) => Dropinfo.fromJson(json)).toList();
 
-        // Update the observable lists with fetched data
-        info.assignAll(data.info);
-        pickinfo.assignAll(data.pickinfo);
-        dropinfoo.assignAll(data.dropinfoo);
+        info.assignAll(TransportDetailModel.infoDataList);
+        pickinfo.assignAll(TransportDetailModel.pickinfoDataList);
+        dropinfoo.assignAll(TransportDetailModel.dropinfooDataList);
       }
     } catch (e) {
       print("Error fetching detail: $e");

@@ -1,6 +1,7 @@
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
 import 'package:campuspro/Modal/student_module/exam_analysis_session_model.dart';
+import 'package:campuspro/Modal/student_module/exam_test_result_model.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ import 'package:get/get.dart';
 
 //  ***************** this modal bottom sheet will work for exam analysis and test exam result opage ***************
 
-modalBottomSheetMenu(BuildContext context) {
+modalBottomSheetMenuFroTestResult(BuildContext context) {
   final ExameAnalysisController exameAnalysisController =
       Get.find<ExameAnalysisController>();
 
@@ -58,7 +59,8 @@ modalBottomSheetMenu(BuildContext context) {
                         if (sessionModel != null) {
                           exameAnalysisController.session.value =
                               sessionModel.id.toString();
-                          await exameAnalysisController.getExamData();
+                          await examResultController
+                              .studentexamNameForTestResult();
                         }
                       },
                     ),
@@ -76,15 +78,17 @@ modalBottomSheetMenu(BuildContext context) {
                             hintText: "Select Exam Name",
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.r))),
-                        items: exameAnalysisController.examnameList
-                            .map((ExamnameModel examname) {
-                          return DropdownMenuItem<ExamnameModel>(
+                        items: examResultController.examnameListForResult
+                            .map((ExamModelForStudentResult examname) {
+                          return DropdownMenuItem<ExamModelForStudentResult>(
                               value: examname, child: Text(examname.exam));
                         }).toList(),
-                        onChanged: (ExamnameModel? examnameModel) {
+                        onChanged: (ExamModelForStudentResult? examnameModel) {
                           if (examnameModel != null) {
-                            exameAnalysisController.examName.value =
+                            examResultController.examname.value =
                                 examnameModel.examId.toString();
+                            // exam.examName.value =
+                            //     examnameModel.examId.toString();
                           }
                         },
                       ),

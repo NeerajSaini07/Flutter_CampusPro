@@ -60,6 +60,7 @@ class ExameAnalysisController extends GetxController {
 
   getExamData() async {
     await ExamanalysisRepository.getExamname().then((value) {
+      print(value);
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
           examnameList.clear();

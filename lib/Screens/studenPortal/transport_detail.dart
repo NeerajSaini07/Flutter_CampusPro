@@ -3,6 +3,7 @@
 import 'package:campuspro/Controllers/StudentControllers/transportdetail_controller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
+import 'package:campuspro/Screens/Wedgets/StudentWidget/transport_detail/pickup_info.dart';
 
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
@@ -12,10 +13,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class TransportdetailScreen extends StatelessWidget {
+class TransportdetailScreen extends StatefulWidget {
   TransportdetailScreen({super.key});
+
+  @override
+  State<TransportdetailScreen> createState() => _TransportdetailScreenState();
+}
+
+class _TransportdetailScreenState extends State<TransportdetailScreen> {
   final TransportdetailController _controller =
       Get.find<TransportdetailController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.fetchtransportData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +43,7 @@ class TransportdetailScreen extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: AppColors.whitetextcolor,
-          appBar: customAppBar(context),
+          appBar: customAppBar(context, title: "Transport"),
           body: Obx(() {
             if (_controller.isLoading.value) {
               return Center(child: CircularProgressIndicator());
@@ -46,7 +59,8 @@ class TransportdetailScreen extends StatelessWidget {
 
               return SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if (studentinfo != null)
                       Card(
@@ -89,7 +103,7 @@ class TransportdetailScreen extends StatelessWidget {
                     if (pickupinfo == null && dropinfo == null)
                       Center(
                         child: Text(
-                          'Transport facility not available',
+                          'Data Not Found',
                           style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
@@ -97,68 +111,7 @@ class TransportdetailScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                    if (pickupinfo != null)
-                      Card(
-                        color: AppColors.whitetextcolor,
-                        margin: EdgeInsets.all(10.r),
-                        child: Padding(
-                          padding: EdgeInsets.all(10.r),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Pick Up Infornmation',
-                                style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Pick Up NO: ${pickupinfo.routeName}',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                'Bus Reg No: ${pickupinfo.regNo}',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                'Bus No: ${pickupinfo.busNo}',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                'Driver Name & No: ${pickupinfo.driverName}',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                'Driver No: ${pickupinfo.driverMobileNo}',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                'Conductor Name: ${pickupinfo.conductorName}',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                'Conductor Mob No: ${pickupinfo.conductorMobileNo}',
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(height: 8.h),
-                            ],
-                          ),
-                        ),
-                      ),
+                    if (pickupinfo != null) pickupInfoWidget(pickupinfo),
                     if (dropinfo != null)
                       Card(
                         color: AppColors.whitetextcolor,

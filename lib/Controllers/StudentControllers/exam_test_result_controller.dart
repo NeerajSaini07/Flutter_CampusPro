@@ -13,15 +13,14 @@ class ExamTestExamResultController extends GetxController {
   ScrollController scrollController = ScrollController();
   var showloader = false.obs;
   var bottomshitopenforExamResult = false.obs;
-
+  var examname = ''.obs;
   final ExameAnalysisController exameAnalysisController =
       Get.find<ExameAnalysisController>();
-
+  var examnameListForResult = <ExamModelForStudentResult>[].obs;
   RxInt touchedIndex = (-1).obs;
   RxInt touchedRodIndex = (-1).obs;
   var subjectnameOnTooltip = ''.obs;
   Color tooltipColor = Colors.transparent;
-
   void updateTouchedGroupIndex(int index) {
     touchedIndex.value = index;
   }
@@ -30,6 +29,7 @@ class ExamTestExamResultController extends GetxController {
   testExamResult() async {
     showloader.value = true;
     await TestExamResultRepository.getSingleExamMarksRepo().then((value) {
+      print(value);
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
           testMarksResultList.clear();
@@ -53,6 +53,22 @@ class ExamTestExamResultController extends GetxController {
           exameAnalysisController.session.value = '';
           exameAnalysisController.examName.value = '';
           bottomshitopenforExamResult.value = false;
+        }
+      }
+    });
+  }
+
+  studentexamNameForTestResult() async {
+    await TestExamResultRepository.getExamnameForStudentResult().then((value) {
+      if (value != null) {
+        if (value['Status'] == 'Cam-001') {
+          examnameListForResult.clear();
+          List<dynamic> examname = value['Data'];
+          examnameListForResult.value = examname
+              .map((json) => ExamModelForStudentResult.fromJson(json))
+              .toList();
+        } else {
+          examnameListForResult.clear();
         }
       }
     });

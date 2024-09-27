@@ -10,16 +10,31 @@ class NotificationController extends GetxController {
   var todate = ''.obs;
   var notificationloader = false.obs;
   var removeFilter = false.obs;
+
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDatecontroller = TextEditingController();
 
   var notificationList = <NotificationModel>[].obs;
   var dashboardnotification = <NotificationModel>[].obs;
 
+  RxList<bool> isExpandedList = <bool>[].obs;
+
+  void initializeExpansionList() {
+    isExpandedList
+        .assignAll(List.generate(notificationList.length, (_) => false));
+  }
+
+  // Toggle the expansion state of a specific notification
+  void toggleExpansion(int index) {
+    isExpandedList[index] = !isExpandedList[index];
+    isExpandedList.refresh(); // Refresh the list to update the UI
+  }
+
   //  **************** calling the api for finding the notification for notification screen
 
   getNotification() async {
     notificationloader.value = true;
+
     await StudentProfileRepo.notificationRepo(1).then((value) {
       if (value['Status'] == "Cam-001") {
         List<dynamic> notificationData = value['Data'];
@@ -34,6 +49,7 @@ class NotificationController extends GetxController {
             .map((json) => NotificationModel.fromJson(json))
             .toList();
 
+        initializeExpansionList();
         fromDateController.clear();
         toDatecontroller.clear();
         fromdate.value = '';

@@ -54,3 +54,27 @@ class ExamTestResultModel {
     };
   }
 }
+
+class ExamModelForStudentResult {
+  int examId;
+  String exam;
+
+  ExamModelForStudentResult({
+    required this.examId,
+    required this.exam,
+  });
+
+  factory ExamModelForStudentResult.fromJson(Map<String, dynamic> json) {
+    return ExamModelForStudentResult(
+      examId: json['ExamID'],
+      exam: json['Exam'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'ExamID': examId,
+      'Exam': exam,
+    };
+  }
+}

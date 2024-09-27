@@ -19,6 +19,7 @@ import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
 import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile.dart';
 import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
+import 'package:campuspro/Screens/studenPortal/transport_detail.dart';
 
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
@@ -118,6 +119,7 @@ class MyApp extends StatelessWidget {
             Routes.feedback: (context) => FeedbackScreen(),
             Routes.studentEditProfileScreen: (context) =>
                 StudentEditProfileScreen(),
+            Routes.transportScreen: (context) => TransportdetailScreen(),
 
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },

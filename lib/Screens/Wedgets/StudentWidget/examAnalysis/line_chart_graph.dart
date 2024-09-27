@@ -4,6 +4,7 @@ import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -26,7 +27,7 @@ Widget lineCartGraphWidget(BuildContext context) {
               ? MediaQuery.of(context).size.width * 0.9
               : MediaQuery.of(context).size.width *
                   (exameAnalysisController.exannameforAllexamAnalysis.length) *
-                  0.16.w,
+                  0.225,
           height: 400.h,
           child: Row(
             children: [
@@ -40,10 +41,10 @@ Widget lineCartGraphWidget(BuildContext context) {
                       color: AppColors.headingcolor),
                 ),
               ),
-              AspectRatio(
-                aspectRatio: 1,
+              Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 20.h)
+                      .copyWith(right: 0),
                   child: LineChart(
                     LineChartData(
                       lineBarsData: List.generate(

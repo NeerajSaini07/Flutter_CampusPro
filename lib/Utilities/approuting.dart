@@ -133,39 +133,34 @@ class AppRouting extends GetxService {
           examResultController.bottomshitopenforExamResult.value = false;
           exameAnalysisController.removefilter.value = false;
           Get.toNamed(Routes.studentexamAnalysis);
-          webController.showWebViewScreen.value = false;
+
           break;
 
         case "Exam/Test Result":
-          await exameAnalysisController.getExamData();
-          examResultController.testExamResult();
+          await examResultController.studentexamNameForTestResult();
+          await examResultController.testExamResult();
+          exameAnalysisController.removefilter.value = false;
           Get.toNamed(Routes.studentexamTestResultScreen);
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Transport":
-          // await exameAnalysisController.getExamData();
-          // examResultController.testExamResult();
+        case "Transport Detail":
           Get.toNamed(Routes.transportScreen);
 
-          appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
           break;
 
         case "Time Table":
           Get.toNamed(Routes.studenttimeTable);
-          appbarController.appBarName.value = name;
+
           webController.showWebViewScreen.value = false;
           break;
         case "Feedback":
           Get.toNamed(Routes.feedback);
-          appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
           break;
-
         case "Date Sheet":
           Get.toNamed(Routes.studentdatesheet);
-          appbarController.appBarName.value = name;
           webController.showWebViewScreen.value = false;
         case "Profile":
           Get.toNamed(Routes.studentProfileScreen);

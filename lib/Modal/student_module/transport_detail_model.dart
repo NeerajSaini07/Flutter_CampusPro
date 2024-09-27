@@ -1,24 +1,7 @@
 class TransportDetailModel {
-  List<Studentinfo> info;
-  List<Pickupinfo> pickinfo;
-  List<Dropinfo> dropinfoo;
-
-  TransportDetailModel({
-    required this.info,
-    required this.pickinfo,
-    required this.dropinfoo,
-  });
-
-  factory TransportDetailModel.fromJson(Map<String, dynamic> json) {
-    return TransportDetailModel(
-      info:
-          (json['Table'] as List).map((e) => Studentinfo.fromJson(e)).toList(),
-      pickinfo:
-          (json['Table1'] as List).map((e) => Pickupinfo.fromJson(e)).toList(),
-      dropinfoo:
-          (json['Table2'] as List).map((e) => Dropinfo.fromJson(e)).toList(),
-    );
-  }
+  static List<Studentinfo> infoDataList = [];
+  static List<Pickupinfo> pickinfoDataList = [];
+  static List<Dropinfo> dropinfooDataList = [];
 }
 
 class Studentinfo {

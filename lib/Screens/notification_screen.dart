@@ -62,7 +62,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                     decoration: BoxDecoration(
-                                        border: Border.all(width: 0.2.w),
                                         borderRadius:
                                             BorderRadius.circular(10.r)),
                                     child: buildNotificationTile(index)),
@@ -77,75 +76,105 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  Widget buildNotificationTile(index) {
+  Widget buildNotificationTile(int index) {
     final NotificationController notificationController =
         Get.find<NotificationController>();
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.grey,
-        radius: 25,
-        child: Icon(
-          Icons.notifications,
-          size: 20.h,
+
+    return Obx(() {
+      final notification = notificationController.notificationList[index];
+      bool isExpanded = notificationController.isExpandedList[index] ?? false;
+      String message = notification.alertMessage.toString();
+
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        margin: const EdgeInsets.only(bottom: 10), // Add margin for spacing
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              blurRadius: 4,
+              offset: const Offset(0, 1),
+            ),
+          ],
         ),
-      ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            notificationController.notificationList[index].smsType.toString(),
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.sp,
-            ),
-          ),
-          Text(
-            notificationController.notificationList[index].alertDate.toString(),
-            style: TextStyle(
-                color: Colors.grey,
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w300),
-          ),
-        ],
-      ),
-
-      subtitle: notificationController.notificationList[index].alertMessage
-                  .toString()
-                  .length >
-              100
-          ? Tooltip(
-              triggerMode: TooltipTriggerMode.tap,
-              message: notificationController
-                  .notificationList[index].alertMessage
-                  .toString(),
-              child: Text(
-                "${notificationController.notificationList[index].alertMessage.toString().substring(0, 100)}...",
-                style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  color: AppColors.blackcolor,
-                  fontSize: 11.sp,
-                ),
-              ),
-            )
-          : Text(
-              notificationController.notificationList[index].alertMessage
-                  .toString(),
-              maxLines: 3,
-              style: TextStyle(
-                fontWeight: FontWeight.w100,
-                color: AppColors.blackcolor,
-                fontSize: 11.sp,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 50,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    radius: 20,
+                    child: Icon(
+                      Icons.notifications,
+                      size: 20.h,
+                    ),
+                  ),
+                ],
               ),
             ),
-
-      // tileColor: isUnread ? Colors.blue[50] : Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      dense: true,
-      //onTap: onTap,
-    );
+            SizedBox(width: 10.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        notification.smsType.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      Text(
+                        notification.alertDate.toString(),
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    isExpanded || message.length <= 100
+                        ? message
+                        : "${message.substring(0, 100)}...",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w200,
+                      color: AppColors.blackcolor,
+                      fontSize: 11.sp,
+                    ),
+                  ),
+                  if (message.length > 100)
+                    GestureDetector(
+                      onTap: () {
+                        notificationController.toggleExpansion(index);
+                      },
+                      child: Text(
+                        isExpanded ? "View Less" : "View More",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   void displayBottomSheet(BuildContext context) {

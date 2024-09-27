@@ -92,6 +92,8 @@ class APIENDPOINT {
   static const datesheetApi = "GetDateSheet_V1";
   static const feedbackApi = "OnlineCompliantSuggestion_V1";
 
+  static const studentresultexamName = "GetStudentExam_V1";
+
 //
   //  ****************************
 }
