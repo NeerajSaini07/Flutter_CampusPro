@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
@@ -37,7 +35,6 @@ class _StudentExamAnalysisScreenState extends State<StudentExamAnalysisScreen> {
   Widget build(BuildContext context) {
     final ExameAnalysisController exameAnalysisController =
         Get.find<ExameAnalysisController>();
-
     final ExamTestExamResultController examResultController =
         Get.find<ExamTestExamResultController>();
 
@@ -74,10 +71,9 @@ class _StudentExamAnalysisScreenState extends State<StudentExamAnalysisScreen> {
                 ),
               ),
               CustomeHeight(10.h),
-
               Obx(() {
                 if (exameAnalysisController.showloader.value) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else {
                   if (exameAnalysisController.showSingleExamGhraph.value) {
                     if (exameAnalysisController.singleExamDataList.isNotEmpty) {
@@ -112,42 +108,6 @@ class _StudentExamAnalysisScreenState extends State<StudentExamAnalysisScreen> {
                   }
                 }
               }),
-
-              // Obx(
-              //   () => exameAnalysisController.showSingleExamGhraph.value
-              //       ? exameAnalysisController.showloader.value
-              //           ? Center(
-              //               child: CircularProgressIndicator(),
-              //             )
-              //           : (exameAnalysisController.studentReport.isEmpty)
-              //               ? Center(
-              //                   child: Text(
-              //                     "No data available",
-              //                     style: TextStyle(
-              //                       fontSize: 16.sp,
-              //                       fontWeight: FontWeight.w600,
-              //                       color: Colors.grey,
-              //                     ),
-              //                   ),
-              //                 )
-              //               : barchartForSingleExam(context)
-              //       : exameAnalysisController.showloader.value
-              //           ? Center(
-              //               child: CircularProgressIndicator(),
-              //             )
-              //           : (exameAnalysisController.singleExamDataList.isEmpty)
-              //               ? Center(
-              //                   child: Text(
-              //                     "No data available",
-              //                     style: TextStyle(
-              //                       fontSize: 16.sp,
-              //                       fontWeight: FontWeight.w600,
-              //                       color: Colors.grey,
-              //                     ),
-              //                   ),
-              //                 )
-              //               : lineCartGraphWidget(context),
-              // )
             ],
           ),
         ),

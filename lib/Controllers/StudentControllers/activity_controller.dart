@@ -92,7 +92,7 @@ class StudentActivityController extends GetxController
     }
   }
 
-  Future<void> downloadFile(String url, var downloadedStatus) async {
-    await downloadService.downloadFile(url, downloadedStatus);
+  Future<void> downloadFile(String url) async {
+    await downloadService.downloadFile(url);
   }
 }

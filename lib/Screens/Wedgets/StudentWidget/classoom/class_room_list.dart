@@ -4,13 +4,13 @@ import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dar
 import 'package:campuspro/Modal/student_module/student_class_room_model.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/classoom/class_room_comment_page.dart.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/common_text_style.dart';
-import 'package:campuspro/Screens/Wedgets/StudentWidget/classoom/reply_dialog.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
+import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,6 +18,8 @@ import 'package:get/get.dart';
 Widget classRoomDataList() {
   final StudentClasssRoomController studentClasssRoomController =
       Get.find<StudentClasssRoomController>();
+
+  final DownloadService downloadService = Get.find<DownloadService>();
 
   // final FileDownloadService downloadService = Get.find<FileDownloadService>();
   return FutureBuilder<List<StudentClassRoomModel>>(
@@ -32,8 +34,13 @@ Widget classRoomDataList() {
         return ListView.builder(
           itemCount: classRoomList.length,
           itemBuilder: (context, index) {
-            return Card(
-              color: AppColors.whitetextcolor,
+            return Container(
+              decoration: BoxDecoration(
+                  color: AppColors.whitetextcolor,
+                  boxShadow: [
+                    CommonFunctions.commonsadhow(),
+                  ],
+                  borderRadius: BorderRadius.circular(10.r)),
               margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 8.h),
               child: Padding(
                 padding: EdgeInsets.all(10.w),
@@ -53,12 +60,21 @@ Widget classRoomDataList() {
                                     .classRoomdatalist[index]
                                     .circularFileUrl!
                                     .isNotEmpty
-                                ? CircleAvatar(
-                                    backgroundColor: AppColors.appbuttonColor,
-                                    radius: 12.r,
-                                    child: Icon(
-                                      Icons.download,
-                                      color: AppColors.whitetextcolor,
+                                ? GestureDetector(
+                                    onTap: () {
+                                      downloadService.downloadFile(
+                                          studentClasssRoomController
+                                              .classRoomdatalist[index]
+                                              .circularFileUrl
+                                              .toString());
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: AppColors.appbuttonColor,
+                                      radius: 12.r,
+                                      child: Icon(
+                                        Icons.download,
+                                        color: AppColors.whitetextcolor,
+                                      ),
                                     ),
                                   )
                                 : SizedBox()),
@@ -67,7 +83,6 @@ Widget classRoomDataList() {
                               onTap: () async {
                                 await studentClasssRoomController
                                     .getclassRommComments(index);
-
                                 Get.to(ClassRoomComments(
                                   index: index,
                                 ));

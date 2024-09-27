@@ -73,7 +73,6 @@ class StudentClassroom extends StatelessWidget {
             Expanded(child: Obx(
               () {
                 classsRoomController.refreshpage.value;
-
                 return classRoomDataList();
               },
             )),

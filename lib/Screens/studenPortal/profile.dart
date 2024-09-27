@@ -1,10 +1,12 @@
 import 'package:campuspro/Controllers/StudentControllers/profileController.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
+import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Modal/student_module/student_profile_model.dart';
 import 'package:campuspro/Modal/student_module/student_remark_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -36,18 +38,30 @@ class StudentProfileScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 30.r,
-                          backgroundColor: Colors.blue,
-                          backgroundImage: NetworkImage(
-                            "https://imgs.search.brave.com/shsxjz2FQONTvQR8dVCucftN5XvS805yaoZVY4R8kk8/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNi8x/MS8yOS8yMC8yMi9n/aXJsLTE4NzExMDRf/NjQwLmpwZw",
-                          ),
-                          // child: Image.network(
-
-                          //   fit: BoxFit.cover,
-                          //   height: 60.r,
-                          //   width: 60.r,
-                          // )
-                          // Image.asset(Constant.usericon)
-                          // ,
+                          backgroundImage: () {
+                            if (StudentDetaillist.studentdetails.isNotEmpty) {
+                              if (StudentDetaillist
+                                  .studentdetails.first.imageUrl
+                                  .toString()
+                                  .contains("https")) {
+                                return NetworkImage(
+                                  StudentDetaillist
+                                      .studentdetails.first.imageUrl
+                                      .toString(),
+                                );
+                              } else {
+                                return null;
+                              }
+                            }
+                            return null;
+                          }(),
+                          child: (StudentDetaillist.studentdetails.isNotEmpty &&
+                                  StudentDetaillist
+                                      .studentdetails.first.imageUrl
+                                      .toString()
+                                      .contains("https"))
+                              ? null
+                              : Image.asset(Constant.usericon),
                         ),
                         SizedBox(width: 10.w),
                         Expanded(

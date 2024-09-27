@@ -3,6 +3,7 @@ import 'package:campuspro/Modal/student_module/student_activity_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -207,9 +208,13 @@ Widget _myMeOnlyTabView(
 
 Widget circularListCard(BuildContext context, StudentActivityModel activityData,
     StudentActivityController activityController) {
-  return Obx(
-    () => Card(
-      color: AppColors.whitetextcolor,
+  return Container(
+      decoration: BoxDecoration(
+          color: AppColors.whitetextcolor,
+          boxShadow: [
+            CommonFunctions.commonsadhow(),
+          ],
+          borderRadius: BorderRadius.circular(10.r)),
       margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       child: Padding(
         padding: EdgeInsets.all(10.w),
@@ -217,9 +222,42 @@ Widget circularListCard(BuildContext context, StudentActivityModel activityData,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 4.h),
-            Text(
-              activityData.title ?? " ",
-              style: AppTextStyles.cardTitle,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Text(
+                    activityData.title ?? " ",
+                    style: AppTextStyles.cardTitle,
+                  ),
+                ),
+                if (activityData.fileurl != null &&
+                    activityData.fileurl!.isNotEmpty)
+                  InkWell(
+                    onTap: () {
+                      // 'https://jsoncompare.org/LearningContainer/SampleFiles/PDF/sample-pdf-download-10-mb.pdf'
+                      // log(activityData.fileurl.toString());
+                      // log(activityData.fileurl.toString().replaceAll(
+                      //     "fmobiledev.campuspro.in/api/",
+                      //     "mobiledev.campuspro.in/"));
+
+                      activityController
+                          .downloadFile(activityData.fileurl.toString());
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(4.w),
+                      decoration: const BoxDecoration(
+                        color: AppColors.appbuttonColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.download,
+                        size: 16.r,
+                        color: AppColors.whitetextcolor,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             SizedBox(height: 8.h),
             HtmlWidget(
@@ -238,68 +276,62 @@ Widget circularListCard(BuildContext context, StudentActivityModel activityData,
               },
             ),
             SizedBox(height: 8.h),
-            Row(
-              children: [
-                Text(
-                  (activityData.dateAdded ?? " "),
-                  style: AppTextStyles.cardDate,
-                ),
-                const Spacer(),
-                activityData.isDownloaded!.value
-                    ? const SizedBox.shrink()
-                    : const SizedBox.shrink(),
-                if (activityData.fileurl != null &&
-                    activityData.fileurl!.isNotEmpty)
-                  InkWell(
-                    borderRadius: BorderRadius.circular(14.r),
-                    onTap: () {
-                      // 'https://jsoncompare.org/LearningContainer/SampleFiles/PDF/sample-pdf-download-10-mb.pdf'
-
-                      activityController.downloadFile(
-                          activityData.fileurl.toString().replaceAll(
-                              "fmobiledev.campuspro.in/api/",
-                              "mobiledev.campuspro.in/"),
-                          activityData.isDownloaded);
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                      decoration: BoxDecoration(
-                        color: activityData.isDownloaded!.value
-                            ? Colors.green
-                            : AppColors.appbuttonColor,
-                        borderRadius: BorderRadius.circular(14.r),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            activityData.isDownloaded!.value
-                                ? Icons.check
-                                : Icons.download,
-                            size: 16.r,
-                            color: AppColors.whitetextcolor,
-                          ),
-                          SizedBox(
-                            width: 4.w,
-                          ),
-                          Text(
-                            activityData.isDownloaded!.value
-                                ? 'View File'
-                                : 'Download',
-                            style:
-                                TextStyle(fontSize: 12.sp, color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-              ],
+            Text(
+              (activityData.dateAdded ?? " "),
+              style: AppTextStyles.cardDate,
             ),
+            // Row(
+            //   children: [
+            //     Text(
+            //       (activityData.dateAdded ?? " "),
+            //       style: AppTextStyles.cardDate,
+            //     ),
+            //     const Spacer(),
+            //     activityData.isDownloaded!.value
+            //         ? const SizedBox.shrink()
+            //         : const SizedBox.shrink(),
+            // if (activityData.fileurl != null &&
+            //     activityData.fileurl!.isNotEmpty)
+            //   InkWell(
+            //     borderRadius: BorderRadius.circular(14.r),
+            //     onTap: () {},
+            //     child: Container(
+            //       padding:
+            //           EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+            //       decoration: BoxDecoration(
+            //         color: activityData.isDownloaded!.value
+            //             ? Colors.green
+            //             : AppColors.appbuttonColor,
+            //         borderRadius: BorderRadius.circular(14.r),
+            //         shape: BoxShape.rectangle,
+            //       ),
+            //       child: Row(
+            //         mainAxisSize: MainAxisSize.min,
+            //         children: [
+            //           Icon(
+            //             activityData.isDownloaded!.value
+            //                 ? Icons.check
+            //                 : Icons.download,
+            //             size: 16.r,
+            //             color: AppColors.whitetextcolor,
+            //           ),
+            //           SizedBox(
+            //             width: 4.w,
+            //           ),
+            //           Text(
+            //             activityData.isDownloaded!.value
+            //                 ? 'View File'
+            //                 : 'Download',
+            //             style:
+            //                 TextStyle(fontSize: 12.sp, color: Colors.white),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   )
+            //   ],
+            // ),
           ],
         ),
-      ),
-    ),
-  );
+      ));
 }

@@ -3,6 +3,7 @@ import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/style/style.dart';
+import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
@@ -236,6 +237,7 @@ Widget Homeworkdata(index) {
 //  ***************************************  homework comment area **************************
 
 Widget homeworkComments() {
+  final DownloadService downloadService = Get.find<DownloadService>();
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
 
@@ -296,12 +298,20 @@ Widget homeworkComments() {
                               ),
                         Obx(() => studentHomeWorkController
                                 .homeworkcomments[index].fileUrl!.isNotEmpty
-                            ? CircleAvatar(
-                                backgroundColor: AppColors.appbuttonColor,
-                                radius: 15.r,
-                                child: const Icon(
-                                  Icons.download,
-                                  color: AppColors.whitetextcolor,
+                            ? GestureDetector(
+                                onTap: () {
+                                  downloadService.downloadFile(
+                                      studentHomeWorkController
+                                          .homeworkbydate[index].homeworkURL
+                                          .toString());
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: AppColors.appbuttonColor,
+                                  radius: 15.r,
+                                  child: const Icon(
+                                    Icons.download,
+                                    color: AppColors.whitetextcolor,
+                                  ),
                                 ),
                               )
                             : const SizedBox())

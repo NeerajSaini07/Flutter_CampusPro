@@ -5,7 +5,9 @@ import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/error_commponet.dart';
 import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -148,101 +150,131 @@ class _StudentCircularScreenState extends State<StudentCircularScreen> {
 
 Widget circularListCard(StudentCircularModel circularData, BuildContext context,
     CircularController circularController) {
-  return Obx(
-    () => Card(
-      color: AppColors.whitetextcolor,
-      margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-      child: Padding(
-        padding: EdgeInsets.all(10.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 4.h),
-            Text(
-              circularData.cirSubject ?? "",
-              style: AppTextStyles.cardTitle,
-            ),
-            SizedBox(height: 8.h),
-            HtmlWidget(
-              '''
+  return Container(
+    decoration: BoxDecoration(
+        color: AppColors.whitetextcolor,
+        boxShadow: [
+          CommonFunctions.commonsadhow(),
+        ],
+        borderRadius: BorderRadius.circular(10.r)),
+    margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+    child: Padding(
+      padding: EdgeInsets.all(10.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 4.h),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: Text(
+                  circularData.cirSubject ?? "",
+                  style: AppTextStyles.cardTitle,
+                ),
+              ),
+              if (circularData.circularFileurl != null &&
+                  circularData.circularFileurl!.isNotEmpty)
+                InkWell(
+                  onTap: () {
+                    circularController
+                        .downloadFile(circularData.circularFileurl ?? "");
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4.w),
+                    decoration: const BoxDecoration(
+                      color: AppColors.appbuttonColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.download,
+                      size: 16.r,
+                      color: AppColors.whitetextcolor,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          SizedBox(height: 8.h),
+          HtmlWidget(
+            '''
               ${circularData.cirContent ?? ""}
               ''',
-              onTapUrl: (url) async {
-                final Uri launchUri = Uri.parse(url.toString());
-                if (await canLaunchUrl(launchUri)) {
-                  await launchUrl(
-                    launchUri,
-                    mode: LaunchMode.externalApplication,
-                  );
-                }
-                return true;
-              },
-            ),
-            SizedBox(height: 8.h),
-            Row(
-              children: [
-                Text(
-                  circularData.circularDate ?? "",
-                  style: AppTextStyles.cardDate,
-                ),
-                Text(
-                  " (${circularData.cirNo})",
-                  style: TextStyle(
-                      fontSize: 14.sp,
-                      color: AppColors.appbuttonColor,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                circularData.isDownloaded.value
-                    ? const SizedBox.shrink()
-                    : const SizedBox.shrink(),
-                if (circularData.circularFileurl != null &&
-                    circularData.circularFileurl!.isNotEmpty)
-                  InkWell(
-                    borderRadius: BorderRadius.circular(14.r),
-                    onTap: () {
-                      circularController.downloadFile(
-                          circularData.circularFileurl ?? "",
-                          circularData.isDownloaded);
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                      decoration: BoxDecoration(
-                        color: circularData.isDownloaded.value
-                            ? Colors.green
-                            : AppColors.appbuttonColor,
-                        borderRadius: BorderRadius.circular(14.r),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            circularData.isDownloaded.value
-                                ? Icons.check
-                                : Icons.download,
-                            size: 16.r,
-                            color: AppColors.whitetextcolor,
-                          ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text(
-                            circularData.isDownloaded.value
-                                ? 'Completed'
-                                : 'Download',
-                            style:
-                                TextStyle(fontSize: 12.sp, color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-              ],
-            ),
-          ],
-        ),
+            onTapUrl: (url) async {
+              final Uri launchUri = Uri.parse(url.toString());
+              if (await canLaunchUrl(launchUri)) {
+                await launchUrl(
+                  launchUri,
+                  mode: LaunchMode.externalApplication,
+                );
+              }
+              return true;
+            },
+          ),
+          SizedBox(height: 8.h),
+          Row(
+            children: [
+              Text(
+                circularData.circularDate ?? "",
+                style: AppTextStyles.cardDate,
+              ),
+              Text(
+                " (${circularData.cirNo})",
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppColors.appbuttonColor,
+                    fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              circularData.isDownloaded.value
+                  ? const SizedBox.shrink()
+                  : const SizedBox.shrink(),
+              // if (circularData.circularFileurl != null &&
+              //     circularData.circularFileurl!.isNotEmpty)
+              //   InkWell(
+              //     borderRadius: BorderRadius.circular(14.r),
+              //     onTap: () {
+              //       circularController.downloadFile(
+              //           circularData.circularFileurl ?? "",
+              //           circularData.isDownloaded);
+              //     },
+              //     child: Container(
+              //       padding:
+              //           EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+              //       decoration: BoxDecoration(
+              //         color: circularData.isDownloaded.value
+              //             ? Colors.green
+              //             : AppColors.appbuttonColor,
+              //         borderRadius: BorderRadius.circular(14.r),
+              //         shape: BoxShape.rectangle,
+              //       ),
+              //       child: Row(
+              //         mainAxisSize: MainAxisSize.min,
+              //         children: [
+              //           Icon(
+              //             circularData.isDownloaded.value
+              //                 ? Icons.check
+              //                 : Icons.download,
+              //             size: 16.r,
+              //             color: AppColors.whitetextcolor,
+              //           ),
+              //           SizedBox(
+              //             width: 2.w,
+              //           ),
+              //           Text(
+              //             circularData.isDownloaded.value
+              //                 ? 'View File'
+              //                 : 'Download',
+              //             style:
+              //                 TextStyle(fontSize: 12.sp, color: Colors.white),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   )
+            ],
+          ),
+        ],
       ),
     ),
   );

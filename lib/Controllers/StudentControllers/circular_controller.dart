@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:campuspro/Modal/student_module/student_circular_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/student_circular_repo.dart';
 import 'package:campuspro/Services/downloadService/download_service.dart';
@@ -38,6 +40,7 @@ class CircularController extends GetxController {
       StudentCircularList.studentCircularList = circularData
           .map((json) => StudentCircularModel.fromJson(json))
           .toList();
+      // await changeDownloadStatus();
       originalCircularList.value = StudentCircularList.studentCircularList;
       toDate.value = null;
       fromDate.value = null;
@@ -96,7 +99,22 @@ class CircularController extends GetxController {
     }
   }
 
-  Future<void> downloadFile(String url, var downloadedStatus) async {
-    await downloadService.downloadFile(url, downloadedStatus);
+  Future<void> downloadFile(String url) async {
+    await downloadService.downloadFile(url);
   }
+
+  // Future<void> changeDownloadStatus() async {
+  //   for (StudentCircularModel item in StudentCircularList.studentCircularList) {
+  //     String fileName = item.circularFileurl!.split('/').last;
+  //     try {
+  //       final directory = await downloadService.getDownloadDirectory();
+  //       final filePath = path.join(directory.path, fileName);
+  //       if (await File(filePath).exists()) {
+  //         item.isDownloaded.value = true;
+  //       }
+  //     } catch (e) {
+  //       item.isDownloaded.value = false;
+  //     }
+  //   }
+  // }
 }

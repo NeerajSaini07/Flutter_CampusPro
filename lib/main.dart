@@ -20,6 +20,8 @@ import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile.dart';
 import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
 import 'package:campuspro/Screens/studenPortal/transport_detail.dart';
+import 'package:campuspro/Screens/studenPortal/student_calendar.dart';
+import 'package:campuspro/Screens/studenPortal/timetable_screen.dart';
 
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
@@ -40,7 +42,6 @@ import 'Screens/splash_screen.dart';
 import 'Screens/studenPortal/Datesheet.dart';
 import 'Screens/studenPortal/exam_analysis.dart';
 import 'Screens/studenPortal/feedback.dart';
-import 'Screens/studenPortal/student_timetable.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -120,7 +121,7 @@ class MyApp extends StatelessWidget {
             Routes.studentEditProfileScreen: (context) =>
                 StudentEditProfileScreen(),
             Routes.transportScreen: (context) => TransportdetailScreen(),
-
+            Routes.studentCalendarScreen: (context) => StudentCalendarScreen(),
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially

@@ -5,6 +5,7 @@ import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/style/style.dart';
+import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
@@ -217,6 +218,8 @@ Widget commentarea() {
 
   final UserTypeController userTypeController = Get.find<UserTypeController>();
 
+  final DownloadService downloadService = Get.find<DownloadService>();
+
   return Padding(
     padding: EdgeInsets.only(left: 20.w),
     child: Column(
@@ -268,12 +271,21 @@ Widget commentarea() {
                             ),
                       Obx(() => studentClasssRoomController
                               .commentlist[index].fileUrl!.isNotEmpty
-                          ? CircleAvatar(
-                              backgroundColor: AppColors.appbuttonColor,
-                              radius: 15.r,
-                              child: Icon(
-                                Icons.download,
-                                color: AppColors.whitetextcolor,
+                          ? GestureDetector(
+                              onTap: () {
+                                downloadService.downloadFile(
+                                    studentClasssRoomController
+                                        .classRoomdatalist[index]
+                                        .circularFileUrl
+                                        .toString());
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: AppColors.appbuttonColor,
+                                radius: 15.r,
+                                child: Icon(
+                                  Icons.download,
+                                  color: AppColors.whitetextcolor,
+                                ),
                               ),
                             )
                           : SizedBox())

@@ -1,5 +1,4 @@
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
-import 'package:campuspro/Modal/student_module/exam_analysis_session_model.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:fl_chart/fl_chart.dart';

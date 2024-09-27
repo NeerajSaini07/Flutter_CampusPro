@@ -5,6 +5,7 @@ import 'package:campuspro/Screens/Wedgets/StudentWidget/homework/homework_commen
 import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,8 +40,13 @@ Widget homeWorkCard(index, BuildContext context) {
       Get.find<StudentHomeWorkController>();
 
   final DownloadService downloadService = Get.find<DownloadService>();
-  return Card(
-    color: AppColors.whitetextcolor,
+  return Container(
+    decoration: BoxDecoration(
+        color: AppColors.whitetextcolor,
+        boxShadow: [
+          CommonFunctions.commonsadhow(),
+        ],
+        borderRadius: BorderRadius.circular(10.r)),
     margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 8.h),
     child: Padding(
       padding: EdgeInsets.all(6.w),
@@ -79,10 +85,10 @@ Widget homeWorkCard(index, BuildContext context) {
                           .homeworkbydate[index].homeworkURL!.isNotEmpty
                       ? GestureDetector(
                           onTap: () {
-                            // downloadService.downloadFile(
-                            //     studentHomeWorkController
-                            //         .homeworkbydate[index].homeworkURL
-                            //         .toString());
+                            downloadService.downloadFile(
+                                studentHomeWorkController
+                                    .homeworkbydate[index].homeworkURL
+                                    .toString());
                           },
                           child: CircleAvatar(
                             backgroundColor: AppColors.appbuttonColor,

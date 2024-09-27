@@ -10,52 +10,67 @@ import 'package:campuspro/Services/notificationService/notification_service.dart
 
 class DownloadService extends GetxService {
   //Download File
-  Future<void> downloadFile(String url, var downloadedStatus) async {
+  Future<void> downloadFile(String url) async {
     // ***********Request storage permissions
+    bool permission = true;
     if (Platform.isAndroid) {
-      bool permission = await requestPermissions();
+      permission = await requestPermissions();
     }
     String fileName = url.split('/').last;
+    try {
+      if (permission) {
+        // **********Get the document directory path
+        final directory = await getDownloadDirectory();
+        final filePath = path.join(directory.path, fileName);
+        // if (await File(filePath).exists()) {
+        //   openFile(filePath);
+        //   downloadedStatus.value = true;
+        // } else {
+        // **********Show a notification when download starts
+        await showNotification(
+            'Download Started', 'Downloading $fileName', filePath,
+            progress: 0, playSound: true);
 
-    // **********Get the document directory path
-    final directory = await getDownloadDirectory();
-    final filePath = path.join(directory.path, fileName);
+        // **********Fetch the file from the network
+        final response =
+            await http.Client().send(http.Request('GET', Uri.parse(url)));
+        final totalBytes = response.contentLength ?? 0;
+        int receivedBytes = 0;
 
-    print(directory);
-    if (await File(filePath).exists()) {
-      openFile(filePath);
-      downloadedStatus.value = true;
-    } else {
-      // **********Show a notification when download starts
-      await showNotification(
-          'Download Started', 'Downloading $fileName', filePath,
-          progress: 0, playSound: true);
+        final file = File(filePath);
+        final sink = file.openWrite();
+        response.stream.listen(
+          (List<int> chunk) {
+            receivedBytes += chunk.length;
+            sink.add(chunk);
+            final progress = ((receivedBytes / totalBytes) * 100).toInt();
+            showNotification('Downloading...', fileName, filePath,
+                progress: progress, playSound: false);
+          },
+          onDone: () async {
+            await sink.close();
+            await showNotification('Download Completed', fileName, filePath,
+                progress: 100, playSound: true);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              openFile(filePath);
+            });
+            // downloadedStatus.value = true;
+            // print('File downloaded: $filePath');
+          },
+          onError: (error) {
+            // print('Error: $error');
+          },
+          cancelOnError: true,
+        );
+        // }
+      } else {
+        CommonFunctions.showErrorSnackbar("Permission Denied",
+            'Storage permission is required to download files.');
 
-      // **********Fetch the file from the network
-      final response =
-          await http.Client().send(http.Request('GET', Uri.parse(url)));
-      final totalBytes = response.contentLength ?? 0;
-      int receivedBytes = 0;
-
-      final file = File(filePath);
-      final sink = file.openWrite();
-      response.stream.listen(
-        (List<int> chunk) {
-          receivedBytes += chunk.length;
-          sink.add(chunk);
-          final progress = ((receivedBytes / totalBytes) * 100).toInt();
-          showNotification('Downloading...', fileName, filePath,
-              progress: progress, playSound: false);
-        },
-        onDone: () async {
-          await sink.close();
-          await showNotification('Download Completed', fileName, filePath,
-              progress: 100, playSound: true);
-          downloadedStatus.value = true;
-        },
-        onError: (error) {},
-        cancelOnError: true,
-      );
+        // openAppSettings();
+      }
+    } catch (e) {
+      print('Error: $e');
     }
   }
 }

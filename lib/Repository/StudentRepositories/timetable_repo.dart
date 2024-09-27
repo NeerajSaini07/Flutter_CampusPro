@@ -32,7 +32,6 @@ class StudenttimetableRepo {
             UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
         "EmpID": "0",
         // UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
-
         "SessionId": UserTypeslist
             .userTypesDetails[usertypeIndex].currentSessionid
             .toString(),
@@ -55,6 +54,3 @@ class StudenttimetableRepo {
     }
   }
 }
-
-
-/////*********

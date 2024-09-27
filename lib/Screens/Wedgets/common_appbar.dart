@@ -7,6 +7,7 @@ import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/profile_pic.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -111,13 +112,24 @@ AppBar customAppBar(BuildContext context,
                                         onPressed: () {
                                           bottomBarController
                                               .selectedBottomNavIndex.value = 0;
-                                          appbarController.appBarName.value =
-                                              'Profile';
-                                          webController.generateWebUrl(
-                                              'Profile.aspx', 'Profile');
-                                          webController
-                                              .showWebViewScreen.value = true;
-                                          Navigator.pop(context);
+                                          if (UserTypeslist
+                                                  .userTypesDetails[
+                                                      userTypeController
+                                                          .usertypeIndex]
+                                                  .ouserType
+                                                  .toString() ==
+                                              "S") {
+                                            Get.toNamed(
+                                                Routes.studentProfileScreen);
+                                          } else {
+                                            appbarController.appBarName.value =
+                                                'Profile';
+                                            webController.generateWebUrl(
+                                                'Profile.aspx', 'Profile');
+                                            webController
+                                                .showWebViewScreen.value = true;
+                                            Navigator.pop(context);
+                                          }
                                         },
                                         style: OutlinedButton.styleFrom(
                                             backgroundColor:
