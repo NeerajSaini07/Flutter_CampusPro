@@ -100,6 +100,7 @@ class CommonFunctions {
   static String fetchDahboardIcon({required String menuname}) {
     switch (menuname.toLowerCase()) {
       case "alert & notification":
+        return "assets/icon/notification.png";
       case "notification":
         return "assets/icon/notification.png";
       case "leave detail":
@@ -107,12 +108,37 @@ class CommonFunctions {
       case "leave request":
         return "assets/icon/leave.png";
       case "fee payment":
-        return "assets/dashboard_icon/Fee.png";
+        return "assets/icon/fees.png";
+      case "classroom":
+      case "class room":
+        return "assets/icon/classroom.png";
+      case "home work":
+        return "assets/icon/homework.png";
+      case "homework":
+        return "assets/icon/homework.png";
+      case "online test":
+        return "assets/dashboard_icon/online-test status.png";
       case "exam/test result":
-        return "assets/dashboard_icon/Test Result.png";
-
+        return "assets/icon/results.png";
+      case "activity":
+        return "assets/icon/activity.png";
+      case "exam":
+        return "assets/icon/exam.png";
+      case "student list":
+        return "assets/icon/students.png";
+      case "student":
+        return "assets/icon/students.png";
+      case "item requirment":
+        return "assets/icon/Item Requirement.png";
+      case "attendance":
+        return "assets/icon/attendance.png";
+      case "exam mark entry":
+        return "assets/icon/Test Marks Entry.png";
+      case "calendar":
+        return "assets/icon/Calendar.png";
+      case "calender":
+        return "assets/icon/Calendar.png";
       default:
-        print(menuname);
         return "assets/dashboard_icon/$menuname.png";
     }
   }
