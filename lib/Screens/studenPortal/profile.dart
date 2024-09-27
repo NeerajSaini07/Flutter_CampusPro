@@ -8,6 +8,7 @@ import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -281,66 +282,94 @@ class StudentProfileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.calendar_month_outlined,
-                    color: Colors.grey,
-                    size: 16.sp,
+                  Expanded(
+                    child: RichText(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "Given By : ",
+                            style: TextStyle(
+                                fontSize: 12.sp,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w600)),
+                        TextSpan(
+                          text: remarkData.empName ?? "",
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              color: AppColors.blackcolor,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ]),
+                    ),
                   ),
-                  SizedBox(
-                    width: 4.w,
-                  ),
-                  Text(
-                    remarkData.addedOnDate ?? "",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style:
-                        TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w600),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.calendar_month_outlined,
+                        color: Colors.grey,
+                        size: 16.sp,
+                      ),
+                      SizedBox(
+                        width: 4.w,
+                      ),
+                      Text(
+                        remarkData.addedOnDate ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 12.sp, fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                 ],
               ),
               SizedBox(
                 height: 6.h,
               ),
-              RichText(
-                text: TextSpan(children: [
-                  TextSpan(
-                      text: remarkData.remark ?? "",
+              Wrap(
+                spacing: 8.w,
+                runSpacing: 4.h,
+                alignment: WrapAlignment.start,
+                children: [
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4.r),
+                        border: Border.all(
+                            color: AppColors.leavecolor, width: 0.5)),
+                    child: Text(
+                      remarkData.remark ?? "",
                       style: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.appbuttonColor,
-                          fontWeight: FontWeight.w500)),
-                  TextSpan(
-                    text: remarkData.extraRemark ?? "",
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.blackcolor,
-                        fontWeight: FontWeight.w500),
+                          fontSize: 14.sp,
+                          color: AppColors.blackcolor,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
-                ]),
+                  if (remarkData.extraRemark != null &&
+                      remarkData.extraRemark!.isNotEmpty)
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.r),
+                          border: Border.all(
+                              color: AppColors.leavecolor, width: 0.5)),
+                      child: Text(
+                        remarkData.extraRemark ?? "",
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.blackcolor,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                ],
               ),
               SizedBox(
-                height: 6.h,
-              ),
-              RichText(
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(children: [
-                  TextSpan(
-                      text: "Given By : ",
-                      style: TextStyle(
-                          fontSize: 10.sp,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600)),
-                  TextSpan(
-                    text: remarkData.empName ?? "",
-                    style: TextStyle(
-                        fontSize: 10.sp,
-                        color: AppColors.blackcolor,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ]),
+                height: 4.h,
               ),
             ],
           ),
