@@ -22,11 +22,11 @@ Widget lineCartGraphWidget(BuildContext context) {
         scrollDirection: Axis.horizontal,
         child: SizedBox(
           width: exameAnalysisController.exannameforAllexamAnalysis.length <= 3
-              ? MediaQuery.of(context).size.width * 0.4
+              ? MediaQuery.of(context).size.width * 0.9
               : MediaQuery.of(context).size.width *
                   (exameAnalysisController.exannameforAllexamAnalysis.length) *
-                  0.20,
-          height: 350.h,
+                  0.225,
+          height: 400.h,
           child: Row(
             children: [
               RotatedBox(
@@ -39,10 +39,10 @@ Widget lineCartGraphWidget(BuildContext context) {
                       color: AppColors.headingcolor),
                 ),
               ),
-              AspectRatio(
-                aspectRatio: 1,
+              Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 20.h)
+                      .copyWith(right: 0),
                   child: LineChart(
                     LineChartData(
                       lineBarsData: List.generate(
@@ -91,12 +91,13 @@ Widget lineCartGraphWidget(BuildContext context) {
                       gridData: const FlGridData(
                           show: true,
                           drawVerticalLine: true,
+                          verticalInterval: 1,
                           drawHorizontalLine: true),
                       lineTouchData: const LineTouchData(enabled: true),
                       minX: 0,
                       maxX: exameAnalysisController
                               .exannameforAllexamAnalysis.length
-                              .toDouble() -
+                              .toDouble() +
                           1,
                       minY: 0,
                       maxY: 100,

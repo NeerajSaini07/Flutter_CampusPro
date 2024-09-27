@@ -9,21 +9,19 @@ import 'package:campuspro/Screens/forgot_password_screen.dart';
 import 'package:campuspro/Screens/getpass/dashboard.dart';
 import 'package:campuspro/Screens/help_and_support_screen.dart';
 import 'package:campuspro/Screens/login_screen.dart';
-import 'package:campuspro/Screens/notification_screen.dart';
 import 'package:campuspro/Screens/otp_screen.dart';
 import 'package:campuspro/Screens/studenPortal/activity.dart';
 import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/class_room.dart';
-import 'package:campuspro/Screens/studenPortal/exam_analysis.dart';
+import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
 import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
-import 'package:campuspro/Screens/studenPortal/homework.dart';
+
 import 'package:campuspro/Screens/studenPortal/leave_details.dart';
-import 'package:campuspro/Screens/studenPortal/feedback.dart';
-import 'package:campuspro/Screens/studenPortal/student_calendar.dart';
-import 'package:campuspro/Screens/studenPortal/timetable_screen.dart';
-import 'package:campuspro/Screens/studenPortal/transport_detail.dart';
 import 'package:campuspro/Screens/studenPortal/profile.dart';
 import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
+import 'package:campuspro/Screens/studenPortal/student_calendar.dart';
+import 'package:campuspro/Screens/studenPortal/timetable_screen.dart';
+
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
@@ -41,6 +39,8 @@ import 'Dependency_injection/injection.dart';
 
 import 'Screens/splash_screen.dart';
 import 'Screens/studenPortal/Datesheet.dart';
+import 'Screens/studenPortal/exam_analysis.dart';
+import 'Screens/studenPortal/feedback.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -105,20 +105,20 @@ class MyApp extends StatelessWidget {
             Routes.webviewpage: (context) => WebViewDashboardPage(),
             Routes.studentProfileScreen: (context) => StudentProfileScreen(),
             Routes.studentClassRomm: (context) => StudentClassroom(),
-            Routes.studentexamAnalysis: (context) => ExamAnalysis(),
-            Routes.holidayScreen: (context) => HolidayListScreen(),
-            Routes.studentEditProfileScreen: (context) =>
-                StudentEditProfileScreen(),
-            Routes.studentLeaveDetailScreen: (context) =>
-                StudentLeaveDetailScreen(),
-            Routes.studentCircularScreen: (context) => StudentCircularScreen(),
+            Routes.studentexamAnalysis: (context) =>
+                StudentExamAnalysisScreen(),
             Routes.studentActivityScreen: (context) => StudentActivityScreen(),
-            Routes.transportScreen: (context) => TransportdetailScreen(),
+            Routes.studentCircularScreen: (contex) => StudentCircularScreen(),
+            Routes.studentLeaveDetailScreen: (contex) =>
+                StudentLeaveDetailScreen(),
+            Routes.studentexamTestResultScreen: (context) =>
+                StudentExamTestResultScreen(),
+            Routes.studentdatesheet: (context) => StudentDateSheetScreen(),
+            Routes.holidayScreen: (context) => HolidayListScreen(),
             Routes.studenttimeTable: (context) => StudentTimetableScreen(),
             Routes.feedback: (context) => FeedbackScreen(),
-            Routes.studentdatesheet: (context) => Datesheet(),
-            Routes.studentHomeworkScreen: (context) => HomeworkScreen(),
-            Routes.studentNotificationScreen: (context) => NotificationScreen(),
+            Routes.studentEditProfileScreen: (context) =>
+                StudentEditProfileScreen(),
             Routes.studentCalendarScreen: (context) => StudentCalendarScreen(),
 
             // Routes.transportDashboad: (context) => TransportDashboard(),

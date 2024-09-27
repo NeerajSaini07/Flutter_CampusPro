@@ -4,7 +4,9 @@ import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dar
 import 'package:campuspro/Modal/student_module/class_room_teacher_filter.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/classoom/class_room_list.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +27,9 @@ class StudentClassroom extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             DropdownButtonFormField<ClassRoomFilterDataListModel>(
+              menuMaxHeight: 300.h,
               decoration: InputDecoration(
+                isDense: true,
                 hintText: "Select Teacher OR Subject",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
@@ -34,13 +38,18 @@ class StudentClassroom extends StatelessWidget {
               items: [
                 DropdownMenuItem<ClassRoomFilterDataListModel>(
                   value: null,
-                  child: Text("All"),
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Text("All")),
                 ),
                 ...classsRoomController.filterList
                     .map((ClassRoomFilterDataListModel subject) {
                   return DropdownMenuItem<ClassRoomFilterDataListModel>(
                     value: subject,
-                    child: Text(subject.empSub.toString()),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Text(subject.empSub.toString()),
+                    ),
                   );
                 }),
               ],

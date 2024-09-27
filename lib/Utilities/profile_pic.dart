@@ -19,14 +19,30 @@ class ProfilePic extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserTypeController userTypeController =
         Get.find<UserTypeController>();
-    return ProfilePicture(
-      name: UserTypeslist
-          .userTypesDetails[userTypeController.usertypeIndex].stuEmpName
-          .toString(),
-      count: 1,
-      radius: radius,
-      fontsize: fontSize,
-      tooltip: tooltip,
-    );
+    if ((StudentDetaillist.studentdetails.isNotEmpty &&
+        StudentDetaillist.studentdetails.first.imageUrl
+            .toString()
+            .contains("https"))) {
+      return ProfilePicture(
+        name: UserTypeslist
+            .userTypesDetails[userTypeController.usertypeIndex].stuEmpName
+            .toString(),
+        count: 1,
+        img: StudentDetaillist.studentdetails.first.imageUrl.toString(),
+        radius: radius,
+        fontsize: fontSize,
+        tooltip: tooltip,
+      );
+    } else {
+      return ProfilePicture(
+        name: UserTypeslist
+            .userTypesDetails[userTypeController.usertypeIndex].stuEmpName
+            .toString(),
+        count: 1,
+        radius: radius,
+        fontsize: fontSize,
+        tooltip: tooltip,
+      );
+    }
   }
 }

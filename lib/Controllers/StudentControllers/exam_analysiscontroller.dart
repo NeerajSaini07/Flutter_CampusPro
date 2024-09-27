@@ -8,7 +8,6 @@ import 'package:campuspro/Repository/StudentRepositories/exam_analysis_repositor
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class ExameAnalysisController extends GetxController {
   @override
@@ -21,12 +20,11 @@ class ExameAnalysisController extends GetxController {
 
   var sessionList = <SessionModel>[].obs;
 
-  var exannameforAllexamAnalysis = <ExamnameModel>[].obs;
+  var exannameforAllexamAnalysis = [].obs;
   var examnameList = <ExamnameModel>[].obs; // exam name list
   var studentReport = <ExamanalysisDataModel>[].obs; //  all eaxma analysis list
   var subjectlist = [];
-  Map<String, List<double>> subjectScoreMap =
-      {}; // mapping subject and there score
+  Map<String, List<double>> subjectScoreMap = {};
 
   var showtooltiponbarchart = false.obs;
   RxInt touchedIndex = (-1).obs;
@@ -68,11 +66,8 @@ class ExameAnalysisController extends GetxController {
           List<dynamic> examname = value['Data'];
           examnameList.value =
               examname.map((json) => ExamnameModel.fromJson(json)).toList();
-          if (startfilter.value == false) {
-            print(value);
-            exannameforAllexamAnalysis.value =
-                examname.map((json) => ExamnameModel.fromJson(json)).toList();
-          }
+          // examnameList.value =
+          //     examname.map((json) => ExamnameModel.fromJson(json)).toList();
         } else if (value['Status'] == 'Cam-006') {
           examnameList.clear();
           exannameforAllexamAnalysis();
@@ -86,13 +81,10 @@ class ExameAnalysisController extends GetxController {
     final response = await ExamanalysisRepository.examAnalysisReportData();
     if (response != null) {
       List<dynamic> reportdata = response['Data'];
-
       if (response['Status'] == 'Cam-001') {
         studentReport.value = reportdata
             .map((json) => ExamanalysisDataModel.fromJson(json))
             .toList();
-
-        print("Student resposrt $studentReport");
         for (var i = 0; i < studentReport.length; i++) {
           if (!subjectlist.contains(studentReport[i].subjectName)) {
             subjectlist.add(studentReport[i].subjectName);
@@ -151,6 +143,9 @@ class ExameAnalysisController extends GetxController {
     for (int i = 0; i < studentReport.length; i++) {
       String subjectName = studentReport[i].subjectName;
       double marksObtain = studentReport[i].marksObtain;
+      if (!exannameforAllexamAnalysis.contains(studentReport[i].exam)) {
+        exannameforAllexamAnalysis.add(studentReport[i].exam);
+      }
 
       if (subjectScoreMap.containsKey(subjectName)) {
         subjectScoreMap[subjectName]!.add(marksObtain);
@@ -183,6 +178,7 @@ class ExameAnalysisController extends GetxController {
               .toList();
           session.value = '';
           examName.value = '';
+
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         } else if (value['Status'] == 'Camp-003') {
@@ -191,10 +187,14 @@ class ExameAnalysisController extends GetxController {
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         } else if (value['Status'] == 'Cam-006') {
+          session.value = '';
+          examName.value = '';
           singleExamDataList.clear();
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         } else {
+          session.value = '';
+          examName.value = '';
           singleExamDataList.clear();
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;

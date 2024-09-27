@@ -17,7 +17,7 @@ Widget classRoomDataList() {
   final StudentClasssRoomController studentClasssRoomController =
       Get.find<StudentClasssRoomController>();
 
-  final FileDownloadService downloadService = Get.find<FileDownloadService>();
+  // final FileDownloadService downloadService = Get.find<FileDownloadService>();
   return FutureBuilder<List<StudentClassRoomModel>>(
     future: fetchClassRoomData(),
     builder: (context, snapshot) {
@@ -30,8 +30,17 @@ Widget classRoomDataList() {
         return ListView.builder(
           itemCount: classRoomList.length,
           itemBuilder: (context, index) {
-            return Card(
-              color: AppColors.whitetextcolor,
+            return Container(
+              decoration: BoxDecoration(
+                  color: AppColors.whitetextcolor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10.r)),
               margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 8.h),
               child: Padding(
                 padding: EdgeInsets.all(10.w),
@@ -93,7 +102,10 @@ Widget classRoomDataList() {
                                   .cirContent!
                                   .substring(0, 100)
                               : classRoomList[index].cirContent,
-                          style: AppTextStyles.cardContent,
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blackcolor),
                         ),
                         classRoomList[index].cirContent.toString().length > 100
                             ? TextSpan(

@@ -36,9 +36,8 @@ class FeedbackScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 feedbackCard(context),
-                //: SizedBox(),
                 CustomeHeight(18.h),
-                Expanded(child: feedbackdetailCard()),
+                feedbackdetailCard(),
               ],
             ),
           ),

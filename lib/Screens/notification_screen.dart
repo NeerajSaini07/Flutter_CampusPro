@@ -1,7 +1,4 @@
-// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, avoid_unnecessary_containers
-
 import 'package:campuspro/Controllers/notificationController.dart';
-
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
@@ -24,7 +21,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         Get.find<NotificationController>();
 
     return Scaffold(
-      appBar: customAppBar(context, title: "Alert & Notification"),
+      appBar: customAppBar(context, title: "Notifications"),
       backgroundColor: AppColors.whitetextcolor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -50,18 +47,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
             Expanded(
               child: Obx(
                 () => notificationController.notificationloader.value
-                    ? Center(child: CircularProgressIndicator.adaptive())
+                    ? const Center(child: CircularProgressIndicator.adaptive())
                     : notificationController.notificationList.isEmpty
-                        ? Center(
+                        ? const Center(
                             child: Text("Notification Not Availabe"),
                           )
-                        : ListView.separated(
+                        : ListView.builder(
                             itemCount:
                                 notificationController.notificationList.length,
-                            separatorBuilder: (context, index) =>
-                                Divider(height: 1),
                             itemBuilder: (context, index) {
-                              return buildNotificationTile(index);
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(width: 0.2.w),
+                                        borderRadius:
+                                            BorderRadius.circular(10.r)),
+                                    child: buildNotificationTile(index)),
+                              );
                             },
                           ),
               ),
@@ -77,12 +80,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
         Get.find<NotificationController>();
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        // backgroundImage: AssetImage("assets/icon/notification.png"),
+        backgroundColor: Colors.grey,
         radius: 25,
         child: Icon(
           Icons.notifications,
-          size: 30.h,
+          size: 20.h,
         ),
       ),
       title: Row(
@@ -92,18 +94,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
             notificationController.notificationList[index].smsType.toString(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 16.sp,
             ),
           ),
           Text(
             notificationController.notificationList[index].alertDate.toString(),
             style: TextStyle(
-              color: Colors.grey,
-              fontSize: 12.sp,
-            ),
+                color: Colors.grey,
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w300),
           ),
         ],
       ),
+
       subtitle: notificationController.notificationList[index].alertMessage
                   .toString()
                   .length >
@@ -118,13 +121,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 style: TextStyle(
                   fontWeight: FontWeight.w200,
                   color: AppColors.blackcolor,
-                  fontSize: 14.sp,
+                  fontSize: 11.sp,
                 ),
               ),
             )
           : Text(
               notificationController.notificationList[index].alertMessage
                   .toString(),
+              maxLines: 3,
               style: TextStyle(
                 fontWeight: FontWeight.w100,
                 color: AppColors.blackcolor,
@@ -163,15 +167,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Filter Notifications',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,6 +191,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             fontWeight: FontWeight.w300,
                             color: AppColors.textfieldhintstycolor),
                       ),
+
+                      // notificationController.getdateRage(
+                      //       "fromDate", context);
                       Container(
                         height: 30.h,
                         width: 150.w,
@@ -196,16 +203,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               color: AppColors.textfieldhintstycolor,
                             )),
                         child: TextFormField(
+                          onTap: () {
+                            notificationController.getdateRage(
+                                "fromDate", context);
+                          },
                           textAlign: TextAlign.center,
                           readOnly: true,
                           controller: notificationController.fromDateController,
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 6.w, vertical: 6.h),
                             suffixIcon: InkWell(
-                                onTap: () {
-                                  notificationController.getdateRage(
-                                      "fromDate", context);
-                                },
-                                child: Icon(Icons.date_range)),
+                                onTap: () {}, child: Icon(Icons.date_range)),
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Select Date From",
@@ -234,16 +243,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               color: AppColors.textfieldhintstycolor,
                             )),
                         child: TextFormField(
+                          onTap: () {
+                            notificationController.getdateRage(
+                                "todate", context);
+                          },
                           controller: notificationController.toDatecontroller,
                           textAlign: TextAlign.center,
                           readOnly: true,
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 6.w, vertical: 6.w),
                             suffixIcon: InkWell(
-                                onTap: () {
-                                  notificationController.getdateRage(
-                                      "todate", context);
-                                },
-                                child: Icon(Icons.date_range)),
+                                onTap: () {},
+                                child: const Icon(Icons.date_range)),
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Select Date To",
@@ -270,17 +282,49 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               (notificationController.todate.value.isNotEmpty))
                           ? () {
                               Get.back();
+                              notificationController.removeFilter.value = true;
                               notificationController.filternotificationdata();
                             }
                           : null,
                       child: Text(
                         'Apply Filter',
                         style: TextStyle(
-                            fontSize: 16.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.whitetextcolor),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Obx(
+                    () => notificationController.removeFilter.value
+                        ? ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.r),
+                              ),
+                              elevation: 0,
+                              backgroundColor: AppColors.appbuttonColor,
+                            ),
+                            onPressed: () {
+                              Get.back();
+                              notificationController.fromdate.value = '';
+                              notificationController.todate.value = '';
+                              notificationController.removeFilter.value = false;
+                              notificationController.getNotification();
+                            },
+                            child: Text(
+                              'All Notifications',
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.whitetextcolor,
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
                   ),
                 ],
               ),
@@ -290,7 +334,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
         );
       },
     ).whenComplete(() {
-      notificationController.clearDateFields();
+      if (notificationController.removeFilter.value == false) {
+        notificationController.clearDateFields();
+      }
     });
   }
 }

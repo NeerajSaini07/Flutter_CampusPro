@@ -149,8 +149,17 @@ class _StudentCircularScreenState extends State<StudentCircularScreen> {
 
 Widget circularListCard(StudentCircularModel circularData, BuildContext context,
     CircularController circularController) {
-  return Card(
-    color: AppColors.whitetextcolor,
+  return Container(
+    decoration: BoxDecoration(
+        color: AppColors.whitetextcolor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(10.r)),
     margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
     child: Padding(
       padding: EdgeInsets.all(10.w),
@@ -171,9 +180,8 @@ Widget circularListCard(StudentCircularModel circularData, BuildContext context,
                   circularData.circularFileurl!.isNotEmpty)
                 InkWell(
                   onTap: () {
-                    circularController.downloadFile(
-                        circularData.circularFileurl ?? "",
-                        circularData.isDownloaded);
+                    circularController
+                        .downloadFile(circularData.circularFileurl ?? "");
                   },
                   child: Container(
                     padding: EdgeInsets.all(4.w),

@@ -1,13 +1,13 @@
+import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-
 import '../../common_appbar.dart';
 
 class HomeworkCommets extends StatelessWidget {
@@ -23,7 +23,7 @@ class HomeworkCommets extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: customAppBar(context),
+        appBar: customAppBar(context, title: "Comments"),
         body: Column(
           children: [
             Obx(
@@ -41,14 +41,18 @@ class HomeworkCommets extends StatelessWidget {
                               const Divider(thickness: 0.4),
                               Obx(() => studentHomeWorkController
                                       .homeworkcomments.isEmpty
-                                  ? Center(
-                                      child: Text(
-                                        "No Comments Found",
-                                        style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey),
-                                      ),
+                                  ? Column(
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                            "No Comments Found",
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey),
+                                          ),
+                                        ),
+                                      ],
                                     )
                                   : homeworkComments()),
                             ],
@@ -66,6 +70,8 @@ class HomeworkCommets extends StatelessWidget {
 }
 
 Widget commentbox(index) {
+  final StudentClasssRoomController studentClasssRoomController =
+      Get.find<StudentClasssRoomController>();
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
   return Container(
@@ -116,7 +122,12 @@ Widget commentbox(index) {
               children: [
                 GestureDetector(
                   onTap: () {
-                    studentHomeWorkController.getfiles();
+                    //  ***********************  because same function getting ffile for class room so  do not put file sourece into classroom variable
+                    //  this is option condition
+                    studentClasssRoomController.filepicforClassRoom.value =
+                        false;
+
+                    CommonFunctions.getfiles();
                   },
                   child: CircleAvatar(
                     radius: 14.r,
@@ -189,7 +200,7 @@ Widget Homeworkdata(index) {
                       .toString()),
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     color: AppColors.blackcolor,
                   )),
               SizedBox(
@@ -206,7 +217,10 @@ Widget Homeworkdata(index) {
           Text(
             studentHomeWorkController.homeworkbydate[index].homeworkMsg
                 .toString(),
-            style: AppTextStyles.cardContent,
+            style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w300,
+                color: AppColors.blackcolor),
           ),
           SizedBox(height: 12.h),
           Text(

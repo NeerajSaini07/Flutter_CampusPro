@@ -65,7 +65,7 @@ modalBottomSheetMenu(BuildContext context) {
                       },
                     ),
                   ),
-                  SizedBox(width: 10), // Add spacing between the dropdowns
+                  SizedBox(width: 10),
                   Expanded(
                     child: Obx(
                       () => DropdownButtonFormField(

@@ -5,14 +5,31 @@ import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/examAnalysis/bar_chart.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/examAnalysis/filter_diloag.dart';
 import 'package:campuspro/Utilities/constant.dart';
+
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../Wedgets/StudentWidget/examAnalysis/line_chart_graph.dart';
 
-class ExamAnalysis extends StatelessWidget {
-  const ExamAnalysis({super.key});
+class StudentExamAnalysisScreen extends StatefulWidget {
+  const StudentExamAnalysisScreen({super.key});
+
+  @override
+  State<StudentExamAnalysisScreen> createState() =>
+      _StudentExamAnalysisScreenState();
+}
+
+class _StudentExamAnalysisScreenState extends State<StudentExamAnalysisScreen> {
+  final ExameAnalysisController exameAnalysisController = Get.find();
+  @override
+  void initState() {
+    super.initState();
+    exameAnalysisController.getExamData();
+    exameAnalysisController.getclasssession();
+    exameAnalysisController.analysisdata();
+  }
 
   @override
   Widget build(BuildContext context) {

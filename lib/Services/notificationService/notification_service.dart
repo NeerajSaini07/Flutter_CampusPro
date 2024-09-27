@@ -198,7 +198,6 @@ Future onDidReceiveLocalNotification(
     int? id, String? title, String? body, String? payload) async {}
 
 Future<void> getToken() async {
-  // Fetching and logging the FCM token
   final token = await FirebaseMessaging.instance.getToken();
   log("FCM Token generated => $token");
   await Sharedprefdata.storeStringData(

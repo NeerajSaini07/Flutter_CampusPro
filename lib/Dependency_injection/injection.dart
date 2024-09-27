@@ -87,7 +87,7 @@ class DependencyInjection {
 
     Get.put(DownloadService());
 
-    Get.lazyPut<FileDownloadService>(() => FileDownloadService(), fenix: true);
+    // Get.lazyPut<FileDownloadService>(() => FileDownloadService(), fenix: true);
 
     Get.lazyPut<ExameAnalysisController>(() => ExameAnalysisController(),
         fenix: true);

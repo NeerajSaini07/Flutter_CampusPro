@@ -67,7 +67,7 @@ class StudentDetailModel {
     classSectionId = json['ClassSectionId'];
     retMessage = json['RetMessage'];
     attStatus = json['AttStatus'];
-    imageUrl = json['imageUrl'];
+    imageUrl = json['imageUrl'] ?? "";
     showFeeReceipt = json['showFeeReceipt'];
     emailid = json['emailid'];
   }

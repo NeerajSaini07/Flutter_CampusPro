@@ -31,7 +31,6 @@ class StudentCalendarScreen extends StatelessWidget {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
-                                // spreadRadius: 1,
                                 blurRadius: 4,
                                 offset: const Offset(0, 1),
                               ),
@@ -318,7 +317,6 @@ class StudentCalendarScreen extends StatelessWidget {
     );
   }
 
-// 9990852480
   Widget _calendarEventCard(
       {required String type, String desc = "", double topPadding = 0}) {
     return Container(

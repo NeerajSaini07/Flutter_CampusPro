@@ -72,6 +72,8 @@ Widget studentMarksdetails() {
         ),
         Expanded(
           child: ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context, index) {
               return const Divider();
             },

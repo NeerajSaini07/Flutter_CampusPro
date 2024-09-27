@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campuspro/Controllers/StudentControllers/activity_controller.dart';
 import 'package:campuspro/Modal/student_module/student_activity_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
@@ -209,8 +207,17 @@ Widget _myMeOnlyTabView(
 
 Widget circularListCard(BuildContext context, StudentActivityModel activityData,
     StudentActivityController activityController) {
-  return Card(
-      color: AppColors.whitetextcolor,
+  return Container(
+      decoration: BoxDecoration(
+          color: AppColors.whitetextcolor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              blurRadius: 4,
+              offset: const Offset(0, 1),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(10.r)),
       margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       child: Padding(
         padding: EdgeInsets.all(10.w),
@@ -237,9 +244,8 @@ Widget circularListCard(BuildContext context, StudentActivityModel activityData,
                       //     "fmobiledev.campuspro.in/api/",
                       //     "mobiledev.campuspro.in/"));
 
-                      activityController.downloadFile(
-                          activityData.fileurl.toString(),
-                          activityData.isDownloaded);
+                      activityController
+                          .downloadFile(activityData.fileurl.toString());
                     },
                     child: Container(
                       padding: EdgeInsets.all(4.w),

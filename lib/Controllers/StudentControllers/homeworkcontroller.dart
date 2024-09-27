@@ -19,10 +19,8 @@ class StudentHomeWorkController extends GetxController {
   var commentfile = ''.obs;
   var filename = ''.obs;
   var showfileoncomment = false.obs;
-
   var successcommentloader = false.obs;
   final FocusNode commentFocusNode = FocusNode();
-
   var homeworkdatelist = <HomeworkModel>[].obs;
   var homeworkbydate = <HomeWorkByDateModel>[].obs;
   var homeworkcomments = <ClassRoomCommentModel>[].obs;
@@ -85,24 +83,6 @@ class StudentHomeWorkController extends GetxController {
     });
   }
 
-  getfiles() async {
-    FilePickerResult? pickedPdf;
-
-    pickedPdf = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'jpg', 'jpeg'],
-    );
-
-    if (pickedPdf != null) {
-      showfileoncomment.value = true;
-      String filepath = pickedPdf.files.single.path!;
-      commentfile.value = filepath;
-      filename.value = path.basename(filepath);
-    } else {
-      showfileoncomment.value = false;
-    }
-  }
-
   //  *************************************************  student home work Comment *******************************
 
   studenthomeworkReply(index) async {
@@ -136,7 +116,9 @@ class StudentHomeWorkController extends GetxController {
         if (value['Status'] == 'Cam-001') {
           showfileoncomment.value = false;
           commentcontroller.clear();
+          filename.value = '';
           Get.snackbar(
+              snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
               colorText: AppColors.blackcolor,
               "Homework Reply",
@@ -144,10 +126,12 @@ class StudentHomeWorkController extends GetxController {
           studenthomeworkReply(index);
         } else if (value['Status'] == 'Cam-006') {
           commentcontroller.clear();
+          filename.value = '';
           showfileoncomment.value = false;
           commentcontroller.clear();
           studenthomeworkReply(index);
           Get.snackbar(
+              snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
               colorText: AppColors.blackcolor,
               "Homework Reply",
@@ -155,6 +139,7 @@ class StudentHomeWorkController extends GetxController {
         } else {
           commentcontroller.clear();
           Get.snackbar(
+              snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.red,
               colorText: AppColors.blackcolor,
               "Homework Reply",

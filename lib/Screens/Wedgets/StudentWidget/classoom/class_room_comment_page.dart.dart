@@ -6,6 +6,7 @@ import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -24,7 +25,7 @@ class ClassRoomComments extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: customAppBar(context),
+        appBar: customAppBar(context, title: "Comments"),
         body: Column(
           children: [
             Obx(
@@ -116,7 +117,9 @@ Widget commentbox(index) {
               children: [
                 GestureDetector(
                   onTap: () {
-                    studentClasssRoomController.getfiles();
+                    studentClasssRoomController.filepicforClassRoom.value =
+                        true;
+                    CommonFunctions.getfiles();
                   },
                   child: CircleAvatar(
                     radius: 14.r,
@@ -144,12 +147,11 @@ Widget commentbox(index) {
                 SizedBox(width: 10.w),
                 GestureDetector(
                   onTap: () {
-                    if (studentClasssRoomController.comment.text
-                            .trim()
-                            .isNotEmpty ||
-                        studentClasssRoomController.fileName.isNotEmpty) {
-                      studentClasssRoomController.addCommentOnClassRoom(index);
-                    }
+                    studentClasssRoomController.filesource.value.isNotEmpty ||
+                            studentClasssRoomController.comment.text.isNotEmpty
+                        ? studentClasssRoomController
+                            .addCommentOnClassRoom(index)
+                        : null;
                   },
                   child: CircleAvatar(
                     radius: 20.r,

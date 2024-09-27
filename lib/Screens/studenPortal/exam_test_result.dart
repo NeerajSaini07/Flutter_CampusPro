@@ -16,15 +16,15 @@ import 'package:get/get.dart';
 import '../Wedgets/StudentWidget/ExamTestResult/subject_marks.dart';
 import '../Wedgets/StudentWidget/examAnalysis/filter_diloag.dart';
 
-class ExamTestResult extends StatelessWidget {
-  const ExamTestResult({super.key});
+class StudentExamTestResultScreen extends StatelessWidget {
+  const StudentExamTestResultScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final ExamTestExamResultController examResultController =
         Get.find<ExamTestExamResultController>();
     return Scaffold(
-      appBar: customAppBar(context),
+      appBar: customAppBar(context, title: "Exam/Test Result"),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
         child: SingleChildScrollView(

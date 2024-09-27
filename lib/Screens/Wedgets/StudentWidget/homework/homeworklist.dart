@@ -2,14 +2,13 @@ import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart
 
 import 'package:campuspro/Screens/Wedgets/StudentWidget/common_text_style.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/homework/homework_comment_page.dart';
+import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../classoom/reply_dialog.dart';
-import 'comment.dart';
 
 Widget homeWorkListdata(StudentHomeWorkController studentHomeWorkController) {
   return Obx(
@@ -19,7 +18,6 @@ Widget homeWorkListdata(StudentHomeWorkController studentHomeWorkController) {
           child: Text("Homework Not Available"),
         );
       } else {
-        // Display list of events
         return ListView.builder(
           itemCount: studentHomeWorkController.homeworkbydate.length,
           itemBuilder: (context, index) {
@@ -40,9 +38,18 @@ Widget homeWorkCard(index, BuildContext context) {
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
 
-  final FileDownloadService downloadService = Get.find<FileDownloadService>();
-  return Card(
-    color: AppColors.whitetextcolor,
+  final DownloadService downloadService = Get.find<DownloadService>();
+  return Container(
+    decoration: BoxDecoration(
+        color: AppColors.whitetextcolor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(10.r)),
     margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 8.h),
     child: Padding(
       padding: EdgeInsets.all(6.w),
@@ -60,7 +67,7 @@ Widget homeWorkCard(index, BuildContext context) {
                           .toString()),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 18.sp,
+                        fontSize: 16.sp,
                         color: AppColors.blackcolor,
                       )),
                   SizedBox(
@@ -71,7 +78,7 @@ Widget homeWorkCard(index, BuildContext context) {
                           .homeworkbydate[index].subjectName
                           .toString()),
                       style: TextStyle(
-                          fontWeight: FontWeight.normal, fontSize: 16.sp)),
+                          fontWeight: FontWeight.normal, fontSize: 14.sp)),
                 ],
               ),
               Row(
@@ -79,12 +86,20 @@ Widget homeWorkCard(index, BuildContext context) {
                 children: [
                   Obx(() => studentHomeWorkController
                           .homeworkbydate[index].homeworkURL!.isNotEmpty
-                      ? CircleAvatar(
-                          backgroundColor: AppColors.appbuttonColor,
-                          radius: 13.r,
-                          child: const Icon(
-                            Icons.download,
-                            color: AppColors.whitetextcolor,
+                      ? GestureDetector(
+                          onTap: () {
+                            // downloadService.downloadFile(
+                            //     studentHomeWorkController
+                            //         .homeworkbydate[index].homeworkURL
+                            //         .toString());
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: AppColors.appbuttonColor,
+                            radius: 13.r,
+                            child: const Icon(
+                              Icons.download,
+                              color: AppColors.whitetextcolor,
+                            ),
                           ),
                         )
                       : const SizedBox()),
@@ -126,7 +141,10 @@ Widget homeWorkCard(index, BuildContext context) {
                         .substring(0, 100)
                     : studentHomeWorkController
                         .homeworkbydate[index].homeworkMsg,
-                style: AppTextStyles.cardContent,
+                style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.blackcolor),
               ),
               studentHomeWorkController.homeworkbydate[index].homeworkMsg
                           .toString()

@@ -1,5 +1,4 @@
 import 'package:campuspro/Modal/student_module/notification_model.dart';
-
 import 'package:campuspro/Repository/StudentRepositories/student_profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +9,7 @@ class NotificationController extends GetxController {
   var fromdate = ''.obs;
   var todate = ''.obs;
   var notificationloader = false.obs;
+  var removeFilter = false.obs;
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDatecontroller = TextEditingController();
 
@@ -33,6 +33,11 @@ class NotificationController extends GetxController {
         dashboardnotification.value = notificationData
             .map((json) => NotificationModel.fromJson(json))
             .toList();
+
+        fromDateController.clear();
+        toDatecontroller.clear();
+        fromdate.value = '';
+        todate.value = '';
 
         notificationloader.value = false;
       } else {
@@ -73,7 +78,6 @@ class NotificationController extends GetxController {
         notificationList.value = notificationData
             .map((json) => NotificationModel.fromJson(json))
             .toList();
-
         notificationloader.value = false;
         clearDateFields();
       } else {
@@ -86,6 +90,8 @@ class NotificationController extends GetxController {
   //  ************************************ clear the data ********************
 
   clearDateFields() {
+    todate.value = '';
+    fromdate.value = '';
     toDatecontroller.clear();
     fromDateController.clear();
   }

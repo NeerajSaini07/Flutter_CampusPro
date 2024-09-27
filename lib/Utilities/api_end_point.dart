@@ -3,7 +3,6 @@
 class APIENDPOINT {
   // static const baseUrl = 'https://fmobile.campuspro.in/api/';
   static late String baseUrl;
-
   static void configure(String url) {
     baseUrl = url;
   }
@@ -23,7 +22,6 @@ class APIENDPOINT {
   static const removeFcmToken = "RemoveFcmToken";
 
   // ************************ Gate Pass *************************
-
   static const searchRequest = "searchNoDetails_V1";
   static const gatePassMeetToApi = "getVisitorMeetTo_v1";
   static const gatePassPurposeApi = "getVisitorPurpose_v1";

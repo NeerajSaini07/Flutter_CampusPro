@@ -183,9 +183,6 @@ List<Widget> buildMenuItems(BuildContext context) {
             bottomBarController.selectedBottomNavIndex.value = 0;
             webController.currentUrl.value = '';
             final AppRouting appRouting = AppRouting();
-            // if (menuItem.menuName != "Go to Site") {
-            //   appbarController.appBarName.value = menuItem.menuName.toString();
-            // }
             Navigator.pop(context);
             appRouting.navigate(menuItem.menuName, menuItem.menuUrl, context,
                 menuItem.menuFlag);

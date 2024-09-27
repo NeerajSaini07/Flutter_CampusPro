@@ -3,13 +3,12 @@ import 'dart:developer';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:campuspro/Controllers/StudentControllers/edit_profile_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
-import 'package:campuspro/Modal/student_module/student_profile_model.dart';
+import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Modal/student_module/upload_document_type.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/constant.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,27 +44,33 @@ class StudentEditProfileScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: Row(
                         children: [
-                          Obx(
-                            () => CircleAvatar(
-                              radius: 30.r,
-                              backgroundColor: Colors.blue,
-                              backgroundImage: (editProfileController
-                                      .studentImagePath.value
-                                      .toString()
-                                      .contains("https"))
-                                  ? NetworkImage(
-                                      editProfileController
-                                          .studentImagePath.value
-                                          .toString(),
-                                    )
-                                  : null,
-                              child: (editProfileController
-                                      .studentImagePath.value
-                                      .toString()
-                                      .contains("https"))
-                                  ? null
-                                  : Image.asset(Constant.usericon),
-                            ),
+                          CircleAvatar(
+                            radius: 30.r,
+                            backgroundImage: () {
+                              if (StudentDetaillist.studentdetails.isNotEmpty) {
+                                if (StudentDetaillist
+                                    .studentdetails.first.imageUrl
+                                    .toString()
+                                    .contains("https")) {
+                                  return NetworkImage(
+                                    StudentDetaillist
+                                        .studentdetails.first.imageUrl
+                                        .toString(),
+                                  );
+                                } else {
+                                  return null;
+                                }
+                              }
+                              return null;
+                            }(),
+                            child:
+                                (StudentDetaillist.studentdetails.isNotEmpty &&
+                                        StudentDetaillist
+                                            .studentdetails.first.imageUrl
+                                            .toString()
+                                            .contains("https"))
+                                    ? null
+                                    : Image.asset(Constant.usericon),
                           ),
                           SizedBox(width: 10.w),
                           Expanded(
@@ -524,39 +529,40 @@ class StudentEditProfileScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  height:
-                                      MediaQuery.sizeOf(context).width * 0.6,
-                                  width: MediaQuery.sizeOf(context).width * 0.6,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                      imagePath,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 10,
-                                  top: 10,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(6),
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        shape: BoxShape.circle,
+                            child: SizedBox(
+                              height: MediaQuery.sizeOf(context).width * 0.6,
+                              width: MediaQuery.sizeOf(context).width * 0.6,
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        imagePath,
+                                        fit: BoxFit.fill,
                                       ),
-                                      child: const Icon(Icons.close,
-                                          color: Colors.black),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Positioned(
+                                    right: 10,
+                                    top: 10,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(6),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(Icons.close,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
