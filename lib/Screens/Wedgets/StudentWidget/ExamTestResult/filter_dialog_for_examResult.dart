@@ -108,17 +108,9 @@ modalBottomSheetMenuFroTestResult(BuildContext context) {
                       ),
                     ),
                     onPressed: (exameAnalysisController.session.value.isEmpty ||
-                            exameAnalysisController.examName.value.isEmpty)
+                            examResultController.examname.isEmpty)
                         ? null
-                        : () {
-                            if (examResultController
-                                .bottomshitopenforExamResult.value) {
-                              examResultController.testExamResult();
-                            } else {
-                              exameAnalysisController
-                                  .filterExamDataBySessionAndExam();
-                            }
-                          },
+                        : examResultController.testExamResult(),
                     child: Text(
                       "Apply Filter",
                       style: TextStyle(

@@ -338,7 +338,7 @@ class StudentProfileScreen extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4.r),
+                        borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
                             color: AppColors.leavecolor, width: 0.5)),
                     child: Text(
@@ -355,7 +355,7 @@ class StudentProfileScreen extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.r),
+                          borderRadius: BorderRadius.circular(10.r),
                           border: Border.all(
                               color: AppColors.leavecolor, width: 0.5)),
                       child: Text(

@@ -128,7 +128,7 @@ AppBar customAppBar(BuildContext context,
                                                 'Profile.aspx', 'Profile');
                                             webController
                                                 .showWebViewScreen.value = true;
-                                            Navigator.pop(context);
+                                            // Navigator.pop(context);
                                           }
                                         },
                                         style: OutlinedButton.styleFrom(
