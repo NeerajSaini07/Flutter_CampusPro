@@ -110,7 +110,6 @@ class CommonFunctions {
       case "fee payment":
         return "assets/icon/fees.png";
       case "classroom":
-        return "assets/icon/classroom.png";
       case "class room":
         return "assets/icon/classroom.png";
       case "home work":

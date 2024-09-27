@@ -45,7 +45,7 @@ class AppRouting extends GetxService {
       Get.find<ExamTestExamResultController>();
 
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
-    if (whereToOpenFlag != "W") {
+    if (whereToOpenFlag == "W") {
       if (pageurl == '') {
         pageurl = 'Index.aspx';
         appbarController.appBarName.value = Constant.schoolName;
@@ -133,11 +133,24 @@ class AppRouting extends GetxService {
           break;
 
         case "Exam Analysis":
-          exameAnalysisController.showSingleExamGhraph.value = false;
-          examResultController.bottomshitopenforExamResult.value = false;
-          exameAnalysisController.removefilter.value = false;
-          Get.toNamed(Routes.studentexamAnalysis);
-          webController.showWebViewScreen.value = false;
+          if (UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
+                  .ouserType ==
+              'S') {
+            exameAnalysisController.showSingleExamGhraph.value = false;
+            examResultController.bottomshitopenforExamResult.value = false;
+            exameAnalysisController.removefilter.value = false;
+            Get.toNamed(Routes.studentexamAnalysis);
+            webController.showWebViewScreen.value = false;
+          } else {
+            webController.generateWebUrl(pageurl, name);
+            if (pageurl.toString().contains('Index.aspx')) {
+              appbarController.appBarName.value = Constant.schoolName;
+              webController.showWebViewScreen.value = false;
+            } else {
+              appbarController.appBarName.value = name;
+              webController.showWebViewScreen.value = true;
+            }
+          }
           break;
 
         case "Exam/Test Result":
@@ -150,7 +163,6 @@ class AppRouting extends GetxService {
         case "Transport":
         case "Transport Detail":
           Get.toNamed(Routes.transportScreen);
-
           webController.showWebViewScreen.value = false;
           break;
 
