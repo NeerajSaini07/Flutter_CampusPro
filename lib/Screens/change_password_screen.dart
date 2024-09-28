@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:developer';
-
 import 'package:campuspro/Controllers/change_password_controller.dart';
 import 'package:campuspro/Screens/Wedgets/app_rights.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
@@ -32,6 +30,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       if (widget.isdefaultChangePass) {
         changePasswordController.newPassNode.requestFocus();
       } else {
+        changePasswordController.oldPasswordController.clear();
         changePasswordController.oldPassNode.requestFocus();
       }
     });
@@ -247,10 +246,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         appCommonbutton(
             onpressed: () {
               if (widget.isdefaultChangePass) {
-                if (changePasswordController
-                    .newPasswordController.text.isEmpty) {
+                if (changePasswordController.newPasswordController.text
+                        .trim()
+                        .length <
+                    5) {
                   changePasswordController.showNewPassError.value =
-                      "Please enter your new password";
+                      "Please enter a new password that is at least 5 characters long.";
                 } else if (changePasswordController
                         .confirmPasswordController.text.isEmpty &&
                     (changePasswordController.newPasswordController.text !=
@@ -267,10 +268,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     .oldPasswordController.text.isEmpty) {
                   changePasswordController.showOldPassError.value =
                       "Please enter your old password";
-                } else if (changePasswordController
-                    .newPasswordController.text.isEmpty) {
+                } else if (changePasswordController.newPasswordController.text
+                        .trim()
+                        .length <
+                    5) {
                   changePasswordController.showNewPassError.value =
-                      "Please enter your new password";
+                      "Please enter a new password that is at least 5 characters long.";
                 } else if (changePasswordController
                         .confirmPasswordController.text.isEmpty &&
                     (changePasswordController.newPasswordController.text !=

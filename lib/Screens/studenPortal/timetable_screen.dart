@@ -5,18 +5,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class StudentTimetableScreen extends StatelessWidget {
+class StudentTimetableScreen extends StatefulWidget {
   const StudentTimetableScreen({super.key});
 
   @override
+  State<StudentTimetableScreen> createState() => _StudentTimetableScreenState();
+}
+
+class _StudentTimetableScreenState extends State<StudentTimetableScreen> {
+  final StudenttimetableController timeTableController =
+      Get.find<StudenttimetableController>();
+
+  @override
+  void initState() {
+    super.initState();
+    timeTableController.fetchTimetableData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final StudenttimetableController timeTableController =
-        Get.find<StudenttimetableController>();
     return Scaffold(
       appBar: customAppBar(context, title: "Student Time Table"),
       body: Obx(() {
         if (timeTableController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
+        }
+
+        if (timeTableController.filteredTimetable.isEmpty) {
+          return Center(
+              child: Text(
+            "No Data found",
+            style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.headingcolor),
+          ));
         }
 
         return ListView(

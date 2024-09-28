@@ -304,7 +304,8 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                         children: [
                           Text(
                             UserTypeslist.userTypesDetails[index].stuEmpName
-                                .toString(),
+                                .toString()
+                                .toUpperCase(),
                             maxLines: 1,
                             textScaler: TextScaler.noScaling,
                             overflow: TextOverflow.ellipsis,

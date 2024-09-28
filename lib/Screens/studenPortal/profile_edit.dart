@@ -14,16 +14,27 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class StudentEditProfileScreen extends StatelessWidget {
+class StudentEditProfileScreen extends StatefulWidget {
   const StudentEditProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final StudentEditProfileController editProfileController =
-        Get.find<StudentEditProfileController>();
-    final UserTypeController userTypeController =
-        Get.find<UserTypeController>();
+  State<StudentEditProfileScreen> createState() =>
+      _StudentEditProfileScreenState();
+}
+
+class _StudentEditProfileScreenState extends State<StudentEditProfileScreen> {
+  final StudentEditProfileController editProfileController =
+      Get.find<StudentEditProfileController>();
+  final UserTypeController userTypeController = Get.find<UserTypeController>();
+  @override
+  void initState() {
+    editProfileController.tabController.animateTo(0);
     editProfileController.getUploadDocumentTypeList();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();

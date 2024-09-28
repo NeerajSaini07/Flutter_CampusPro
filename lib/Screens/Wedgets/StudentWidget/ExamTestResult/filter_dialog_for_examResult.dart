@@ -57,18 +57,30 @@ modalBottomSheetMenuFroTestResult(BuildContext context) {
                       }).toList(),
                       onChanged: (SessionModel? sessionModel) async {
                         if (sessionModel != null) {
+                          examResultController.examid.value = '';
+                          examResultController.examnameListForResult.clear();
+
                           exameAnalysisController.session.value =
                               sessionModel.id.toString();
+
                           await examResultController
                               .studentexamNameForTestResult();
                         }
                       },
                     ),
                   ),
-                  SizedBox(width: 10), // Add spacing between the dropdowns
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Obx(
                       () => DropdownButtonFormField(
+                        value: examResultController.examid.value.isEmpty
+                            ? null
+                            : examResultController.examnameListForResult
+                                .firstWhere(
+                                (exam) =>
+                                    exam.examId.toString() ==
+                                    examResultController.examid.value,
+                              ),
                         decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(
                                 top: 10.h,

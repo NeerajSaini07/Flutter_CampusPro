@@ -60,7 +60,9 @@ class AppRouting extends GetxService {
           webController.showWebViewScreen.value = true;
         }
       }
-    } else {
+    } else if (UserTypeslist
+            .userTypesDetails[userTypeController.usertypeIndex].ouserType ==
+        'S') {
       webController.showWebViewScreen.value = false;
       switch (name) {
         case "Student Bus Location":
@@ -81,8 +83,6 @@ class AppRouting extends GetxService {
           notificationController.removeFilter.value = false;
           Get.to(() => const NotificationScreen());
           notificationController.getNotification();
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
         case "Leave Detail":
         case "Leave Request":
@@ -102,23 +102,12 @@ class AppRouting extends GetxService {
           await studentHomeWorkController.markgreenhomedate();
           studentHomeWorkController.gethomeworkbydate();
           Get.to(() => const HomeworkScreen());
-
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
 
         case "ClassRoom":
-          if (UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
-                  .ouserType ==
-              'S') {
-            await studentClasssRoomController.filterBysubjectTecher();
-            Get.toNamed(Routes.studentClassRomm);
-            appbarController.appBarName.value = name;
-            webController.showWebViewScreen.value = false;
-          } else {
-            webController.generateWebUrl(pageurl, name);
-            webController.showWebViewScreen.value = true;
-          }
+          await studentClasssRoomController.filterBysubjectTecher();
+          Get.toNamed(Routes.studentClassRomm);
+
           break;
 
         case "Circular":
@@ -134,24 +123,12 @@ class AppRouting extends GetxService {
           break;
 
         case "Exam Analysis":
-          if (UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
-                  .ouserType ==
-              'S') {
-            exameAnalysisController.showSingleExamGhraph.value = false;
-            examResultController.bottomshitopenforExamResult.value = false;
-            exameAnalysisController.removefilter.value = false;
-            Get.toNamed(Routes.studentexamAnalysis);
-            webController.showWebViewScreen.value = false;
-          } else {
-            webController.generateWebUrl(pageurl, name);
-            if (pageurl.toString().contains('Index.aspx')) {
-              appbarController.appBarName.value = Constant.schoolName;
-              webController.showWebViewScreen.value = false;
-            } else {
-              appbarController.appBarName.value = name;
-              webController.showWebViewScreen.value = true;
-            }
-          }
+          exameAnalysisController.showSingleExamGhraph.value = false;
+          examResultController.bottomshitopenforExamResult.value = false;
+          exameAnalysisController.removefilter.value = false;
+          Get.toNamed(Routes.studentexamAnalysis);
+          // webController.showWebViewScreen.value = false;
+
           break;
 
         case "Exam/Test Result":
@@ -164,7 +141,6 @@ class AppRouting extends GetxService {
         case "Transport":
         case "Transport Detail":
           Get.toNamed(Routes.transportScreen);
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Time Table":
@@ -173,22 +149,21 @@ class AppRouting extends GetxService {
               Get.find<StudenttimetableController>();
           timeTableController.expandedStates.value = {};
           Get.toNamed(Routes.studenttimeTable);
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Feedback":
           Get.toNamed(Routes.feedback);
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
         case "Date Sheet":
           Get.toNamed(Routes.studentdatesheet);
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Profile":
           Get.toNamed(Routes.studentProfileScreen);
+          break;
+
+        case "Teacher Remark":
+          Get.toNamed(Routes.teacherRemarkScreen);
           break;
 
         default:
@@ -207,6 +182,19 @@ class AppRouting extends GetxService {
             }
           }
           break;
+      }
+    } else if (name == 'Alert & Notification' || name == 'Notification') {
+      notificationController.removeFilter.value = false;
+      Get.to(() => const NotificationScreen());
+      notificationController.getNotification();
+    } else {
+      webController.generateWebUrl(pageurl, name);
+      if (pageurl.toString().contains('Index.aspx')) {
+        appbarController.appBarName.value = Constant.schoolName;
+        webController.showWebViewScreen.value = false;
+      } else {
+        appbarController.appBarName.value = name;
+        webController.showWebViewScreen.value = true;
       }
     }
   }

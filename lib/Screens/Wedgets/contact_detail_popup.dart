@@ -141,21 +141,20 @@ class ContactDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 14.w,
-          ),
-          decoration: BoxDecoration(
-              color: AppColors.appbuttonColor,
-              borderRadius: BorderRadius.circular(20)),
-          child: TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+        InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () => Navigator.of(context).pop(),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+            decoration: BoxDecoration(
+                color: AppColors.appbuttonColor,
+                borderRadius: BorderRadius.circular(20)),
             child: Text(
               'OK',
               style: TextStyle(
-                  fontSize: 12.sp,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
             ),
           ),
         ),

@@ -19,6 +19,7 @@ import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
 import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile.dart';
 import 'package:campuspro/Screens/studenPortal/profile_edit.dart';
+import 'package:campuspro/Screens/studenPortal/teacher_remark.dart';
 import 'package:campuspro/Screens/studenPortal/transport_detail.dart';
 import 'package:campuspro/Screens/studenPortal/student_calendar.dart';
 import 'package:campuspro/Screens/studenPortal/timetable_screen.dart';
@@ -39,7 +40,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'Dependency_injection/injection.dart';
 
 import 'Screens/splash_screen.dart';
-import 'Screens/studenPortal/Datesheet.dart';
+import 'Screens/studenPortal/datesheet.dart';
 import 'Screens/studenPortal/exam_analysis.dart';
 import 'Screens/studenPortal/feedback.dart';
 
@@ -122,6 +123,7 @@ class MyApp extends StatelessWidget {
                 StudentEditProfileScreen(),
             Routes.transportScreen: (context) => TransportdetailScreen(),
             Routes.studentCalendarScreen: (context) => StudentCalendarScreen(),
+            Routes.teacherRemarkScreen: (context) => StudentTeacherRemark(),
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially
