@@ -62,6 +62,7 @@ class AppRouting extends GetxService {
     } else if (UserTypeslist
             .userTypesDetails[userTypeController.usertypeIndex].ouserType ==
         'S') {
+      appbarController.appBarName.value = Constant.schoolName;
       webController.showWebViewScreen.value = false;
       switch (name) {
         case "Student Bus Location":

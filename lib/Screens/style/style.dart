@@ -21,7 +21,9 @@ class AppTextStyles {
   );
 
   static TextStyle cardDate = TextStyle(
-      fontSize: 14.sp, color: Colors.black, fontWeight: FontWeight.bold);
+      fontSize: 12.sp,
+      color: AppColors.blacktextcolor,
+      fontWeight: FontWeight.w500);
 
   static TextStyle buttonTextStyle = TextStyle(
     color: AppColors.whitetextcolor,

@@ -6,6 +6,7 @@ import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/profile_pic.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
@@ -112,6 +113,8 @@ AppBar customAppBar(BuildContext context,
                                         onPressed: () {
                                           bottomBarController
                                               .selectedBottomNavIndex.value = 0;
+                                          appbarController.appBarName.value =
+                                              Constant.schoolName;
                                           if (UserTypeslist
                                                   .userTypesDetails[
                                                       userTypeController
