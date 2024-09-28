@@ -78,6 +78,7 @@ class AppRouting extends GetxService {
 
         case "Alert & Notification":
         case "Notification":
+          notificationController.removeFilter.value = false;
           Get.to(() => const NotificationScreen());
           notificationController.getNotification();
           break;

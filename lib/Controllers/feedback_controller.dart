@@ -88,17 +88,13 @@ class StudentFeedbackController extends GetxController {
     sendLoader.value = true; // Start loading indicator
 
     try {
-      // Submit the feedback data
       await studentFeedbackData(flag: "Save");
 
-      // Success message
       CommonFunctions.showSuccessSnackbar(
           "Success", "Feedback submitted successfully");
 
-      // Clear fields after successful submission
       clearFeedbackFields();
     } catch (e) {
-      // Log and show error
       log("Error while submitting feedback: ${e.toString()}");
       CommonFunctions.showErrorSnackbar(
           "Error", "An error occurred while submitting feedback");

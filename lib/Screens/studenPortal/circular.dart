@@ -7,7 +7,6 @@ import 'package:campuspro/Screens/style/style.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -26,6 +25,7 @@ class _StudentCircularScreenState extends State<StudentCircularScreen> {
   @override
   void initState() {
     super.initState();
+    circularController.filterCircular.value = 1;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       circularController.getStudentCircular();
     });

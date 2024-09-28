@@ -4,9 +4,7 @@ import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dar
 import 'package:campuspro/Modal/student_module/class_room_teacher_filter.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/classoom/class_room_list.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -39,7 +37,7 @@ class StudentClassroom extends StatelessWidget {
                 DropdownMenuItem<ClassRoomFilterDataListModel>(
                   value: null,
                   child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
                       child: Text("All")),
                 ),
                 ...classsRoomController.filterList
@@ -47,8 +45,13 @@ class StudentClassroom extends StatelessWidget {
                   return DropdownMenuItem<ClassRoomFilterDataListModel>(
                     value: subject,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      child: Text(subject.empSub.toString()),
+                      padding: EdgeInsets.symmetric(horizontal: 0.w),
+                      child: Text(
+                        subject.empSub.toString(),
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 12.sp, fontWeight: FontWeight.w400),
+                      ),
                     ),
                   );
                 }),

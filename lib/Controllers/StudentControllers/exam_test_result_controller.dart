@@ -13,7 +13,9 @@ class ExamTestExamResultController extends GetxController {
   ScrollController scrollController = ScrollController();
   var showloader = false.obs;
   var bottomshitopenforExamResult = false.obs;
+  var examid = ''.obs;
   var examname = ''.obs;
+
   final ExameAnalysisController exameAnalysisController =
       Get.find<ExameAnalysisController>();
   var examnameListForResult = <ExamModelForStudentResult>[].obs;
@@ -29,7 +31,6 @@ class ExamTestExamResultController extends GetxController {
   testExamResult() async {
     showloader.value = true;
     await TestExamResultRepository.getSingleExamMarksRepo().then((value) {
-      print(value);
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
           testMarksResultList.clear();
@@ -37,12 +38,15 @@ class ExamTestExamResultController extends GetxController {
           testMarksResultList.value = resultdata
               .map((json) => ExamTestResultModel.fromJson(json))
               .toList();
-
+          examname.value = testMarksResultList[0].exam;
           if (bottomshitopenforExamResult.value == true) {
             Get.back();
           }
+
           bottomshitopenforExamResult.value = false;
-          log("loader value $showloader");
+          exameAnalysisController.session.value = '';
+          examid.value = '';
+
           showloader.value = false;
         } else {
           if (bottomshitopenforExamResult.value == true) {
@@ -51,7 +55,7 @@ class ExamTestExamResultController extends GetxController {
           testMarksResultList.clear();
           showloader.value = false;
           exameAnalysisController.session.value = '';
-          exameAnalysisController.examName.value = '';
+          examid.value = '';
           bottomshitopenforExamResult.value = false;
         }
       }

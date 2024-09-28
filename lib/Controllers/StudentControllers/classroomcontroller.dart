@@ -41,14 +41,13 @@ class StudentClasssRoomController extends GetxController {
     await StudentClassRoomRepo.getClassRoomdata().then((value) async {
       if (value != null) {
         if (value['Status'] == "Cam-001") {
+          classRoomdatalist.clear();
           List<dynamic> listdata = value['Data'];
           classRoomdatalist.value = listdata
               .map((json) => StudentClassRoomModel.fromJson(json))
               .toList();
-        } else if (value['Status'] == "Cam-003") {
-          await fcmTokenController.getFCMToken();
-
-          classRoomData();
+        } else {
+          classRoomdatalist.clear();
         }
       }
     });
@@ -62,9 +61,8 @@ class StudentClasssRoomController extends GetxController {
           filterList.value = listdata
               .map((json) => ClassRoomFilterDataListModel.fromJson(json))
               .toList();
-        } else if (value['Status'] == "Cam-001") {
-          await fcmTokenController.getFCMToken();
-          filterBysubjectTecher();
+        } else {
+          filterList.clear();
         }
       }
     });
@@ -147,6 +145,7 @@ class StudentClasssRoomController extends GetxController {
           Get.snackbar(
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
+              colorText: AppColors.whitetextcolor,
               "Comments",
               "Your Comments Successfully Post");
           comment.clear();
@@ -163,6 +162,7 @@ class StudentClasssRoomController extends GetxController {
           Get.snackbar(
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
+              colorText: AppColors.whitetextcolor,
               "Comments",
               "Your Comments Successfully Post");
         } else {
@@ -174,18 +174,20 @@ class StudentClasssRoomController extends GetxController {
   }
 
   getclassRommComments(index) async {
-    final FcmTokenController fcmTokenController =
-        Get.find<FcmTokenController>();
     await StudentClassRoomRepo.getClassRoomCommentsdata(index).then((value) {
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
+          commentlist.clear();
           List<dynamic> commentdata = value['Data'];
           commentlist.value = commentdata
               .map((json) => ClassRoomCommentModel.fromJson(json))
               .toList();
 
           successcommentloader.value = false;
-        } else if (value['Status'] == 'Cam-003') {}
+        } else {
+          commentlist.clear();
+          successcommentloader.value = false;
+        }
       }
     });
   }

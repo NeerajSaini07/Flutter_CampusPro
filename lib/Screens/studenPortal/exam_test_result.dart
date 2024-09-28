@@ -29,8 +29,21 @@ class StudentExamTestResultScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Expanded(
+                    child: Obx(
+                      () => examResultController.testMarksResultList.isNotEmpty
+                          ? Text(
+                              "Exam Name : ${examResultController.examname}",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.sp,
+                                  color: AppColors.headingcolor),
+                            )
+                          : SizedBox(),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
                       examResultController.bottomshitopenforExamResult.value =
@@ -63,6 +76,8 @@ class StudentExamTestResultScreen extends StatelessWidget {
                   );
                 } else {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       studentMarksdetails(),
                       CustomeHeight(16.h),

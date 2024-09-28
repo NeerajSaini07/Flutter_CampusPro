@@ -170,10 +170,9 @@ class CommonFunctions {
         Get.find<StudentHomeWorkController>();
 
     if (Platform.isAndroid) {
-      PermissionStatus permissionStatus =
-          await Permission.manageExternalStorage.request();
+      bool permissionStatus = await requestPermission();
 
-      if (!permissionStatus.isGranted) {
+      if (!permissionStatus) {
         Get.snackbar(
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: AppColors.selfcolor,
@@ -242,5 +241,12 @@ class CommonFunctions {
       blurRadius: 2,
       offset: const Offset(0.5, 0.5),
     );
+  }
+
+  static Future<bool> requestPermission() async {
+    PermissionStatus permissionStatus1 =
+        await Permission.manageExternalStorage.request();
+    PermissionStatus permissionStatus2 = await Permission.storage.request();
+    return (permissionStatus1.isGranted || permissionStatus2.isGranted);
   }
 }

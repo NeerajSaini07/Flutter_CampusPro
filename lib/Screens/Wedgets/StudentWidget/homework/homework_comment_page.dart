@@ -9,6 +9,7 @@ import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../common_appbar.dart';
 
 class HomeworkCommets extends StatelessWidget {
@@ -24,7 +25,7 @@ class HomeworkCommets extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: customAppBar(context, title: "Comments"),
+        appBar: customAppBar(context, title: "Home Work"),
         body: Column(
           children: [
             Obx(
@@ -55,7 +56,7 @@ class HomeworkCommets extends StatelessWidget {
                                         ),
                                       ],
                                     )
-                                  : homeworkComments()),
+                                  : homeworkComments(context)),
                             ],
                           ),
                         ),
@@ -148,7 +149,7 @@ Widget commentbox(index) {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
                       isDense: true,
-                      hintText: 'Enter your comment...',
+                      hintText: 'Enter your Reply...',
                       border: InputBorder.none,
                     ),
                   ),
@@ -156,10 +157,15 @@ Widget commentbox(index) {
                 SizedBox(width: 10.w),
                 GestureDetector(
                   onTap: () {
-                    studentHomeWorkController.addcommentsonHomeWork(index);
+                    (studentHomeWorkController.commentfile.isEmpty &&
+                            studentHomeWorkController
+                                .commentcontroller.text.isEmpty)
+                        ? null
+                        : studentHomeWorkController
+                            .addcommentsonHomeWork(index);
                   },
                   child: CircleAvatar(
-                    radius: 20.r,
+                    radius: 16.r,
                     backgroundColor: AppColors.appbuttonColor,
                     child: Icon(
                       Icons.send,
@@ -236,96 +242,202 @@ Widget Homeworkdata(index) {
 
 //  ***************************************  homework comment area **************************
 
-Widget homeworkComments() {
+Widget homeworkComments(BuildContext context) {
   final DownloadService downloadService = Get.find<DownloadService>();
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
-
   final UserTypeController userTypeController = Get.find<UserTypeController>();
+  final DateFormat dateFormat = DateFormat('MMM dd yyyy  hh:mma');
 
-  return Padding(
-    padding: EdgeInsets.only(left: 20.w),
-    child: Column(
-      children: List.generate(studentHomeWorkController.homeworkcomments.length,
-          (index) {
-        final comment = studentHomeWorkController.homeworkcomments[index];
-        if (studentHomeWorkController.homeworkbydate.isEmpty) {
-          return const Center(
-            child: Text("Not Comments Avaliable"),
-          );
-        } else {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 243, 235, 235),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(8.r),
-                  bottomRight: Radius.circular(8.r),
-                  topRight: Radius.circular(8.r),
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        comment.userType.toString().toLowerCase() == 's'
-                            ? Text(
-                                UserTypeslist
-                                    .userTypesDetails[
-                                        userTypeController.usertypeIndex]
-                                    .stuEmpName
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.blackcolor,
-                                ),
-                              )
-                            : Text(
-                                "Teacher",
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.green,
-                                ),
-                              ),
-                        Obx(() => studentHomeWorkController
-                                .homeworkcomments[index].fileUrl!.isNotEmpty
-                            ? GestureDetector(
-                                onTap: () {
-                                  downloadService.downloadFile(
-                                      studentHomeWorkController
-                                          .homeworkbydate[index].homeworkURL
-                                          .toString());
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor: AppColors.appbuttonColor,
-                                  radius: 15.r,
-                                  child: const Icon(
-                                    Icons.download,
-                                    color: AppColors.whitetextcolor,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox())
-                      ],
-                    ),
-                    SizedBox(height: 6.h),
-                    Text(comment.comment.toString()),
-                  ],
+  bool hasTodayHeading = false;
+  bool hasYesterdayHeading = false;
+
+  return Column(
+    children: List.generate(studentHomeWorkController.homeworkcomments.length,
+        (index) {
+      final comment = studentHomeWorkController.homeworkcomments[index];
+      DateTime? commentDate;
+
+      try {
+        commentDate = dateFormat.parse(comment.commentDate1!.trim());
+      } catch (e) {
+        return const Center(
+          child: Text("Invalid Date Format"),
+        );
+      }
+
+      final DateTime today = DateTime.now();
+      final bool isToday = commentDate.day == today.day &&
+          commentDate.month == today.month &&
+          commentDate.year == today.year;
+      final bool isYesterday =
+          commentDate.day == today.subtract(const Duration(days: 1)).day &&
+              commentDate.month == today.month &&
+              commentDate.year == today.year;
+
+      bool isStudent = comment.userType.toString().toLowerCase() == 's';
+      Alignment commentAlignment =
+          isStudent ? Alignment.centerRight : Alignment.centerLeft;
+
+      if (studentHomeWorkController.homeworkbydate.isEmpty) {
+        return const Center(
+          child: Text("No Comments Available"),
+        );
+      } else {
+        List<Widget> widgets = [];
+
+        // Add heading for "Today"
+        if (isToday && !hasTodayHeading) {
+          hasTodayHeading = true;
+          widgets.add(
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: Center(
+                child: Text(
+                  "Today",
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.appbuttonColor),
                 ),
               ),
             ),
           );
         }
-      }),
-    ),
+
+        // *************** Add heading for "Yesterday" ********************
+        if (isYesterday && !hasYesterdayHeading) {
+          hasYesterdayHeading = true;
+          widgets.add(
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: Center(
+                child: Text(
+                  "Yesterday",
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.appbuttonColor),
+                ),
+              ),
+            ),
+          );
+        }
+
+        // *********************   Add date for other comments *********************
+        if (!isToday && !isYesterday) {
+          if (index == 0 ||
+              (index > 0 &&
+                  commentDate.day !=
+                      dateFormat
+                          .parse(studentHomeWorkController
+                              .homeworkcomments[index - 1].commentDate1!
+                              .trim())
+                          .day)) {
+            widgets.add(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                child: Center(
+                  child: Text(
+                    "${commentDate.day}-${commentDate.month}-${commentDate.year}",
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.appbuttonColor),
+                  ),
+                ),
+              ),
+            );
+          }
+        }
+
+        //  ******************  Comment content with **********************
+        widgets.add(
+          Align(
+            alignment: commentAlignment,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.75,
+                decoration: BoxDecoration(
+                  color: isStudent
+                      ? const Color.fromARGB(255, 243, 235, 235)
+                      : Colors.green.withOpacity(0.1),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8.r),
+                    bottomRight: Radius.circular(8.r),
+                    topRight: isStudent ? Radius.circular(8.r) : Radius.zero,
+                    topLeft: isStudent ? Radius.zero : Radius.circular(8.r),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            isStudent
+                                ? UserTypeslist
+                                    .userTypesDetails[
+                                        userTypeController.usertypeIndex]
+                                    .stuEmpName
+                                    .toString()
+                                : "Teacher",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                              color: isStudent
+                                  ? AppColors.blackcolor
+                                  : Colors.green,
+                            ),
+                          ),
+                          Obx(() => studentHomeWorkController
+                                  .homeworkcomments[index].fileUrl!.isNotEmpty
+                              ? GestureDetector(
+                                  onTap: () {
+                                    downloadService.downloadFile(
+                                        studentHomeWorkController
+                                            .homeworkbydate[index].homeworkURL
+                                            .toString());
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: AppColors.appbuttonColor,
+                                    radius: 15.r,
+                                    child: const Icon(
+                                      Icons.download,
+                                      color: AppColors.whitetextcolor,
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox()),
+                        ],
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(comment.comment.toString()),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          DateFormat('hh:mm a').format(
+                              commentDate), // Show time of comment at the bottom right
+                          style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: widgets,
+        );
+      }
+    }),
   );
 }

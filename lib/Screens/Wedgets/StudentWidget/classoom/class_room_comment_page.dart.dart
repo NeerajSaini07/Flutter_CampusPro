@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ClassRoomComments extends StatelessWidget {
   final int index;
@@ -26,7 +27,7 @@ class ClassRoomComments extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: customAppBar(context, title: "Comments"),
+        appBar: customAppBar(context, title: "Class Room"),
         body: Column(
           children: [
             Obx(
@@ -52,7 +53,7 @@ class ClassRoomComments extends StatelessWidget {
                                             color: Colors.grey),
                                       ),
                                     )
-                                  : commentarea(),
+                                  : commentarea(context),
                             ],
                           ),
                         ),
@@ -140,7 +141,7 @@ Widget commentbox(index) {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
                       isDense: true,
-                      hintText: 'Enter your comment...',
+                      hintText: 'Enter your Reply...',
                       border: InputBorder.none,
                     ),
                   ),
@@ -155,7 +156,7 @@ Widget commentbox(index) {
                         : null;
                   },
                   child: CircleAvatar(
-                    radius: 20.r,
+                    radius: 16.r,
                     backgroundColor: AppColors.appbuttonColor,
                     child: Icon(
                       Icons.send,
@@ -212,93 +213,183 @@ Widget classRoomdata(index) {
 
 //  ************************************** comment data *********************
 
-Widget commentarea() {
+Widget commentarea(BuildContext context) {
   final StudentClasssRoomController studentClasssRoomController =
       Get.find<StudentClasssRoomController>();
-
   final UserTypeController userTypeController = Get.find<UserTypeController>();
-
   final DownloadService downloadService = Get.find<DownloadService>();
+  final DateFormat dateFormat = DateFormat('MMM dd yyyy hh:mma');
 
-  return Padding(
-    padding: EdgeInsets.only(left: 20.w),
-    child: Column(
-      children: List.generate(
-          studentClasssRoomController.commentlist.reversed.toList().length,
-          (index) {
-        final comment = studentClasssRoomController.commentlist[index];
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 243, 235, 235),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8.r),
-                bottomRight: Radius.circular(8.r),
-                topRight: Radius.circular(8.r),
-              ),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      comment.userType.toString().toLowerCase() == 's'
-                          ? Text(
-                              UserTypeslist
-                                  .userTypesDetails[
-                                      userTypeController.usertypeIndex]
-                                  .stuEmpName
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.blackcolor,
-                              ),
-                            )
-                          : Text(
-                              "Teacher",
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.green,
-                              ),
-                            ),
-                      Obx(() => studentClasssRoomController
-                              .commentlist[index].fileUrl!.isNotEmpty
-                          ? GestureDetector(
-                              onTap: () {
-                                downloadService.downloadFile(
-                                    studentClasssRoomController
-                                        .classRoomdatalist[index]
-                                        .circularFileUrl
-                                        .toString());
-                              },
-                              child: CircleAvatar(
-                                backgroundColor: AppColors.appbuttonColor,
-                                radius: 15.r,
-                                child: Icon(
-                                  Icons.download,
-                                  color: AppColors.whitetextcolor,
-                                ),
-                              ),
-                            )
-                          : SizedBox())
-                    ],
-                  ),
-                  SizedBox(height: 6.h),
-                  Text(comment.comment.toString()),
-                ],
+  bool hasTodayHeading = false;
+  bool hasYesterdayHeading = false;
+
+  return Column(
+    children: List.generate(
+        studentClasssRoomController.commentlist.toList().length, (index) {
+      final comment = studentClasssRoomController.commentlist[index];
+      DateTime? commentDate;
+      commentDate =
+          dateFormat.parse(comment.commentDate1!.replaceAll('  ', ' '));
+
+      final DateTime today = DateTime.now();
+      final bool isToday = commentDate.day == today.day &&
+          commentDate.month == today.month &&
+          commentDate.year == today.year;
+      final bool isYesterday =
+          commentDate.day == today.subtract(const Duration(days: 1)).day &&
+              commentDate.month == today.month &&
+              commentDate.year == today.year;
+
+      bool isStudent = comment.userType.toString().toLowerCase() == 's';
+      Alignment commentAlignment =
+          isStudent ? Alignment.centerRight : Alignment.centerLeft;
+
+      List<Widget> widgets = [];
+
+      if (isToday && !hasTodayHeading) {
+        hasTodayHeading = true;
+        widgets.add(
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Center(
+              child: Text(
+                "Today",
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
             ),
           ),
         );
-      }),
-    ),
+      }
+
+      if (isYesterday && !hasYesterdayHeading) {
+        hasYesterdayHeading = true;
+        widgets.add(
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Center(
+              child: Text(
+                "Yesterday",
+                style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.appbuttonColor),
+              ),
+            ),
+          ),
+        );
+      }
+
+      if (!isToday && !isYesterday) {
+        if (index == 0 ||
+            (index > 0 &&
+                commentDate.day !=
+                    dateFormat
+                        .parse(studentClasssRoomController
+                            .commentlist[index - 1].commentDate1!
+                            .trim()
+                            .replaceAll('  ', ' '))
+                        .day)) {
+          widgets.add(
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: Center(
+                child: Text(
+                  "${commentDate.day}-${commentDate.month}-${commentDate.year}",
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.appbuttonColor),
+                ),
+              ),
+            ),
+          );
+        }
+      }
+
+      widgets.add(
+        Align(
+          alignment: commentAlignment,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.75,
+              decoration: BoxDecoration(
+                color: isStudent
+                    ? const Color.fromARGB(255, 243, 235, 235)
+                    : Colors.green.withOpacity(0.1),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(8.r),
+                  bottomRight: Radius.circular(8.r),
+                  topRight: isStudent ? Radius.circular(8.r) : Radius.zero,
+                  topLeft: isStudent ? Radius.zero : Radius.circular(8.r),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          isStudent
+                              ? UserTypeslist
+                                  .userTypesDetails[
+                                      userTypeController.usertypeIndex]
+                                  .stuEmpName
+                                  .toString()
+                              : "Teacher",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            color:
+                                isStudent ? AppColors.blackcolor : Colors.green,
+                          ),
+                        ),
+                        Obx(() => studentClasssRoomController
+                                .commentlist[index].fileUrl!.isNotEmpty
+                            ? GestureDetector(
+                                onTap: () {
+                                  downloadService.downloadFile(
+                                      studentClasssRoomController
+                                          .classRoomdatalist[index]
+                                          .circularFileUrl
+                                          .toString());
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: AppColors.appbuttonColor,
+                                  radius: 15.r,
+                                  child: const Icon(
+                                    Icons.download,
+                                    color: AppColors.whitetextcolor,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox()),
+                      ],
+                    ),
+                    SizedBox(height: 6.h),
+                    Text(comment.comment.toString()),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        DateFormat('hh:mm a').format(commentDate),
+                        style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: widgets,
+      );
+    }),
   );
 }
