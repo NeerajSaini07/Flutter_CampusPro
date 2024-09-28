@@ -10,7 +10,7 @@ AxisTitles bottomListForResultGraph(List<ExamTestResultModel> subject) {
   return AxisTitles(
     sideTitles: SideTitles(
       showTitles: true,
-      reservedSize: 60.h,
+      reservedSize: 40.h,
       interval: 1,
       getTitlesWidget: (value, meta) {
         int index = value.toInt();
@@ -32,13 +32,6 @@ AxisTitles bottomListForResultGraph(List<ExamTestResultModel> subject) {
                     color: AppColors.appbuttonColor,
                   ),
                 ),
-                Text(
-                  "(${subject[index].exam})",
-                  style: TextStyle(
-                      fontSize: 6.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.headingcolor),
-                )
               ],
             ),
           );

@@ -8,7 +8,9 @@ Widget studentMarksdetails() {
   final ExamTestExamResultController examResultController =
       Get.find<ExamTestExamResultController>();
   return Container(
-    height: 300.h,
+    height: examResultController.testMarksResultList.length <= 1
+        ? 100.h
+        : examResultController.testMarksResultList.length * 45.h,
     decoration: BoxDecoration(border: Border.all(width: 0.1)),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,

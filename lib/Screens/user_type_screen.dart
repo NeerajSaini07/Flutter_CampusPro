@@ -225,6 +225,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                           final pagename = UserTypeslist
                                               .userTypesDetails[index].ouserType
                                               .toString();
+
                                           // appbarController.appBarName.value =
                                           //     "Dashboard";
                                           await userTypeController

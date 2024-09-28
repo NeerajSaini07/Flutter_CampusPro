@@ -79,13 +79,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
         Get.find<NotificationController>();
 
     return Obx(() {
+      if (index < 0 ||
+          index >= notificationController.notificationList.length) {
+        return const SizedBox(); // Return an empty widget or handle gracefully
+      }
+
+      bool isExpanded = (index < notificationController.isExpandedList.length)
+          ? notificationController.isExpandedList[index] ?? false
+          : false;
+
       final notification = notificationController.notificationList[index];
-      bool isExpanded = notificationController.isExpandedList[index] ?? false;
+
       String message = notification.alertMessage.toString();
 
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        margin: const EdgeInsets.only(bottom: 10), // Add margin for spacing
+        margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),

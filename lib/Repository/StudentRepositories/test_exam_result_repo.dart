@@ -42,8 +42,8 @@ class TestExamResultRepository {
               .toString(),
       "StudentID":
           UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
-      "ExamId": examResultController.examname.isNotEmpty
-          ? examResultController.examname.value.toString()
+      "ExamId": examResultController.examid.isNotEmpty
+          ? examResultController.examid.value.toString()
           : examResultController.examnameListForResult.first.examId.toString()
     };
 

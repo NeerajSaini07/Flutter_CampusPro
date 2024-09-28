@@ -85,10 +85,8 @@ modalBottomSheetMenuFroTestResult(BuildContext context) {
                         }).toList(),
                         onChanged: (ExamModelForStudentResult? examnameModel) {
                           if (examnameModel != null) {
-                            examResultController.examname.value =
+                            examResultController.examid.value =
                                 examnameModel.examId.toString();
-                            // exam.examName.value =
-                            //     examnameModel.examId.toString();
                           }
                         },
                       ),
@@ -107,10 +105,11 @@ modalBottomSheetMenuFroTestResult(BuildContext context) {
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                     ),
-                    onPressed: (exameAnalysisController.session.value.isEmpty ||
-                            examResultController.examname.isEmpty)
-                        ? null
-                        : examResultController.testExamResult(),
+                    onPressed:
+                        (exameAnalysisController.session.value.isNotEmpty &&
+                                examResultController.examid.value.isNotEmpty)
+                            ? examResultController.testExamResult
+                            : null,
                     child: Text(
                       "Apply Filter",
                       style: TextStyle(
@@ -121,31 +120,6 @@ modalBottomSheetMenuFroTestResult(BuildContext context) {
                     ),
                   ),
                 ),
-                Obx(() => exameAnalysisController.removefilter.value
-                    ? SizedBox(
-                        width: 10.w,
-                      )
-                    : SizedBox()),
-                Obx(() => exameAnalysisController.removefilter.value
-                    ? ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: AppColors.appbuttonColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.r))),
-                        onPressed: () {
-                          exameAnalysisController.showSingleExamGhraph.value =
-                              false;
-                          exameAnalysisController.removefilter.value = false;
-                          exameAnalysisController.analysisdata();
-                          Get.back();
-                        },
-                        child: Text("Remove Filter",
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.whitetextcolor)))
-                    : SizedBox())
               ])
             ],
           ),

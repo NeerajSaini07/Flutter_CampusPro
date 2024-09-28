@@ -6,9 +6,26 @@ import 'package:campuspro/Screens/Wedgets/StudentWidget/homework/homeworklist.da
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:table_calendar/table_calendar.dart';
 
-class HomeworkScreen extends StatelessWidget {
+class HomeworkScreen extends StatefulWidget {
   const HomeworkScreen({super.key});
+
+  @override
+  State<HomeworkScreen> createState() => _HomeworkScreenState();
+}
+
+class _HomeworkScreenState extends State<HomeworkScreen> {
+  final StudentHomeWorkController studentHomeWorkController =
+      Get.find<StudentHomeWorkController>();
+
+  @override
+  void initState() {
+    studentHomeWorkController.calendarFormat = CalendarFormat.week.obs;
+    studentHomeWorkController.selectedDay = DateTime.now().obs;
+    studentHomeWorkController.focuseddate = DateTime.now().obs;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

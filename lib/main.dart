@@ -47,8 +47,8 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // const baseUrl = 'https://fmobiledev.campuspro.in/api/';
-  const baseUrl = 'https://fmobile.campuspro.in/api/';
+  const baseUrl = 'https://fmobiledev.campuspro.in/api/';
+  //const baseUrl = 'https://fmobile.campuspro.in/api/';
   APIENDPOINT.configure(baseUrl);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

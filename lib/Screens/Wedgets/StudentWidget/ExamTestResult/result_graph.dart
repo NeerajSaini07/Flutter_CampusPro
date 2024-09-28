@@ -22,8 +22,8 @@ Widget resultGraph(BuildContext context) {
           controller: examResultController.scrollController,
           scrollDirection: Axis.horizontal,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
@@ -55,7 +55,7 @@ Widget resultGraph(BuildContext context) {
                               examResultController.testMarksResultList.length *
                               (MediaQuery.of(context).size.width < 380
                                   ? 0.18.w
-                                  : 0.15.w),
+                                  : 0.16.w),
                       height: 250.h,
                       child: AspectRatio(
                         aspectRatio: 1.4,
@@ -72,12 +72,16 @@ Widget resultGraph(BuildContext context) {
                                   sideTitles: SideTitles(showTitles: false)),
                               leftTitles: AxisTitles(
                                 sideTitles: SideTitles(
-                                  reservedSize: 30.w,
+                                  reservedSize: 25.w,
                                   showTitles: true,
                                   getTitlesWidget: (value, meta) {
                                     return Text(
                                       value.toInt().toString(),
                                       textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.appbuttonColor),
                                     );
                                   },
                                 ),

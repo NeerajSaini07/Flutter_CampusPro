@@ -117,10 +117,11 @@ class StudentHomeWorkController extends GetxController {
           showfileoncomment.value = false;
           commentcontroller.clear();
           filename.value = '';
+          commentfile.value = '';
           Get.snackbar(
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
-              colorText: AppColors.blackcolor,
+              colorText: AppColors.whitetextcolor,
               "Homework Reply",
               "Your Reply has been succesfully Submitted");
           studenthomeworkReply(index);
@@ -133,7 +134,7 @@ class StudentHomeWorkController extends GetxController {
           Get.snackbar(
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
-              colorText: AppColors.blackcolor,
+              colorText: AppColors.whitetextcolor,
               "Homework Reply",
               "Your Reply has been succesfully Submitted");
         } else {
