@@ -247,7 +247,7 @@ Widget homeworkComments(BuildContext context) {
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
   final UserTypeController userTypeController = Get.find<UserTypeController>();
-  final DateFormat dateFormat = DateFormat('MMM dd yyyy  hh:mma');
+  final DateFormat dateFormat = DateFormat('MMM dd yyyy hh:mma');
 
   bool hasTodayHeading = false;
   bool hasYesterdayHeading = false;
@@ -257,14 +257,8 @@ Widget homeworkComments(BuildContext context) {
         (index) {
       final comment = studentHomeWorkController.homeworkcomments[index];
       DateTime? commentDate;
-
-      try {
-        commentDate = dateFormat.parse(comment.commentDate1!.trim());
-      } catch (e) {
-        return const Center(
-          child: Text("Invalid Date Format"),
-        );
-      }
+      commentDate =
+          dateFormat.parse(comment.commentDate1!.trim().replaceAll('  ', ' '));
 
       final DateTime today = DateTime.now();
       final bool isToday = commentDate.day == today.day &&
@@ -332,7 +326,8 @@ Widget homeworkComments(BuildContext context) {
                       dateFormat
                           .parse(studentHomeWorkController
                               .homeworkcomments[index - 1].commentDate1!
-                              .trim())
+                              .trim()
+                              .replaceAll('  ', ' '))
                           .day)) {
             widgets.add(
               Padding(

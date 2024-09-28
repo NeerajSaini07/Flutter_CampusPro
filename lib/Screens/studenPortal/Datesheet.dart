@@ -6,10 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class StudentDateSheetScreen extends StatelessWidget {
-  StudentDateSheetScreen({super.key});
+class StudentDateSheetScreen extends StatefulWidget {
+  const StudentDateSheetScreen({super.key});
+
+  @override
+  State<StudentDateSheetScreen> createState() => _StudentDateSheetScreenState();
+}
+
+class _StudentDateSheetScreenState extends State<StudentDateSheetScreen> {
   final StudentDatesheetController studentDatesheetController =
       Get.find<StudentDatesheetController>();
+
+  @override
+  void initState() {
+    super.initState();
+    studentDatesheetController.fetchDatesheetsData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +30,17 @@ class StudentDateSheetScreen extends StatelessWidget {
       body: Obx(() {
         if (studentDatesheetController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
+        }
+
+        if (studentDatesheetController.filteredDateSheet.isEmpty) {
+          return Center(
+              child: Text(
+            "No Data found",
+            style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.headingcolor),
+          ));
         }
         return ListView(
           padding: EdgeInsets.only(top: 12.h),

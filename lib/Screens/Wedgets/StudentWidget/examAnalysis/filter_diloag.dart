@@ -58,15 +58,24 @@ modalBottomSheetMenu(BuildContext context) {
                         if (sessionModel != null) {
                           exameAnalysisController.session.value =
                               sessionModel.id.toString();
+                          exameAnalysisController.examName.value = '';
+                          exameAnalysisController.examnameList.clear();
                           await exameAnalysisController.getExamData();
                         }
                       },
                     ),
                   ),
-                  SizedBox(width: 10), // Add spacing between the dropdowns
+                  const SizedBox(
+                      width: 10), // Add spacing between the dropdowns
                   Expanded(
                     child: Obx(
                       () => DropdownButtonFormField(
+                        value: exameAnalysisController.examName.isEmpty
+                            ? null
+                            : exameAnalysisController.examnameList.firstWhere(
+                                (exam) =>
+                                    exam.examId.toString() ==
+                                    exameAnalysisController.examName.value),
                         decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(
                                 top: 10.h,

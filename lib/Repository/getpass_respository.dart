@@ -377,7 +377,8 @@ class GetPassRepository {
           UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
       'UserType':
           UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
-      "ID": GatePassHistory.gatePassHistoryList[index].id.toString()
+      "Id": GatePassHistory.gatePassHistoryList[index].id.toString(),
+      "StudentId": GatePassHistory.gatePassHistoryList[index].stuId.toString(),
     };
 
     log(sendingData.toString());

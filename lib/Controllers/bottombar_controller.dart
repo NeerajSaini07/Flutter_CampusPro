@@ -115,7 +115,10 @@ class BottomBarController extends GetxController {
         .toString();
     List<Widget> screens = [];
 
-    if (userType != 'L' && userType != 'W' && userType != 'G') {
+    if (userType != 'L' &&
+        userType != 'W' &&
+        userType != 'G' &&
+        userType != 'A') {
       screens.add(webController.showWebViewScreen.value
           ? WebViewDashboardPage()
           : UserDashboard());
@@ -123,21 +126,20 @@ class BottomBarController extends GetxController {
       screens.add(webController.showWebViewScreen.value
           ? WebViewDashboardPage()
           : GatePassDashboard());
+    } else if (userType != 'A') {
+      screens.add(WebViewDashboardPage());
     } else {
       screens.add(WebViewDashboardPage());
     }
 
-    // Add common screens
     screens.addAll([
       UserTypeScreen(),
     ]);
 
-    // Conditionally add screens based on additional logic
     if (showChat.value) {
       screens.add(WebViewDashboardPage());
     }
 
-    // Add remaining common screens
     screens.add(HelpAndSupportScreen());
 
     return screens;

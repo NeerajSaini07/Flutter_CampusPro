@@ -29,7 +29,7 @@ class APIENDPOINT {
   static const saveVisitorGatePassApi = "updateVisitorDetailV1";
   static const getVisitorListApi = "getVisitorListToday_V1";
   static const markVisitorExitApi = "markVisitorExit_V1";
-  static const markGatePassExitApi = "markGatePassExit";
+  static const markGatePassExitApi = "markGatePassExit_V1";
   static const verifyIdGatePass = "updateVisitorIdProofV1";
   static const getGatePassHistoryApi = "getGatePasssListToday_V1";
 

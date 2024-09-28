@@ -40,7 +40,6 @@ class AppRouting extends GetxService {
 
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
-
   final ExamTestExamResultController examResultController =
       Get.find<ExamTestExamResultController>();
 
@@ -60,7 +59,9 @@ class AppRouting extends GetxService {
           webController.showWebViewScreen.value = true;
         }
       }
-    } else {
+    } else if (UserTypeslist
+            .userTypesDetails[userTypeController.usertypeIndex].ouserType ==
+        'S') {
       webController.showWebViewScreen.value = false;
       switch (name) {
         case "Student Bus Location":
@@ -103,16 +104,9 @@ class AppRouting extends GetxService {
           break;
 
         case "ClassRoom":
-          if (UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
-                  .ouserType ==
-              'S') {
-            await studentClasssRoomController.filterBysubjectTecher();
-            Get.toNamed(Routes.studentClassRomm);
-          } else {
-            webController.generateWebUrl(pageurl, name);
-            appbarController.appBarName.value = name;
-            webController.showWebViewScreen.value = true;
-          }
+          await studentClasssRoomController.filterBysubjectTecher();
+          Get.toNamed(Routes.studentClassRomm);
+
           break;
 
         case "Circular":
@@ -128,24 +122,12 @@ class AppRouting extends GetxService {
           break;
 
         case "Exam Analysis":
-          if (UserTypeslist.userTypesDetails[userTypeController.usertypeIndex]
-                  .ouserType ==
-              'S') {
-            exameAnalysisController.showSingleExamGhraph.value = false;
-            examResultController.bottomshitopenforExamResult.value = false;
-            exameAnalysisController.removefilter.value = false;
-            Get.toNamed(Routes.studentexamAnalysis);
-            // webController.showWebViewScreen.value = false;
-          } else {
-            webController.generateWebUrl(pageurl, name);
-            if (pageurl.toString().contains('Index.aspx')) {
-              appbarController.appBarName.value = Constant.schoolName;
-              // webController.showWebViewScreen.value = false;
-            } else {
-              appbarController.appBarName.value = name;
-              webController.showWebViewScreen.value = true;
-            }
-          }
+          exameAnalysisController.showSingleExamGhraph.value = false;
+          examResultController.bottomshitopenforExamResult.value = false;
+          exameAnalysisController.removefilter.value = false;
+          Get.toNamed(Routes.studentexamAnalysis);
+          // webController.showWebViewScreen.value = false;
+
           break;
 
         case "Exam/Test Result":
@@ -199,6 +181,19 @@ class AppRouting extends GetxService {
             }
           }
           break;
+      }
+    } else if (name == 'Alert & Notification' || name == 'Notification') {
+      notificationController.removeFilter.value = false;
+      Get.to(() => const NotificationScreen());
+      notificationController.getNotification();
+    } else {
+      webController.generateWebUrl(pageurl, name);
+      if (pageurl.toString().contains('Index.aspx')) {
+        appbarController.appBarName.value = Constant.schoolName;
+        webController.showWebViewScreen.value = false;
+      } else {
+        appbarController.appBarName.value = name;
+        webController.showWebViewScreen.value = true;
       }
     }
   }
