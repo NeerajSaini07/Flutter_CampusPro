@@ -119,6 +119,7 @@ AppBar customAppBar(BuildContext context,
                                                   .ouserType
                                                   .toString() ==
                                               "S") {
+                                            Navigator.pop(context);
                                             Get.toNamed(
                                                 Routes.studentProfileScreen);
                                           } else {

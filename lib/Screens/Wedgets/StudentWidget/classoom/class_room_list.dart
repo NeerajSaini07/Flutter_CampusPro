@@ -6,7 +6,6 @@ import 'package:campuspro/Screens/Wedgets/StudentWidget/classoom/class_room_comm
 import 'package:campuspro/Screens/Wedgets/StudentWidget/common_text_style.dart';
 import 'package:campuspro/Screens/Wedgets/custom_width.dart';
 import 'package:campuspro/Services/downloadService/download_service.dart';
-import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/gestures.dart';

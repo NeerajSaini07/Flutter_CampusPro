@@ -75,6 +75,7 @@ dependencies:
   image_cropper: ^8.0.1
   file_picker: ^8.0.5
   file_selector: ^1.0.3
+  new_version_plus: ^0.0.12
 dependency_overrides:
   webview_flutter_android: 3.16.1
 
