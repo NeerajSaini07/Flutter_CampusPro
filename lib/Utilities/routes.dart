@@ -32,4 +32,5 @@ class Routes {
   static const String studentexamTestResultScreen =
       '/StudentExamTestResultScreen';
   static const String studentCalendarScreen = '/studentCalendarScreen';
+  static const String teacherRemarkScreen = '/teacherRemarkScreen';
 }

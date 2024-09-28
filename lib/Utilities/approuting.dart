@@ -80,8 +80,6 @@ class AppRouting extends GetxService {
         case "Notification":
           Get.to(() => const NotificationScreen());
           notificationController.getNotification();
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
         case "Leave Detail":
         case "Leave Request":
@@ -101,9 +99,6 @@ class AppRouting extends GetxService {
           await studentHomeWorkController.markgreenhomedate();
           studentHomeWorkController.gethomeworkbydate();
           Get.to(() => const HomeworkScreen());
-
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
 
         case "ClassRoom":
@@ -112,10 +107,9 @@ class AppRouting extends GetxService {
               'S') {
             await studentClasssRoomController.filterBysubjectTecher();
             Get.toNamed(Routes.studentClassRomm);
-            appbarController.appBarName.value = name;
-            webController.showWebViewScreen.value = false;
           } else {
             webController.generateWebUrl(pageurl, name);
+            appbarController.appBarName.value = name;
             webController.showWebViewScreen.value = true;
           }
           break;
@@ -140,12 +134,12 @@ class AppRouting extends GetxService {
             examResultController.bottomshitopenforExamResult.value = false;
             exameAnalysisController.removefilter.value = false;
             Get.toNamed(Routes.studentexamAnalysis);
-            webController.showWebViewScreen.value = false;
+            // webController.showWebViewScreen.value = false;
           } else {
             webController.generateWebUrl(pageurl, name);
             if (pageurl.toString().contains('Index.aspx')) {
               appbarController.appBarName.value = Constant.schoolName;
-              webController.showWebViewScreen.value = false;
+              // webController.showWebViewScreen.value = false;
             } else {
               appbarController.appBarName.value = name;
               webController.showWebViewScreen.value = true;
@@ -163,7 +157,6 @@ class AppRouting extends GetxService {
         case "Transport":
         case "Transport Detail":
           Get.toNamed(Routes.transportScreen);
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Time Table":
@@ -172,22 +165,21 @@ class AppRouting extends GetxService {
               Get.find<StudenttimetableController>();
           timeTableController.expandedStates.value = {};
           Get.toNamed(Routes.studenttimeTable);
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Feedback":
           Get.toNamed(Routes.feedback);
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = false;
           break;
         case "Date Sheet":
           Get.toNamed(Routes.studentdatesheet);
-          webController.showWebViewScreen.value = false;
           break;
 
         case "Profile":
           Get.toNamed(Routes.studentProfileScreen);
+          break;
+
+        case "Teacher Remark":
+          Get.toNamed(Routes.teacherRemarkScreen);
           break;
 
         default:

@@ -14,8 +14,7 @@ class StudentProfileController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    tabController = TabController(length: 2, vsync: this);
-    // tabController.addListener(_handleTabSelection);
+    tabController = TabController(length: 2, vsync: this, initialIndex: 1);
   }
 
   getStudentDetails() async {
