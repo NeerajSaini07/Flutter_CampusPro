@@ -1,4 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:campuspro/Controllers/notificationController.dart';
+import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
@@ -20,55 +23,64 @@ class _NotificationScreenState extends State<NotificationScreen> {
     final NotificationController notificationController =
         Get.find<NotificationController>();
 
-    return Scaffold(
-      appBar: customAppBar(context, title: "Notifications"),
-      backgroundColor: AppColors.whitetextcolor,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    return displayBottomSheet(context);
-                  },
-                  child: Image.asset(
-                    Constant.filtericon,
-                    fit: BoxFit.cover,
-                    height: 20.h,
-                    width: 20.w,
+    final WebController webController = Get.find<WebController>();
+
+    return WillPopScope(
+      onWillPop: () async {
+        webController.showWebViewScreen.value = false;
+        return true;
+      },
+      child: Scaffold(
+        appBar: customAppBar(context, title: "Notifications"),
+        backgroundColor: AppColors.whitetextcolor,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      return displayBottomSheet(context);
+                    },
+                    child: Image.asset(
+                      Constant.filtericon,
+                      fit: BoxFit.cover,
+                      height: 20.h,
+                      width: 20.w,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Obx(
-                () => notificationController.notificationloader.value
-                    ? const Center(child: CircularProgressIndicator.adaptive())
-                    : notificationController.notificationList.isEmpty
-                        ? const Center(
-                            child: Text("Notification Not Availabe"),
-                          )
-                        : ListView.builder(
-                            itemCount:
-                                notificationController.notificationList.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r)),
-                                    child: buildNotificationTile(index)),
-                              );
-                            },
-                          ),
+                ],
               ),
-            ),
-          ],
+              Expanded(
+                child: Obx(
+                  () => notificationController.notificationloader.value
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive())
+                      : notificationController.notificationList.isEmpty
+                          ? const Center(
+                              child: Text("Notification Not Availabe"),
+                            )
+                          : ListView.builder(
+                              itemCount: notificationController
+                                  .notificationList.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r)),
+                                      child: buildNotificationTile(index)),
+                                );
+                              },
+                            ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

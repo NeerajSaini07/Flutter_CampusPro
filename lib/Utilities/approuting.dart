@@ -40,12 +40,11 @@ class AppRouting extends GetxService {
 
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
-
   final ExamTestExamResultController examResultController =
       Get.find<ExamTestExamResultController>();
 
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
-    if (whereToOpenFlag == "W") {
+    if (whereToOpenFlag != "W") {
       if (pageurl == '') {
         pageurl = 'Index.aspx';
         appbarController.appBarName.value = Constant.schoolName;

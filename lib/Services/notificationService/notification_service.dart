@@ -12,7 +12,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 @pragma('vm:entry-point')
 Future<void> onDidReceiveNotificationResponse(
     NotificationResponse response) async {
-  // Handle notification tap
   final payload = response.payload;
   if (payload != null) {
     await openFile(payload).then((value) {
