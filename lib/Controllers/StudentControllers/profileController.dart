@@ -21,6 +21,7 @@ class StudentProfileController extends GetxController
     await StudentProfileRepo.studentDetailRepo().then((value) {
       if (value['Status'] == "Cam-001") {
         List<dynamic> studentData = value['Data'];
+        log(studentData.toString());
         StudentDetaillist.studentdetails = studentData
             .map((json) => StudentDetailModel.fromJson(json))
             .toList();

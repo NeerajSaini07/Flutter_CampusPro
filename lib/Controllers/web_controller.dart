@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'dart:developer';
+
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
@@ -40,6 +42,7 @@ class WebController extends GetxController {
     await fcmTokenController.getFCMToken();
     await GenerateUrlRepository.getGenerateUrl(pageurl, pageName).then((value) {
       if (value != null) {
+        log(value.toString());
         WebUrlModel webUrlModel = WebUrlModel.fromJson(value);
         WebUrlList.urlListProperties = [webUrlModel];
 

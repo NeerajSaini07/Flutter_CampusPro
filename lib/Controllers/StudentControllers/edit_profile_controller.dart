@@ -306,12 +306,7 @@ class StudentEditProfileController extends GetxController
       type: FileType.custom,
       allowedExtensions: ['pdf', 'jpg', 'jpeg'],
     );
-    // XFile? pickedFile;
-    // pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedPdf != null) {
-      // final String fileExtension =
-      //     pickedPdf.files.single.path!.split('.').last.toLowerCase();
-      // if (fileExtension == 'jpg' || fileExtension == 'pdf') {
       final response = await StudentProfileRepo.uploadStudentDocumentRepo(
           documentId: documentId, imagePath: pickedPdf.files.single.path!);
       log(response.toString());
@@ -322,13 +317,9 @@ class StudentEditProfileController extends GetxController
         CommonFunctions.showErrorSnackbar("Request Failed",
             "We were unable to submit your document change request. Please try again later.");
       }
-      // } else {
-      //   CommonFunctions.showErrorSnackbar(
-      //       "Invalid File", "Please select a valid image file: jpg, pdf.");
-      // }
     } else {
       CommonFunctions.showErrorSnackbar(
-          "No Image Selected", "Please select an image.");
+          "No File Selected", "Please choose a file to upload.");
     }
   }
 }

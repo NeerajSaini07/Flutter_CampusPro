@@ -42,7 +42,7 @@ class _MainDashboardState extends State<MainDashboard> {
           return true;
         } else {
           bottomBarController.selectedBottomNavIndex.value = 0;
-          // webController.generateWebUrl('Index.aspx', 'Dashboard');
+          webController.generateWebUrl('Index.aspx', 'Dashboard');
           appbarController.appBarName.value = Constant.schoolName;
           webController.showWebViewScreen.value = false;
           return false;

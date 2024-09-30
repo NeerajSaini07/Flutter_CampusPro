@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:campuspro/Modal/student_module/student_circular_model.dart';
@@ -40,6 +41,7 @@ class CircularController extends GetxController {
       StudentCircularList.studentCircularList = circularData
           .map((json) => StudentCircularModel.fromJson(json))
           .toList();
+      // log(circularData.toString());
       // await changeDownloadStatus();
       originalCircularList.value = StudentCircularList.studentCircularList;
       toDate.value = null;

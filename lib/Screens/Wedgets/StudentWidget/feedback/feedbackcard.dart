@@ -218,7 +218,7 @@ Widget feedbackdetailCard() {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No data available.'));
+          return Center(child: Text('No feedback given.'));
         } else {
           List<FeedbackModel> feedbacklist = snapshot.data!;
           return ListView.builder(

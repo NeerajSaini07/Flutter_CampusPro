@@ -94,7 +94,14 @@ Widget lineCartGraphWidget(BuildContext context) {
                           drawVerticalLine: true,
                           verticalInterval: 1,
                           drawHorizontalLine: true),
-                      lineTouchData: const LineTouchData(enabled: true),
+                      lineTouchData: const LineTouchData(
+                          enabled: true,
+                          touchTooltipData: LineTouchTooltipData(
+                            fitInsideHorizontally: true,
+                            fitInsideVertically: true,
+                            tooltipRoundedRadius: 10,
+                            tooltipPadding: EdgeInsets.all(8),
+                          )),
                       minX: 0,
                       maxX: exameAnalysisController
                               .exannameforAllexamAnalysis.length

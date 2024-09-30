@@ -115,6 +115,7 @@ AppBar customAppBar(BuildContext context,
                                               .selectedBottomNavIndex.value = 0;
                                           appbarController.appBarName.value =
                                               Constant.schoolName;
+                                          Navigator.pop(context);
                                           if (UserTypeslist
                                                   .userTypesDetails[
                                                       userTypeController
@@ -122,7 +123,6 @@ AppBar customAppBar(BuildContext context,
                                                   .ouserType
                                                   .toString() ==
                                               "S") {
-                                            Navigator.pop(context);
                                             Get.toNamed(
                                                 Routes.studentProfileScreen);
                                           } else {
@@ -132,7 +132,6 @@ AppBar customAppBar(BuildContext context,
                                                 'Profile.aspx', 'Profile');
                                             webController
                                                 .showWebViewScreen.value = true;
-                                            // Navigator.pop(context);
                                           }
                                         },
                                         style: OutlinedButton.styleFrom(

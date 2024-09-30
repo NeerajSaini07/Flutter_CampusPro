@@ -121,6 +121,8 @@ class StudentFeedbackController extends GetxController {
           studentFeedbackData(flag: "Get");
           return [];
         }
+      } else if (response != null && response['Status'] == "Cam-006") {
+        return [];
       } else {
         CommonFunctions.showErrorSnackbar("Error", "Failed to load data");
         return [];

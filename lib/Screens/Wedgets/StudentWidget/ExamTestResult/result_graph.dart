@@ -57,161 +57,156 @@ Widget resultGraph(BuildContext context) {
                                   ? 0.18.w
                                   : 0.16.w),
                       height: 250.h,
-                      child: AspectRatio(
-                        aspectRatio: 1.4,
-                        child: BarChart(
-                          BarChartData(
-                            alignment: BarChartAlignment.spaceBetween,
-                            borderData: FlBorderData(
-                              border: Border.all(width: 0.1),
-                              show: true,
-                            ),
-                            titlesData: FlTitlesData(
-                              show: true,
-                              rightTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false)),
-                              leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  reservedSize: 25.w,
-                                  showTitles: true,
-                                  getTitlesWidget: (value, meta) {
-                                    return Text(
-                                      value.toInt().toString(),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.appbuttonColor),
-                                    );
-                                  },
-                                ),
-                              ),
-                              bottomTitles: bottomListForResultGraph(
-                                  examResultController.testMarksResultList),
-                              topTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false)),
-                            ),
-                            gridData: FlGridData(
-                              show: true,
-                              drawVerticalLine: false,
-                              drawHorizontalLine: true,
-                              getDrawingHorizontalLine: (value) {
-                                return FlLine(
-                                    color: AppColors.appbuttonColor,
-                                    strokeWidth: 0.2.w);
-                              },
-                            ),
-                            barGroups: examResultController.testMarksResultList
-                                .asMap()
-                                .entries
-                                .map((e) {
-                              final index = e.key;
-                              final data = e.value;
-                              final double studentMarks =
-                                  double.tryParse(data.maxMarks.toString()) ??
-                                      0.0;
-                              final double totalMarks =
-                                  double.tryParse(data.total.toString()) ?? 0.0;
-
-                              final double studentMarksPercentage =
-                                  double.parse(
-                                      ((studentMarks / studentMarks) * 100)
-                                          .toStringAsFixed(2));
-                              final double totalMarksPercentage = double.parse(
-                                  ((totalMarks / studentMarks) * 100)
-                                      .toStringAsFixed(2));
-
-                              return displayescoreWidgets(
-                                index,
-                                studentMarksPercentage,
-                                totalMarksPercentage,
-                              );
-                            }).toList(),
-                            maxY: 100,
-                            barTouchData: BarTouchData(
-                              enabled: true,
-                              handleBuiltInTouches: true,
-                              touchTooltipData: BarTouchTooltipData(
-                                tooltipPadding: const EdgeInsets.all(8),
-                                tooltipMargin: 8,
-                                tooltipRoundedRadius: 8,
-                                fitInsideHorizontally: true,
-                                fitInsideVertically: true,
-                                getTooltipColor: (group) =>
-                                    examResultController.tooltipColor,
-                                getTooltipItem: (
-                                  BarChartGroupData group,
-                                  int groupIndex,
-                                  BarChartRodData rod,
-                                  int rodIndex,
-                                ) {
-                                  if (groupIndex ==
-                                          examResultController
-                                              .touchedIndex.value &&
-                                      rodIndex ==
-                                          examResultController
-                                              .touchedRodIndex.value) {
-                                    return BarTooltipItem(
-                                      'Name: ${examResultController.subjectnameOnTooltip} \nValue: ${rod.toY.toString()}',
-                                      TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                      child: BarChart(
+                        BarChartData(
+                          alignment: BarChartAlignment.spaceBetween,
+                          borderData: FlBorderData(
+                            border: Border.all(width: 0.1),
+                            show: true,
+                          ),
+                          titlesData: FlTitlesData(
+                            show: true,
+                            rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false)),
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                reservedSize: 25.w,
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  return Text(
+                                    value.toInt().toString(),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
                                         fontSize: 12.sp,
-                                      ),
-                                    );
-                                  } else {
-                                    return null;
-                                  }
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.appbuttonColor),
+                                  );
                                 },
                               ),
-                              touchCallback: (FlTouchEvent event,
-                                  BarTouchResponse? response) {
-                                if (response != null &&
-                                    response.spot != null &&
-                                    !event.isInterestedForInteractions) {
-                                  final touchedIndex =
-                                      response.spot!.touchedBarGroupIndex;
-                                  final rodIndex =
-                                      response.spot!.touchedRodDataIndex;
+                            ),
+                            bottomTitles: bottomListForResultGraph(
+                                examResultController.testMarksResultList),
+                            topTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false)),
+                          ),
+                          gridData: FlGridData(
+                            show: true,
+                            drawVerticalLine: false,
+                            drawHorizontalLine: true,
+                            getDrawingHorizontalLine: (value) {
+                              return FlLine(
+                                  color: AppColors.appbuttonColor,
+                                  strokeWidth: 0.2.w);
+                            },
+                          ),
+                          barGroups: examResultController.testMarksResultList
+                              .asMap()
+                              .entries
+                              .map((e) {
+                            final index = e.key;
+                            final data = e.value;
+                            final double studentMarks =
+                                double.tryParse(data.maxMarks.toString()) ??
+                                    0.0;
+                            final double totalMarks =
+                                double.tryParse(data.total.toString()) ?? 0.0;
 
-                                  print(touchedIndex);
-                                  print(rodIndex);
+                            final double studentMarksPercentage = double.parse(
+                                ((studentMarks / studentMarks) * 100)
+                                    .toStringAsFixed(2));
+                            final double totalMarksPercentage = double.parse(
+                                ((totalMarks / studentMarks) * 100)
+                                    .toStringAsFixed(2));
 
-                                  examResultController.touchedRodIndex.value =
-                                      rodIndex;
-                                  examResultController
-                                      .updateTouchedGroupIndex(touchedIndex);
-                                  examResultController.touchedRodIndex.value =
-                                      rodIndex;
-                                  examResultController
-                                          .subjectnameOnTooltip.value =
-                                      examResultController
-                                          .testMarksResultList[touchedIndex]
-                                          .subjectName
-                                          .toString();
-
-                                  final barGroup =
-                                      response.spot!.touchedBarGroup;
-                                  final rod = barGroup.barRods[rodIndex];
-                                  examResultController.tooltipColor =
-                                      rod.color!;
-
-                                  Timer(const Duration(seconds: 1), () {
-                                    examResultController.touchedIndex.value =
-                                        -1;
-                                    examResultController.touchedRodIndex.value =
-                                        -1;
-                                  });
+                            return displayescoreWidgets(
+                              index,
+                              studentMarksPercentage,
+                              totalMarksPercentage,
+                            );
+                          }).toList(),
+                          maxY: 100,
+                          barTouchData: BarTouchData(
+                            enabled: true,
+                            handleBuiltInTouches: true,
+                            touchTooltipData: BarTouchTooltipData(
+                              tooltipPadding: const EdgeInsets.all(8),
+                              tooltipMargin: 8,
+                              tooltipRoundedRadius: 8,
+                              fitInsideHorizontally: true,
+                              fitInsideVertically: true,
+                              getTooltipColor: (group) =>
+                                  examResultController.tooltipColor,
+                              getTooltipItem: (
+                                BarChartGroupData group,
+                                int groupIndex,
+                                BarChartRodData rod,
+                                int rodIndex,
+                              ) {
+                                if (groupIndex ==
+                                        examResultController
+                                            .touchedIndex.value &&
+                                    rodIndex ==
+                                        examResultController
+                                            .touchedRodIndex.value) {
+                                  return BarTooltipItem(
+                                    'Name: ${examResultController.subjectnameOnTooltip} \nValue: ${rod.toY.toString()}',
+                                    TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                    ),
+                                  );
                                 } else {
-                                  examResultController.touchedIndex.value = -1;
-                                  examResultController.touchedRodIndex.value =
-                                      -1;
+                                  return null;
                                 }
                               },
                             ),
+                            touchCallback: (FlTouchEvent event,
+                                BarTouchResponse? response) {
+                              if (response != null &&
+                                  response.spot != null &&
+                                  !event.isInterestedForInteractions) {
+                                final touchedIndex =
+                                    response.spot!.touchedBarGroupIndex;
+                                final rodIndex =
+                                    response.spot!.touchedRodDataIndex;
+
+                                // print(touchedIndex);
+                                // print(rodIndex);
+
+                                examResultController.touchedRodIndex.value =
+                                    rodIndex;
+                                examResultController
+                                    .updateTouchedGroupIndex(touchedIndex);
+                                examResultController.touchedRodIndex.value =
+                                    rodIndex;
+                                examResultController
+                                        .subjectnameOnTooltip.value =
+                                    examResultController
+                                        .testMarksResultList[touchedIndex]
+                                        .subjectName
+                                        .toString();
+
+                                final barGroup = response.spot!.touchedBarGroup;
+                                final rod = barGroup.barRods[rodIndex];
+                                examResultController.tooltipColor = rod.color!;
+
+                                Timer(const Duration(seconds: 1), () {
+                                  examResultController.touchedIndex.value = -1;
+                                  examResultController.touchedRodIndex.value =
+                                      -1;
+                                });
+                              } else {
+                                examResultController.touchedIndex.value = -1;
+                                examResultController.touchedRodIndex.value = -1;
+                              }
+                            },
                           ),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      width: 12.w,
                     ),
                   ],
                 ),
@@ -220,7 +215,7 @@ Widget resultGraph(BuildContext context) {
           ),
         ),
         Text(
-          "Student Subject Name",
+          "Name Of Subject",
           style: TextStyle(
               fontSize: 8.sp,
               fontWeight: FontWeight.w500,

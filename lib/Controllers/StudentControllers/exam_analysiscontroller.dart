@@ -1,7 +1,5 @@
 // ignore_for_file: unused_element
 
-import 'dart:developer';
-
 import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Modal/student_module/exam_analysis_session_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/exam_analysis_repository.dart';

@@ -45,19 +45,38 @@ class AppRouting extends GetxService {
 
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
     if (whereToOpenFlag != "W") {
-      if (pageurl == '') {
-        pageurl = 'Index.aspx';
-        appbarController.appBarName.value = Constant.schoolName;
-        webController.showWebViewScreen.value = false;
-      } else {
-        webController.generateWebUrl(pageurl, name);
-        if (pageurl.toString().contains('Index.aspx')) {
-          appbarController.appBarName.value = Constant.schoolName;
-          webController.showWebViewScreen.value = false;
-        } else {
-          appbarController.appBarName.value = name;
-          webController.showWebViewScreen.value = true;
-        }
+      switch (name) {
+        case "Student Bus Location":
+          appbarController.appBarName.value = 'Bus Tracker';
+          await busTrackerController.getBusAllot(context);
+          break;
+        case "Help & Support":
+          appbarController.appBarName.value = "Help & Support";
+          if (UserTypeslist
+                  .userTypesDetails[userTypeController.usertypeIndex].ouserType
+                  .toString()
+                  .toLowerCase() ==
+              "e") {
+            bottomBarController.selectedBottomNavIndex.value = 3;
+          } else {
+            bottomBarController.selectedBottomNavIndex.value = 2;
+          }
+          break;
+        default:
+          if (pageurl == '') {
+            pageurl = 'Index.aspx';
+            appbarController.appBarName.value = Constant.schoolName;
+            webController.showWebViewScreen.value = false;
+          } else {
+            webController.generateWebUrl(pageurl, name);
+            if (pageurl.toString().contains('Index.aspx')) {
+              appbarController.appBarName.value = Constant.schoolName;
+              webController.showWebViewScreen.value = false;
+            } else {
+              appbarController.appBarName.value = name;
+              webController.showWebViewScreen.value = true;
+            }
+          }
       }
     } else if (UserTypeslist
             .userTypesDetails[userTypeController.usertypeIndex].ouserType ==
@@ -164,6 +183,11 @@ class AppRouting extends GetxService {
 
         case "Teacher Remark":
           Get.toNamed(Routes.teacherRemarkScreen);
+          break;
+
+        case "Help & Support":
+          appbarController.appBarName.value = "Help & Support";
+          bottomBarController.selectedBottomNavIndex.value = 2;
           break;
 
         default:

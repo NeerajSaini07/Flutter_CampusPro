@@ -28,7 +28,6 @@ import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Controllers/splash_controller.dart';
 import 'package:campuspro/Controllers/StudentControllers/student_timetable_controller.dart';
 import 'package:campuspro/Services/downloadService/download_service.dart';
-import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:get/get.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import '../Controllers/StudentControllers/transportdetail_controller.dart';
@@ -37,42 +36,49 @@ import '../Controllers/menu_controller.dart';
 
 class DependencyInjection {
   static void init() {
-    Get.lazyPut<SplashScreenController>(() => SplashScreenController());
+    Get.lazyPut<SplashScreenController>(() => SplashScreenController(),
+        fenix: true);
 
-    Get.lazyPut<LoginController>(() => LoginController());
+    Get.lazyPut<LoginController>(() => LoginController(), fenix: true);
 
-    Get.lazyPut<ForgotPasswordController>(() => ForgotPasswordController());
+    Get.lazyPut<ForgotPasswordController>(() => ForgotPasswordController(),
+        fenix: true);
 
-    Get.lazyPut<UserTypeController>(() => UserTypeController());
+    Get.lazyPut<UserTypeController>(() => UserTypeController(), fenix: true);
 
-    Get.lazyPut<LogoutController>(() => LogoutController());
+    Get.lazyPut<LogoutController>(() => LogoutController(), fenix: true);
 
-    Get.lazyPut<ExceptionController>(() => ExceptionController());
+    Get.lazyPut<ExceptionController>(() => ExceptionController(), fenix: true);
 
-    Get.lazyPut<WebController>(() => WebController());
+    Get.lazyPut<WebController>(() => WebController(), fenix: true);
 
-    Get.lazyPut<FcmTokenController>(() => FcmTokenController());
+    Get.lazyPut<FcmTokenController>(() => FcmTokenController(), fenix: true);
 
-    Get.lazyPut<BusTrackerController>(() => BusTrackerController());
+    Get.lazyPut<BusTrackerController>(() => BusTrackerController(),
+        fenix: true);
 
-    Get.lazyPut<GetPassController>(() => GetPassController());
+    Get.lazyPut<GetPassController>(() => GetPassController(), fenix: true);
 
     Get.lazyPut<TransportStudentListController>(
         () => TransportStudentListController());
 
-    Get.lazyPut<AppbarController>(() => AppbarController());
+    Get.lazyPut<AppbarController>(() => AppbarController(), fenix: true);
 
-    Get.lazyPut<BottomBarController>(() => BottomBarController());
+    Get.lazyPut<BottomBarController>(() => BottomBarController(), fenix: true);
 
-    Get.lazyPut<HelpAndSupportController>(() => HelpAndSupportController());
+    Get.lazyPut<HelpAndSupportController>(() => HelpAndSupportController(),
+        fenix: true);
 
-    Get.lazyPut<ChangePasswordController>(() => ChangePasswordController());
+    Get.lazyPut<ChangePasswordController>(() => ChangePasswordController(),
+        fenix: true);
 
-    Get.lazyPut<UserMenuController>(() => UserMenuController());
+    Get.lazyPut<UserMenuController>(() => UserMenuController(), fenix: true);
     Get.lazyPut<AllEmployeeProfileController>(
-        () => AllEmployeeProfileController());
+        () => AllEmployeeProfileController(),
+        fenix: true);
 
-    Get.lazyPut<StudentProfileController>(() => StudentProfileController());
+    Get.lazyPut<StudentProfileController>(() => StudentProfileController(),
+        fenix: true);
     Get.lazyPut<NotificationController>(() => NotificationController());
     // ***************  Student Controller  ***********************
     Get.lazyPut<StudentHomeWorkController>(() => StudentHomeWorkController(),

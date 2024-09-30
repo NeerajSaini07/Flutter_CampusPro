@@ -22,7 +22,7 @@ Widget barchartForSingleExam(BuildContext context) {
       Text(
         "Student Marks Graph",
         style: TextStyle(
-            fontSize: 16.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.bold,
             color: AppColors.headingcolor),
       ),
@@ -39,6 +39,9 @@ Widget barchartForSingleExam(BuildContext context) {
                       radius: 5.r,
                       backgroundColor: exameAnalysisController
                           .colorplateforsingleexam[index],
+                    ),
+                    SizedBox(
+                      width: 2.w,
                     ),
                     Text(
                       exameAnalysisController.result[index],
@@ -73,7 +76,7 @@ Widget barchartForSingleExam(BuildContext context) {
                         child: Text(
                           "Single Exam Marks In Percentage (%)",
                           style: TextStyle(
-                              fontSize: 8.sp,
+                              fontSize: 10.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.headingcolor),
                         ),
@@ -252,6 +255,9 @@ Widget barchartForSingleExam(BuildContext context) {
                         )),
                       ),
                     ),
+                    SizedBox(
+                      width: 12.w,
+                    ),
                   ],
                 ),
               ),
@@ -260,9 +266,9 @@ Widget barchartForSingleExam(BuildContext context) {
         ),
       ),
       Text(
-        "Subject And Subject Name",
+        "Name Of Subject",
         style: TextStyle(
-            fontSize: 8.sp,
+            fontSize: 10.sp,
             fontWeight: FontWeight.w500,
             color: AppColors.headingcolor),
       )
