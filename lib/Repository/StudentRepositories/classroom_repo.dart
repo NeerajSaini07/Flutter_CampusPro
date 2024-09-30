@@ -33,11 +33,11 @@ class StudentClassRoomRepo {
           UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
       "Schoolid":
           UserTypeslist.userTypesDetails[usertypeIndex].schoolId.toString(),
-      "EmpId": classsRoomController.empid.isNotEmpty
-          ? classsRoomController.empid
+      "EmpId": classsRoomController.empid.value.isNotEmpty
+          ? classsRoomController.empid.value
           : "0",
-      "SubjectId": classsRoomController.subjectid.isNotEmpty
-          ? classsRoomController.subjectid
+      "SubjectId": classsRoomController.subjectid.value.isNotEmpty
+          ? classsRoomController.subjectid.value
           : "0",
       "NoRows": "20",
       "Counts": "0",

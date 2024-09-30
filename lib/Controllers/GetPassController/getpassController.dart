@@ -352,44 +352,49 @@ class GetPassController extends GetxController {
   updateVisitorDetails(BuildContext context) async {
     final AppbarController appbarController = Get.find<AppbarController>();
     visitorFormLoader.value = true;
-    await GetPassRepository.saveVisitordata().then((value) {
-      if (value['Status'] == 'Cam-001') {
-        getVisitorHistory();
-        visitorFormLoader.value = false;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            duration: const Duration(milliseconds: 1000),
-            content: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                "Visitor Data Updated",
-                style: TextStyle(
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
+    try {
+      await GetPassRepository.saveVisitordata().then((value) {
+        if (value['Status'] == 'Cam-001') {
+          getVisitorHistory();
+          visitorFormLoader.value = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              duration: const Duration(milliseconds: 1000),
+              content: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  "Visitor Data Updated",
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-        visitorImage.value = '';
-        selectedOption.value = '';
-        selectedPurpose.value = '';
-        FullName.value = '';
-        mobileNo.value = '';
-        mobilenumberController.clear();
-        adress.value = '';
-        otherMessage.value = '';
-        showOTPwidget.value = false;
-        showvisitorDetails.value = false;
-        appbarController.appBarName.value = Constant.schoolName;
-        Get.back();
-      }
-    });
-    visitorFormLoader.value = false;
+          );
+          visitorImage.value = '';
+          selectedOption.value = '';
+          selectedPurpose.value = '';
+          FullName.value = '';
+          mobileNo.value = '';
+          mobilenumberController.clear();
+          adress.value = '';
+          otherMessage.value = '';
+          showOTPwidget.value = false;
+          showvisitorDetails.value = false;
+          appbarController.appBarName.value = Constant.schoolName;
+          Get.back();
+        }
+      });
+    } catch (e) {
+      visitorFormLoader.value = false;
+    } finally {
+      visitorFormLoader.value = false;
+    }
   }
 
   markVisitorExitApi(index) async {

@@ -37,7 +37,6 @@ Future showGetpassDilaog(BuildContext context) {
                       ElevatedButton(
                         onPressed: () {
                           // getPassController.getpassHistory();
-                          appbarController.appBarName.value = 'Today Getpass';
                           Get.back();
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {

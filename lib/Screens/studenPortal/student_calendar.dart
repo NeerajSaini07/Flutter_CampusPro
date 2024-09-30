@@ -1,4 +1,5 @@
 import 'package:campuspro/Controllers/StudentControllers/calendar_controller.dart';
+import 'package:campuspro/Modal/student_module/calendar_model.dart';
 import 'package:campuspro/Screens/Wedgets/common_appbar.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
@@ -8,14 +9,31 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class StudentCalendarScreen extends StatelessWidget {
+class StudentCalendarScreen extends StatefulWidget {
   const StudentCalendarScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final StudentCalendarController calendarController =
-        Get.put(StudentCalendarController());
+  State<StudentCalendarScreen> createState() => _StudentCalendarScreenState();
+}
+
+class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
+  final StudentCalendarController calendarController =
+      Get.put(StudentCalendarController());
+
+  @override
+  void initState() {
+    super.initState();
+
+    calendarController.selectedDay = DateTime.now().obs;
+    calendarController.focusedDay = DateTime.now().obs;
+    calendarController.studentCalendarData =
+        <DateTime, Map<String, dynamic>>{}.obs;
+    calendarController.eventsForDay = <DateTime, CalendarEventModel>{}.obs;
     calendarController.getStudentCalendarData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: customAppBar(context, title: "Calendar"),
         body: Padding(

@@ -3,11 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget calendarCellStyle(DateTime day,
-    {required bool isToday, required bool isSelected}) {
+    {required bool isToday, required bool isSelected, required bool hasEvent}) {
+  Color backgroundColor;
+  if (isSelected) {
+    backgroundColor = Colors.orangeAccent;
+  } else if (hasEvent) {
+    backgroundColor = AppColors.successColor;
+  } else if (isToday) {
+    backgroundColor = AppColors.whitetextcolor;
+  } else {
+    backgroundColor = Colors.transparent;
+  }
   return Container(
     margin: EdgeInsets.all(4.w),
     decoration: BoxDecoration(
-      color: isSelected ? Colors.orangeAccent : (isToday ? Colors.white : null),
+      color: backgroundColor,
+      // color: isSelected ? Colors.orangeAccent : (isToday ? Colors.white : null),
       border: isToday && !isSelected
           ? Border.all(
               color: AppColors.appbuttonColor,

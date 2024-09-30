@@ -252,13 +252,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     5) {
                   changePasswordController.showNewPassError.value =
                       "Please enter a new password that is at least 5 characters long.";
+                  return;
                 } else if (changePasswordController
-                        .confirmPasswordController.text.isEmpty &&
+                        .confirmPasswordController.text.isEmpty ||
                     (changePasswordController.newPasswordController.text !=
                         changePasswordController
                             .confirmPasswordController.text)) {
                   changePasswordController.showConfirmPassError.value =
                       "Password and confirm password don't match.";
+                  return;
                 } else {
                   changePasswordController.changeUserPassword(
                       changePasswordController.confirmPasswordController.text);
@@ -268,19 +270,22 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     .oldPasswordController.text.isEmpty) {
                   changePasswordController.showOldPassError.value =
                       "Please enter your old password";
+                  return; // Stop further execution if the old password is empty
                 } else if (changePasswordController.newPasswordController.text
                         .trim()
                         .length <
                     5) {
                   changePasswordController.showNewPassError.value =
                       "Please enter a new password that is at least 5 characters long.";
+                  return;
                 } else if (changePasswordController
-                        .confirmPasswordController.text.isEmpty &&
+                        .confirmPasswordController.text.isEmpty ||
                     (changePasswordController.newPasswordController.text !=
                         changePasswordController
                             .confirmPasswordController.text)) {
                   changePasswordController.showConfirmPassError.value =
                       "Password and confirm password don't match.";
+                  return;
                 } else {
                   changePasswordController.changeSpecificUserPassword(
                       context,

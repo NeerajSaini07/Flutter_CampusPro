@@ -3,9 +3,11 @@ import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/usertype_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
+import 'package:campuspro/Modal/employee_module/employee_info.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/constant.dart';
 import 'package:campuspro/Utilities/profile_pic.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
@@ -82,18 +84,77 @@ AppBar customAppBar(BuildContext context,
                               shadowColor: Colors.transparent,
                             ),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 ProfilePic(
                                   radius: 26.r,
                                   fontSize: 22.sp,
                                 ),
-                                SizedBox(height: 10.h),
+                                SizedBox(height: 8.h),
                                 Text(
                                   "Hi, ${(UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName).toString().capitalizeFirst}",
-                                  style: TextStyle(fontSize: 14.sp),
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.appbuttonColor),
                                 ),
-                                SizedBox(height: 8.h),
+                                SizedBox(height: 2.h),
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: "UserType : ",
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.blackcolor,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: UserTypeslist
+                                            .userTypesDetails[userTypeController
+                                                .usertypeIndex]
+                                            .ouserType
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.appbuttonColor),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 2.h),
+                                UserTypeslist
+                                            .userTypesDetails[userTypeController
+                                                .usertypeIndex]
+                                            .ouserType !=
+                                        'S'
+                                    ? RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Shift: ",
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  "${EmployeeDetailList.employeeDetails.last.shiftName}",
+                                              style: TextStyle(
+                                                  fontSize: 15.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      AppColors.appbuttonColor),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
                                 UserTypeslist
                                             .userTypesDetails[userTypeController
                                                 .usertypeIndex]
@@ -101,7 +162,7 @@ AppBar customAppBar(BuildContext context,
                                         'S'
                                     ? studentProfiledetails()
                                     : Container(),
-                                SizedBox(height: 8.h),
+                                SizedBox(height: 4.h),
                                 UserTypeslist
                                             .userTypesDetails[userTypeController
                                                 .usertypeIndex]
@@ -112,6 +173,8 @@ AppBar customAppBar(BuildContext context,
                                         onPressed: () {
                                           bottomBarController
                                               .selectedBottomNavIndex.value = 0;
+                                          appbarController.appBarName.value =
+                                              Constant.schoolName;
                                           if (UserTypeslist
                                                   .userTypesDetails[
                                                       userTypeController
@@ -125,11 +188,11 @@ AppBar customAppBar(BuildContext context,
                                           } else {
                                             appbarController.appBarName.value =
                                                 'Profile';
+                                            Navigator.pop(context);
                                             webController.generateWebUrl(
                                                 'Profile.aspx', 'Profile');
                                             webController
                                                 .showWebViewScreen.value = true;
-                                            // Navigator.pop(context);
                                           }
                                         },
                                         style: OutlinedButton.styleFrom(

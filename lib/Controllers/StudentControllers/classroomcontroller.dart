@@ -24,9 +24,8 @@ class StudentClasssRoomController extends GetxController {
   var filepicforClassRoom = false.obs;
 
   var refreshpage = false.obs;
-  var empid = '';
-  var subjectid = '';
-
+  var empid = ''.obs;
+  var subjectid = ''.obs;
   var commenttext = ''.obs;
   final TextEditingController comment = TextEditingController();
   RxString filesource = ''.obs;

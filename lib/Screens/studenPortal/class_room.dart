@@ -7,7 +7,6 @@ import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../Wedgets/common_appbar.dart';
 
 class StudentClassroom extends StatelessWidget {
@@ -58,14 +57,15 @@ class StudentClassroom extends StatelessWidget {
               ],
               onChanged: (value) {
                 if (value == null) {
-                  classsRoomController.empid = '';
-                  classsRoomController.subjectid = '';
+                  classsRoomController.empid.value = '';
+                  classsRoomController.subjectid.value = '';
                   classsRoomController.refreshpage.value =
                       !classsRoomController.refreshpage.value;
                   classsRoomController.classRoomData();
                 } else {
-                  classsRoomController.empid = value.empId.toString();
-                  classsRoomController.subjectid = value.subjectId.toString();
+                  classsRoomController.empid.value = value.empId.toString();
+                  classsRoomController.subjectid.value =
+                      value.subjectId.toString();
                   classsRoomController.refreshpage.value =
                       !classsRoomController.refreshpage.value;
                   classsRoomController.classRoomData();

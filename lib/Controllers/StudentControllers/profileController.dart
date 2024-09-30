@@ -34,7 +34,8 @@ class StudentProfileController extends GetxController
 
   Future<List<StudentProfileModel>> getStudentProfileData() async {
     final response = await StudentProfileRepo.getStudentProfileRepo();
-    log(response.toString());
+
+    /// log(response.toString());
     if (response != null && response['Status'] == "Cam-001") {
       List<dynamic> profileList = response['Data'];
       StudentProfileList.studentProfileList = profileList
