@@ -42,7 +42,6 @@ class AppRouting extends GetxService {
       Get.find<StudentHomeWorkController>();
   final ExamTestExamResultController examResultController =
       Get.find<ExamTestExamResultController>();
-
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
     if (whereToOpenFlag != "W") {
       switch (name) {
@@ -118,12 +117,15 @@ class AppRouting extends GetxService {
           Get.toNamed(Routes.studentCalendarScreen);
           break;
         case "Home Work":
+        case "Homework":
           await studentHomeWorkController.markgreenhomedate();
           studentHomeWorkController.gethomeworkbydate();
           Get.to(() => const HomeworkScreen());
           break;
 
         case "ClassRoom":
+          studentClasssRoomController.empid.value = '';
+          studentClasssRoomController.subjectid.value = '';
           await studentClasssRoomController.filterBysubjectTecher();
           Get.toNamed(Routes.studentClassRomm);
 

@@ -202,7 +202,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       isScrollControlled: true,
@@ -263,8 +263,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 6.w, vertical: 6.h),
-                            suffixIcon: InkWell(
-                                onTap: () {}, child: Icon(Icons.date_range)),
+                            suffixIcon: const Icon(Icons.date_range),
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Select Date From",
@@ -303,9 +302,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 6.w, vertical: 6.w),
-                            suffixIcon: InkWell(
-                                onTap: () {},
-                                child: const Icon(Icons.date_range)),
+                            suffixIcon: const Icon(Icons.date_range),
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Select Date To",

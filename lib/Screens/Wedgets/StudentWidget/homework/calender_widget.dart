@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
@@ -23,30 +25,30 @@ Widget buildCalendar(StudentHomeWorkController studentHomeWorkController) {
         onFormatChanged: (format) {
           studentHomeWorkController.calendarFormat.value = format;
         },
-        eventLoader: (day) {
-          return studentHomeWorkController.homeworkdatelist.where((event) {
-            if (event.date != null) {
-              try {
-                final dateParts = event.date!.split(' , ');
-                if (dateParts.length == 2) {
-                  final monthDayParts = dateParts[0].split(' ');
-                  final year = int.parse(dateParts[1].trim());
-                  final month = int.parse(monthDayParts[0].trim());
-                  final dayOfMonth = int.parse(monthDayParts[1].trim());
-                  DateTime eventDate = DateTime(year, month, dayOfMonth);
-                  return eventDate.year == day.year &&
-                      eventDate.month == day.month &&
-                      eventDate.day == day.day;
-                } else {
-                  return false;
-                }
-              } catch (e) {
-                return false;
-              }
-            }
-            return false;
-          }).toList();
-        },
+        // eventLoader: (day) {
+        //   return studentHomeWorkController.homeworkdatelist.where((event) {
+        //     if (event.date != null) {
+        //       try {
+        //         final dateParts = event.date!.split(' , ');
+        //         if (dateParts.length == 2) {
+        //           final monthDayParts = dateParts[0].split(' ');
+        //           final year = int.parse(dateParts[1].trim());
+        //           final month = int.parse(monthDayParts[0].trim());
+        //           final dayOfMonth = int.parse(monthDayParts[1].trim());
+        //           DateTime eventDate = DateTime(year, month, dayOfMonth);
+        //           return eventDate.year == day.year &&
+        //               eventDate.month == day.month &&
+        //               eventDate.day == day.day;
+        //         } else {
+        //           return false;
+        //         }
+        //       } catch (e) {
+        //         return false;
+        //       }
+        //     }
+        //     return false;
+        //   }).toList();
+        // },
         onPageChanged: (focusedDay) {
           studentHomeWorkController.focuseddate.value = focusedDay;
         },
@@ -61,32 +63,105 @@ Widget buildCalendar(StudentHomeWorkController studentHomeWorkController) {
         },
         calendarBuilders: CalendarBuilders(
           defaultBuilder: (context, day, focusedDay) {
+            bool hasEvent =
+                studentHomeWorkController.homeworkdatelist.any((event) {
+              if (event.date != null) {
+                try {
+                  final dateParts = event.date!.split(' , ');
+                  if (dateParts.length == 2) {
+                    final monthDayParts = dateParts[0].split(' ');
+                    final year = int.parse(dateParts[1].trim());
+                    final month = int.parse(monthDayParts[0].trim());
+                    final dayOfMonth = int.parse(monthDayParts[1].trim());
+                    DateTime eventDate = DateTime(year, month, dayOfMonth);
+                    return eventDate.year == day.year &&
+                        eventDate.month == day.month &&
+                        eventDate.day == day.day;
+                  } else {
+                    return false;
+                  }
+                } catch (e) {
+                  return false;
+                }
+              }
+              return false;
+            });
+
             return calendarCellStyle(
               day,
               isToday: isSameDay(day, DateTime.now()),
               isSelected:
                   isSameDay(day, studentHomeWorkController.selectedDay.value),
+              hasEvent: hasEvent,
             );
           },
           selectedBuilder: (context, day, focusedDay) {
+            bool hasEvent =
+                studentHomeWorkController.homeworkdatelist.any((event) {
+              if (event.date != null) {
+                try {
+                  final dateParts = event.date!.split(' , ');
+                  if (dateParts.length == 2) {
+                    final monthDayParts = dateParts[0].split(' ');
+                    final year = int.parse(dateParts[1].trim());
+                    final month = int.parse(monthDayParts[0].trim());
+                    final dayOfMonth = int.parse(monthDayParts[1].trim());
+                    DateTime eventDate = DateTime(year, month, dayOfMonth);
+                    return eventDate.year == day.year &&
+                        eventDate.month == day.month &&
+                        eventDate.day == day.day;
+                  } else {
+                    return false;
+                  }
+                } catch (e) {
+                  return false;
+                }
+              }
+              return false;
+            });
             return calendarCellStyle(
               day,
               isToday: isSameDay(day, DateTime.now()),
               isSelected: true,
+              hasEvent: hasEvent,
             );
           },
           todayBuilder: (context, day, focusedDay) {
+            bool hasEvent =
+                studentHomeWorkController.homeworkdatelist.any((event) {
+              if (event.date != null) {
+                try {
+                  final dateParts = event.date!.split(' , ');
+                  if (dateParts.length == 2) {
+                    final monthDayParts = dateParts[0].split(' ');
+                    final year = int.parse(dateParts[1].trim());
+                    final month = int.parse(monthDayParts[0].trim());
+                    final dayOfMonth = int.parse(monthDayParts[1].trim());
+                    DateTime eventDate = DateTime(year, month, dayOfMonth);
+                    return eventDate.year == day.year &&
+                        eventDate.month == day.month &&
+                        eventDate.day == day.day;
+                  } else {
+                    return false;
+                  }
+                } catch (e) {
+                  return false;
+                }
+              }
+              return false;
+            });
             return calendarCellStyle(
               day,
               isToday: true,
               isSelected:
                   isSameDay(day, studentHomeWorkController.selectedDay.value),
+              hasEvent: hasEvent,
             );
           },
         ),
         calendarStyle: CalendarStyle(
           markersMaxCount: 1,
-          selectedDecoration: BoxDecoration(
+          selectedDecoration: const BoxDecoration(
             color: AppColors.warningColor,
             shape: BoxShape.circle,
           ),
