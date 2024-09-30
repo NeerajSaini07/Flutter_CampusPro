@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
@@ -145,8 +146,11 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
               width: leaveController.studentAttendanceChartData.length <= 4
                   ? MediaQuery.sizeOf(context).width * 0.9
                   : MediaQuery.sizeOf(context).width *
-                      (leaveController.studentAttendanceChartData.length *
-                          0.225),
+                      (MediaQuery.of(context).size.width < 380
+                          ? (leaveController.studentAttendanceChartData.length *
+                              0.225)
+                          : (leaveController.studentAttendanceChartData.length *
+                              0.18)),
               height: MediaQuery.sizeOf(context).height * .3,
               child: BarChart(
                 BarChartData(
@@ -229,35 +233,38 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
                   maxY: 30,
                   barTouchData: BarTouchData(
                     enabled: true,
-                    handleBuiltInTouches: false,
+                    handleBuiltInTouches: true,
                     touchTooltipData: BarTouchTooltipData(
-                      getTooltipColor: (group) => Colors.transparent,
-                      tooltipMargin: 0,
-                      tooltipPadding: EdgeInsets.zero,
+                      tooltipPadding: const EdgeInsets.all(8),
+                      tooltipMargin: 8,
+                      tooltipRoundedRadius: 8,
+                      fitInsideHorizontally: true,
+                      fitInsideVertically: true,
+                      getTooltipColor: (group) => leaveController.tooltipColor,
                       getTooltipItem: (
                         BarChartGroupData group,
                         int groupIndex,
                         BarChartRodData rod,
                         int rodIndex,
                       ) {
-                        return BarTooltipItem(
-                          rod.toY.toString(),
-                          TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: rod.color,
-                            fontSize: 10.sp,
-                            // shadows: const [
-                            //   Shadow(
-                            //     color: Colors.black26,
-                            //     blurRadius: 12,
-                            //   )
-                            // ],
-                          ),
-                        );
+                        if (groupIndex ==
+                                leaveController.touchedGroupIndex.value &&
+                            rodIndex == leaveController.touchedRodIndex.value) {
+                          return BarTooltipItem(
+                            leaveController.touchedValue.value,
+                            TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 12.sp,
+                            ),
+                          );
+                        } else {
+                          return null;
+                        }
                       },
                     ),
                     touchCallback: (event, response) {
-                      if (event.isInterestedForInteractions &&
+                      if (!event.isInterestedForInteractions &&
                           response != null &&
                           response.spot != null) {
                         final touchedIndex =
@@ -265,11 +272,14 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
                         leaveController.updateTouchedGroupIndex(touchedIndex);
                         final barGroup = response.spot!.touchedBarGroup;
                         final rodIndex = response.spot!.touchedRodDataIndex;
+                        leaveController.updateTouchedRodIndex(rodIndex);
                         final rod = barGroup.barRods[rodIndex];
                         final monthYear = leaveController
                             .studentAttendanceChartData.keys
                             .toList()[touchedIndex];
                         String touchedValue;
+                        leaveController.tooltipColor = rod.color!;
+
                         if (rod.color == AppColors.successColor) {
                           touchedValue = "$monthYear\nPresent: ${rod.toY}";
                         } else if (rod.color == AppColors.warningColor) {
@@ -278,6 +288,9 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
                           touchedValue = '$monthYear\nLeave: ${rod.toY}';
                         }
                         leaveController.updateTouchedValue(touchedValue);
+                        Timer(const Duration(seconds: 1), () {
+                          leaveController.resetTouchedGroupIndex();
+                        });
                       } else {
                         leaveController.resetTouchedGroupIndex();
                       }
@@ -448,24 +461,24 @@ class _StudentLeaveDetailScreenState extends State<StudentLeaveDetailScreen> {
             _chartLabel(AppColors.warningColor, "Absent"),
             _chartLabel(AppColors.leavecolor, "Leave"),
             const Spacer(),
-            Obx(
-              () => Visibility(
-                visible: leaveController.touchedGroupIndex.value != -1,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
-                  decoration: BoxDecoration(
-                      color: AppColors.appbuttonColor,
-                      borderRadius: BorderRadius.circular(4.r)),
-                  child: Text(
-                    leaveController.touchedValue.value,
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.whitetextcolor),
-                  ),
-                ),
-              ),
-            ),
+            // Obx(
+            //   () => Visibility(
+            //     visible: leaveController.touchedGroupIndex.value != -1,
+            //     child: Container(
+            //       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+            //       decoration: BoxDecoration(
+            //           color: AppColors.appbuttonColor,
+            //           borderRadius: BorderRadius.circular(4.r)),
+            //       child: Text(
+            //         leaveController.touchedValue.value,
+            //         style: TextStyle(
+            //             fontSize: 12.sp,
+            //             fontWeight: FontWeight.bold,
+            //             color: AppColors.whitetextcolor),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         _attendanceChartViewWidget(),

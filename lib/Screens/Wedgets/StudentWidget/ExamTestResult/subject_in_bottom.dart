@@ -16,23 +16,12 @@ AxisTitles bottomListForResultGraph(List<ExamTestResultModel> subject) {
         int index = value.toInt();
 
         if (index >= 0 && index < subject.length) {
-          return Container(
-            alignment: Alignment.center,
-            width: 60,
-            child: Column(
-              children: [
-                Text(
-                  subject[index].subjectName,
-                  softWrap: true,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.appbuttonColor,
-                  ),
-                ),
-              ],
+          return Text(
+            subject[index].subjectName,
+            style: const TextStyle(
+              // fontSize: 10.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.appbuttonColor,
             ),
           );
         } else {
