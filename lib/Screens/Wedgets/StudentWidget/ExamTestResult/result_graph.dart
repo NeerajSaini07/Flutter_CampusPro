@@ -85,7 +85,8 @@ Widget resultGraph(BuildContext context) {
                               ),
                             ),
                             bottomTitles: bottomListForResultGraph(
-                                examResultController.testMarksResultList),
+                                examResultController.testMarksResultList,
+                                context),
                             topTitles: const AxisTitles(
                                 sideTitles: SideTitles(showTitles: false)),
                           ),
