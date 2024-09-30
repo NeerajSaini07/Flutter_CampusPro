@@ -1,3 +1,4 @@
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -73,7 +74,11 @@ class CustomDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () {
-            Get.back();
+            if (title == "No Internet Connection") {
+              Get.back();
+            } else {
+              Get.offAllNamed(Routes.userType);
+            }
           },
           child: Text(btnText),
         ),

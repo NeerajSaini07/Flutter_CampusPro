@@ -41,7 +41,7 @@ class CircularController extends GetxController {
       StudentCircularList.studentCircularList = circularData
           .map((json) => StudentCircularModel.fromJson(json))
           .toList();
-      // log(circularData.toString());
+      log(circularData.toString());
       // await changeDownloadStatus();
       originalCircularList.value = StudentCircularList.studentCircularList;
       toDate.value = null;

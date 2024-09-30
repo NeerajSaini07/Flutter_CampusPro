@@ -43,8 +43,9 @@ class InvalidUrlException extends AppExceptions {
 
 class FetchDataException extends AppExceptions {
   FetchDataException([String? message])
-      : super("An error occurred while fetching data. Please try again.",
-            "Fetch Data Error");
+      : super(
+            "It seems like an error occurred while processing your request. Please try again later.",
+            "Oops! Something Went Wrong");
 }
 
 class UnauthorizedException extends AppExceptions {

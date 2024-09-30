@@ -386,7 +386,7 @@ class VisitorDetialsPage extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: Icon(
-                    Icons.edit,
+                    Icons.camera_alt_outlined,
                     color: Colors.blue,
                     size: 20.w,
                   ),

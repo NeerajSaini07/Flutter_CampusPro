@@ -104,6 +104,9 @@ class StudentCalendarScreen extends StatelessWidget {
                                       day, calendarController,
                                       isSelected: true);
                                 },
+                                outsideBuilder: (context, day, focusedDay) {
+                                  return const SizedBox.shrink();
+                                },
                               ),
                             ),
                           ],
@@ -120,7 +123,7 @@ class StudentCalendarScreen extends StatelessWidget {
                   var events = calendarController.eventsForDay.value;
                   if (events.isEmpty &&
                       calendarController.studentCalendarData.isNotEmpty) {
-                    return const Text('No events for this day.');
+                    return const Center(child: Text('No events for this day.'));
                   } else if (events.isEmpty) {
                     return const SizedBox();
                   }
@@ -267,8 +270,25 @@ class StudentCalendarScreen extends StatelessWidget {
             shape: BoxShape.circle,
           );
         } else if (isSelected) {
-          return const BoxDecoration(
-            color: Colors.orangeAccent,
+          return BoxDecoration(
+            border: Border.all(
+              color: AppColors.appbuttonColor,
+              width: 2.0,
+            ),
+            color: () {
+              if (circularDots.isNotEmpty) {
+                return _getColorHeading(circularDots.first.toString()).first;
+              } else {
+                return null;
+              }
+            }(),
+            shape: BoxShape.circle,
+          );
+        } else if (circularDots.isNotEmpty) {
+          return BoxDecoration(
+            color: () {
+              return _getColorHeading(circularDots.first.toString()).first;
+            }(),
             shape: BoxShape.circle,
           );
         } else {
@@ -369,7 +389,7 @@ class StudentCalendarScreen extends StatelessWidget {
       case "L":
         return [AppColors.leavecolor, "Leave"];
       case "H":
-        return [AppColors.appbuttonColor, "Holiday"];
+        return [AppColors.appbuttonColor.withOpacity(0.5), "Holiday"];
       default:
         return [AppColors.logoutBg, ""];
     }

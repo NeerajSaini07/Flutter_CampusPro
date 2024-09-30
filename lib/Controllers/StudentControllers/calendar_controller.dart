@@ -18,6 +18,9 @@ class StudentCalendarController extends GetxController {
   }
 
   getStudentCalendarData() async {
+    selectedDay.value = DateTime.now();
+    focusedDay.value = DateTime.now();
+    eventsForDay.clear();
     final calendarResponse =
         await StudentHolidayCalendarRepo.getStudentCalendarDataRepo();
     log(calendarResponse.toString());
