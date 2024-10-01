@@ -91,7 +91,6 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CustomeHeight(18.h),
-
                     FutureBuilder(
                       future: userTypeController.getUsers(),
                       builder: (context, snapshot) {
@@ -211,33 +210,43 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                               itemBuilder: (context, index) {
                                 return Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 18.w)
-                                            .copyWith(bottom: 20.h),
-                                    child: InkWell(
-                                        onTap: () async {
-                                          // ***************************  calling method for passing url index and page name  with cotext  *********************
-                                          //
-                                          //
-                                          //url: for webview routing ;
-                                          //pagename : for flutter dashboard routing
-                                          // index : fopr finding  user data
-                                          //
-                                          final pagename = UserTypeslist
-                                              .userTypesDetails[index].ouserType
-                                              .toString();
-
-                                          // appbarController.appBarName.value =
-                                          //     "Dashboard";
-                                          await userTypeController
-                                              .gotoDashBorad(
-                                            UserTypeslist
+                                        EdgeInsets.symmetric(horizontal: 14.w)
+                                            .copyWith(bottom: 18.h),
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      child: InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                          onTap: () async {
+                                            // ***************************  calling method for passing url index and page name  with cotext  *********************
+                                            //
+                                            //
+                                            //url: for webview routing ;
+                                            //pagename : for flutter dashboard routing
+                                            // index : fopr finding  user data
+                                            //
+                                            final pagename = UserTypeslist
                                                 .userTypesDetails[index]
-                                                .dashboardUrl
-                                                .toString(),
-                                            {index.toString(): index},
-                                          );
-                                        },
-                                        child: userListCard(index)));
+                                                .ouserType
+                                                .toString();
+
+                                            // appbarController.appBarName.value =
+                                            //     "Dashboard";
+                                            await userTypeController
+                                                .gotoDashBorad(
+                                              UserTypeslist
+                                                  .userTypesDetails[index]
+                                                  .dashboardUrl
+                                                  .toString(),
+                                              {index.toString(): index},
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 4.w, vertical: 2.h),
+                                            child: userListCard(index),
+                                          )),
+                                    ));
                               },
                             ),
                           );

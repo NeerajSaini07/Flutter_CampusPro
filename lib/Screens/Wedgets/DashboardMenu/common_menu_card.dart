@@ -4,6 +4,7 @@ import 'package:campuspro/Controllers/bottombar_controller.dart';
 import 'package:campuspro/Controllers/web_controller.dart';
 import 'package:campuspro/Modal/dashboard_menu.dart';
 import 'package:campuspro/Utilities/approuting.dart';
+import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,8 +41,17 @@ Widget buildActionsCard() {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Card(
-                    elevation: 5,
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        color: AppColors.whitetextcolor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(1),
+                            blurRadius: 5,
+                            offset: const Offset(2, 2),
+                          )
+                        ]),
                     child: Image.asset(
                       CommonFunctions.fetchDahboardIcon(
                           menuname: DashboardMenulist

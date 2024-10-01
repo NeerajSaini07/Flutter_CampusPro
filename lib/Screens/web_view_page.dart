@@ -9,13 +9,31 @@ import 'package:campuspro/Utilities/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/bottombar_controller.dart';
 import '../Controllers/web_controller.dart';
 
-class WebViewDashboardPage extends StatelessWidget {
+class WebViewDashboardPage extends StatefulWidget {
   const WebViewDashboardPage({super.key});
+
+  @override
+  State<WebViewDashboardPage> createState() => _WebViewDashboardPageState();
+}
+
+class _WebViewDashboardPageState extends State<WebViewDashboardPage> {
+  @override
+  void initState() {
+    super.initState();
+    requestPermissions();
+  }
+
+  void requestPermissions() async {
+    await Permission.camera.request();
+    await Permission.storage.request();
+  }
+
   @override
   Widget build(BuildContext context) {
     late InAppWebViewController webViewController;
@@ -64,6 +82,7 @@ class WebViewDashboardPage extends StatelessWidget {
                 crossPlatform: InAppWebViewOptions(
                     javaScriptEnabled: true,
                     cacheEnabled: true,
+                    mediaPlaybackRequiresUserGesture: false,
                     useShouldOverrideUrlLoading: true,
                     allowFileAccessFromFileURLs: true,
                     allowUniversalAccessFromFileURLs: true,
