@@ -20,7 +20,10 @@ class ProfilePic extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserTypeController userTypeController =
         Get.find<UserTypeController>();
-    if ((StudentDetaillist.studentdetails.isNotEmpty &&
+    if ((UserTypeslist
+                .userTypesDetails[userTypeController.usertypeIndex].ouserType ==
+            "S" &&
+        StudentDetaillist.studentdetails.isNotEmpty &&
         StudentDetaillist.studentdetails.first.imageUrl
             .toString()
             .contains("https"))) {
