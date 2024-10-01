@@ -169,7 +169,7 @@ Widget buildCalendar(StudentHomeWorkController studentHomeWorkController) {
             border: Border.all(width: 1.5.w, color: AppColors.appbuttonColor),
             shape: BoxShape.circle,
           ),
-          markerDecoration: BoxDecoration(
+          markerDecoration: const BoxDecoration(
             color: Colors.green,
             shape: BoxShape.circle,
           ),

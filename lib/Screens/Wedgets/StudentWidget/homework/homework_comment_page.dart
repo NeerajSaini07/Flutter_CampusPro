@@ -7,6 +7,7 @@ import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -107,17 +108,17 @@ Widget commentbox(index) {
                       onTap: () {
                         studentHomeWorkController.filename.value = '';
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         color: Colors.red,
                       ),
                     ),
                   ],
                 )
-              : SizedBox(),
+              : const SizedBox(),
         ),
         Expanded(
-          child: Container(
+          child: SizedBox(
             height: double.infinity,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -134,7 +135,7 @@ Widget commentbox(index) {
                   child: CircleAvatar(
                     radius: 14.r,
                     backgroundColor: AppColors.appbuttonColor,
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       color: AppColors.whitetextcolor,
                     ),
@@ -167,7 +168,7 @@ Widget commentbox(index) {
                   child: CircleAvatar(
                     radius: 16.r,
                     backgroundColor: AppColors.appbuttonColor,
-                    child: Icon(
+                    child: const Icon(
                       Icons.send,
                       color: AppColors.whitetextcolor,
                     ),
@@ -371,7 +372,6 @@ Widget homeworkComments(BuildContext context) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             isStudent
@@ -389,13 +389,40 @@ Widget homeworkComments(BuildContext context) {
                                   : Colors.green,
                             ),
                           ),
+                          const Spacer(),
+                          if (isStudent) ...{
+                            InkWell(
+                              onTap: () {
+                                if (studentHomeWorkController
+                                        .homeworkcomments[index].commentId !=
+                                    null) {
+                                  studentHomeWorkController
+                                      .deleteHomeworkComment(
+                                          studentHomeWorkController
+                                              .homeworkcomments[index]
+                                              .commentId!);
+                                }
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: AppColors.warningColor,
+                                radius: 15.r,
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: AppColors.whitetextcolor,
+                                ),
+                              ),
+                            )
+                          },
+                          SizedBox(
+                            width: 8.w,
+                          ),
                           Obx(() => studentHomeWorkController
                                   .homeworkcomments[index].fileUrl!.isNotEmpty
                               ? GestureDetector(
                                   onTap: () {
-                                    downloadService.downloadFile(
+                                    studentHomeWorkController.downloadFile(
                                         studentHomeWorkController
-                                            .homeworkbydate[index].homeworkURL
+                                            .homeworkcomments[index].fileUrl!
                                             .toString());
                                   },
                                   child: CircleAvatar(

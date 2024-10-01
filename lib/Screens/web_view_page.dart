@@ -76,6 +76,13 @@ class WebViewDashboardPage extends StatelessWidget {
                   controller.goBack();
                 }
               },
+              androidOnPermissionRequest:
+                  (controller, origin, resources) async {
+                return PermissionRequestResponse(
+                  resources: resources,
+                  action: PermissionRequestResponseAction.GRANT,
+                );
+              },
               onWebViewCreated: (InAppWebViewController controller) =>
                   webViewController = controller,
               onLoadStart: (InAppWebViewController controller, Uri? url) async {

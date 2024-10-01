@@ -192,4 +192,36 @@ class HomeWorkRepository {
       rethrow;
     }
   }
+
+  static Future<dynamic> deleteHomeWorkComment(int commentId) async {
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    BaseApiServices apiServices = NetworkApiServices();
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+    final usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    var requestData = {
+      'OUserId': uid.toString(),
+      'Token': FcmTokenList.tokenlist.first.token.toString(),
+      'OrgId': UserTypeslist.userTypesDetails[usertypeIndex].organizationId
+          .toString(),
+      'Schoolid':
+          UserTypeslist.userTypesDetails[usertypeIndex].schoolId.toString(),
+      'StudentId':
+          UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
+      'UserType':
+          UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
+      'commentid': commentId.toString()
+    };
+
+    try {
+      dynamic response = await apiServices
+          .postApiRequest(
+              requestData, baseUrl + APIENDPOINT.deletehomeworkcomment)
+          .onError((error, stackTrace) {});
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

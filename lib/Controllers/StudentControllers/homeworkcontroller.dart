@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Modal/student_module/classromm_comment_model.dart';
 import 'package:campuspro/Modal/student_module/homeworkdatamodel.dart';
 import 'package:campuspro/Modal/student_module/homeworkbydate.dart';
 import 'package:campuspro/Repository/StudentRepositories/homeworkRepo.dart';
+import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +15,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:path/path.dart' as path;
 
 class StudentHomeWorkController extends GetxController {
+  final DownloadService downloadService = Get.find<DownloadService>();
   var calendarFormat = CalendarFormat.week.obs;
   var focuseddate = DateTime.now().obs;
   RxBool tableRefresh = false.obs;
@@ -148,5 +153,22 @@ class StudentHomeWorkController extends GetxController {
         }
       }
     });
+  }
+
+  //  ********************************************  delete comment ************************
+  deleteHomeworkComment(int commentId) async {
+    final response = await HomeWorkRepository.addcommentsonHomeWork(commentId);
+    log(response.toString());
+    if (response != null && response['Status'] == "Cam-001") {
+      CommonFunctions.showSuccessSnackbar(
+          "Success", "The reply has been successfully deleted.");
+    } else {
+      CommonFunctions.showSuccessSnackbar(
+          "Error", "Failed to delete the reply. Please try again.");
+    }
+  }
+
+  Future<void> downloadFile(String url) async {
+    await downloadService.downloadFile(url);
   }
 }

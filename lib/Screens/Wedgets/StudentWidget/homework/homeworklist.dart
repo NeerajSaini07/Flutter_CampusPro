@@ -14,6 +14,11 @@ import 'package:get/get.dart';
 Widget homeWorkListdata(StudentHomeWorkController studentHomeWorkController) {
   return Obx(
     () {
+      if (studentHomeWorkController.homeworkloader.value) {
+        return const Center(
+          child: CircularProgressIndicator.adaptive(),
+        );
+      }
       if (studentHomeWorkController.homeworkbydate.isEmpty) {
         return const Center(
           child: Text("Homework Not Available"),
