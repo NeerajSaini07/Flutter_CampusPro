@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
@@ -178,6 +179,7 @@ class StudentClasssRoomController extends GetxController {
         if (value['Status'] == 'Cam-001') {
           commentlist.clear();
           List<dynamic> commentdata = value['Data'];
+          log(commentdata.toString());
           commentlist.value = commentdata
               .map((json) => ClassRoomCommentModel.fromJson(json))
               .toList();

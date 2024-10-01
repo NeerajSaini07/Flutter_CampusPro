@@ -244,7 +244,6 @@ Widget Homeworkdata(index) {
 //  ***************************************  homework comment area **************************
 
 Widget homeworkComments(BuildContext context) {
-  final DownloadService downloadService = Get.find<DownloadService>();
   final StudentHomeWorkController studentHomeWorkController =
       Get.find<StudentHomeWorkController>();
   final UserTypeController userTypeController = Get.find<UserTypeController>();
@@ -394,13 +393,13 @@ Widget homeworkComments(BuildContext context) {
                             InkWell(
                               onTap: () {
                                 if (studentHomeWorkController
-                                        .homeworkcomments[index].commentId !=
+                                        .homeworkcomments[index].replyId !=
                                     null) {
                                   studentHomeWorkController
                                       .deleteHomeworkComment(
                                           studentHomeWorkController
-                                              .homeworkcomments[index]
-                                              .commentId!);
+                                              .homeworkcomments[index].replyId!,
+                                          index);
                                 }
                               },
                               child: CircleAvatar(
@@ -442,8 +441,7 @@ Widget homeworkComments(BuildContext context) {
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Text(
-                          DateFormat('hh:mm a').format(
-                              commentDate), // Show time of comment at the bottom right
+                          DateFormat('hh:mm a').format(commentDate),
                           style: TextStyle(fontSize: 12.sp, color: Colors.grey),
                         ),
                       ),
