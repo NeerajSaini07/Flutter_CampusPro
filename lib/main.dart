@@ -26,7 +26,6 @@ import 'package:campuspro/Screens/studenPortal/timetable_screen.dart';
 
 import 'package:campuspro/Screens/user_type_screen.dart';
 import 'package:campuspro/Screens/web_view_page.dart';
-import 'package:campuspro/Services/AppUpdate/app_update_checker_service.dart';
 import 'package:campuspro/Services/InternetConnection/internet_connectivity.dart';
 import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Services/notificationService/notification_service.dart';
@@ -51,6 +50,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // const baseUrl = 'https://fmobiledev.campuspro.in/api/';
   const baseUrl = 'https://fmobile.campuspro.in/api/';
+  // const baseUrl = 'https://fmobile.rpscampus.in/api/';
+
   APIENDPOINT.configure(baseUrl);
   DependencyInjection.init();
   await Firebase.initializeApp(

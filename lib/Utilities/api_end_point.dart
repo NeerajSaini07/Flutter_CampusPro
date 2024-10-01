@@ -79,6 +79,7 @@ class APIENDPOINT {
   static const classroomcomment = "AddClassRoomComments";
   static const getclassroomcomment = "GetComments_V1";
   static const addhomeworkcomment = "AddHomeworkComments_V1";
+  static const deletehomeworkcomment = "delhomeworkcomment_V1";
 
   //  *************************  exam analysis  ***********************
   static const examanalysisSession = "getSession_V1";

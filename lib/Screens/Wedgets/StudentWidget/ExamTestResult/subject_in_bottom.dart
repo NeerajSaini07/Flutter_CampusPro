@@ -6,7 +6,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-AxisTitles bottomListForResultGraph(List<ExamTestResultModel> subject) {
+AxisTitles bottomListForResultGraph(
+    List<ExamTestResultModel> subject, BuildContext context) {
   return AxisTitles(
     sideTitles: SideTitles(
       showTitles: true,
@@ -16,23 +17,19 @@ AxisTitles bottomListForResultGraph(List<ExamTestResultModel> subject) {
         int index = value.toInt();
 
         if (index >= 0 && index < subject.length) {
-          return Container(
-            alignment: Alignment.center,
-            width: 60,
-            child: Column(
-              children: [
-                Text(
-                  subject[index].subjectName,
-                  softWrap: true,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.appbuttonColor,
-                  ),
-                ),
-              ],
+          return SizedBox(
+            width: MediaQuery.sizeOf(context).width * 0.16,
+            child: Text(
+              subject[index].subjectName,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize:
+                    MediaQuery.of(context).size.width < 380 ? 10.sp : 8.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.appbuttonColor,
+              ),
             ),
           );
         } else {

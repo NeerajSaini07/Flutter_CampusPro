@@ -55,7 +55,7 @@ Widget resultGraph(BuildContext context) {
                               examResultController.testMarksResultList.length *
                               (MediaQuery.of(context).size.width < 380
                                   ? 0.18.w
-                                  : 0.16.w),
+                                  : 0.12.w),
                       height: 250.h,
                       child: BarChart(
                         BarChartData(
@@ -85,7 +85,8 @@ Widget resultGraph(BuildContext context) {
                               ),
                             ),
                             bottomTitles: bottomListForResultGraph(
-                                examResultController.testMarksResultList),
+                                examResultController.testMarksResultList,
+                                context),
                             topTitles: const AxisTitles(
                                 sideTitles: SideTitles(showTitles: false)),
                           ),

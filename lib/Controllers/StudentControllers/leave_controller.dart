@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Modal/student_module/leave_request_model.dart';
 import 'package:campuspro/Modal/student_module/student_attendance_model.dart';
@@ -15,8 +13,10 @@ class StudentLeaveController extends GetxController {
   RxList<StudentLeaveRequestModel> stuLeaveRequestList =
       <StudentLeaveRequestModel>[].obs;
   var studentAttendanceChartData = <String, Map<String, int>?>{}.obs;
-  RxInt touchedGroupIndex = (-1).obs;
   var touchedValue = ''.obs;
+  RxInt touchedGroupIndex = (-1).obs;
+  RxInt touchedRodIndex = (-1).obs;
+  Color tooltipColor = Colors.transparent;
   //Ask for Leave
   RxList<String> leaveType = ["Sick Leave", "Urgent Leave"].obs;
   var toDate = Rx<DateTime?>(null);
@@ -33,9 +33,13 @@ class StudentLeaveController extends GetxController {
     touchedGroupIndex.value = index;
   }
 
+  void updateTouchedRodIndex(int index) {
+    touchedRodIndex.value = index;
+  }
+
   void resetTouchedGroupIndex() {
     touchedGroupIndex.value = -1;
-    touchedValue.value = '';
+    touchedRodIndex.value = -1;
   }
 
   void updateTouchedValue(String value) {

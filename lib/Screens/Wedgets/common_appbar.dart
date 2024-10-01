@@ -106,7 +106,7 @@ AppBar customAppBar(BuildContext context,
                                       TextSpan(
                                         text: "UserType : ",
                                         style: TextStyle(
-                                          fontSize: 14.sp,
+                                          fontSize: 12.sp,
                                           fontWeight: FontWeight.w700,
                                           color: AppColors.blackcolor,
                                         ),
@@ -118,7 +118,7 @@ AppBar customAppBar(BuildContext context,
                                             .ouserType
                                             .toString(),
                                         style: TextStyle(
-                                            fontSize: 15.sp,
+                                            fontSize: 12.sp,
                                             fontWeight: FontWeight.w500,
                                             color: AppColors.appbuttonColor),
                                       ),
@@ -137,7 +137,7 @@ AppBar customAppBar(BuildContext context,
                                             TextSpan(
                                               text: "Shift: ",
                                               style: TextStyle(
-                                                fontSize: 14.sp,
+                                                fontSize: 12.sp,
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.black,
                                               ),
@@ -146,7 +146,7 @@ AppBar customAppBar(BuildContext context,
                                               text:
                                                   "${EmployeeDetailList.employeeDetails.last.shiftName}",
                                               style: TextStyle(
-                                                  fontSize: 15.sp,
+                                                  fontSize: 12.sp,
                                                   fontWeight: FontWeight.w500,
                                                   color:
                                                       AppColors.appbuttonColor),
