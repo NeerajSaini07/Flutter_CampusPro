@@ -133,8 +133,8 @@ class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
                     : SizedBox(
                         width: MediaQuery.sizeOf(context).width,
                         height: MediaQuery.sizeOf(context).height * 0.8,
-                        child:
-                            const Center(child: CircularProgressIndicator())),
+                        child: const Center(
+                            child: CircularProgressIndicator.adaptive())),
               ),
               Expanded(
                 child: Obx(() {

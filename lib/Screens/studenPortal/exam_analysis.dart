@@ -30,6 +30,9 @@ class _StudentExamAnalysisScreenState extends State<StudentExamAnalysisScreen> {
     exameAnalysisController.getExamData();
     exameAnalysisController.getclasssession();
     exameAnalysisController.analysisdata();
+    exameAnalysisController.showSingleExamGhraph.value = false;
+    // examResultController.bottomshitopenforExamResult.value = false;
+    exameAnalysisController.removefilter.value = false;
   }
 
   @override
@@ -95,7 +98,7 @@ class _StudentExamAnalysisScreenState extends State<StudentExamAnalysisScreen> {
               CustomeHeight(10.h),
               Obx(() {
                 if (exameAnalysisController.showloader.value) {
-                  return const CircularProgressIndicator();
+                  return const CircularProgressIndicator.adaptive();
                 } else {
                   if (exameAnalysisController.showSingleExamGhraph.value) {
                     if (exameAnalysisController.singleExamDataList.isNotEmpty) {

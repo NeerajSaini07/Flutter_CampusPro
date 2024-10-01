@@ -24,6 +24,8 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     studentHomeWorkController.calendarFormat = CalendarFormat.week.obs;
     studentHomeWorkController.selectedDay = DateTime.now().obs;
     studentHomeWorkController.focuseddate = DateTime.now().obs;
+    studentHomeWorkController.markgreenhomedate();
+    studentHomeWorkController.gethomeworkbydate();
     super.initState();
   }
 
@@ -36,11 +38,18 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       appBar: customAppBar(context, title: "Home Work"),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            buildCalendar(studentHomeWorkController),
-            Expanded(child: homeWorkListdata(studentHomeWorkController)),
-          ],
+        child: Obx(
+          () => studentHomeWorkController.loader.value
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : Column(
+                  children: [
+                    buildCalendar(studentHomeWorkController),
+                    Expanded(
+                        child: homeWorkListdata(studentHomeWorkController)),
+                  ],
+                ),
         ),
       ),
     );

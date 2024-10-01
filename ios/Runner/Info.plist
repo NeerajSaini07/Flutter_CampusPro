@@ -43,6 +43,8 @@
 	<string>We need access to your location to provide services both when the app is active and in the background</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need access to your location to provide relevant services.</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>This app requires access to the microphone to enable voice features.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need access to add files to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

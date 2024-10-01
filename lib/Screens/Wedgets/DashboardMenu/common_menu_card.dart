@@ -27,7 +27,7 @@ Widget buildActionsCard() {
             bottomBarController.selectedBottomNavIndex.value = 0;
             webController.showWebViewScreen.value = true;
             final AppRouting appRouting = AppRouting();
-            await appRouting.navigate(
+            appRouting.navigate(
                 DashboardMenulist.dashboardMenulistdetails[index].menuName,
                 DashboardMenulist.dashboardMenulistdetails[index].menuURL,
                 context,
@@ -40,28 +40,29 @@ Widget buildActionsCard() {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    CommonFunctions.fetchDahboardIcon(
-                        menuname: DashboardMenulist
-                            .dashboardMenulistdetails[index].menuName
-                            .toString()),
-                    // DashboardMenulist.dashboardMenulistdetails[index].imageUrl
-                    //     .toString(),
-                    fit: BoxFit.fill,
-                    height: 40.h,
-                    width: 40.w,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.r)),
-                        child: Image.network(
-                          'https://picsum.photos/200', // Replace with the path to your dummy image
-                          fit: BoxFit.fitHeight,
-                          height: 30.h,
-                          width: 30.w,
-                        ),
-                      );
-                    },
+                  Card(
+                    elevation: 5,
+                    child: Image.asset(
+                      CommonFunctions.fetchDahboardIcon(
+                          menuname: DashboardMenulist
+                              .dashboardMenulistdetails[index].menuName
+                              .toString()),
+                      fit: BoxFit.fill,
+                      height: 40.h,
+                      width: 40.w,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.r)),
+                          child: Image.network(
+                            'https://picsum.photos/200', // Replace with the path to your dummy image
+                            fit: BoxFit.fitHeight,
+                            height: 30.h,
+                            width: 30.w,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   SizedBox(
                     height: 2.h,

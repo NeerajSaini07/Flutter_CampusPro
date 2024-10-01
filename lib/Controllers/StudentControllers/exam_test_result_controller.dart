@@ -29,6 +29,7 @@ class ExamTestExamResultController extends GetxController {
   //  *******************************  method for getting single exam result data ***************
   testExamResult() async {
     showloader.value = true;
+    await Future.delayed(const Duration(seconds: 1));
     await TestExamResultRepository.getSingleExamMarksRepo().then((value) {
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
@@ -37,6 +38,7 @@ class ExamTestExamResultController extends GetxController {
           testMarksResultList.value = resultdata
               .map((json) => ExamTestResultModel.fromJson(json))
               .toList();
+
           examname.value = testMarksResultList[0].exam;
           if (bottomshitopenforExamResult.value == true) {
             Get.back();
@@ -47,6 +49,7 @@ class ExamTestExamResultController extends GetxController {
           examid.value = '';
 
           showloader.value = false;
+          studentexamNameForTestResult();
         } else {
           if (bottomshitopenforExamResult.value == true) {
             Get.back();
