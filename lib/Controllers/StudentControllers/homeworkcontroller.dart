@@ -4,18 +4,15 @@ import 'package:campuspro/Modal/student_module/homeworkdatamodel.dart';
 import 'package:campuspro/Modal/student_module/homeworkbydate.dart';
 import 'package:campuspro/Repository/StudentRepositories/homeworkRepo.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:path/path.dart' as path;
 
 class StudentHomeWorkController extends GetxController {
   var calendarFormat = CalendarFormat.week.obs;
   var focuseddate = DateTime.now().obs;
   RxBool tableRefresh = false.obs;
   var selectedDay = DateTime.now().obs;
-  var homeworkloader = false.obs;
   var commentfile = ''.obs;
   var filename = ''.obs;
   var showfileoncomment = false.obs;
@@ -56,11 +53,8 @@ class StudentHomeWorkController extends GetxController {
   //  *******************  current date homework ********************
 
   gethomeworkbydate() async {
-    final FcmTokenController fcmTokenController =
-        Get.find<FcmTokenController>();
-    homeworkloader.value = true;
+    tableRefresh.value = true;
     await HomeWorkRepository.gethomeworkdatabydatesheet().then((value) {
-      print(value);
       if (value != null) {
         if (value['Status'] == "Cam-001") {
           List<dynamic> currenthomework = value['Data'];
@@ -69,15 +63,15 @@ class StudentHomeWorkController extends GetxController {
               .map((json) => HomeWorkByDateModel.fromJson(json))
               .toList();
 
-          homeworkloader.value = false;
+          tableRefresh.value = false;
 
           //  ************************  if token expire **************************
         } else if (value['Status'] == "Cam-003") {
-          fcmTokenController.getFCMToken();
-          markgreenhomedate();
+          // fcmTokenController.getFCMToken();
+          // markgreenhomedate();
         } else {
           homeworkbydate.clear();
-          homeworkloader.value = false;
+          tableRefresh.value = false;
         }
       }
     });

@@ -39,12 +39,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         child: Column(
           children: [
             buildCalendar(studentHomeWorkController),
-            Expanded(
-              child: Obx(() {
-                studentHomeWorkController.tableRefresh.value;
-                return homeWorkListdata(studentHomeWorkController);
-              }),
-            )
+            Expanded(child: homeWorkListdata(studentHomeWorkController)),
           ],
         ),
       ),

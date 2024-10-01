@@ -14,9 +14,6 @@ class AppUpdateCheckerService extends GetxService {
     androidHtmlReleaseNotes: true,
   );
 
-  var appupdate = false.obs;
-  var splashcreenmethod = false.obs;
-  var showdialog = true.obs;
   void appupdatechecker(BuildContext context) async {
     final status = await newVersion.getVersionStatus();
     if (status != null) {
@@ -24,31 +21,18 @@ class AppUpdateCheckerService extends GetxService {
       debugPrint(status.appStoreLink);
       debugPrint(status.localVersion);
       debugPrint(status.storeVersion);
-
-      if (status.canUpdate == false) {
-        splashcreenmethod.value = false;
-        if (showdialog.value == true) {
-          appupdate.value = true;
-          newVersion.showUpdateDialog(
-            updateButtonText: "Update Now",
-            dismissButtonText: "later",
-            dismissAction: () {
-              appupdate.value = false;
-              splashcreenmethod.value = true;
-              showdialog.value = false;
-              Get.toNamed(Routes.splash);
-            },
-            context: context,
-            versionStatus: status,
-            dialogTitle: 'Update Available',
-            dialogText: 'A new version ${status.storeVersion} is available. '
-                'You are using ${status.localVersion}. Please update to continue.',
-            launchModeVersion: LaunchModeVersion.external,
-            allowDismissal: true,
-          );
-        }
-      } else {
-        appupdate.value = false;
+      if (status.canUpdate == true) {
+        newVersion.showUpdateDialog(
+          updateButtonText: "Update Now",
+          dismissButtonText: "Later",
+          context: context,
+          versionStatus: status,
+          dialogTitle: 'Update Available',
+          dialogText: 'A new version ${status.storeVersion} is available. '
+              'You are using ${status.localVersion}. Please update to continue.',
+          launchModeVersion: LaunchModeVersion.external,
+          allowDismissal: true,
+        );
       }
     }
   }
