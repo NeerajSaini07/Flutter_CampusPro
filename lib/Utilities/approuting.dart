@@ -43,7 +43,7 @@ class AppRouting extends GetxService {
   final ExamTestExamResultController examResultController =
       Get.find<ExamTestExamResultController>();
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
-    if (whereToOpenFlag != "W") {
+    if (whereToOpenFlag == "W") {
       switch (name) {
         case "Student Bus Location":
           appbarController.appBarName.value = 'Bus Tracker';

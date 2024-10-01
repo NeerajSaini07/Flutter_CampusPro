@@ -50,7 +50,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width * 0.84,
                       margin: const EdgeInsets.symmetric(
                           horizontal: 5.0, vertical: 1),
                       padding:

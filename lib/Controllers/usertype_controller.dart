@@ -142,7 +142,6 @@ class UserTypeController extends GetxController {
       // webController.showWebViewScreen.value = true;
 
       Get.toNamed(Routes.Dashboardboard);
-
       usertypeIndex =
           await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
 

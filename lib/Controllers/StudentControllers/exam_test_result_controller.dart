@@ -21,6 +21,7 @@ class ExamTestExamResultController extends GetxController {
   RxInt touchedRodIndex = (-1).obs;
   var subjectnameOnTooltip = ''.obs;
   Color tooltipColor = Colors.transparent;
+
   void updateTouchedGroupIndex(int index) {
     touchedIndex.value = index;
   }

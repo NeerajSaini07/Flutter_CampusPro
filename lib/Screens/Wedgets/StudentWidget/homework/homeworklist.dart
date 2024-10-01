@@ -3,7 +3,6 @@ import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart
 import 'package:campuspro/Screens/Wedgets/StudentWidget/common_text_style.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/homework/homework_comment_page.dart';
 import 'package:campuspro/Services/downloadService/download_service.dart';
-import 'package:campuspro/Services/fileDownloadSerrvice/download.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/gestures.dart';
@@ -14,11 +13,6 @@ import 'package:get/get.dart';
 Widget homeWorkListdata(StudentHomeWorkController studentHomeWorkController) {
   return Obx(
     () {
-      if (studentHomeWorkController.homeworkloader.value) {
-        return const Center(
-          child: CircularProgressIndicator.adaptive(),
-        );
-      }
       if (studentHomeWorkController.homeworkbydate.isEmpty) {
         return const Center(
           child: Text("Homework Not Available"),
