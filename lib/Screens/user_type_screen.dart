@@ -219,8 +219,6 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                               BorderRadius.circular(8.r),
                                           onTap: () async {
                                             // ***************************  calling method for passing url index and page name  with cotext  *********************
-                                            //
-                                            //
                                             //url: for webview routing ;
                                             //pagename : for flutter dashboard routing
                                             // index : fopr finding  user data

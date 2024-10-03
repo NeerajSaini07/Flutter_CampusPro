@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
 import 'package:campuspro/Modal/student_module/classromm_comment_model.dart';
+import 'package:campuspro/Modal/student_module/homework_comment_model.dart';
 import 'package:campuspro/Modal/student_module/homeworkdatamodel.dart';
 import 'package:campuspro/Modal/student_module/homeworkbydate.dart';
 import 'package:campuspro/Repository/StudentRepositories/homeworkRepo.dart';
@@ -27,7 +28,7 @@ class StudentHomeWorkController extends GetxController {
   final FocusNode commentFocusNode = FocusNode();
   var homeworkdatelist = <HomeworkModel>[].obs;
   var homeworkbydate = <HomeWorkByDateModel>[].obs;
-  var homeworkcomments = <ClassRoomCommentModel>[].obs;
+  var homeworkcomments = <HomeworkCommentModel>[].obs;
 
   final TextEditingController commentcontroller = TextEditingController();
   final FcmTokenController fcmTokenController = Get.find<FcmTokenController>();
@@ -99,8 +100,9 @@ class StudentHomeWorkController extends GetxController {
       if (value != null) {
         if (value['Status'] == "Cam-001") {
           List<dynamic> commentdata = value['Data'];
+          log(commentdata.toString());
           homeworkcomments.value = commentdata
-              .map((json) => ClassRoomCommentModel.fromJson(json))
+              .map((json) => HomeworkCommentModel.fromJson(json))
               .toList();
 
           successcommentloader.value = false;
@@ -159,12 +161,13 @@ class StudentHomeWorkController extends GetxController {
   }
 
   //  ********************************************  delete comment ************************
-  deleteHomeworkComment(int commentId) async {
-    final response = await HomeWorkRepository.addcommentsonHomeWork(commentId);
+  deleteHomeworkComment(int commentId, int index) async {
+    final response = await HomeWorkRepository.deleteHomeWorkComment(commentId);
     log(response.toString());
     if (response != null && response['Status'] == "Cam-001") {
       CommonFunctions.showSuccessSnackbar(
           "Success", "The reply has been successfully deleted.");
+      studenthomeworkReply(index);
     } else {
       CommonFunctions.showSuccessSnackbar(
           "Error", "Failed to delete the reply. Please try again.");
