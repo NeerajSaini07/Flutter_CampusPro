@@ -107,7 +107,8 @@ class _StudentCircularScreenState extends State<StudentCircularScreen> {
                   if (circularController.searchQuery.value.trim().isEmpty) {
                     switch (circularController.status.value) {
                       case CircularStatus.loading:
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(
+                            child: CircularProgressIndicator.adaptive());
                       case CircularStatus.success:
                         final circularData =
                             circularController.originalCircularList;

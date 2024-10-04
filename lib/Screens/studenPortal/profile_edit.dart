@@ -161,7 +161,7 @@ class _StudentEditProfileScreenState extends State<StudentEditProfileScreen> {
       future: editProfileController.getUploadDocumentTypeList(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         } else if (snapshot.hasError) {
           return const Center(child: Text('An error occurred'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

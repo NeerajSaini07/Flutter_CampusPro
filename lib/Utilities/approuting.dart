@@ -1,7 +1,5 @@
 import 'package:campuspro/Controllers/StudentControllers/classroomcontroller.dart';
-import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
-import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
-import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
+
 import 'package:campuspro/Controllers/StudentControllers/student_timetable_controller.dart';
 import 'package:campuspro/Controllers/appbar_controller.dart';
 import 'package:campuspro/Controllers/bottombar_controller.dart';
@@ -27,55 +25,26 @@ class AppRouting extends GetxService {
   final BottomBarController bottomBarController =
       Get.find<BottomBarController>();
 
-  final StudentClasssRoomController studentClasssRoomController =
-      Get.find<StudentClasssRoomController>();
-
-  final ExameAnalysisController exameAnalysisController =
-      Get.find<ExameAnalysisController>();
-
   final UserTypeController userTypeController = Get.find<UserTypeController>();
 
   final NotificationController notificationController =
       Get.find<NotificationController>();
 
-  final StudentHomeWorkController studentHomeWorkController =
-      Get.find<StudentHomeWorkController>();
-  final ExamTestExamResultController examResultController =
-      Get.find<ExamTestExamResultController>();
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
     if (whereToOpenFlag == "W") {
-      switch (name) {
-        case "Student Bus Location":
-          appbarController.appBarName.value = 'Bus Tracker';
-          await busTrackerController.getBusAllot(context);
-          break;
-        case "Help & Support":
-          appbarController.appBarName.value = "Help & Support";
-          if (UserTypeslist
-                  .userTypesDetails[userTypeController.usertypeIndex].ouserType
-                  .toString()
-                  .toLowerCase() ==
-              "e") {
-            bottomBarController.selectedBottomNavIndex.value = 3;
-          } else {
-            bottomBarController.selectedBottomNavIndex.value = 2;
-          }
-          break;
-        default:
-          if (pageurl == '') {
-            pageurl = 'Index.aspx';
-            appbarController.appBarName.value = Constant.schoolName;
-            webController.showWebViewScreen.value = false;
-          } else {
-            webController.generateWebUrl(pageurl, name);
-            if (pageurl.toString().contains('Index.aspx')) {
-              appbarController.appBarName.value = Constant.schoolName;
-              webController.showWebViewScreen.value = false;
-            } else {
-              appbarController.appBarName.value = name;
-              webController.showWebViewScreen.value = true;
-            }
-          }
+      if (pageurl == '') {
+        pageurl = 'Index.aspx';
+        appbarController.appBarName.value = Constant.schoolName;
+        webController.showWebViewScreen.value = false;
+      } else {
+        webController.generateWebUrl(pageurl, name);
+        if (pageurl.toString().contains('Index.aspx')) {
+          appbarController.appBarName.value = Constant.schoolName;
+          webController.showWebViewScreen.value = false;
+        } else {
+          appbarController.appBarName.value = name;
+          webController.showWebViewScreen.value = true;
+        }
       }
     } else if (UserTypeslist
             .userTypesDetails[userTypeController.usertypeIndex].ouserType ==
@@ -95,13 +64,13 @@ class AppRouting extends GetxService {
         case "Go to Site":
           UrlLuncher.launchUrls(pageurl);
           break;
-
         case "Alert & Notification":
         case "Notification":
           notificationController.removeFilter.value = false;
           Get.to(() => const NotificationScreen());
           notificationController.getNotification();
           break;
+
         case "Leave Detail":
         case "Leave Request":
           Get.toNamed(Routes.studentLeaveDetailScreen);
@@ -118,17 +87,11 @@ class AppRouting extends GetxService {
           break;
         case "Home Work":
         case "Homework":
-          await studentHomeWorkController.markgreenhomedate();
-          studentHomeWorkController.gethomeworkbydate();
-          Get.to(() => const HomeworkScreen());
+          Get.toNamed(Routes.studenthomescreen);
           break;
 
         case "ClassRoom":
-          studentClasssRoomController.empid.value = '';
-          studentClasssRoomController.subjectid.value = '';
-          await studentClasssRoomController.filterBysubjectTecher();
           Get.toNamed(Routes.studentClassRomm);
-
           break;
 
         case "Circular":
@@ -144,18 +107,11 @@ class AppRouting extends GetxService {
           break;
 
         case "Exam Analysis":
-          exameAnalysisController.showSingleExamGhraph.value = false;
-          examResultController.bottomshitopenforExamResult.value = false;
-          exameAnalysisController.removefilter.value = false;
           Get.toNamed(Routes.studentexamAnalysis);
-          // webController.showWebViewScreen.value = false;
 
           break;
 
         case "Exam/Test Result":
-          await examResultController.studentexamNameForTestResult();
-          await examResultController.testExamResult();
-          exameAnalysisController.removefilter.value = false;
           Get.toNamed(Routes.studentexamTestResultScreen);
           break;
 
@@ -185,11 +141,6 @@ class AppRouting extends GetxService {
 
         case "Teacher Remark":
           Get.toNamed(Routes.teacherRemarkScreen);
-          break;
-
-        case "Help & Support":
-          appbarController.appBarName.value = "Help & Support";
-          bottomBarController.selectedBottomNavIndex.value = 2;
           break;
 
         default:

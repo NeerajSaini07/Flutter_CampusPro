@@ -28,7 +28,7 @@ class _StudentTimetableScreenState extends State<StudentTimetableScreen> {
       appBar: customAppBar(context, title: "Student Time Table"),
       body: Obx(() {
         if (timeTableController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         if (timeTableController.filteredTimetable.isEmpty) {

@@ -9,6 +9,7 @@ import 'package:campuspro/Modal/student_module/student_class_room_model.dart';
 import 'package:campuspro/Modal/student_module/class_room_teacher_filter.dart';
 import 'package:campuspro/Repository/StudentRepositories/classroom_repo.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,6 +47,8 @@ class StudentClasssRoomController extends GetxController {
           classRoomdatalist.value = listdata
               .map((json) => StudentClassRoomModel.fromJson(json))
               .toList();
+        } else if (value['Status'] == "Cam-003") {
+          Get.toNamed(Routes.userType);
         } else {
           classRoomdatalist.clear();
         }
@@ -61,6 +64,9 @@ class StudentClasssRoomController extends GetxController {
           filterList.value = listdata
               .map((json) => ClassRoomFilterDataListModel.fromJson(json))
               .toList();
+        } else if (value['Status'] == "Cam-001") {
+          filterList.clear();
+          Get.toNamed(Routes.userType);
         } else {
           filterList.clear();
         }
@@ -153,6 +159,8 @@ class StudentClasssRoomController extends GetxController {
           filesource.value = '';
           fileName.value = '';
           await getclassRommComments(index);
+        } else if (value['Status'] == 'Cam-003') {
+          Get.toNamed(Routes.userType);
         } else if (value['Status'] == 'Cam-006') {
           filesource.value = '';
           fileName.value = '';
@@ -185,6 +193,10 @@ class StudentClasssRoomController extends GetxController {
               .toList();
 
           successcommentloader.value = false;
+        } else if (value['Status'] == 'Cam-003') {
+          commentlist.clear();
+          successcommentloader.value = false;
+          Get.toNamed(Routes.userType);
         } else {
           commentlist.clear();
           successcommentloader.value = false;

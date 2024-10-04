@@ -4,6 +4,7 @@ import 'package:campuspro/Controllers/login_controller.dart';
 import 'package:campuspro/Modal/student_module/exam_analysis_session_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/exam_analysis_repository.dart';
 import 'package:campuspro/Utilities/colors.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -51,6 +52,8 @@ class ExameAnalysisController extends GetxController {
           List<dynamic> sessiondata = value['Data'];
           sessionList.value =
               sessiondata.map((json) => SessionModel.fromJson(json)).toList();
+        } else if (value['Status'] == 'Cam-003') {
+          Get.toNamed(Routes.userType);
         }
       }
     });
@@ -58,18 +61,17 @@ class ExameAnalysisController extends GetxController {
 
   getExamData() async {
     await ExamanalysisRepository.getExamname().then((value) {
-      print(value);
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
           examnameList.clear();
           List<dynamic> examname = value['Data'];
           examnameList.value =
               examname.map((json) => ExamnameModel.fromJson(json)).toList();
-          // examnameList.value =
-          //     examname.map((json) => ExamnameModel.fromJson(json)).toList();
         } else if (value['Status'] == 'Cam-006') {
           examnameList.clear();
           exannameforAllexamAnalysis();
+        } else if (value['Status'] == 'Cam-003') {
+          Get.toNamed(Routes.userType);
         }
       }
     });
@@ -96,6 +98,10 @@ class ExameAnalysisController extends GetxController {
       } else if (response['Status'] == 'Cam-006') {
         studentReport.clear();
         showloader.value = false;
+      } else if (response['Status'] == 'Cam-003') {
+        studentReport.clear();
+        showloader.value = false;
+        Get.toNamed(Routes.userType);
       } else {
         studentReport.clear();
         showloader.value = false;
@@ -181,14 +187,12 @@ class ExameAnalysisController extends GetxController {
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         } else if (value['Status'] == 'Camp-003') {
-          await loginController.userLogin();
-          filterExamDataBySessionAndExam();
-          await Future.delayed(const Duration(microseconds: 1000));
-          showloader.value = false;
-        } else if (value['Status'] == 'Cam-006') {
+          Get.toNamed(Routes.userType);
           session.value = '';
           examName.value = '';
           singleExamDataList.clear();
+          showloader.value = false;
+        } else if (value['Status'] == 'Cam-006') {
           await Future.delayed(const Duration(microseconds: 1000));
           showloader.value = false;
         } else {

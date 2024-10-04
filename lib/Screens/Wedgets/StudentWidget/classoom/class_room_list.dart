@@ -10,7 +10,6 @@ import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +18,6 @@ Widget classRoomDataList() {
       Get.find<StudentClasssRoomController>();
 
   final DownloadService downloadService = Get.find<DownloadService>();
-
   // final FileDownloadService downloadService = Get.find<FileDownloadService>();
   return FutureBuilder<List<StudentClassRoomModel>>(
     future: fetchClassRoomData(),

@@ -27,7 +27,7 @@ class _StudentExamTestResultScreenState
   @override
   void initState() {
     super.initState();
-    examResultController.testExamResult();
+    examResultController.studentexamNameForTestResult();
   }
 
   @override

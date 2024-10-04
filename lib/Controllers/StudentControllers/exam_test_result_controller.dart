@@ -1,5 +1,6 @@
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Repository/StudentRepositories/test_exam_result_repo.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,7 +29,6 @@ class ExamTestExamResultController extends GetxController {
 
   //  *******************************  method for getting single exam result data ***************
   testExamResult() async {
-    showloader.value = true;
     await Future.delayed(const Duration(seconds: 1));
     await TestExamResultRepository.getSingleExamMarksRepo().then((value) {
       if (value != null) {
@@ -49,7 +49,6 @@ class ExamTestExamResultController extends GetxController {
           examid.value = '';
 
           showloader.value = false;
-          studentexamNameForTestResult();
         } else {
           if (bottomshitopenforExamResult.value == true) {
             Get.back();
@@ -65,6 +64,7 @@ class ExamTestExamResultController extends GetxController {
   }
 
   studentexamNameForTestResult() async {
+    showloader.value = true;
     await TestExamResultRepository.getExamnameForStudentResult().then((value) {
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
@@ -73,7 +73,14 @@ class ExamTestExamResultController extends GetxController {
           examnameListForResult.value = examname
               .map((json) => ExamModelForStudentResult.fromJson(json))
               .toList();
+
+          testExamResult();
+        } else if (value['Status'] == 'Cam-003') {
+          Get.toNamed(Routes.userType);
+          showloader.value = true;
+          examnameListForResult.clear();
         } else {
+          showloader.value = true;
           examnameListForResult.clear();
         }
       }

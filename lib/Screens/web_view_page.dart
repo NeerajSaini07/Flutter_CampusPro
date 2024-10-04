@@ -195,7 +195,7 @@ class _WebViewDashboardPageState extends State<WebViewDashboardPage> {
               }),
         );
       } else {
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator.adaptive());
       }
     });
   }

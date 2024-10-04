@@ -21,18 +21,16 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
 
   @override
   void initState() {
+    super.initState();
     studentHomeWorkController.calendarFormat = CalendarFormat.week.obs;
     studentHomeWorkController.selectedDay = DateTime.now().obs;
     studentHomeWorkController.focuseddate = DateTime.now().obs;
     studentHomeWorkController.markgreenhomedate();
     studentHomeWorkController.gethomeworkbydate();
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final StudentHomeWorkController studentHomeWorkController =
-        Get.find<StudentHomeWorkController>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppBar(context, title: "Home Work"),

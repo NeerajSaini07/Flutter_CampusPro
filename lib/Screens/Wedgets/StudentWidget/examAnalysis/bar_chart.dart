@@ -20,7 +20,7 @@ Widget barchartForSingleExam(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       Text(
-        "Student Marks Graph",
+        "Student Marks Graph: (${exameAnalysisController.singleExamDataList.first.exam.capitalize})",
         style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ Widget barchartForSingleExam(BuildContext context) {
                       child: RotatedBox(
                         quarterTurns: 3,
                         child: Text(
-                          "Single Exam Marks In Percentage (%)",
+                          "Marks In Percentage (%)",
                           style: TextStyle(
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w500,
@@ -227,10 +227,12 @@ Widget barchartForSingleExam(BuildContext context) {
                                     .updateTouchedGroupIndex(touchedIndex);
                                 exameAnalysisController.touchedRodIndex.value =
                                     rodIndex;
+
                                 exameAnalysisController
                                         .subjectnameOnTooltip.value =
                                     exameAnalysisController
-                                        .subjectlist[touchedIndex];
+                                        .singleExamDataList[touchedIndex]
+                                        .subjectName;
 
                                 final barGroup = response.spot!.touchedBarGroup;
 

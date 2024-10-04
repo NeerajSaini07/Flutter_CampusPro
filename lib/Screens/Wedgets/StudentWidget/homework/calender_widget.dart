@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:campuspro/Controllers/StudentControllers/homeworkcontroller.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:flutter/material.dart';
@@ -19,36 +17,11 @@ Widget buildCalendar(StudentHomeWorkController studentHomeWorkController) {
         focusedDay: studentHomeWorkController.focuseddate.value,
         calendarFormat: studentHomeWorkController.calendarFormat.value,
         selectedDayPredicate: (day) {
-          studentHomeWorkController.gethomeworkbydate();
           return isSameDay(studentHomeWorkController.selectedDay.value, day);
         },
         onFormatChanged: (format) {
           studentHomeWorkController.calendarFormat.value = format;
         },
-        // eventLoader: (day) {
-        //   return studentHomeWorkController.homeworkdatelist.where((event) {
-        //     if (event.date != null) {
-        //       try {
-        //         final dateParts = event.date!.split(' , ');
-        //         if (dateParts.length == 2) {
-        //           final monthDayParts = dateParts[0].split(' ');
-        //           final year = int.parse(dateParts[1].trim());
-        //           final month = int.parse(monthDayParts[0].trim());
-        //           final dayOfMonth = int.parse(monthDayParts[1].trim());
-        //           DateTime eventDate = DateTime(year, month, dayOfMonth);
-        //           return eventDate.year == day.year &&
-        //               eventDate.month == day.month &&
-        //               eventDate.day == day.day;
-        //         } else {
-        //           return false;
-        //         }
-        //       } catch (e) {
-        //         return false;
-        //       }
-        //     }
-        //     return false;
-        //   }).toList();
-        // },
         onPageChanged: (focusedDay) {
           studentHomeWorkController.focuseddate.value = focusedDay;
         },
@@ -160,6 +133,7 @@ Widget buildCalendar(StudentHomeWorkController studentHomeWorkController) {
           },
         ),
         calendarStyle: CalendarStyle(
+          outsideDaysVisible: false,
           markersMaxCount: 1,
           selectedDecoration: const BoxDecoration(
             color: AppColors.warningColor,

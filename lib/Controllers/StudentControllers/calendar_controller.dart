@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:campuspro/Modal/student_module/calendar_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/holiday_calendar_repo.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -31,6 +32,8 @@ class StudentCalendarController extends GetxController {
           .toList();
       await processCalendarData(StudentCalendarlist.stuCalendarList);
       getEventsForDay(DateTime.now());
+    } else if (calendarResponse['Status'] == "Cam-003") {
+      Get.toNamed(Routes.userType);
     }
   }
 

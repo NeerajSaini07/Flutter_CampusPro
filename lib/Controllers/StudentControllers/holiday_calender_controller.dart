@@ -4,6 +4,7 @@ import 'package:campuspro/Controllers/StudentControllers/profileController.dart'
 import 'package:campuspro/Modal/student_module/holiday_list_model.dart';
 import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/holiday_calendar_repo.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:get/get.dart';
 
 class StudentHolidayAndCalendarController extends GetxController {
@@ -27,6 +28,8 @@ class StudentHolidayAndCalendarController extends GetxController {
             .map((json) => StudentHolidayModel.fromJson(json))
             .toList();
         return StudentHolidaylist.stuHolidayList;
+      } else if (holidayListResponse['Status'] == "Cam-003") {
+        Get.toNamed(Routes.userType);
       }
     } else {
       return StudentHolidaylist.stuHolidayList;

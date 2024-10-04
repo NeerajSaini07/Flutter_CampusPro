@@ -10,6 +10,7 @@ import 'package:campuspro/Repository/getpass_respository.dart';
 import 'package:campuspro/Screens/getpass/visitor_details_page.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
 import 'package:campuspro/Utilities/constant.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:campuspro/Utilities/sharedpref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -388,6 +389,8 @@ class GetPassController extends GetxController {
           showvisitorDetails.value = false;
           appbarController.appBarName.value = Constant.schoolName;
           Get.back();
+        } else if (value['Status'] == 'Cam-003') {
+          Get.toNamed(Routes.userType);
         }
       });
     } catch (e) {

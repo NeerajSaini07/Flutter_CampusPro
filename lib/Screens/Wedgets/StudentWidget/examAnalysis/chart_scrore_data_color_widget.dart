@@ -12,7 +12,7 @@ LineChartBarData chartbardata(List<double> scores, index, String subject) {
       double value = entry.value;
       return FlSpot(index.toDouble(), value);
     }).toList(),
-    isCurved: false,
+    isCurved: true,
     color: exameAnalysisController.colorPalette[index],
     dotData: const FlDotData(
       show: true,

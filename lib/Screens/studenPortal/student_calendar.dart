@@ -79,6 +79,7 @@ class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
                             TableCalendar(
                               firstDay: DateTime.utc(2020, 1, 1),
                               lastDay: DateTime.utc(2030, 12, 31),
+                              availableGestures: AvailableGestures.none,
                               calendarFormat: CalendarFormat.month,
                               headerStyle: const HeaderStyle(
                                 formatButtonVisible: false,
@@ -89,6 +90,7 @@ class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
                                     .isAtSameMomentAs(day);
                               },
                               calendarStyle: const CalendarStyle(
+                                outsideDaysVisible: false,
                                 todayDecoration: BoxDecoration(
                                   color: Colors.blueAccent,
                                   shape: BoxShape.circle,
@@ -243,7 +245,7 @@ class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
                     ),
                   );
                 }),
-              )
+              ),
             ],
           ),
         ));

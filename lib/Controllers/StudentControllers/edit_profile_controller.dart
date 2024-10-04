@@ -6,6 +6,7 @@ import 'package:campuspro/Modal/student_module/upload_document_type.dart';
 import 'package:campuspro/Repository/StudentRepositories/student_profile_repository.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -168,6 +169,8 @@ class StudentEditProfileController extends GetxController
           default:
             break;
         }
+      } else if (dropDownResponse['Status'] == "Cam-003") {
+        Get.toNamed(Routes.userType);
       }
     }
   }
@@ -186,6 +189,8 @@ class StudentEditProfileController extends GetxController
         //Show Sneakbar
         CommonFunctions.showSuccessSnackbar("Request Submitted Successfully",
             "Your request for updating profile data has been successfully submitted.");
+      } else if (response['Status'] == "Cam-003") {
+        Get.toNamed(Routes.userType);
       } else {
         CommonFunctions.showErrorSnackbar("Request Failed",
             "We were unable to submit your profile data change request. Please try again later.");
@@ -295,6 +300,8 @@ class StudentEditProfileController extends GetxController
           .map((json) => UploadDocumentTypeModel.fromJson(json))
           .toList();
       return UploadDocumentTypeList.uploadDocumentTypeList;
+    } else if (uploadDocumentListResponse['Status'] == "Cam-003") {
+      Get.toNamed(Routes.userType);
     }
     return [];
   }
