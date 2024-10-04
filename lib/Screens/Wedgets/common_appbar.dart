@@ -91,41 +91,96 @@ AppBar customAppBar(BuildContext context,
                                   radius: 26.r,
                                   fontSize: 22.sp,
                                 ),
-                                SizedBox(height: 8.h),
-                                Text(
-                                  "Hi, ${(UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName).toString().capitalizeFirst}",
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.appbuttonColor),
-                                ),
-                                SizedBox(height: 2.h),
+                                SizedBox(height: 10.h),
+                                // Text(
+                                //   "Hi, ${(UserTypeslist.userTypesDetails[userTypeController.usertypeIndex].stuEmpName).toString().capitalizeFirst}",
+                                //   style: TextStyle(
+                                //       fontSize: 14.sp,
+                                //       fontWeight: FontWeight.bold,
+                                //       color: AppColors.appbuttonColor),
+                                // ),
+                                // SizedBox(height: 2.h),
+                                // RichText(
+                                //   text: TextSpan(
+                                //     children: [
+                                //       TextSpan(
+                                //         text: "UserType : ",
+                                //         style: TextStyle(
+                                //           fontSize: 12.sp,
+                                //           fontWeight: FontWeight.w700,
+                                //           color: AppColors.blackcolor,
+                                //         ),
+                                //       ),
+                                //       TextSpan(
+                                //         text: UserTypeslist
+                                //             .userTypesDetails[userTypeController
+                                //                 .usertypeIndex]
+                                //             .ouserType
+                                //             .toString(),
+                                //         style: TextStyle(
+                                //             fontSize: 12.sp,
+                                //             fontWeight: FontWeight.w500,
+                                //             color: AppColors.appbuttonColor),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
                                 RichText(
                                   text: TextSpan(
                                     children: [
-                                      TextSpan(
-                                        text: "UserType : ",
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColors.blackcolor,
+                                      if (UserTypeslist
+                                              .userTypesDetails[
+                                                  userTypeController
+                                                      .usertypeIndex]
+                                              .ouserType ==
+                                          'E') ...{
+                                        TextSpan(
+                                          text: "Present",
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromARGB(
+                                                  255, 89, 162, 93)),
                                         ),
-                                      ),
+                                        TextSpan(
+                                          text: " | ",
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.blackcolor,
+                                          ),
+                                        ),
+                                      },
+                                      if (UserTypeslist
+                                              .userTypesDetails[
+                                                  userTypeController
+                                                      .usertypeIndex]
+                                              .ouserType ==
+                                          'S') ...{
+                                        TextSpan(
+                                          text: "UserType : ",
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: AppColors.blackcolor,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      },
                                       TextSpan(
                                         text: UserTypeslist
                                             .userTypesDetails[userTypeController
                                                 .usertypeIndex]
-                                            .ouserType
-                                            .toString(),
+                                            .userName
+                                            .toString()
+                                            .capitalizeFirst,
                                         style: TextStyle(
-                                            fontSize: 12.sp,
+                                            fontSize: 14.sp,
                                             fontWeight: FontWeight.w500,
                                             color: AppColors.appbuttonColor),
                                       ),
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 2.h),
+                                SizedBox(height: 5.h),
                                 UserTypeslist
                                             .userTypesDetails[userTypeController
                                                 .usertypeIndex]
@@ -134,17 +189,17 @@ AppBar customAppBar(BuildContext context,
                                     ? RichText(
                                         text: TextSpan(
                                           children: [
-                                            TextSpan(
-                                              text: "Shift: ",
-                                              style: TextStyle(
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.black,
-                                              ),
-                                            ),
+                                            // TextSpan(
+                                            //   text: "Shift: ",
+                                            //   style: TextStyle(
+                                            //     fontSize: 12.sp,
+                                            //     fontWeight: FontWeight.w700,
+                                            //     color: Colors.black,
+                                            //   ),
+                                            // ),
                                             TextSpan(
                                               text:
-                                                  "${EmployeeDetailList.employeeDetails.last.shiftName}",
+                                                  "${EmployeeDetailList.employeeDetails.last.designationName ?? "Undefined"}",
                                               style: TextStyle(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w500,
@@ -249,7 +304,10 @@ Widget studentProfiledetails() {
       children: [
         TextSpan(
           text: "Attendance : ",
-          style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
+          style: TextStyle(
+              fontSize: 14.sp,
+              color: AppColors.blackcolor,
+              fontWeight: FontWeight.w500),
         ),
         TextSpan(
           text: attendanceStatus(
@@ -257,6 +315,7 @@ Widget studentProfiledetails() {
               .first,
           style: TextStyle(
               fontWeight: FontWeight.bold,
+              fontSize: 12.sp,
               color: attendanceStatus(
                       StudentDetaillist.studentdetails.first.attStatus ?? "")
                   .last),

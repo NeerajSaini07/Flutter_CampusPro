@@ -13,8 +13,8 @@ import '../localdatabase/db_helper.dart';
 class SplashScreenController extends GetxController {
   void redirectslash_screen(BuildContext context) async {
     final Sharedprefdata sharedprefdata = Sharedprefdata();
-    final ConnectivityService connectivityService =
-        Get.find<ConnectivityService>();
+    // final ConnectivityService connectivityService =
+    //     Get.find<ConnectivityService>();
     final AppUpdateCheckerService appUpdateChecker =
         Get.put(AppUpdateCheckerService());
 
