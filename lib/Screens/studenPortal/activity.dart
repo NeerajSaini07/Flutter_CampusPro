@@ -91,7 +91,7 @@ Widget _myClassTabView(
   if (filter == 2) {
     switch (activityController.studentActivityApiStatus.value) {
       case StudentActivityApiStatus.loading:
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator.adaptive());
       case StudentActivityApiStatus.success:
         return activityController.myClassActivityList.isEmpty
             ? const Center(child: Text('No data available'))
@@ -113,7 +113,7 @@ Widget _myClassTabView(
     return activityController.myClassActivityList.isEmpty
         ? activityController.fetchedFilters.contains(2)
             ? const Center(child: Text('No data available'))
-            : const Center(child: CircularProgressIndicator())
+            : const Center(child: CircularProgressIndicator.adaptive())
         : ListView.builder(
             itemCount: activityController.myClassActivityList.length,
             itemBuilder: (context, index) {
@@ -131,7 +131,7 @@ Widget _myMySchoolTabView(
   if (filter == 1) {
     switch (activityController.studentActivityApiStatus.value) {
       case StudentActivityApiStatus.loading:
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator.adaptive());
       case StudentActivityApiStatus.success:
         return activityController.myScoolActivityList.isEmpty
             ? const Center(child: Text('No data available'))
@@ -153,7 +153,7 @@ Widget _myMySchoolTabView(
     return activityController.myScoolActivityList.isEmpty
         ? activityController.fetchedFilters.contains(1)
             ? const Center(child: Text('No data available'))
-            : const Center(child: CircularProgressIndicator())
+            : const Center(child: CircularProgressIndicator.adaptive())
         : ListView.builder(
             itemCount: activityController.myScoolActivityList.length,
             itemBuilder: (context, index) {
@@ -171,7 +171,7 @@ Widget _myMeOnlyTabView(
   if (filter == 3) {
     switch (activityController.studentActivityApiStatus.value) {
       case StudentActivityApiStatus.loading:
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator.adaptive());
       case StudentActivityApiStatus.success:
         return activityController.meOnlyActivityList.isEmpty
             ? const Center(child: Text('No data available'))
@@ -193,7 +193,7 @@ Widget _myMeOnlyTabView(
     return activityController.meOnlyActivityList.isEmpty
         ? activityController.fetchedFilters.contains(3)
             ? const Center(child: Text('No data available'))
-            : const Center(child: CircularProgressIndicator())
+            : const Center(child: CircularProgressIndicator.adaptive())
         : ListView.builder(
             itemCount: activityController.meOnlyActivityList.length,
             itemBuilder: (context, index) {

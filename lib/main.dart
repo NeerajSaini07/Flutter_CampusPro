@@ -15,6 +15,7 @@ import 'package:campuspro/Screens/studenPortal/circular.dart';
 import 'package:campuspro/Screens/studenPortal/class_room.dart';
 import 'package:campuspro/Screens/studenPortal/exam_test_result.dart';
 import 'package:campuspro/Screens/studenPortal/holiday_list_screen.dart';
+import 'package:campuspro/Screens/studenPortal/homework.dart';
 
 import 'package:campuspro/Screens/studenPortal/leave_details.dart';
 import 'package:campuspro/Screens/studenPortal/profile.dart';
@@ -48,8 +49,8 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  const baseUrl = 'https://fmobiledev.campuspro.in/api/';
-  // const baseUrl = 'https://fmobile.campuspro.in/api/';
+  // const baseUrl = 'https://fmobiledev.campuspro.in/api/';
+  const baseUrl = 'https://fmobile.campuspro.in/api/';
   // const baseUrl = 'https://fmobile.rpscampus.in/api/';
 
   APIENDPOINT.configure(baseUrl);
@@ -126,6 +127,7 @@ class MyApp extends StatelessWidget {
             Routes.transportScreen: (context) => TransportdetailScreen(),
             Routes.studentCalendarScreen: (context) => StudentCalendarScreen(),
             Routes.teacherRemarkScreen: (context) => StudentTeacherRemark(),
+            Routes.studenthomescreen: (context) => HomeworkScreen()
             // Routes.transportDashboad: (context) => TransportDashboard(),
           },
           home: SplashScreen(), // Show the SplashScreen initially

@@ -21,26 +21,33 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
 
   @override
   void initState() {
+    super.initState();
     studentHomeWorkController.calendarFormat = CalendarFormat.week.obs;
     studentHomeWorkController.selectedDay = DateTime.now().obs;
     studentHomeWorkController.focuseddate = DateTime.now().obs;
-    super.initState();
+    studentHomeWorkController.markgreenhomedate();
+    studentHomeWorkController.gethomeworkbydate();
   }
 
   @override
   Widget build(BuildContext context) {
-    final StudentHomeWorkController studentHomeWorkController =
-        Get.find<StudentHomeWorkController>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppBar(context, title: "Home Work"),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            buildCalendar(studentHomeWorkController),
-            Expanded(child: homeWorkListdata(studentHomeWorkController)),
-          ],
+        child: Obx(
+          () => studentHomeWorkController.loader.value
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : Column(
+                  children: [
+                    buildCalendar(studentHomeWorkController),
+                    Expanded(
+                        child: homeWorkListdata(studentHomeWorkController)),
+                  ],
+                ),
         ),
       ),
     );

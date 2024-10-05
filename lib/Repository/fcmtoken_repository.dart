@@ -26,7 +26,7 @@ class FcmTokenRepository {
       "IsMstPwd": "0",
       "DeviceType": Platform.isAndroid ? 'Android' : 'Ios',
     };
-    log(fcmTokenData.toString());
+    log("token data : $fcmTokenData");
 
     BaseApiServices apiServices = NetworkApiServices();
 

@@ -3,6 +3,7 @@ import 'package:campuspro/Modal/student_module/student_detail_model.dart';
 import 'package:campuspro/Modal/student_module/student_profile_model.dart';
 import 'package:campuspro/Modal/student_module/student_remark_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/student_profile_repository.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +27,8 @@ class StudentProfileController extends GetxController
             .map((json) => StudentDetailModel.fromJson(json))
             .toList();
         studentDetailsSet.value = true;
+      } else if (value['Status'] == "Cam-003") {
+        Get.toNamed(Routes.userType);
       } else {
         StudentDetaillist.studentdetails = [];
         studentDetailsSet.value = false;

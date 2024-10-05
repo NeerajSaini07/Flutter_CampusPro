@@ -33,4 +33,5 @@ class Routes {
       '/StudentExamTestResultScreen';
   static const String studentCalendarScreen = '/studentCalendarScreen';
   static const String teacherRemarkScreen = '/teacherRemarkScreen';
+  static const String studenthomescreen = '/studentHomeworkScreen';
 }

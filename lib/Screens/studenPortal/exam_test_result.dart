@@ -12,85 +12,102 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../Wedgets/StudentWidget/ExamTestResult/subject_marks.dart';
 
-class StudentExamTestResultScreen extends StatelessWidget {
+class StudentExamTestResultScreen extends StatefulWidget {
   const StudentExamTestResultScreen({super.key});
 
   @override
+  State<StudentExamTestResultScreen> createState() =>
+      _StudentExamTestResultScreenState();
+}
+
+class _StudentExamTestResultScreenState
+    extends State<StudentExamTestResultScreen> {
+  final ExamTestExamResultController examResultController =
+      Get.find<ExamTestExamResultController>();
+  @override
+  void initState() {
+    super.initState();
+    examResultController.studentexamNameForTestResult();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final ExamTestExamResultController examResultController =
-        Get.find<ExamTestExamResultController>();
     return Scaffold(
       appBar: customAppBar(context, title: "Exam/Test Result"),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () => examResultController.testMarksResultList.isNotEmpty
-                          ? Text(
-                              "Exam Name : ${examResultController.examname}",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
-                                  color: AppColors.headingcolor),
-                            )
-                          : SizedBox(),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      examResultController.bottomshitopenforExamResult.value =
-                          true;
-                      modalBottomSheetMenuFroTestResult(context);
-                    },
-                    child: Image.asset(
-                      Constant.filtericon,
-                      height: 20.h,
-                      width: 20.w,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                ],
-              ),
-              CustomeHeight(16.h),
-              Obx(() {
-                if (examResultController.showloader.value) {
-                  return Center(child: CircularProgressIndicator.adaptive());
-                } else if (examResultController.testMarksResultList.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "No Data Available",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.blacktextcolor,
-                      ),
-                    ),
-                  );
-                } else {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        child: Obx(
+          () => examResultController.showloader.value
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : SingleChildScrollView(
+                  child: Column(
                     children: [
-                      studentMarksdetails(),
-                      CustomeHeight(16.h),
-                      SizedBox(
-                        height: 300.h,
-                        child: resultGraph(context),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Obx(
+                              () => examResultController
+                                      .testMarksResultList.isNotEmpty
+                                  ? Text(
+                                      "Exam Name : ${examResultController.examname}",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14.sp,
+                                        color: AppColors.headingcolor,
+                                      ),
+                                    )
+                                  : SizedBox(),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              examResultController
+                                  .bottomshitopenforExamResult.value = true;
+                              modalBottomSheetMenuFroTestResult(context);
+                            },
+                            child: Image.asset(
+                              Constant.filtericon,
+                              height: 20.h,
+                              width: 20.w,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ],
                       ),
+                      CustomeHeight(16.h),
+                      Obx(() {
+                        if (examResultController.testMarksResultList.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "No Data Available",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.blacktextcolor,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              studentMarksdetails(),
+                              CustomeHeight(16.h),
+                              SizedBox(
+                                height: 300.h,
+                                child: resultGraph(context),
+                              ),
+                            ],
+                          );
+                        }
+                      }),
                     ],
-                  );
-                }
-              }),
-            ],
-          ),
+                  ),
+                ),
         ),
       ),
     );

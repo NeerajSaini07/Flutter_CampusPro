@@ -61,67 +61,68 @@ class EmployeeDetailModel {
   String? qualificationName;
   int? sessionId;
   String? shiftName;
+  String? attStatus;
 
-  EmployeeDetailModel({
-    this.empId,
-    this.empNo,
-    this.name,
-    this.fatherName,
-    this.husbandName,
-    this.spouseName,
-    this.dateOfBirth,
-    this.gender,
-    this.mobileNo,
-    this.emailId,
-    this.baseAPIURL,
-    this.employeeImagePath,
-    this.aadharNo,
-    this.prsAddr,
-    this.prmAddr,
-    this.prsPin,
-    this.prmPin,
-    this.bloodGroup,
-    this.category,
-    this.religion,
-    this.nationality,
-    this.maritalStatus,
-    this.panNo,
-    this.uan,
-    this.bankAcct,
-    this.bankName,
-    this.ifscCode,
-    this.dataVerified,
-    this.qualification,
-    this.profQualification,
-    this.speciality,
-    this.ambition,
-    this.idMark,
-    this.prsCity,
-    this.prsState,
-    this.prmCity,
-    this.prmState,
-    this.designation,
-    this.branchCode,
-    this.branchName,
-    this.dateOfJoining,
-    this.esicNo,
-    this.accountHolderName,
-    this.departmentName,
-    this.basicPay,
-    this.prsPhone,
-    this.designationName,
-    this.religionName,
-    this.categoryName,
-    this.bloodGroupName,
-    this.prsCityName,
-    this.prsStateName,
-    this.prmCityName,
-    this.prmStateName,
-    this.maritalStatusName,
-    this.qualificationName,
-    this.sessionId,
-    this.shiftName,
-  });
+  EmployeeDetailModel(
+      {this.empId,
+      this.empNo,
+      this.name,
+      this.fatherName,
+      this.husbandName,
+      this.spouseName,
+      this.dateOfBirth,
+      this.gender,
+      this.mobileNo,
+      this.emailId,
+      this.baseAPIURL,
+      this.employeeImagePath,
+      this.aadharNo,
+      this.prsAddr,
+      this.prmAddr,
+      this.prsPin,
+      this.prmPin,
+      this.bloodGroup,
+      this.category,
+      this.religion,
+      this.nationality,
+      this.maritalStatus,
+      this.panNo,
+      this.uan,
+      this.bankAcct,
+      this.bankName,
+      this.ifscCode,
+      this.dataVerified,
+      this.qualification,
+      this.profQualification,
+      this.speciality,
+      this.ambition,
+      this.idMark,
+      this.prsCity,
+      this.prsState,
+      this.prmCity,
+      this.prmState,
+      this.designation,
+      this.branchCode,
+      this.branchName,
+      this.dateOfJoining,
+      this.esicNo,
+      this.accountHolderName,
+      this.departmentName,
+      this.basicPay,
+      this.prsPhone,
+      this.designationName,
+      this.religionName,
+      this.categoryName,
+      this.bloodGroupName,
+      this.prsCityName,
+      this.prsStateName,
+      this.prmCityName,
+      this.prmStateName,
+      this.maritalStatusName,
+      this.qualificationName,
+      this.sessionId,
+      this.shiftName,
+      this.attStatus});
 
   EmployeeDetailModel.fromJson(Map<String, dynamic> json) {
     empId = json['EmpId'];
@@ -182,6 +183,7 @@ class EmployeeDetailModel {
     qualificationName = json['QualificationName'];
     sessionId = json['SessionId'];
     shiftName = json['ShiftName'];
+    attStatus = json['AttStatus'];
   }
 
   Map<String, dynamic> toJson() {
@@ -244,6 +246,7 @@ class EmployeeDetailModel {
     data['QualificationName'] = qualificationName;
     data['SessionId'] = sessionId;
     data['ShiftName'] = shiftName;
+    data['AttStatus'] = attStatus;
     return data;
   }
 }

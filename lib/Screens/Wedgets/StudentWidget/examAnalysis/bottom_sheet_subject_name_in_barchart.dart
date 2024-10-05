@@ -30,13 +30,6 @@ AxisTitles bottom_list_for_barchart() {
                     fontWeight: FontWeight.w600,
                     color: AppColors.appbuttonColor),
               ),
-              Text(
-                "(${exameAnalysisController.singleExamDataList[index].exam})",
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.appbuttonColor),
-              ),
             ],
           );
         }

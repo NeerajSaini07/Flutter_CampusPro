@@ -43,7 +43,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                         context,
                         'W');
                   } else {
-                    appRouting.navigate("Notification", '', context, 'W');
+                    appRouting.navigate("Notification", '', context, 'F');
                   }
                 },
                 child: Row(

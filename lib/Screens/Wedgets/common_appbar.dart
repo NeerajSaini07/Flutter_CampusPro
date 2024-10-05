@@ -129,18 +129,38 @@ AppBar customAppBar(BuildContext context,
                                   text: TextSpan(
                                     children: [
                                       if (UserTypeslist
-                                              .userTypesDetails[
-                                                  userTypeController
-                                                      .usertypeIndex]
-                                              .ouserType ==
-                                          'E') ...{
+                                                  .userTypesDetails[
+                                                      userTypeController
+                                                          .usertypeIndex]
+                                                  .ouserType ==
+                                              'E' &&
+                                          EmployeeDetailList
+                                              .employeeDetails.isNotEmpty) ...{
                                         TextSpan(
-                                          text: "Present",
+                                          text: attendanceStatus(
+                                                  EmployeeDetailList
+                                                          .employeeDetails
+                                                          .last
+                                                          .attStatus ??
+                                                      "")
+                                              .first,
                                           style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: Color.fromARGB(
-                                                  255, 89, 162, 93)),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: () {
+                                              if (EmployeeDetailList
+                                                      .employeeDetails
+                                                      .last
+                                                      .attStatus
+                                                      .toString() ==
+                                                  "P") {
+                                                return Color.fromARGB(
+                                                    255, 89, 162, 93);
+                                              } else {
+                                                return AppColors.warningColor;
+                                              }
+                                            }(),
+                                          ),
                                         ),
                                         TextSpan(
                                           text: " | ",
@@ -198,8 +218,11 @@ AppBar customAppBar(BuildContext context,
                                             //   ),
                                             // ),
                                             TextSpan(
-                                              text:
-                                                  "${EmployeeDetailList.employeeDetails.last.designationName ?? "Undefined"}",
+                                              text: EmployeeDetailList
+                                                      .employeeDetails
+                                                      .last
+                                                      .designationName ??
+                                                  "Undefined",
                                               style: TextStyle(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w500,
@@ -288,8 +311,10 @@ List<dynamic> attendanceStatus(String attStatus) {
     case "-":
       return ["Not Marked", AppColors.warningColor];
     case "Y":
+    case "P":
       return ["Present", AppColors.successColor];
     case "N":
+    case "A":
       return ["Absent", AppColors.warningColor];
     case "L":
       return ["On Leave", AppColors.successColor];

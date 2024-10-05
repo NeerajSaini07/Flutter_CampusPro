@@ -152,7 +152,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
       future: profileController.getStudentProfileData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         } else if (snapshot.hasError) {
           return const Center(child: Text('An error occurred'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -255,7 +255,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
       future: profileController.getStudentRemarkData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         } else if (snapshot.hasError) {
           return const Center(child: Text('An error occurred'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

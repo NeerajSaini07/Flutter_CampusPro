@@ -10,7 +10,7 @@ Widget studentMarksdetails() {
   return Container(
     height: examResultController.testMarksResultList.length <= 1
         ? 100.h
-        : examResultController.testMarksResultList.length * 48.h,
+        : (examResultController.testMarksResultList.length * 41.h) + 40.h,
     decoration: BoxDecoration(border: Border.all(width: 0.1)),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,

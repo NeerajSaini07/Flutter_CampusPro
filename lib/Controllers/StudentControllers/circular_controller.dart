@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:campuspro/Modal/student_module/student_circular_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/student_circular_repo.dart';
 import 'package:campuspro/Services/downloadService/download_service.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,16 +38,21 @@ class CircularController extends GetxController {
     status.value = CircularStatus.loading;
     try {
       final response = await StudentCircularRepo.getStudentCircular();
-      List<dynamic> circularData = response['Data'];
-      StudentCircularList.studentCircularList = circularData
-          .map((json) => StudentCircularModel.fromJson(json))
-          .toList();
-      log(circularData.toString());
-      // await changeDownloadStatus();
-      originalCircularList.value = StudentCircularList.studentCircularList;
-      toDate.value = null;
-      fromDate.value = null;
-      status.value = CircularStatus.success;
+      if (response != null && response['Status'] == 'Cam-001') {
+        List<dynamic> circularData = response['Data'];
+        StudentCircularList.studentCircularList = circularData
+            .map((json) => StudentCircularModel.fromJson(json))
+            .toList();
+        log(circularData.toString());
+        // await changeDownloadStatus();
+        originalCircularList.value = StudentCircularList.studentCircularList;
+        toDate.value = null;
+        fromDate.value = null;
+        status.value = CircularStatus.success;
+        return StudentCircularList.studentCircularList;
+      } else if (response['Status'] == 'Cam-001') {
+        Get.toNamed(Routes.userType);
+      }
       return StudentCircularList.studentCircularList;
     } catch (e) {
       status.value = CircularStatus.error;

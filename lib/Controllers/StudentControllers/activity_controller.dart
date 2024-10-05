@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:campuspro/Modal/student_module/student_activity_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/student_activity_repo.dart';
 import 'package:campuspro/Services/downloadService/download_service.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
@@ -84,6 +85,8 @@ class StudentActivityController extends GetxController
         }
         fetchedFilters.add(filter);
         studentActivityApiStatus.value = StudentActivityApiStatus.success;
+      } else if (response['Status'] == 'Cam-003') {
+        Get.toNamed(Routes.userType);
       } else {
         studentActivityApiStatus.value = StudentActivityApiStatus.error;
       }

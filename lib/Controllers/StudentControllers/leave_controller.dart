@@ -4,6 +4,7 @@ import 'package:campuspro/Modal/student_module/leave_request_model.dart';
 import 'package:campuspro/Modal/student_module/student_attendance_model.dart';
 import 'package:campuspro/Repository/StudentRepositories/leave_repo.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -59,10 +60,8 @@ class StudentLeaveController extends GetxController {
       stuAttendanceList = StudentAttendanceList.studentAttendanceList;
       processData(stuAttendanceList);
     } else if (response != null && response['Status'] == "Cam-003") {
-      final FcmTokenController fcmTokenController =
-          Get.find<FcmTokenController>();
-      await fcmTokenController.getFCMToken();
-      getStudentAttendanceData();
+      Get.toNamed(Routes.userType);
+      stuAttendanceList = [];
     } else {
       stuAttendanceList = [];
     }
@@ -112,10 +111,8 @@ class StudentLeaveController extends GetxController {
       stuLeaveRequestList.value =
           StudentLeaveRequestList.studentLeaveRequestList;
     } else if (response != null && response['Status'] == "Cam-003") {
-      final FcmTokenController fcmTokenController =
-          Get.find<FcmTokenController>();
-      await fcmTokenController.getFCMToken();
-      getStudentLeaveRequestList();
+      Get.toNamed(Routes.userType);
+      stuAttendanceList = [];
     } else {
       stuAttendanceList = [];
     }
@@ -224,6 +221,8 @@ class StudentLeaveController extends GetxController {
       } catch (e) {
         log(e.toString());
       }
+    } else if (classTeacherResponse['Status'] == "Cam-003") {
+      Get.toNamed(Routes.userType);
     } else {
       CommonFunctions.showErrorSnackbar(
           "Request Error", "There was an error processing your leave request.");

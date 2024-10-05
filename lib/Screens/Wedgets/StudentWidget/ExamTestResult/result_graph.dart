@@ -36,7 +36,7 @@ Widget resultGraph(BuildContext context) {
                       child: RotatedBox(
                         quarterTurns: 3,
                         child: Text(
-                          "Single Exam Marks In Percentage (%)",
+                          "Marks In Percentage (%)",
                           style: TextStyle(
                               fontSize: 8.sp,
                               fontWeight: FontWeight.w500,

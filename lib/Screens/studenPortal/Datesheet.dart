@@ -29,7 +29,7 @@ class _StudentDateSheetScreenState extends State<StudentDateSheetScreen> {
       appBar: customAppBar(context, title: "Date Sheet"),
       body: Obx(() {
         if (studentDatesheetController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         }
 
         if (studentDatesheetController.filteredDateSheet.isEmpty) {
@@ -69,9 +69,9 @@ class _StudentDateSheetScreenState extends State<StudentDateSheetScreen> {
                     child: Text(
                       "Exam ($examDay)",
                       style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.headingcolor),
                     ),
                   ),
                   if (studentDatesheetController.filteredDateSheet[examDay] !=

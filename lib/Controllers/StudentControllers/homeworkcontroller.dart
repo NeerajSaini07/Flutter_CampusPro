@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:campuspro/Controllers/fcm_token_controller.dart';
-import 'package:campuspro/Modal/student_module/classromm_comment_model.dart';
 import 'package:campuspro/Modal/student_module/homework_comment_model.dart';
 import 'package:campuspro/Modal/student_module/homeworkdatamodel.dart';
 import 'package:campuspro/Modal/student_module/homeworkbydate.dart';
@@ -9,7 +7,7 @@ import 'package:campuspro/Repository/StudentRepositories/homeworkRepo.dart';
 import 'package:campuspro/Services/downloadService/download_service.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -18,6 +16,8 @@ class StudentHomeWorkController extends GetxController {
   final DownloadService downloadService = Get.find<DownloadService>();
   var calendarFormat = CalendarFormat.week.obs;
   var focuseddate = DateTime.now().obs;
+
+  var loader = false.obs;
   RxBool tableRefresh = false.obs;
   var selectedDay = DateTime.now().obs;
   var commentfile = ''.obs;
@@ -35,6 +35,9 @@ class StudentHomeWorkController extends GetxController {
   markgreenhomedate() async {
     final FcmTokenController fcmTokenController =
         Get.find<FcmTokenController>();
+
+    loader.value = true;
+
     await HomeWorkRepository.gethomedate().then((value) {
       if (value != null) {
         if (value['Status'] == "Cam-001") {
@@ -44,14 +47,18 @@ class StudentHomeWorkController extends GetxController {
               .map((json) => HomeworkModel.fromJson(json))
               .toList();
 
+          loader.value = false;
           //  ************************  if token expire **************************
         } else if (value['Status'] == "Cam-003") {
           fcmTokenController.getFCMToken();
+          loader.value = false;
           markgreenhomedate();
         } else {
+          loader.value = false;
           homeworkdatelist.clear();
         }
       } else {
+        loader.value = false;
         homeworkdatelist.clear();
       }
     });
@@ -74,8 +81,9 @@ class StudentHomeWorkController extends GetxController {
 
           //  ************************  if token expire **************************
         } else if (value['Status'] == "Cam-003") {
-          // fcmTokenController.getFCMToken();
-          // markgreenhomedate();
+          Get.toNamed(Routes.userType);
+          homeworkbydate.clear();
+          tableRefresh.value = false;
         } else {
           homeworkbydate.clear();
           tableRefresh.value = false;
