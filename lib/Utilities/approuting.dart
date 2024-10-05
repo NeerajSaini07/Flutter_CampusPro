@@ -31,7 +31,7 @@ class AppRouting extends GetxService {
       Get.find<NotificationController>();
 
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
-    if (whereToOpenFlag == "W") {
+    if (whereToOpenFlag != "W") {
       if (pageurl == '') {
         pageurl = 'Index.aspx';
         appbarController.appBarName.value = Constant.schoolName;

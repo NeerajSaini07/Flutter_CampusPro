@@ -3,7 +3,6 @@ import 'package:campuspro/Screens/Wedgets/customeheight.dart';
 import 'package:campuspro/Utilities/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +32,7 @@ Widget lineCartGraphWidget(BuildContext context) {
               RotatedBox(
                 quarterTurns: 3,
                 child: Text(
-                  "Student  Marks in All Exam in Percentage (%) ",
+                  "Subject Marks in Percentage (%)",
                   style: TextStyle(
                       fontSize: 8.sp,
                       fontWeight: FontWeight.w500,
@@ -117,10 +116,10 @@ Widget lineCartGraphWidget(BuildContext context) {
           ),
         ),
       ),
-      CustomeHeight(6.h),
+      CustomeHeight(2.h),
       Center(
         child: Text(
-          "Student Exam Name ",
+          "Name of Exam",
           style: TextStyle(
               fontSize: 8.sp,
               fontWeight: FontWeight.w500,

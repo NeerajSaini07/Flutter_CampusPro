@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:campuspro/Repository/StudentRepositories/feedback_repo.dart';
 import 'package:campuspro/Utilities/common_functions.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -121,6 +122,9 @@ class StudentFeedbackController extends GetxController {
           studentFeedbackData(flag: "Get");
           return [];
         }
+      } else if (response['Status'] == 'Cam-003') {
+        Get.toNamed(Routes.userType);
+        return [];
       } else if (response != null && response['Status'] == "Cam-006") {
         return [];
       } else {

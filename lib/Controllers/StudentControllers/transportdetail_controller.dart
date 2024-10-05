@@ -1,6 +1,7 @@
 import 'package:campuspro/Modal/student_module/transport_detail_model.dart';
 
 import 'package:campuspro/Repository/StudentRepositories/transport_detail_repo.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:get/get.dart';
 
 class TransportdetailController extends GetxController {
@@ -28,6 +29,8 @@ class TransportdetailController extends GetxController {
         info.assignAll(TransportDetailModel.infoDataList);
         pickinfo.assignAll(TransportDetailModel.pickinfoDataList);
         dropinfoo.assignAll(TransportDetailModel.dropinfooDataList);
+      } else if (response['Status'] == 'Cam-003') {
+        Get.toNamed(Routes.userType);
       }
     } catch (e) {
       print("Error fetching detail: $e");
