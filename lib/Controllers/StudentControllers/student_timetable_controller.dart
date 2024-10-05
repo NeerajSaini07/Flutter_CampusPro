@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:campuspro/Repository/StudentRepositories/timetable_repo.dart';
+import 'package:campuspro/Utilities/routes.dart';
 import 'package:get/get.dart';
 
 class StudenttimetableController extends GetxController {
@@ -18,7 +19,7 @@ class StudenttimetableController extends GetxController {
     try {
       var response = await StudenttimetableRepo.gettimetable();
       log(response.toString());
-      if (response != null) {
+      if (response != null && response['Status'] == "Cam-001") {
         List<dynamic> periodData = response['Data1'] ?? [];
         List<dynamic> timetableData = response['Data3'] ?? [];
 
@@ -72,6 +73,8 @@ class StudenttimetableController extends GetxController {
               .map((day) => MapEntry(day, result[day]!)),
         );
         log(filteredTimetable.value.toString());
+      } else if (response['Status'] == 'Cam-003') {
+        Get.toNamed(Routes.userType);
       }
     } catch (e) {
       log("Error fetching timetable: $e");

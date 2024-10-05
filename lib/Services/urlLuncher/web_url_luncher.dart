@@ -4,8 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class UrlLuncher {
   static launchUrls(url) async {
-    print(url);
-    final Uri _url = Uri.parse(url);
-    await launchUrl(_url);
+    final Uri url0 = Uri.parse(url);
+    await launchUrl(url0);
   }
 }

@@ -46,6 +46,9 @@ class StudentProfileController extends GetxController
           .map((json) => StudentProfileModel.fromJson(json))
           .toList();
       return StudentProfileList.studentProfileList;
+    } else if (response['Status'] == 'Cam-003') {
+      Get.toNamed(Routes.userType);
+      return [];
     } else {
       return [];
     }
@@ -59,6 +62,9 @@ class StudentProfileController extends GetxController
       StudentRemarkList.studentRemarkList =
           remarkList.map((json) => StudentRemarkModel.fromJson(json)).toList();
       return StudentRemarkList.studentRemarkList;
+    } else if (response['Status'] == 'Cam-003') {
+      Get.toNamed(Routes.userType);
+      return [];
     } else {
       return [];
     }

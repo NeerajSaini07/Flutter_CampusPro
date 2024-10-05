@@ -84,6 +84,8 @@ class ChangePasswordController extends GetxController {
               backgroundColor: Colors.green,
               colorText: Colors.white,
             );
+          } else if (value['Status'] == 'Cam-003') {
+            Get.toNamed(Routes.userType);
           } else {
             Get.snackbar(
               "Error",
@@ -130,6 +132,8 @@ class ChangePasswordController extends GetxController {
                 colorText: Colors.white,
               );
             }
+          } else if (value['Status'] == 'Cam-003') {
+            Get.toNamed(Routes.userType);
           } else {
             Get.snackbar(
               "Error",
