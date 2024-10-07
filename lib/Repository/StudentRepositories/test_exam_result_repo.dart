@@ -91,7 +91,7 @@ class TestExamResultRepository {
           UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
     };
 
-    print("get exam data : $analysisRequest");
+    // print("get exam data : $analysisRequest");
 
     try {
       dynamic response = await apiServices

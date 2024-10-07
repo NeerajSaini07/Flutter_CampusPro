@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Repository/StudentRepositories/test_exam_result_repo.dart';
 import 'package:campuspro/Utilities/routes.dart';
@@ -31,6 +33,7 @@ class ExamTestExamResultController extends GetxController {
   testExamResult() async {
     await Future.delayed(const Duration(seconds: 1));
     await TestExamResultRepository.getSingleExamMarksRepo().then((value) {
+      log(value.toString());
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
           testMarksResultList.clear();

@@ -41,7 +41,7 @@ Widget recentnotificationOnDashboard(BuildContext context) {
                             .dashboardnotification[index].smsType,
                         '',
                         context,
-                        'W');
+                        'F');
                   } else {
                     appRouting.navigate("Notification", '', context, 'F');
                   }

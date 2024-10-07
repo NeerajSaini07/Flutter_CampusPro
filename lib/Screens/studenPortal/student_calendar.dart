@@ -59,20 +59,34 @@ class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16.w)
                                     .copyWith(top: 8.h),
-                                child: Wrap(
-                                  spacing: 8.w,
-                                  runSpacing: 4.h,
-                                  alignment: WrapAlignment.center,
-                                  children: [
-                                    _chartLabel(_getColorHeading("P").first,
-                                        _getColorHeading("P").last),
-                                    _chartLabel(_getColorHeading("A").first,
-                                        _getColorHeading("A").last),
-                                    _chartLabel(_getColorHeading("L").first,
-                                        _getColorHeading("L").last),
-                                    _chartLabel(_getColorHeading("H").first,
-                                        _getColorHeading("H").last)
-                                  ],
+                                child: Obx(
+                                  () => Wrap(
+                                    spacing: 8.w,
+                                    runSpacing: 4.h,
+                                    alignment: WrapAlignment.center,
+                                    children: [
+                                      _chartLabel(
+                                          _getColorHeading("P").first,
+                                          _getColorHeading("P").last,
+                                          calendarController.present.value),
+                                      _chartLabel(
+                                          _getColorHeading("A").first,
+                                          _getColorHeading("A").last,
+                                          calendarController.absent.value),
+                                      _chartLabel(
+                                          _getColorHeading("L").first,
+                                          _getColorHeading("L").last,
+                                          calendarController.leave.value),
+                                      _chartLabel(
+                                          _getColorHeading("H").first,
+                                          _getColorHeading("H").last,
+                                          calendarController.holiday.value),
+                                      _chartLabel(
+                                          _getColorHeading("E").first,
+                                          _getColorHeading("E").last,
+                                          calendarController.event.value),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -251,7 +265,7 @@ class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
         ));
   }
 
-  Widget _chartLabel(Color color, String label) {
+  Widget _chartLabel(Color color, String label, int count) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -262,12 +276,24 @@ class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
         SizedBox(
           width: 2.w,
         ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12.sp,
-            color: AppColors.blackcolor,
-            fontWeight: FontWeight.w600,
+        Text.rich(
+          TextSpan(
+            text: label,
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: AppColors.blackcolor,
+              fontWeight: FontWeight.w600,
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                text: " : $count",
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: AppColors.blackcolor,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -410,6 +436,8 @@ class _StudentCalendarScreenState extends State<StudentCalendarScreen> {
         return [AppColors.leavecolor, "Leave"];
       case "H":
         return [AppColors.appbuttonColor.withOpacity(0.5), "Holiday"];
+      case "E":
+        return [AppColors.eventColor.withOpacity(0.5), "Event"];
       default:
         return [AppColors.logoutBg, ""];
     }

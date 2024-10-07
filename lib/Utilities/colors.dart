@@ -15,6 +15,7 @@ class AppColors {
   static const whitetextcolor = Colors.white;
   static const leavecolor = Color(0xFFffc107);
   static const headingcolor = Color(0xff013e73);
+  static const eventColor = Color(0xffb74093);
 
   //  ******************  dashboard theam colors ***************
 

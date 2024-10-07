@@ -32,14 +32,12 @@ class AppRouting extends GetxService {
 
   navigate(name, pageurl, BuildContext context, whereToOpenFlag) async {
     //Changes made
-    if (name == 'Alert & Notification' || name == 'Notification') {
+    if (whereToOpenFlag == "F" && name == 'Alert & Notification' ||
+        name == 'Notification') {
       notificationController.removeFilter.value = false;
       Get.to(() => const NotificationScreen());
       notificationController.getNotification();
-    } else if (whereToOpenFlag == "W" &&
-        UserTypeslist
-                .userTypesDetails[userTypeController.usertypeIndex].ouserType !=
-            'S') {
+    } else if (whereToOpenFlag != "W") {
       if (pageurl == '') {
         pageurl = 'Index.aspx';
         appbarController.appBarName.value = Constant.schoolName;

@@ -9,6 +9,11 @@ import 'package:intl/intl.dart';
 class StudentCalendarController extends GetxController {
   var selectedDay = DateTime.now().obs;
   var focusedDay = DateTime.now().obs;
+  RxInt present = 0.obs;
+  RxInt absent = 0.obs;
+  RxInt leave = 0.obs;
+  RxInt holiday = 0.obs;
+  RxInt event = 0.obs;
   var studentCalendarData = <DateTime, Map<String, dynamic>>{}.obs;
   var eventsForDay = <DateTime, CalendarEventModel>{}.obs;
 
@@ -39,6 +44,11 @@ class StudentCalendarController extends GetxController {
 
   processCalendarData(List<StudentCalendarModel> calendarList) {
     Map<DateTime, Map<String, dynamic>> calendarDetails = {};
+    present.value = 0;
+    absent.value = 0;
+    leave.value = 0;
+    holiday.value = 0;
+    event.value = 0;
     for (StudentCalendarModel item in calendarList) {
       DateTime date =
           DateFormat("dd-MM-yyyy").parse(item.date.toString().trim());
@@ -55,29 +65,34 @@ class StudentCalendarController extends GetxController {
           if (!calendarDetails[date]!['circularDots'].contains('P')) {
             calendarDetails[date]!['circularDots'].add('P');
           }
+          present.value = present.value + 1;
           break;
         case 'absent':
           if (!calendarDetails[date]!['circularDots'].contains('A')) {
             calendarDetails[date]!['circularDots'].add('A');
           }
+          absent.value = absent.value + 1;
           break;
         case 'holiday':
           if (!calendarDetails[date]!['circularDots'].contains('H')) {
             calendarDetails[date]!['circularDots'].add('H');
             calendarDetails[date]!['holiday'] = item.description;
           }
+          holiday.value = holiday.value + 1;
           break;
         case 'leave':
           if (!calendarDetails[date]!['circularDots'].contains('L')) {
             calendarDetails[date]!['circularDots'].add('L');
             calendarDetails[date]!['leave'] = item.name;
           }
+          leave.value = leave.value + 1;
           break;
         case 'event':
           if (!calendarDetails[date]!['circularDots'].contains('E')) {
             calendarDetails[date]!['circularDots'].add('E');
             calendarDetails[date]!['event'] = item.description;
           }
+          event.value = event.value + 1;
           break;
         default:
           break;

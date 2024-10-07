@@ -100,7 +100,7 @@ class LoginController extends GetxController {
       await LoginRepository.userLoginRepo().then((value) async {
         if (value != null) {
           if (loginvalue == true) {
-            print(value);
+            // print(value);
             // await Future.delayed(const Duration(seconds: 2));
             loginLoader.value = false;
 
@@ -145,7 +145,6 @@ class LoginController extends GetxController {
                     UserLogin.loginDetails[0].token.toString());
                 await Sharedprefdata.storeStringData(
                     Sharedprefdata.password, passWord.value);
-
                 await userTypeController.getUsers();
 
                 Get.offAllNamed(Routes.userType);

@@ -91,17 +91,19 @@ class _StudentExamTestResultScreenState
                             ),
                           );
                         } else {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              studentMarksdetails(),
-                              CustomeHeight(16.h),
-                              SizedBox(
-                                height: 300.h,
-                                child: resultGraph(context),
-                              ),
-                            ],
+                          return SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                studentMarksdetails(),
+                                CustomeHeight(16.h),
+                                SizedBox(
+                                  height: 300.h,
+                                  child: resultGraph(context),
+                                ),
+                              ],
+                            ),
                           );
                         }
                       }),
