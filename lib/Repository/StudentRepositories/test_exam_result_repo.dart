@@ -108,4 +108,54 @@ class TestExamResultRepository {
       rethrow;
     }
   }
+
+  static Future<dynamic> singleexammarksdata() async {
+    final ExamTestExamResultController examResultController =
+        Get.find<ExamTestExamResultController>();
+
+    String baseUrl = await Sharedprefdata.getStrigData(Sharedprefdata.baseUrl);
+    BaseApiServices apiServices = NetworkApiServices();
+    final uid = await Sharedprefdata.getStrigData(Sharedprefdata.uid);
+    final usertypeIndex =
+        await Sharedprefdata.getIntegerData(Sharedprefdata.userTypeIndex);
+    final ExameAnalysisController exameAnalysisController =
+        Get.find<ExameAnalysisController>();
+
+    var marksdatalist = {
+      "OUserId": uid,
+      "Token": FcmTokenList.tokenlist.last.token.toString(),
+      "EmpStuId":
+          UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
+      "OrgId": UserTypeslist.userTypesDetails[usertypeIndex].organizationId
+          .toString(),
+      "Schoolid":
+          UserTypeslist.userTypesDetails[usertypeIndex].schoolId.toString(),
+      "UserType":
+          UserTypeslist.userTypesDetails[usertypeIndex].ouserType.toString(),
+      "SessionId": exameAnalysisController.session.value.isNotEmpty
+          ? exameAnalysisController.session.value
+          : UserTypeslist.userTypesDetails[usertypeIndex].currentSessionid
+              .toString(),
+      "StudentID":
+          UserTypeslist.userTypesDetails[usertypeIndex].stuEmpId.toString(),
+      "ExamId": examResultController.examid.isNotEmpty
+          ? examResultController.examid.value.toString()
+          : examResultController.examnameListForResult.first.examId.toString()
+    };
+
+    try {
+      dynamic response = await apiServices
+          .postApiRequest(
+              marksdatalist, baseUrl + APIENDPOINT.examTestResultmarks)
+          .onError((error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+      });
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

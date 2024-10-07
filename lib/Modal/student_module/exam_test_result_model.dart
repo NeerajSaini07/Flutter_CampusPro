@@ -78,3 +78,44 @@ class ExamModelForStudentResult {
     };
   }
 }
+
+//  ********************************************* Graph model *************************
+
+class TestResultGraphDataModel {
+  String examname;
+  String subjectname;
+  String maxmarks;
+  String marksobtain;
+  String maxmarksobtain;
+  String avragmarksobtain;
+
+  TestResultGraphDataModel(
+      {required this.examname,
+      required this.subjectname,
+      required this.avragmarksobtain,
+      required this.marksobtain,
+      required this.maxmarks,
+      required this.maxmarksobtain});
+
+  factory TestResultGraphDataModel.fromJson(Map<String, dynamic> json) {
+    return TestResultGraphDataModel(
+      examname: json['Exam'],
+      subjectname: json['SubjectName'],
+      avragmarksobtain: json['AveObtained'].toString(),
+      marksobtain: json['MarksObtain'].toString(),
+      maxmarks: json['MaxMarks'].toString(),
+      maxmarksobtain: json['MaxObtained'].toString(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'Exam': examname,
+      'SubjectName': subjectname,
+      'AveObtained': avragmarksobtain,
+      'MarksObtain': marksobtain,
+      'MaxMarks': maxmarks,
+      'MaxObtained': maxmarksobtain,
+    };
+  }
+}

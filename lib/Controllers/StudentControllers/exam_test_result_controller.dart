@@ -9,9 +9,13 @@ import '../../Modal/student_module/exam_test_result_model.dart';
 class ExamTestExamResultController extends GetxController {
   var testMarksResultList = <ExamTestResultModel>[].obs;
 
+  var studentmarksforGraph = <TestResultGraphDataModel>[].obs;
+
   ScrollController scrollController = ScrollController();
   var showloader = false.obs;
+  var filterloader = false.obs;
   var bottomshitopenforExamResult = false.obs;
+
   var examid = ''.obs;
   var examname = ''.obs;
 
@@ -29,7 +33,7 @@ class ExamTestExamResultController extends GetxController {
 
   //  *******************************  method for getting single exam result data ***************
   testExamResult() async {
-    await Future.delayed(const Duration(seconds: 1));
+    showloader.value = true;
     await TestExamResultRepository.getSingleExamMarksRepo().then((value) {
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
@@ -43,7 +47,6 @@ class ExamTestExamResultController extends GetxController {
           if (bottomshitopenforExamResult.value == true) {
             Get.back();
           }
-
           bottomshitopenforExamResult.value = false;
           exameAnalysisController.session.value = '';
           examid.value = '';
@@ -64,7 +67,9 @@ class ExamTestExamResultController extends GetxController {
   }
 
   studentexamNameForTestResult() async {
-    showloader.value = true;
+    if (filterloader.value == false) {
+      showloader.value = true;
+    }
     await TestExamResultRepository.getExamnameForStudentResult().then((value) {
       if (value != null) {
         if (value['Status'] == 'Cam-001') {
@@ -74,13 +79,37 @@ class ExamTestExamResultController extends GetxController {
               .map((json) => ExamModelForStudentResult.fromJson(json))
               .toList();
 
-          testExamResult();
+          if (filterloader.value == false) {
+            testExamResult();
+            studentresultgraphdata();
+          }
         } else if (value['Status'] == 'Cam-003') {
           Get.toNamed(Routes.userType);
           showloader.value = true;
           examnameListForResult.clear();
         } else {
           showloader.value = true;
+          examnameListForResult.clear();
+        }
+      }
+    });
+  }
+
+  //  ************************     geting graph data marks  ***********************
+
+  studentresultgraphdata() async {
+    await TestExamResultRepository.singleexammarksdata().then((value) {
+      if (value != null) {
+        if (value['Status'] == 'Cam-001') {
+          studentmarksforGraph.clear();
+          List<dynamic> singlestudentdata = value['Data'];
+          studentmarksforGraph.value = singlestudentdata
+              .map((json) => TestResultGraphDataModel.fromJson(json))
+              .toList();
+        } else if (value['Status'] == 'Cam-003') {
+          Get.toNamed(Routes.userType);
+        } else {
+          studentmarksforGraph.clear();
           examnameListForResult.clear();
         }
       }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:campuspro/Controllers/StudentControllers/exam_analysiscontroller.dart';
 import 'package:campuspro/Controllers/StudentControllers/exam_test_result_controller.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/ExamTestResult/scorebar.dart';
 import 'package:campuspro/Screens/Wedgets/StudentWidget/ExamTestResult/subject_in_bottom.dart';
@@ -13,11 +14,52 @@ Widget resultGraph(BuildContext context) {
   final ExamTestExamResultController examResultController =
       Get.find<ExamTestExamResultController>();
 
+  final ExameAnalysisController exameAnalysisController =
+      Get.find<ExameAnalysisController>();
+
   return Obx(
     () => Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 5.r,
+                  backgroundColor:
+                      exameAnalysisController.colorplateforsingleexam[0],
+                ),
+                Text(
+                  "Self",
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.headingcolor),
+                )
+              ],
+            ),
+            SizedBox(width: 5.w),
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 5.r,
+                  backgroundColor:
+                      exameAnalysisController.colorplateforsingleexam[2],
+                ),
+                Text(
+                  "Highest",
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.headingcolor),
+                )
+              ],
+            )
+          ],
+        ),
         SingleChildScrollView(
           controller: examResultController.scrollController,
           scrollDirection: Axis.horizontal,
@@ -100,29 +142,21 @@ Widget resultGraph(BuildContext context) {
                                   strokeWidth: 0.2.w);
                             },
                           ),
-                          barGroups: examResultController.testMarksResultList
+                          barGroups: examResultController.studentmarksforGraph
                               .asMap()
                               .entries
                               .map((e) {
                             final index = e.key;
                             final data = e.value;
-                            final double studentMarks =
-                                double.tryParse(data.maxMarks.toString()) ??
-                                    0.0;
-                            final double totalMarks =
-                                double.tryParse(data.total.toString()) ?? 0.0;
 
-                            final double studentMarksPercentage = double.parse(
-                                ((studentMarks / studentMarks) * 100)
-                                    .toStringAsFixed(2));
-                            final double totalMarksPercentage = double.parse(
-                                ((totalMarks / studentMarks) * 100)
-                                    .toStringAsFixed(2));
+                            final studentmarks = double.parse(data.marksobtain);
+                            final maxmarobtain =
+                                double.parse(data.maxmarksobtain);
 
                             return displayescoreWidgets(
                               index,
-                              studentMarksPercentage,
-                              totalMarksPercentage,
+                              studentmarks,
+                              maxmarobtain,
                             );
                           }).toList(),
                           maxY: 100,

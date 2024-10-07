@@ -5,7 +5,6 @@ import 'package:campuspro/Modal/usertype_model.dart';
 import 'package:campuspro/Screens/notification_screen.dart';
 import 'package:campuspro/Utilities/approuting.dart';
 import 'package:campuspro/Utilities/colors.dart';
-import 'package:campuspro/Utilities/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

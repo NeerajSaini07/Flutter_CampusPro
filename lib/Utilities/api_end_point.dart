@@ -94,6 +94,7 @@ class APIENDPOINT {
   static const feedbackApi = "OnlineCompliantSuggestion_V1";
 
   static const studentresultexamName = "GetStudentExam_V1";
+  static const examTestResultmarks = "GetIndividualVsHighestMarksDataOfExam_V1";
 
 //
   //  ****************************

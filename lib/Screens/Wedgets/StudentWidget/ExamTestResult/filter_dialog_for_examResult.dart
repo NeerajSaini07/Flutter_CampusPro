@@ -59,10 +59,11 @@ modalBottomSheetMenuFroTestResult(BuildContext context) {
                         if (sessionModel != null) {
                           examResultController.examid.value = '';
                           examResultController.examnameListForResult.clear();
-
                           exameAnalysisController.session.value =
                               sessionModel.id.toString();
-
+                          examResultController.filterloader.value = true;
+                          print(
+                              "session : ${exameAnalysisController.session.value}");
                           await examResultController
                               .studentexamNameForTestResult();
                         }
@@ -99,6 +100,9 @@ modalBottomSheetMenuFroTestResult(BuildContext context) {
                           if (examnameModel != null) {
                             examResultController.examid.value =
                                 examnameModel.examId.toString();
+
+                            print(
+                                "examid : ${examResultController.examid.value}");
                           }
                         },
                       ),
